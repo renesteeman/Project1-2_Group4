@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Matrix4;
 /**
  * Created by Andreas on 8/4/2015.
  */
-public class ModelComponent extends Component {
+public class ModelComponent implements Component {
     public Model model;
     public ModelInstance instance;
 

@@ -10,7 +10,7 @@ import com.gdx.game.bullet.MotionState;
 /**
  * Created by Andreas on 8/12/2015.
  */
-public class BulletComponent extends Component{
+public class BulletComponent implements Component {
     public btMotionState motionState;
     public btCollisionObject body;
     public btRigidBody.btRigidBodyConstructionInfo bodyInfo;

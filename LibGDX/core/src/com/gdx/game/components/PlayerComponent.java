@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Component;
 /**
  * Created by Elmar on 8-8-2015.
  */
-public class PlayerComponent extends Component {
+public class PlayerComponent implements Component {
 
     //    public float energy;
 //    public float oxygen;
