@@ -1,0 +1,121 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Quaternion;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+
+public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
+	PerspectiveCamera camera;
+	ModelBatch modelBatch;
+	ModelBuilder modelBuilder;
+	Model ball;
+	ModelInstance ballInstance;
+	Environment environment;
+
+	CameraInputController cameraInputController;
+	
+	@Override
+	public void create () {
+		//Needed to process input
+		Gdx.input.setInputProcessor(this);
+
+		//Create camera
+		camera = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+		//Set initial position and orientation
+		camera.position.set(10f, 10f, 10f);
+		camera.lookAt(0f, 0f, 0f);
+
+		//Clipping distances
+		camera.near = 0.1f;
+		camera.far = 300f;
+
+		//TMP model
+		modelBatch = new ModelBatch();
+		modelBuilder = new ModelBuilder();
+		ball = modelBuilder.createBox(
+				2f, 2f, 2f,
+				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
+				VertexAttributes.Usage.Position|VertexAttributes.Usage.Normal);
+
+		//Load model
+		ballInstance = new ModelInstance(ball, 0, 0, 0);
+
+		//Set camera controller
+		cameraInputController = new CameraInputController(camera);
+		Gdx.input.setInputProcessor(cameraInputController);
+
+		//Set lightning
+		environment = new Environment();
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 1, 1f));
+		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
+	}
+
+	@Override
+	public void render () {
+		Gdx.gl.glClearColor(0 , 0, 0, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
+
+		//Update camera movement
+		cameraInputController.update();
+
+		camera.update();
+		modelBatch.begin(camera);
+		modelBatch.render(ballInstance, environment);
+		modelBatch.end();
+	}
+	
+	@Override
+	public void dispose () {
+		ball.dispose();
+	}
+
+	@Override
+	public boolean keyDown(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyUp(int keycode) {
+		return false;
+	}
+
+	@Override
+	public boolean keyTyped(char character) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		return false;
+	}
+
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		return false;
+	}
+
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		return false;
+	}
+
+	@Override
+	public boolean scrolled(int amount) {
+		return false;
+	}
+
+}
