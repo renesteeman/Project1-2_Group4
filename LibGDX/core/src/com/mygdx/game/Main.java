@@ -7,14 +7,8 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
-import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
-import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Quaternion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 	PerspectiveCamera camera;
@@ -81,6 +75,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Material material = new Material(ColorAttribute.createDiffuse(Color.BLUE));
 		terrainModel = convertMeshToModel("ground", terrainMesh, material);
 		terrainInstance = new ModelInstance(terrainModel, 0, 0, 0);*/
+		shader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
+
 		mesh = new Mesh(true, 3, 3, new VertexAttribute(VertexAttributes.Usage.Position, 3, "a_Position"));
 		short[] indices = {0, 1, 2};
 		float[] vertices = {0f, 0f, 0f,
@@ -120,10 +116,18 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 
+		modelBatch.end();
+
 		//TODO
 		//modelBatch.render(terrainInstance, environment);*/
 
-		modelBatch.end();
+		shader.begin();
+		shader.setUniformMatrix("matViewProj", camera.combined);
+		mesh.render(shader, GL20.GL_TRIANGLES);
+		shader.end();
+
+
+
 	}
 
 	@Override
