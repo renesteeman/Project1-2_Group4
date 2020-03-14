@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
@@ -25,6 +26,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	Model terrainModel;
 	ModelInstance terrainInstance;
 	Environment environment;
+
+	Mesh mesh;
+	ShaderProgram shader;
 
 	CameraInputController cameraInputController;
 
@@ -55,13 +59,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//Load model
 		ballInstance = new ModelInstance(ball, 0, 0, 0);
 
+
 		//Terrain test
-//		MeshBuilder meshBuilder = new MeshBuilder();
-//		meshBuilder.begin(VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, GL20.GL_TRIANGLES);
-
-
-
-
+		/*
 		MeshBuilder meshBuilder = new MeshBuilder();
 		meshBuilder.begin(VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, GL20.GL_TRIANGLES);
 
@@ -78,8 +78,21 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		terrainMesh = meshBuilder.end();
 
-		terrainModel = convertMeshToModel("ground", terrainMesh);
-		terrainInstance = new ModelInstance(terrainModel, 0, 0, 0);
+		Material material = new Material(ColorAttribute.createDiffuse(Color.BLUE));
+		terrainModel = convertMeshToModel("ground", terrainMesh, material);
+		terrainInstance = new ModelInstance(terrainModel, 0, 0, 0);*/
+		mesh = new Mesh(true, 3, 3, new VertexAttribute(VertexAttributes.Usage.Position, 3, "a_Position"));
+		short[] indices = {0, 1, 2};
+		float[] vertices = {0f, 0f, 0f,
+							1f, 0f, 0f,
+							1f, 0f, 1f};
+		mesh.setVertices(vertices);
+		mesh.setIndices(indices);
+
+
+
+
+
 
 
 
@@ -96,7 +109,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(0 , 0, 0, 1);
+		Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 
 		//Update camera movement
@@ -104,8 +118,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		camera.update();
 		modelBatch.begin(camera);
-		//modelBatch.render(ballInstance, environment);
-		modelBatch.render(terrainInstance, environment);
+		modelBatch.render(ballInstance, environment);
+
+		//TODO
+		//modelBatch.render(terrainInstance, environment);*/
+
 		modelBatch.end();
 	}
 
@@ -154,10 +171,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		return false;
 	}
 
-	public Model convertMeshToModel(final String id, final Mesh mesh) {
+	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
 		ModelBuilder builder = new ModelBuilder();
 		builder.begin();
-		builder.part(id, mesh, GL20.GL_TRIANGLES, new Material(ColorAttribute.createDiffuse(Color.BLUE)));
+		builder.part(id, mesh, GL20.GL_TRIANGLES, material);
 		return builder.end();
 	}
 
