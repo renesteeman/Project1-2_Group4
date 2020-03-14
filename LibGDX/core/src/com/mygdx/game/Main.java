@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Quaternion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -18,10 +21,13 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	ModelBuilder modelBuilder;
 	Model ball;
 	ModelInstance ballInstance;
+	Mesh terrainMesh;
+	Model terrainModel;
+	ModelInstance terrainInstance;
 	Environment environment;
 
 	CameraInputController cameraInputController;
-	
+
 	@Override
 	public void create () {
 		//Needed to process input
@@ -49,6 +55,35 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//Load model
 		ballInstance = new ModelInstance(ball, 0, 0, 0);
 
+		//Terrain test
+//		MeshBuilder meshBuilder = new MeshBuilder();
+//		meshBuilder.begin(VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, GL20.GL_TRIANGLES);
+
+
+
+
+		MeshBuilder meshBuilder = new MeshBuilder();
+		meshBuilder.begin(VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, GL20.GL_TRIANGLES);
+
+		terrainMesh = new Mesh(true, 4, 6,
+				new VertexAttribute(VertexAttributes.Usage.Position, 3,"attr_Position"),
+				new VertexAttribute(VertexAttributes.Usage.TextureCoordinates, 2, "attr_texCoords"));
+		terrainMesh.setVertices(new float[] {
+				-1024f, -1024f, 0, 0, 1,
+				1024f, -1024f, 0, 1, 1,
+				1024f,  1024f, 0, 1, 0,
+				-1024f,  1024f, 0, 0, 0
+		});
+		terrainMesh.setIndices(new short[] { 0, 1, 2, 2, 3, 0 });
+
+		terrainMesh = meshBuilder.end();
+
+		terrainModel = convertMeshToModel("ground", terrainMesh);
+		terrainInstance = new ModelInstance(terrainModel, 0, 0, 0);
+
+
+
+
 		//Set camera controller
 		cameraInputController = new CameraInputController(camera);
 		Gdx.input.setInputProcessor(cameraInputController);
@@ -69,10 +104,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		camera.update();
 		modelBatch.begin(camera);
-		modelBatch.render(ballInstance, environment);
+		//modelBatch.render(ballInstance, environment);
+		modelBatch.render(terrainInstance, environment);
 		modelBatch.end();
 	}
-	
+
 	@Override
 	public void dispose () {
 		ball.dispose();
@@ -116,6 +152,13 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
+	}
+
+	public Model convertMeshToModel(final String id, final Mesh mesh) {
+		ModelBuilder builder = new ModelBuilder();
+		builder.begin();
+		builder.part(id, mesh, GL20.GL_TRIANGLES, new Material(ColorAttribute.createDiffuse(Color.BLUE)));
+		return builder.end();
 	}
 
 }
