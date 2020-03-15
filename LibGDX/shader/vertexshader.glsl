@@ -8,15 +8,7 @@ uniform mat4 u_projTrans;
 varying vec4 vColor;
 
 void main() {
-
-
-	if(a_position.y>1){
-	    vColor = vec4(0, 1, 0, 1);
-	}
-
-	if(a_position.y<=1){
-	    vColor = vec4(0, 0, 1, 1);
-	}
+	vColor = a_color;
 
 	gl_Position = u_projTrans * vec4(a_position.xyz, 1.0);
 }

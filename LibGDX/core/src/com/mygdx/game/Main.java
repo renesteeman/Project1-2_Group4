@@ -168,11 +168,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 			for(int z=0; z<terrainLength/terrainStepSize; z++){
 				float xCoordinate = x*terrainStepSize+xOffset;
 				float zCoordinate = z*terrainStepSize+yOffset;
-				if(getTerrainHeight(xCoordinate, zCoordinate) < 0){
-					drawGroundQuad(xCoordinate, zCoordinate, Color.BLUE);
-				} else{
-					drawGroundQuad(xCoordinate, zCoordinate, Color.GREEN);
-				}
+				drawGroundQuad(xCoordinate, zCoordinate);
 			}
 		}
 	}
@@ -185,9 +181,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//return (float) (.2*x+.02*z-2);
 	}
 
-	void drawGroundQuad(float x, float z, Color color) {
-		float colorBits = color.toFloatBits();
-
+	void drawGroundQuad(float x, float z) {
 		//we don't want to hit any index out of bounds exception...
 		//so we need to flush the batch if we can't store any more verts
 		if (idx==verts.length-1)
@@ -198,38 +192,62 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		verts[idx++] = x;
 		verts[idx++] = getTerrainHeight(x, z);
 		verts[idx++] = z;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x, z) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 
 		//bottom right vertex
 		verts[idx++] = x + terrainStepSize;
 		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
 		verts[idx++] = z;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x + terrainStepSize, z) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 
 		//Top left vertex
 		verts[idx++] = x;
 		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
 		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x, z + terrainStepSize) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 
 		//Second triangle (bottom right, top left, top right)
 		//bottom right
 		verts[idx++] = x + terrainStepSize;
 		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
 		verts[idx++] = z;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x + terrainStepSize, z) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 
 		//top left vertex
 		verts[idx++] = x;
 		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
 		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x, z + terrainStepSize) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 
 		//top right vertex
 		verts[idx++] = x + terrainStepSize;
 		verts[idx++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
 		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
+		if(getTerrainHeight(x + terrainStepSize, z + terrainStepSize) > 0){
+			verts[idx++] = Color.GREEN.toFloatBits();
+		} else {
+			verts[idx++] = Color.BLUE.toFloatBits();
+		}
 	}
 
 	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
