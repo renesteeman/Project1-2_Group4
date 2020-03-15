@@ -79,51 +79,12 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//Load model
 		ballInstance = new ModelInstance(ball, 0, 0, 0);
 
-
-
-
+		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
-
-
-
-
-//		//Add the vertices
-//		for(int x=0; x<terrainWidth/terrainStepSize; x++){
-//			for(int y=0; y<terrainLength/terrainStepSize; y++){
-//				float xCoordinate = x;
-//				float yCoordinate = y;
-//				//TODO link to height function
-//				float zCoordinate = (float) (Math.random()*3)-1;
-//
-//
-//			}
-//		}
-
 
 		ground = new Mesh(true, MAX_VERTS, 0,
 				new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
 				new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
-
-
-
-
-
-//		ground = new Mesh(true, 3, 3, new VertexAttribute(VertexAttributes.Usage.Position, 3, "a_Position"));
-//		short[] indices = {0, 1, 2};
-//		float[] vertices = {0f, 0f, 0f,
-//							1f, 0f, 0f,
-//							1f, 0f, 1f};
-//
-//		ground.setVertices(vertices);
-//		ground.setIndices(indices);
-
-
-
-
-
-
-
-
 
 		//Set camera controller
 		cameraInputController = new CameraInputController(camera);
@@ -143,28 +104,21 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		Gdx.gl.glDepthMask(true);
 
-		//TODO
-		//modelBatch.render(terrainInstance, environment);*/
+		//TODO find a more optimal way
+		//Create terrain
+		createTerrain();
 
-//		groundShader.begin();
-//		groundShader.setUniformMatrix("matViewProj", camera.combined);
-//		ground.render(groundShader, GL20.GL_TRIANGLES);
-//		groundShader.end();
-
-		//push a few triangles to the batch
-		drawTriangle(0, 0, 1,40, 20, Color.RED);
-		drawTriangle(0, 0, 4, 70, 40, Color.BLUE);
-
-		//this will render the above triangles to GL, using Mesh
+		//this will render the remaining triangles
 		flush();
 
 		//Update camera movement
 		cameraInputController.update();
 		camera.update();
 
-		modelBatch.begin(camera);
-		modelBatch.render(ballInstance, environment);
-		modelBatch.end();
+		//Show ball
+//		modelBatch.begin(camera);
+//		modelBatch.render(ballInstance, environment);
+//		modelBatch.end();
 	}
 
 	@Override
@@ -219,37 +173,73 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		return builder.end();
 	}
 
-	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
-	void drawTriangle(float x, float y, float z, float width, float length, Color color) {
+	void createTerrain(){
+		//		//Add the vertices
+//		for(int x=0; x<terrainWidth/terrainStepSize; x++){
+//			for(int y=0; y<terrainLength/terrainStepSize; y++){
+//				float xCoordinate = x;
+//				float yCoordinate = y;
+//				//TODO link to height function
+//				float zCoordinate = (float) (Math.random()*3)-1;
+//
+//
+//			}
+//		}
+
+		//push a few triangles to the batch
+		drawGroundQuad(0, 0, Color.RED);
+	}
+
+	void drawGroundQuad(float x, float z, Color color) {
 		float colorBits = color.toFloatBits();
 
 		//we don't want to hit any index out of bounds exception...
 		//so we need to flush the batch if we can't store any more verts
-		if (idx==verts.length)
+		if (idx==verts.length-1)
 			flush();
 
-		//now we push the vertex data into our array
-		//we are assuming (0, 0) is lower left, and Y is up
-
+		//First triangle (bottom left, top left, bottom right)
 		//bottom left vertex
 		verts[idx++] = x;
 		//TODO link to height function
-		verts[idx++] = y;
+		verts[idx++] = 0;
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
 
 		//top left vertex
 		verts[idx++] = x;
 		//TODO link to height function
-		verts[idx++] = y;
-		verts[idx++] = z + length;
+		verts[idx++] = 0;
+		verts[idx++] = z + terrainStepSize;
 		verts[idx++] = colorBits;
 
 		//bottom right vertex
-		verts[idx++] = x + width;
+		verts[idx++] = x + terrainStepSize;
 		//TODO link to height function
-		verts[idx++] = y;
+		verts[idx++] = 0;
 		verts[idx++] = z;
+		verts[idx++] = colorBits;
+
+		//Second triangle (bottom right, top left, top right)
+		//bottom right
+		verts[idx++] = x + terrainStepSize;
+		//TODO link to height function
+		verts[idx++] = 0;
+		verts[idx++] = z;
+		verts[idx++] = colorBits;
+
+		//top left vertex
+		verts[idx++] = x;
+		//TODO link to height function
+		verts[idx++] = 0;
+		verts[idx++] = z + terrainStepSize;
+		verts[idx++] = colorBits;
+
+		//top right vertex
+		verts[idx++] = x + terrainStepSize;
+		//TODO link to height function
+		verts[idx++] = 0;
+		verts[idx++] = z + terrainStepSize;
 		verts[idx++] = colorBits;
 	}
 
