@@ -106,7 +106,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		//TODO find a more optimal way
 		//Create terrain
-		createTerrain();
+		createTerrain(0, 0);
 
 		//this will render the remaining triangles
 		flush();
@@ -173,21 +173,13 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		return builder.end();
 	}
 
-	void createTerrain(){
-		//		//Add the vertices
-//		for(int x=0; x<terrainWidth/terrainStepSize; x++){
-//			for(int y=0; y<terrainLength/terrainStepSize; y++){
-//				float xCoordinate = x;
-//				float yCoordinate = y;
-//				//TODO link to height function
-//				float zCoordinate = (float) (Math.random()*3)-1;
-//
-//
-//			}
-//		}
+	void createTerrain(float xOffset, float yOffset){
+		for(int x=0; x<terrainWidth/terrainStepSize; x++){
+			for(int y=0; y<terrainLength/terrainStepSize; y++){
+				drawGroundQuad(x*terrainStepSize+xOffset, y*terrainStepSize+yOffset, Color.RED);
+			}
+		}
 
-		//push a few triangles to the batch
-		drawGroundQuad(0, 0, Color.RED);
 	}
 
 	void drawGroundQuad(float x, float z, Color color) {
