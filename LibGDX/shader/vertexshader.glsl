@@ -1,7 +1,13 @@
-attribute vec4 a_Position;
+attribute vec3 a_position;
+attribute vec4 a_color;
 
-uniform mat4 matViewProj;
+//our camera matrix
+uniform mat4 u_projTrans;
 
-void main(){
-    gl_Position = matViewProj * a_Position;
+//send the color out to the fragment shader
+varying vec4 vColor;
+
+void main() {
+	vColor = a_color;
+	gl_Position = u_projTrans * vec4(a_position.xyz, 1.0);
 }
