@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
+import java.util.Random;
+
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 	//size in meter
 	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)
@@ -175,11 +177,23 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	void createTerrain(float xOffset, float yOffset){
 		for(int x=0; x<terrainWidth/terrainStepSize; x++){
-			for(int y=0; y<terrainLength/terrainStepSize; y++){
-				drawGroundQuad(x*terrainStepSize+xOffset, y*terrainStepSize+yOffset, Color.RED);
+			for(int z=0; z<terrainLength/terrainStepSize; z++){
+				float xCoordinate = x*terrainStepSize+xOffset;
+				float zCoordinate = z*terrainStepSize+yOffset;
+				if(getTerrainHeight(xCoordinate, zCoordinate) < 0){
+					drawGroundQuad(xCoordinate, zCoordinate, Color.BLUE);
+				} else{
+					drawGroundQuad(xCoordinate, zCoordinate, Color.GREEN);
+				}
 			}
 		}
+	}
 
+	float getTerrainHeight(float x, float z){
+		//TODO put the actual function here
+		Random random = new Random((long) (x+z));
+		random.nextFloat();
+		return (random.nextFloat()*2-1);
 	}
 
 	void drawGroundQuad(float x, float z, Color color) {
@@ -193,44 +207,38 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//First triangle (bottom left, top left, bottom right)
 		//bottom left vertex
 		verts[idx++] = x;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
 
 		//top left vertex
 		verts[idx++] = x;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);
 		verts[idx++] = z + terrainStepSize;
 		verts[idx++] = colorBits;
 
 		//bottom right vertex
 		verts[idx++] = x + terrainStepSize;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
 
 		//Second triangle (bottom right, top left, top right)
 		//bottom right
 		verts[idx++] = x + terrainStepSize;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);;
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
 
 		//top left vertex
 		verts[idx++] = x;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);;
 		verts[idx++] = z + terrainStepSize;
 		verts[idx++] = colorBits;
 
 		//top right vertex
 		verts[idx++] = x + terrainStepSize;
-		//TODO link to height function
-		verts[idx++] = 0;
+		verts[idx++] = getTerrainHeight(x, z);;
 		verts[idx++] = z + terrainStepSize;
 		verts[idx++] = colorBits;
 	}
