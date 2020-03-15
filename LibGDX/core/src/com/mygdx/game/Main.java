@@ -137,18 +137,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void render () {
-		Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		//Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
-
-		//Update camera movement
-		cameraInputController.update();
-
-		camera.update();
-		modelBatch.begin(camera);
-		modelBatch.render(ballInstance, environment);
-
-		modelBatch.end();
+		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
+		Gdx.gl.glDepthMask(true);
 
 		//TODO
 		//modelBatch.render(terrainInstance, environment);*/
@@ -159,11 +152,19 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 //		groundShader.end();
 
 		//push a few triangles to the batch
-		drawTriangle(10, 10, 1,40, 40, Color.RED);
-		drawTriangle(50, 50, 4, 70, 40, Color.BLUE);
+		drawTriangle(0, 0, 1,40, 20, Color.RED);
+		drawTriangle(0, 0, 4, 70, 40, Color.BLUE);
 
 		//this will render the above triangles to GL, using Mesh
 		flush();
+
+		//Update camera movement
+		cameraInputController.update();
+		camera.update();
+
+		modelBatch.begin(camera);
+		modelBatch.render(ballInstance, environment);
+		modelBatch.end();
 	}
 
 	@Override
