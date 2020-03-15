@@ -181,7 +181,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//TODO put the actual function here
 		Random random = new Random((long) (x+z));
 		random.nextFloat();
-		return (random.nextFloat()*2-1);
+		return (random.nextFloat()*3-1);
 		//return (float) (.2*x+.02*z-2);
 	}
 
