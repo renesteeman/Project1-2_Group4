@@ -220,7 +220,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	}
 
 	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
-	void drawTriangle(float x, float y, float z, float width, float height, Color color) {
+	void drawTriangle(float x, float y, float z, float width, float length, Color color) {
 		float colorBits = color.toFloatBits();
 
 		//we don't want to hit any index out of bounds exception...
@@ -232,19 +232,22 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//we are assuming (0, 0) is lower left, and Y is up
 
 		//bottom left vertex
-		verts[idx++] = x; 			//Position(x, y)
+		verts[idx++] = x;
+		//TODO link to height function
 		verts[idx++] = y;
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
 
 		//top left vertex
-		verts[idx++] = x; 			//Position(x, y)
-		verts[idx++] = y + height;
-		verts[idx++] = z;
+		verts[idx++] = x;
+		//TODO link to height function
+		verts[idx++] = y;
+		verts[idx++] = z + length;
 		verts[idx++] = colorBits;
 
 		//bottom right vertex
-		verts[idx++] = x + width;	 //Position(x, y)
+		verts[idx++] = x + width;
+		//TODO link to height function
 		verts[idx++] = y;
 		verts[idx++] = z;
 		verts[idx++] = colorBits;
