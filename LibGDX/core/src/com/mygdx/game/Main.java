@@ -16,7 +16,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	//size in meter
 	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)
 	final float terrainStepSize = 1;
-	final int terrainWidth = 15;
+	final int terrainWidth = 20;
 	final int terrainLength = 15;
 
 	//Position attribute - (x, y, z)
@@ -118,9 +118,144 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		camera.update();
 
 		//Show ball
-//		modelBatch.begin(camera);
-//		modelBatch.render(ballInstance, environment);
-//		modelBatch.end();
+		modelBatch.begin(camera);
+		modelBatch.render(ballInstance, environment);
+		modelBatch.end();
+	}
+
+	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
+		ModelBuilder builder = new ModelBuilder();
+		builder.begin();
+		builder.part(id, mesh, GL20.GL_TRIANGLES, material);
+		return builder.end();
+	}
+
+	void createTerrain(float xOffset, float yOffset){
+
+		//'Weird' quad test
+//		verts[idx++] = 0;
+//		verts[idx++] = 1;
+//		verts[idx++] = 0;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+//
+//		verts[idx++] = 5;
+//		verts[idx++] = 2;
+//		verts[idx++] = 0;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+//
+//		verts[idx++] = 0;
+//		verts[idx++] = 3;
+//		verts[idx++] = 5;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+//
+//
+//		verts[idx++] = 5;
+//		verts[idx++] = 2;
+//		verts[idx++] = 0;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+//
+//		verts[idx++] = 0;
+//		verts[idx++] = 3;
+//		verts[idx++] = 5;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+//
+//		verts[idx++] = 5;
+//		verts[idx++] = 0;
+//		verts[idx++] = 5;
+//		verts[idx++] = Color.BLUE.toFloatBits();
+
+		for(int x=0; x<terrainWidth/terrainStepSize; x++){
+			for(int z=0; z<terrainLength/terrainStepSize; z++){
+				float xCoordinate = x*terrainStepSize+xOffset;
+				float zCoordinate = z*terrainStepSize+yOffset;
+				if(getTerrainHeight(xCoordinate, zCoordinate) < 0){
+					drawGroundQuad(xCoordinate, zCoordinate, Color.BLUE);
+				} else{
+					drawGroundQuad(xCoordinate, zCoordinate, Color.GREEN);
+				}
+			}
+		}
+	}
+
+	float getTerrainHeight(float x, float z){
+		//TODO put the actual function here
+		Random random = new Random((long) (x+z));
+		random.nextFloat();
+		return (random.nextFloat()*2-1);
+		//return (float) (.2*x+.02*z-2);
+	}
+
+	void drawGroundQuad(float x, float z, Color color) {
+		float colorBits = color.toFloatBits();
+
+		//we don't want to hit any index out of bounds exception...
+		//so we need to flush the batch if we can't store any more verts
+		if (idx==verts.length-1)
+			flush();
+
+		//First triangle (bottom left, bottom right, top left)
+		//bottom left vertex
+		verts[idx++] = x;
+		verts[idx++] = getTerrainHeight(x, z);
+		verts[idx++] = z;
+		verts[idx++] = colorBits;
+
+		//bottom right vertex
+		verts[idx++] = x + terrainStepSize;
+		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
+		verts[idx++] = z;
+		verts[idx++] = colorBits;
+
+		//Top left vertex
+		verts[idx++] = x;
+		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
+		verts[idx++] = z + terrainStepSize;
+		verts[idx++] = colorBits;
+
+		//Second triangle (bottom right, top left, top right)
+		//bottom right
+		verts[idx++] = x + terrainStepSize;
+		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
+		verts[idx++] = z;
+		verts[idx++] = colorBits;
+
+		//top left vertex
+		verts[idx++] = x;
+		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
+		verts[idx++] = z + terrainStepSize;
+		verts[idx++] = colorBits;
+
+		//top right vertex
+		verts[idx++] = x + terrainStepSize;
+		verts[idx++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
+		verts[idx++] = z + terrainStepSize;
+		verts[idx++] = colorBits;
+	}
+
+	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
+	void flush() {
+		//if we've already flushed
+		if (idx==0)
+			return;
+
+		//sends our vertex data to the mesh
+		ground.setVertices(verts);
+
+		//enable blending, for alpha
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+		//number of vertices we need to render
+		int vertexCount = (idx/NUM_COMPONENTS);
+
+		//start the shader before setting any uniforms
+		groundShader.begin();
+		groundShader.setUniformMatrix("u_projTrans", camera.combined);
+		ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
+		groundShader.end();
+
+		//reset index to zero
+		idx = 0;
 	}
 
 	@Override
@@ -167,106 +302,4 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	public boolean scrolled(int amount) {
 		return false;
 	}
-
-	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
-		ModelBuilder builder = new ModelBuilder();
-		builder.begin();
-		builder.part(id, mesh, GL20.GL_TRIANGLES, material);
-		return builder.end();
-	}
-
-	void createTerrain(float xOffset, float yOffset){
-		for(int x=0; x<terrainWidth/terrainStepSize; x++){
-			for(int z=0; z<terrainLength/terrainStepSize; z++){
-				float xCoordinate = x*terrainStepSize+xOffset;
-				float zCoordinate = z*terrainStepSize+yOffset;
-				if(getTerrainHeight(xCoordinate, zCoordinate) < 0){
-					drawGroundQuad(xCoordinate, zCoordinate, Color.BLUE);
-				} else{
-					drawGroundQuad(xCoordinate, zCoordinate, Color.GREEN);
-				}
-			}
-		}
-	}
-
-	float getTerrainHeight(float x, float z){
-		//TODO put the actual function here
-		Random random = new Random((long) (x+z));
-		random.nextFloat();
-		return (random.nextFloat()*2-1);
-	}
-
-	void drawGroundQuad(float x, float z, Color color) {
-		float colorBits = color.toFloatBits();
-
-		//we don't want to hit any index out of bounds exception...
-		//so we need to flush the batch if we can't store any more verts
-		if (idx==verts.length-1)
-			flush();
-
-		//First triangle (bottom left, top left, bottom right)
-		//bottom left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z);
-		verts[idx++] = z;
-		verts[idx++] = colorBits;
-
-		//top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z);
-		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
-
-		//bottom right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x, z);
-		verts[idx++] = z;
-		verts[idx++] = colorBits;
-
-		//Second triangle (bottom right, top left, top right)
-		//bottom right
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x, z);;
-		verts[idx++] = z;
-		verts[idx++] = colorBits;
-
-		//top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z);;
-		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
-
-		//top right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x, z);;
-		verts[idx++] = z + terrainStepSize;
-		verts[idx++] = colorBits;
-	}
-
-	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
-	void flush() {
-		//if we've already flushed
-		if (idx==0)
-			return;
-
-		//sends our vertex data to the mesh
-		ground.setVertices(verts);
-
-		//enable blending, for alpha
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-		//number of vertices we need to render
-		int vertexCount = (idx/NUM_COMPONENTS);
-
-		//start the shader before setting any uniforms
-		groundShader.begin();
-		groundShader.setUniformMatrix("u_projTrans", camera.combined);
-		ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
-		groundShader.end();
-
-		//reset index to zero
-		idx = 0;
-	}
-
 }
