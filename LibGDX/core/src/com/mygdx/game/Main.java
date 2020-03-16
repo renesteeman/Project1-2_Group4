@@ -43,11 +43,15 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	int idx = 0;
 
 	PerspectiveCamera camera;
+	Environment environment;
 	ModelBatch modelBatch;
 	ModelBuilder modelBuilder;
-	Model ball;
+
+	Model ballModel;
 	ModelInstance ballInstance;
-	Environment environment;
+
+	Model poleModel;
+	ModelInstance poleInstance;
 
 	Mesh ground;
 	ShaderProgram groundShader;
@@ -73,13 +77,13 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//TMP model
 		modelBatch = new ModelBatch();
 		modelBuilder = new ModelBuilder();
-		ball = modelBuilder.createBox(
+		ballModel = modelBuilder.createBox(
 				2f, 2f, 2f,
 				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
 				VertexAttributes.Usage.Position|VertexAttributes.Usage.Normal);
 
 		//Load model
-		ballInstance = new ModelInstance(ball, 0, 0, 0);
+		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
 
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
@@ -278,7 +282,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void dispose () {
-		ball.dispose();
+		ballModel.dispose();
 	}
 
 	@Override
