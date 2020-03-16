@@ -32,7 +32,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	//Total number of components for all attributes
 	final int NUM_COMPONENTS = POSITION_COMPONENTS + COLOR_COMPONENTS;
 	//The "size" (total number of floats) for a single triangle
-	final int PRIMITIVE_SIZE = 3 * NUM_COMPONENTS;
+//	final int PRIMITIVE_SIZE = 3 * NUM_COMPONENTS;
 	//The maximum number of triangles our mesh will hold
 	//Size of the terrain / stepSize = the amount of squares, *2=the amount of triangles
 	final int MAX_TRIS = (int)((terrainLength * terrainWidth)/terrainStepSize)*2;
@@ -45,7 +45,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	//    x, y, z
 	//    ... etc ...
 	float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
-
 	int idx = 0;
 
 	PerspectiveCamera camera;
@@ -53,11 +52,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	ModelBatch modelBatch;
 	ModelBuilder modelBuilder;
 
-	Model ballModel;
-	ModelInstance ballInstance;
+	static Model ballModel;
+	static ModelInstance ballInstance;
 
-	Model poleModel;
-	ModelInstance poleInstance;
+	static Model poleModel;
+	static ModelInstance poleInstance;
 
 	Mesh ground;
 	ShaderProgram groundShader;
@@ -83,41 +82,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//TMP model
 		modelBatch = new ModelBatch();
 		modelBuilder = new ModelBuilder();
-//		ballModel = modelBuilder.createBox(
-//				2f, 2f, 2f,
-//				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
-//				VertexAttributes.Usage.Position|VertexAttributes.Usage.Normal);
-//
-//		//Load model
-//		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
-
-		//Ball model (used https://www.gamefromscratch.com/post/2014/01/19/3D-models-and-animation-from-Blender-to-LibGDX.aspx for guidance)
-
-//		// Model loader needs a binary json reader to decode
-//		UBJsonReader jsonReader = new UBJsonReader();
-//		// Create a model loader passing in our json reader
-//		G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
-//		// Now load the model by name
-//		ballModel = modelLoader.loadModel(Gdx.files.getFileHandle("core/assets/golfBall.g3dj", Files.FileType.Internal));
-//		// Now create an instance.  Instance holds the positioning data, etc of an instance of your model
-//		ballInstance = new ModelInstance(ballModel);
 
 		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
-		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-		ModelData ballModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/golfBall.g3dj"));
-		ballModel = new Model(ballModelData, new TextureProvider.FileTextureProvider());
-		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
-
-		modelLoader = new G3dModelLoader(new JsonReader());
-		ModelData poleModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
-		poleModel = new Model(poleModelData, new TextureProvider.FileTextureProvider());
-		poleInstance = new ModelInstance(poleModel, 0, 0, 0);
-
-
-
-
-
-
+		//TODO only call these functions from a general game class
+		renderBall(0, getTerrainHeight(0, 0), 0);
+		renderPole(0, getTerrainHeight(0, 0),0);
 
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
@@ -145,7 +114,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glDepthMask(true);
 
 		//Create terrain
-		//createTerrain(0, 0);
+		createTerrain(0, 0);
 
 		//this will render the remaining triangles
 		flush();
@@ -159,6 +128,20 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(poleInstance, environment);
 		modelBatch.end();
+	}
+
+	public static void renderBall(float x, float y, float z){
+		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData ballModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/golfBall.g3dj"));
+		ballModel = new Model(ballModelData, new TextureProvider.FileTextureProvider());
+		ballInstance = new ModelInstance(ballModel, x, y, z);
+	}
+
+	public static void renderPole(float x, float y, float z){
+		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData poleModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
+		poleModel = new Model(poleModelData, new TextureProvider.FileTextureProvider());
+		poleInstance = new ModelInstance(poleModel, x, y, z);
 	}
 
 	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
@@ -179,12 +162,12 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		}
 	}
 
-	float getTerrainHeight(float x, float z){
+	static float getTerrainHeight(float x, float z){
 		//TODO put the actual function here
 		Random random = new Random((long) (x+z));
 		random.nextFloat();
 		return (random.nextFloat()*3-1);
-		//return (float) (.2*x+.02*z-2);
+//		return (float) (.2*x+.02*z-2);
 	}
 
 	void drawGroundQuad(float x, float z) {
@@ -266,8 +249,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		ground.setVertices(verts);
 
 		//enable blending, for alpha
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+//		Gdx.gl.glEnable(GL20.GL_BLEND);
+//		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//number of vertices we need to render
 		int vertexCount = (idx/NUM_COMPONENTS);
