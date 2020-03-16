@@ -102,10 +102,16 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 //		// Now create an instance.  Instance holds the positioning data, etc of an instance of your model
 //		ballInstance = new ModelInstance(ballModel);
 
+		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
 		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-		ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
-		ballModel = new Model(modelData, new TextureProvider.FileTextureProvider());
+		ModelData ballModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/golfBall.g3dj"));
+		ballModel = new Model(ballModelData, new TextureProvider.FileTextureProvider());
 		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
+
+		modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData poleModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
+		poleModel = new Model(poleModelData, new TextureProvider.FileTextureProvider());
+		poleInstance = new ModelInstance(poleModel, 0, 0, 0);
 
 
 
@@ -151,7 +157,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//Show ball and pole
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
-		//modelBatch.render(poleInstance, environment);
+		modelBatch.render(poleInstance, environment);
 		modelBatch.end();
 	}
 
