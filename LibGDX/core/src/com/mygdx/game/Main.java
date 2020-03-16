@@ -14,16 +14,15 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.UBJsonReader;
 
 import java.util.Random;
 
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 	//size in meter
-	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)
-	final float terrainStepSize = 1;
-	final int terrainWidth = 20;
-	final int terrainLength = 15;
+	//Keep terrainStepSize at 1, in theory other values should work, but they don't
+	final float terrainStepSize = 1f;
+	final int terrainWidth = 100;
+	final int terrainLength = 80;
 
 	//Position attribute - (x, y, z)
 	final int POSITION_COMPONENTS = 3;
@@ -44,8 +43,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	//    x, y, z
 	//    x, y, z
 	//    ... etc ...
-	float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
-	int idx = 0;
+	float[] terrainVertices = new float[MAX_VERTS * NUM_COMPONENTS];
+	int terrainVertexID = 0;
 
 	PerspectiveCamera camera;
 	Environment environment;
@@ -57,6 +56,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	static Model goalModel;
 	static ModelInstance goalInstance;
+
+	static Model groundModel;
+	static ModelInstance groundInstance;
 
 	Mesh ground;
 	ShaderProgram groundShader;
@@ -83,17 +85,22 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch = new ModelBatch();
 		modelBuilder = new ModelBuilder();
 
-		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
-		//TODO only call these functions from a general game class
-		renderBall(0, getTerrainHeight(0, 0), 0);
-		renderGoal(0, getTerrainHeight(0, 0),0);
-
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
 
 		ground = new Mesh(true, MAX_VERTS, 0,
 				new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
 				new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
+
+
+		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
+		//TODO only call these functions from a general game class
+		renderBall(0, getTerrainHeight(0, 0), 0);
+		renderGoal(0, getTerrainHeight(0, 0),0);
+
+		createTerrain(0, 0);
+		groundModel = convertMeshToModel("ground", ground, new Material(ColorAttribute.createDiffuse(Color.BLUE)));
+		groundInstance = new ModelInstance(groundModel);
 
 		//Set camera controller
 		cameraInputController = new CameraInputController(camera);
@@ -114,7 +121,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glDepthMask(true);
 
 		//Create terrain
-		createTerrain(0, 0);
+		//createTerrain(0, 0);
 
 		//this will render the remaining triangles
 		flush();
@@ -127,6 +134,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(goalInstance, environment);
+		modelBatch.render(groundInstance, environment);
 		modelBatch.end();
 	}
 
@@ -173,96 +181,99 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	void drawGroundQuad(float x, float z) {
 		//we don't want to hit any index out of bounds exception...
 		//so we need to flush the batch if we can't store any more verts
-		if (idx==verts.length-1)
-			flush();
+//		if (idx==verts.length-1)
+//			flush();
 
 		//First triangle (bottom left, bottom right, top left)
 		//bottom left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexID++] = x;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x, z);
+		terrainVertices[terrainVertexID++] = z;
 		if(getTerrainHeight(x, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 
 		//bottom right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexID++] = x + terrainStepSize;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x + terrainStepSize, z);
+		terrainVertices[terrainVertexID++] = z;
 		if(getTerrainHeight(x + terrainStepSize, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 
 		//Top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexID++] = x;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x, z + terrainStepSize);
+		terrainVertices[terrainVertexID++] = z + terrainStepSize;
 		if(getTerrainHeight(x, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 
 		//Second triangle (bottom right, top left, top right)
 		//bottom right
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexID++] = x + terrainStepSize;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x + terrainStepSize, z);
+		terrainVertices[terrainVertexID++] = z;
 		if(getTerrainHeight(x + terrainStepSize, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 
 		//top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexID++] = x;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x, z + terrainStepSize);
+		terrainVertices[terrainVertexID++] = z + terrainStepSize;
 		if(getTerrainHeight(x, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 
 		//top right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexID++] = x + terrainStepSize;
+		terrainVertices[terrainVertexID++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
+		terrainVertices[terrainVertexID++] = z + terrainStepSize;
 		if(getTerrainHeight(x + terrainStepSize, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexID++] = Color.BLUE.toFloatBits();
 		}
 	}
 
 	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
 	void flush() {
 		//if we've already flushed
-		if (idx==0)
+		if (terrainVertexID ==0)
 			return;
 
 		//sends our vertex data to the mesh
-		ground.setVertices(verts);
+		ground.setVertices(terrainVertices);
 
 		//enable blending, for alpha
 //		Gdx.gl.glEnable(GL20.GL_BLEND);
 //		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//number of vertices we need to render
-		int vertexCount = (idx/NUM_COMPONENTS);
+		int vertexCount = (terrainVertexID /NUM_COMPONENTS);
 
 		//start the shader before setting any uniforms
 		groundShader.begin();
 		groundShader.setUniformMatrix("u_projTrans", camera.combined);
+//		Model groundModel = convertMeshToModel("ground", ground, new Material());
+//		ModelInstance groundInstance = new ModelInstance(groundModel);
+//		groundInstance.
 		ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
 		groundShader.end();
 
 		//reset index to zero
-		idx = 0;
+		terrainVertexID = 0;
 	}
 
 	@Override
