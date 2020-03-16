@@ -79,7 +79,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		camera.near = 0.1f;
 		camera.far = 300f;
 
-		//TMP model
+		//Model setup
 		modelBatch = new ModelBatch();
 		modelBuilder = new ModelBuilder();
 
