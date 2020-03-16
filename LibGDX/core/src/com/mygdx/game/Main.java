@@ -1,14 +1,20 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
+import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
+import com.badlogic.gdx.graphics.g3d.model.data.ModelData;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
+import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.UBJsonReader;
 
 import java.util.Random;
 
@@ -77,13 +83,35 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//TMP model
 		modelBatch = new ModelBatch();
 		modelBuilder = new ModelBuilder();
-		ballModel = modelBuilder.createBox(
-				2f, 2f, 2f,
-				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
-				VertexAttributes.Usage.Position|VertexAttributes.Usage.Normal);
+//		ballModel = modelBuilder.createBox(
+//				2f, 2f, 2f,
+//				new Material(ColorAttribute.createDiffuse(Color.BLUE)),
+//				VertexAttributes.Usage.Position|VertexAttributes.Usage.Normal);
+//
+//		//Load model
+//		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
 
-		//Load model
+		//Ball model (used https://www.gamefromscratch.com/post/2014/01/19/3D-models-and-animation-from-Blender-to-LibGDX.aspx for guidance)
+
+//		// Model loader needs a binary json reader to decode
+//		UBJsonReader jsonReader = new UBJsonReader();
+//		// Create a model loader passing in our json reader
+//		G3dModelLoader modelLoader = new G3dModelLoader(jsonReader);
+//		// Now load the model by name
+//		ballModel = modelLoader.loadModel(Gdx.files.getFileHandle("core/assets/golfBall.g3dj", Files.FileType.Internal));
+//		// Now create an instance.  Instance holds the positioning data, etc of an instance of your model
+//		ballInstance = new ModelInstance(ballModel);
+
+		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData modelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
+		ballModel = new Model(modelData, new TextureProvider.FileTextureProvider());
 		ballInstance = new ModelInstance(ballModel, 0, 0, 0);
+
+
+
+
+
+
 
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
@@ -110,9 +138,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		Gdx.gl.glDepthMask(true);
 
-		//TODO find a more optimal way
 		//Create terrain
-		createTerrain(0, 0);
+		//createTerrain(0, 0);
 
 		//this will render the remaining triangles
 		flush();
@@ -121,9 +148,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		cameraInputController.update();
 		camera.update();
 
-		//Show ball
+		//Show ball and pole
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
+		//modelBatch.render(poleInstance, environment);
 		modelBatch.end();
 	}
 
@@ -135,39 +163,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	}
 
 	void createTerrain(float xOffset, float yOffset){
-
-		//'Weird' quad test
-//		verts[idx++] = 0;
-//		verts[idx++] = 1;
-//		verts[idx++] = 0;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-//
-//		verts[idx++] = 5;
-//		verts[idx++] = 2;
-//		verts[idx++] = 0;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-//
-//		verts[idx++] = 0;
-//		verts[idx++] = 3;
-//		verts[idx++] = 5;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-//
-//
-//		verts[idx++] = 5;
-//		verts[idx++] = 2;
-//		verts[idx++] = 0;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-//
-//		verts[idx++] = 0;
-//		verts[idx++] = 3;
-//		verts[idx++] = 5;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-//
-//		verts[idx++] = 5;
-//		verts[idx++] = 0;
-//		verts[idx++] = 5;
-//		verts[idx++] = Color.BLUE.toFloatBits();
-
+		//Go over chunks of terrain and create as many chunks as needed to create the terrain
 		for(int x=0; x<terrainWidth/terrainStepSize; x++){
 			for(int z=0; z<terrainLength/terrainStepSize; z++){
 				float xCoordinate = x*terrainStepSize+xOffset;
@@ -282,7 +278,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void dispose () {
+		modelBatch.dispose();
 		ballModel.dispose();
+		poleModel.dispose();
 	}
 
 	@Override
