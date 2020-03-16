@@ -23,6 +23,6 @@ public class Goal {
     }
 
     public void updateGoalModel(){
-        Main.renderPole(location.x, location.y, location.z);
+        Main.renderGoal(location.x, location.y, location.z);
     }
 }

@@ -55,8 +55,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	static Model ballModel;
 	static ModelInstance ballInstance;
 
-	static Model poleModel;
-	static ModelInstance poleInstance;
+	static Model goalModel;
+	static ModelInstance goalInstance;
 
 	Mesh ground;
 	ShaderProgram groundShader;
@@ -86,7 +86,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
 		//TODO only call these functions from a general game class
 		renderBall(0, getTerrainHeight(0, 0), 0);
-		renderPole(0, getTerrainHeight(0, 0),0);
+		renderGoal(0, getTerrainHeight(0, 0),0);
 
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
@@ -123,10 +123,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		cameraInputController.update();
 		camera.update();
 
-		//Show ball and pole
+		//Show ball and goal
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
-		modelBatch.render(poleInstance, environment);
+		modelBatch.render(goalInstance, environment);
 		modelBatch.end();
 	}
 
@@ -137,11 +137,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		ballInstance = new ModelInstance(ballModel, x, y, z);
 	}
 
-	public static void renderPole(float x, float y, float z){
+	public static void renderGoal(float x, float y, float z){
 		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
-		ModelData poleModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
-		poleModel = new Model(poleModelData, new TextureProvider.FileTextureProvider());
-		poleInstance = new ModelInstance(poleModel, x, y, z);
+		ModelData goalModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
+		goalModel = new Model(goalModelData, new TextureProvider.FileTextureProvider());
+		goalInstance = new ModelInstance(goalModel, x, y, z);
 	}
 
 	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
@@ -269,7 +269,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	public void dispose () {
 		modelBatch.dispose();
 		ballModel.dispose();
-		poleModel.dispose();
+		goalModel.dispose();
 	}
 
 	@Override
