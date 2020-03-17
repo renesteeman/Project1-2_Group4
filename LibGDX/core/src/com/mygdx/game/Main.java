@@ -13,8 +13,10 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
@@ -57,6 +59,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	static Model goalModel;
 	static ModelInstance goalInstance;
 
+	static boolean treesEnabled;
+	static Model treeModel;
+	static ArrayList<ModelInstance> treeInstances = new ArrayList<ModelInstance>();
+
 	Mesh ground;
 	ShaderProgram groundShader;
 
@@ -86,6 +92,12 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//TODO only call these functions from a general game class
 		renderBall(0, getTerrainHeight(0, 0), 0);
 		renderGoal(0, getTerrainHeight(0, 0),0);
+
+		//Test for the trees
+//		enableTrees();
+//		addTree(5, getTerrainHeight(5, 5), 5);
+//		addTree(15, getTerrainHeight(15, 15), 15);
+//		removeTreeWithinRadius(5, getTerrainHeight(5, 5), 5, 1);
 
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
@@ -126,6 +138,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(goalInstance, environment);
+		for(ModelInstance treeInstance : treeInstances){
+			modelBatch.render(treeInstance, environment);
+		}
 		modelBatch.end();
 	}
 
@@ -141,6 +156,38 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		ModelData goalModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
 		goalModel = new Model(goalModelData, new TextureProvider.FileTextureProvider());
 		goalInstance = new ModelInstance(goalModel, x, y, z);
+	}
+
+	public static void enableTrees(){
+		treesEnabled = true;
+		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
+		ModelData treeModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/tree.g3dj"));
+		treeModel = new Model(treeModelData, new TextureProvider.FileTextureProvider());
+	}
+
+	public static void addTree(float x, float y, float z){
+		ModelInstance tree = new ModelInstance(treeModel, x, y, z);
+		treeInstances.add(tree);
+	}
+
+	public static void removeTree(int treeIndex){
+		treeInstances.remove(treeIndex);
+	}
+
+	public static void removeTreeWithinRadius(float x, float y, float z, float radius){
+		for(int i=0; i<treeInstances.size(); i++){
+			ModelInstance cTree = treeInstances.get(i);
+			Vector3 cTreeLocation = cTree.transform.getTranslation(new Vector3());
+
+			//If the tree is within the given radius, remove it
+			if(Math.abs(cTreeLocation.x-x) <= radius && Math.abs(cTreeLocation.y-y) <= radius && Math.abs(cTreeLocation.z-z) <= radius){
+				treeInstances.remove(i);
+			}
+		}
+	}
+
+	public static void removeTreeAtLocation(float x, float y, float z){
+		removeTreeWithinRadius(x, y, z, 0);
 	}
 
 	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
@@ -266,6 +313,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.dispose();
 		ballModel.dispose();
 		goalModel.dispose();
+		if(treesEnabled){
+			treeModel.dispose();
+		}
 	}
 
 	@Override
