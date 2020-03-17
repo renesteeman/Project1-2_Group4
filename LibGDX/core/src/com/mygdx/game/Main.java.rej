@@ -1,0 +1,10 @@
+diff a/LibGDX/core/src/com/mygdx/game/Main.java b/LibGDX/core/src/com/mygdx/game/Main.java	(rejected hunks)
+@@ -57,6 +57,8 @@
+ 	static Model goalModel;
+ 	static ModelInstance goalInstance;
+ 
++	static Model groundModel;
++	static ModelInstance groundInstance;
+ 
+ 	Mesh ground;
+ 	ShaderProgram groundShader;

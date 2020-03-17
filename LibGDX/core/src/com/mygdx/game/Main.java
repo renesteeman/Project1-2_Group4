@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.UBJsonReader;
 
 import java.util.Random;
 
@@ -44,8 +43,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	//    x, y, z
 	//    x, y, z
 	//    ... etc ...
-	float[] verts = new float[MAX_VERTS * NUM_COMPONENTS];
-	int idx = 0;
+	float[] terrainVertices = new float[MAX_VERTS * NUM_COMPONENTS];
+	int terrainVertexIndex = 0;
 
 	PerspectiveCamera camera;
 	Environment environment;
@@ -173,87 +172,88 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	void drawGroundQuad(float x, float z) {
 		//we don't want to hit any index out of bounds exception...
 		//so we need to flush the batch if we can't store any more verts
-		if (idx==verts.length-1)
+		//4=amounts of indexes used per vertex; 3=amount of vertices per triangle; 2=amount of triangles
+		if (terrainVertexIndex == terrainVertices.length-(4*3*2))
 			flush();
 
 		//First triangle (bottom left, bottom right, top left)
 		//bottom left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexIndex++] = x;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z);
+		terrainVertices[terrainVertexIndex++] = z;
 		if(getTerrainHeight(x, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 
 		//bottom right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z);
+		terrainVertices[terrainVertexIndex++] = z;
 		if(getTerrainHeight(x + terrainStepSize, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 
 		//Top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = x;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z + terrainStepSize);
+		terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
 		if(getTerrainHeight(x, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 
 		//Second triangle (bottom right, top left, top right)
 		//bottom right
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z);
-		verts[idx++] = z;
+		terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z);
+		terrainVertices[terrainVertexIndex++] = z;
 		if(getTerrainHeight(x + terrainStepSize, z) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 
 		//top left vertex
-		verts[idx++] = x;
-		verts[idx++] = getTerrainHeight(x, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = x;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z + terrainStepSize);
+		terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
 		if(getTerrainHeight(x, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 
 		//top right vertex
-		verts[idx++] = x + terrainStepSize;
-		verts[idx++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
-		verts[idx++] = z + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
+		terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
+		terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
 		if(getTerrainHeight(x + terrainStepSize, z + terrainStepSize) > 0){
-			verts[idx++] = Color.GREEN.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 		} else {
-			verts[idx++] = Color.BLUE.toFloatBits();
+			terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
 		}
 	}
 
 	//Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
 	void flush() {
 		//if we've already flushed
-		if (idx==0)
+		if (terrainVertexIndex ==0)
 			return;
 
 		//sends our vertex data to the mesh
-		ground.setVertices(verts);
+		ground.setVertices(terrainVertices);
 
 		//enable blending, for alpha
 //		Gdx.gl.glEnable(GL20.GL_BLEND);
 //		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//number of vertices we need to render
-		int vertexCount = (idx/NUM_COMPONENTS);
+		int vertexCount = (terrainVertexIndex /NUM_COMPONENTS);
 
 		//start the shader before setting any uniforms
 		groundShader.begin();
@@ -262,7 +262,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		groundShader.end();
 
 		//reset index to zero
-		idx = 0;
+		terrainVertexIndex = 0;
 	}
 
 	@Override
