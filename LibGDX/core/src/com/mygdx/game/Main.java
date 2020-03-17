@@ -60,9 +60,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	Mesh ground;
 	ShaderProgram groundShader;
 
-	Model terrainModel;
-	ModelInstance terrainInstance;
-
 	CameraInputController cameraInputController;
 
 	@Override
@@ -90,18 +87,12 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		renderBall(0, getTerrainHeight(0, 0), 0);
 		renderGoal(0, getTerrainHeight(0, 0),0);
 
-
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
 
 		ground = new Mesh(true, MAX_VERTS, 0,
 				new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
 				new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
-
-		//Create terrain
-		createTerrain(0, 0);
-		terrainModel = convertMeshToModel("Terrain", ground, new Material());
-		terrainInstance = new ModelInstance(terrainModel);
 
 		//Set camera controller
 		cameraInputController = new CameraInputController(camera);
@@ -122,17 +113,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glDepthMask(true);
 
 		//Create terrain
-		//TODO
-//		createTerrain(0, 0);
-		//this will render the remaining triangles
-//		flush();
+		createTerrain(0, 0);
 
-		//ground.setVertices(terrainVertices);
-		int vertexCount = (terrainVertexIndex /NUM_COMPONENTS);
-		groundShader.begin();
-		groundShader.setUniformMatrix("u_projTrans", camera.combined);
-		ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
-		groundShader.end();
+		//this will render the remaining triangles
+		flush();
 
 		//Update camera movement
 		cameraInputController.update();
@@ -142,7 +126,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(goalInstance, environment);
-		modelBatch.render(terrainInstance, environment);
 		modelBatch.end();
 	}
 
