@@ -15,6 +15,8 @@ import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -49,6 +51,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	int terrainVertexIndex = 0;
 
 	PerspectiveCamera camera;
+	Viewport viewport;
 	Environment environment;
 	ModelBatch modelBatch;
 	ModelBuilder modelBuilder;
@@ -83,6 +86,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		//Clipping distances
 		camera.near = 0.1f;
 		camera.far = 300f;
+
+		//Needed for window resizing
+		viewport = new FitViewport(800, 480, camera);
 
 		//Model setup
 		modelBatch = new ModelBatch();
@@ -356,5 +362,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	@Override
 	public boolean scrolled(int amount) {
 		return false;
+	}
+
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		camera.update();
 	}
 }
