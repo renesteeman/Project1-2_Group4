@@ -60,6 +60,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	Mesh ground;
 	ShaderProgram groundShader;
 
+	Model terrainModel;
+	ModelInstance terrainInstance;
+
 	CameraInputController cameraInputController;
 
 	@Override
@@ -87,6 +90,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		renderBall(0, getTerrainHeight(0, 0), 0);
 		renderGoal(0, getTerrainHeight(0, 0),0);
 
+
 		//Set ground shader and mesh
 		groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
 
@@ -94,13 +98,18 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
 				new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
 
+		//Create terrain
+		createTerrain(0, 0);
+		terrainModel = convertMeshToModel("Terrain", ground, new Material());
+		terrainInstance = new ModelInstance(terrainModel);
+
 		//Set camera controller
 		cameraInputController = new CameraInputController(camera);
 		Gdx.input.setInputProcessor(cameraInputController);
 
 		//Set lightning
 		environment = new Environment();
-		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 1, 1, 1, 1f));
+		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, .5f, .5f, .5f, 1f));
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
 	}
 
@@ -113,10 +122,17 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glDepthMask(true);
 
 		//Create terrain
-		createTerrain(0, 0);
-
+		//TODO
+//		createTerrain(0, 0);
 		//this will render the remaining triangles
-		flush();
+//		flush();
+
+		//ground.setVertices(terrainVertices);
+		int vertexCount = (terrainVertexIndex /NUM_COMPONENTS);
+		groundShader.begin();
+		groundShader.setUniformMatrix("u_projTrans", camera.combined);
+		ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
+		groundShader.end();
 
 		//Update camera movement
 		cameraInputController.update();
@@ -126,6 +142,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(goalInstance, environment);
+		modelBatch.render(terrainInstance, environment);
 		modelBatch.end();
 	}
 
@@ -247,10 +264,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		//sends our vertex data to the mesh
 		ground.setVertices(terrainVertices);
-
-		//enable blending, for alpha
-//		Gdx.gl.glEnable(GL20.GL_BLEND);
-//		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//number of vertices we need to render
 		int vertexCount = (terrainVertexIndex /NUM_COMPONENTS);
