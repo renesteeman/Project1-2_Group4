@@ -73,6 +73,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void create () {
+		//Use 1080p
+		Gdx.graphics.setWindowedMode(1920, 1080);
+
 		//Needed to process input
 		Gdx.input.setInputProcessor(this);
 
