@@ -92,14 +92,19 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
 				new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
 
-
 		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
 		//TODO only call these functions from a general game class
 		renderBall(0, getTerrainHeight(0, 0), 0);
 		renderGoal(0, getTerrainHeight(0, 0),0);
 
+		//TODO fix terrain. The problem might be caused by ground.setVertices(terrainVertices); not giving enough info to create the model
 		createTerrain(0, 0);
-		groundModel = convertMeshToModel("ground", ground, new Material(ColorAttribute.createDiffuse(Color.BLUE)));
+		ground.setVertices(terrainVertices);
+		//groundModel = convertMeshToModel("ground", ground, new Material(ColorAttribute.createDiffuse(Color.BLUE)));
+		ModelBuilder builder = new ModelBuilder();
+		builder.begin();
+		builder.part("ground", ground, GL20.GL_TRIANGLES, new Material(ColorAttribute.createDiffuse(Color.YELLOW)));
+		groundModel = builder.end();
 		groundInstance = new ModelInstance(groundModel);
 
 		//Set camera controller
@@ -119,12 +124,14 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
 		Gdx.gl.glEnable(GL20.GL_DEPTH_TEST);
 		Gdx.gl.glDepthMask(true);
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		//Create terrain
 		//createTerrain(0, 0);
 
 		//this will render the remaining triangles
-		flush();
+		//flush();
 
 		//Update camera movement
 		cameraInputController.update();
@@ -152,7 +159,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		goalInstance = new ModelInstance(goalModel, x, y, z);
 	}
 
-	public Model convertMeshToModel(final String id, final Mesh mesh, Material material) {
+	public Model convertMeshToModel(String id, Mesh mesh, Material material) {
 		ModelBuilder builder = new ModelBuilder();
 		builder.begin();
 		builder.part(id, mesh, GL20.GL_TRIANGLES, material);
@@ -165,7 +172,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 			for(int z=0; z<terrainLength/terrainStepSize; z++){
 				float xCoordinate = x*terrainStepSize+xOffset;
 				float zCoordinate = z*terrainStepSize+yOffset;
-				drawGroundQuad(xCoordinate, zCoordinate);
+				addGroundQuad(xCoordinate, zCoordinate);
 			}
 		}
 	}
@@ -178,7 +185,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 //		return (float) (.2*x+.02*z-2);
 	}
 
-	void drawGroundQuad(float x, float z) {
+	void addGroundQuad(float x, float z) {
 		//we don't want to hit any index out of bounds exception...
 		//so we need to flush the batch if we can't store any more verts
 //		if (idx==verts.length-1)
