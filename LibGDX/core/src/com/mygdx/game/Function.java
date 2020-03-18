@@ -1,33 +1,29 @@
 import java.util.ArrayList;
 import java.util.Stack;
 
-
-public class Equation {
+public class Function implements Function2d {
     private final String OPERATORS = "-+/*^"; //primitive operators
     private String infix;
     private String postfix;
 
-
-    public Equation(String infix) {
+    public Function(String infix) {
         this.infix = parseSpaces(infix);
         this.postfix = infixToPostfix(this.infix);
     }
 
-
     public String getInfix() {
         return this.infix;
     }
+
     public String getPostfix() {
         return this.postfix;
     }
-
 
     //Source used: https://rosettacode.org/wiki/Parsing/Shunting-yard_algorithm#Java
     public String infixToPostfix(String infix) {
         /* To find out the precedence, we take the index of the
            token in the ops string and divide by 2 (rounding down). 
            This will give us: 0, 0, 1, 1, 2 */
-
 
         StringBuilder sb = new StringBuilder();
         Stack<Integer> s = new Stack<>();
@@ -80,70 +76,23 @@ public class Equation {
         return sb.toString();
     }
 
-
-    public double solve(double xValue, double yValue) {
-        String equation = this.postfix.replaceAll("x", Double.toString(xValue)).replaceAll("y", Double.toString(yValue));
-        //System.out.println(equation);
-
-        String[] split = equation.split("\\s");
-        Stack<Double> s = new Stack<>();
-        double sol = 0;
-        int i = 0;
-
-        while(i < split.length){
-            //If first character of split[i] is primitive operator AND split[i] is 1 character long,
-            // then it is a primitive operator. Thus, we can perform an action, e.g., multiplication.
-            //Since equation is in postfix notation, the first place an operator can be is at i=2.
-            if(OPERATORS.indexOf(split[i].charAt(0)) != -1 && split[i].length() == 1){
-                double e1 = s.pop();
-                double e2 = s.pop();
-                double e3;
-
-                if(split[i].equals("+")) {
-                    e3 = e2+e1;
-                } else if(split[i].equals("-")) {
-                    e3 = e2-e1;
-                } else if(split[i].equals("*")) {
-                    e3 = e2*e1;
-                } else if(split[i].equals("/")) {
-                    e3 = e2/e1;
-                } else {
-                    e3 = Math.pow(e2, e1);
-                }
-                s.push(e3);
-                i++;
-
-                //If i == split.length, the calculations are done.
-                if(i == split.length) {
-                    sol = s.pop();
-                }
-            }
-            else {
-                s.push(Double.parseDouble(split[i]));
-                i++;
-            }
-        }
-        return sol;
-    }
-
-
     private String parseSpaces(String s) {
         ArrayList<Character> cur = new ArrayList<>();
         ArrayList<String> spl = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
         int flag = 0;
 
-		/*
-			flag :
+        /*
+            flag :
 
-			0 - space (not pushed in spl)
-			1 - number
-			2 - function
-			3 - variable
-			4 - opening bracket
-			5 - closing bracket
-			6 - primitive operations
-		*/
+            0 - space (not pushed in spl)
+            1 - number
+            2 - function
+            3 - variable
+            4 - opening bracket
+            5 - closing bracket
+            6 - primitive operations
+        */
 
         //System.out.println(s);
 
@@ -235,13 +184,78 @@ public class Equation {
         return res;
     }
 
+    @Override
+    public double evaluate(Vector2d p) {
+        double xValue = p.x, yValue = p.y;
+        String equation = this.postfix.replaceAll("x", Double.toString(xValue)).replaceAll("y", Double.toString(yValue));
+        //System.out.println(equation);
+
+        String[] split = equation.split("\\s");
+        Stack<Double> s = new Stack<>();
+        double sol = 0;
+        int i = 0;
+
+        while(i < split.length){
+            //If first character of split[i] is primitive operator AND split[i] is 1 character long,
+            // then it is a primitive operator. Thus, we can perform an action, e.g., multiplication.
+            //Since equation is in postfix notation, the first place an operator can be is at i=2.
+            if(OPERATORS.indexOf(split[i].charAt(0)) != -1 && split[i].length() == 1){
+                double e1 = s.pop();
+                double e2 = s.pop();
+                double e3;
+
+                if(split[i].equals("+")) {
+                    e3 = e2+e1;
+                } else if(split[i].equals("-")) {
+                    e3 = e2-e1;
+                } else if(split[i].equals("*")) {
+                    e3 = e2*e1;
+                } else if(split[i].equals("/")) {
+                    e3 = e2/e1;
+                } else {
+                    e3 = Math.pow(e2, e1);
+                }
+                s.push(e3);
+                i++;
+
+                //If i == split.length, the calculations are done.
+                if(i == split.length) {
+                    sol = s.pop();
+                }
+            }
+            else {
+                s.push(Double.parseDouble(split[i]));
+                i++;
+            }
+        }
+        return sol;
+    }
+
+    public final double DELTA_VALUE = 1e-9; // NEED TO PLAY WITH THIS VALUE
+    public final double REVERSE_DELTA_VALUE = 1e9;
+
+    @Override 
+    public Vector2d gradient(Vector2d p) {
+        double val1 = evaluate(new Vector2d(p.x + DELTA_VALUE, p.y));
+        double val2 = evaluate(new Vector2d(p.x, p.y + DELTA_VALUE));
+        double val3 = evaluate(p);
+
+        double p1 = (val1 - val3) * REVERSE_DELTA_VALUE;
+        double p2 = (val2 - val3) * REVERSE_DELTA_VALUE;
+        return new Vector2d(p1, p2);
+    }   
+
+    @Override
+    public String toString() {
+        return infix;
+    }
 
     public static void main(String[] args) {
-        ShuntingYard example = new ShuntingYard("3 + x * 2 / ( y - 5 ) ^ 2 ^ 3");
+        Function example = new Function("3 + x * 2 / ( y - 5 ) ^ 2 ^ 3");
         System.out.printf("infix:   %s%n", example.getInfix());
         System.out.printf("postfix: %s%n", example.getPostfix());
 
         int x = 5; int y = 4;
-        System.out.println(example.getInfix()+" with x = "+x+" and y = "+y+" is: " +  example.solve(x, y));
+        System.out.println(example.getInfix()+" with x = "+x+" and y = "+y+" is: " +  example.evaluate(new Vector2d(x, y)));
     }
 }

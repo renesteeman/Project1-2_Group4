@@ -1,28 +1,30 @@
-package com.mygdx.game;
-
-import com.badlogic.gdx.math.Vector3;
-
 public class Ball {
-    Vector3 location;
-    float speed;
+	public Vector2d location, velocity;
 
-    public Vector3 getLocation() {
-        return location;
-    }
+	public Ball(Vector2d location, Vector2d velocity) {
+		this.location = location;
+		this.velocity = velocity;
+	}
 
-    public float getSpeed() {
-        return speed;
-    }
+	//TO BE OVERRIDDDEN
+	public void setLocation(Vector2d location) {
+		this.location = location;
+	}
 
-    public void setLocation(Vector3 location) {
-        this.location = location;
-    }
+	public void setVelocity(Vector2d velocity) {
+		this.velocity = velocity;
+	}
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
+	public Vector2d getLocation() {
+		return location;
+	}
 
-    public void updateBallModel(){
-        Main.renderBall(location.x, location.y, location.z);
-    }
+	public Vector2d getVelocity() {
+		return velocity;
+	}
+
+	//TO BE OVERRIDDEN
+	public void draw() {
+		
+	}
 }
