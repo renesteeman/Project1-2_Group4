@@ -1,0 +1,23 @@
+Equation is merged with SpaceParser and gradient calculation. Renamed as Function for better understanding.
+
+Added EulerSolver for motion processing (physics engine).
+
+Goal and Ball are split in two classes each. GDX*name* extends *name* as I wanted to move as much GDX stuff as possible out of backend.
+
+Added Vector2d for working with 2-dimensional vectors. Widely used throughtout all the backend.
+
+Added PuttingCourse that stores all the information about the course and supports file I/O. 
+
+Added GDXPuttingCourse that serves for visualisation of the course and derives PuttingCourse.
+
+Added CrazyPutting and GDXCrazyPutting as templates for the core of the final product.
+
+All API required is supported by now.
+
+Carefully read the comments since many places require edits.
+
+P.S. NEVER use git reset --hard if you wanna stay out of trouble.
+
+P.S.S. I never ran the code yet. However, it has no compilation issues.
+
+P.S.S.S. Will add javadoc as soon as possible.
