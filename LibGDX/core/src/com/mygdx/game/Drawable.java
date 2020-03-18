@@ -1,11 +1,8 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Vector3;
-
 public interface Drawable {
-    Vector3d location = null;
+    Vector2d location = null;
     
     void draw();
-    void setLocation(Vector3 location);
-    void remove();
+    void updateLocation(Vector2d location);
 }

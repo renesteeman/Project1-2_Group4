@@ -9,7 +9,6 @@ import java.nio.file.*;
 
 public class PuttingCourse implements Drawable {
 	public Function2d height;
-	//TODO why 2D?
 	public Vector2d flag, start;
 	public double friction, maxVelocity, holeRadius;
 

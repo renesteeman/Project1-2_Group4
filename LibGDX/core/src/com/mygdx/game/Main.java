@@ -154,18 +154,22 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.end();
 	}
 
-	public static void renderBall(float x, float y, float z){
+	public static void renderBall(double x, double y, double z){
 		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
 		ModelData ballModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/golfBall.g3dj"));
 		ballModel = new Model(ballModelData, new TextureProvider.FileTextureProvider());
-		ballInstance = new ModelInstance(ballModel, x, y, z);
+		ballInstance = new ModelInstance(ballModel, (float) x, (float) y, (float) z);
+	}
+
+	public static void renderBall(Vector2d location){
+		renderBall(location.x, location.y, location.z);
 	}
 
 	public static void renderGoal(float x, float y, float z){
 		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
 		ModelData goalModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
 		goalModel = new Model(goalModelData, new TextureProvider.FileTextureProvider());
-		goalInstance = new ModelInstance(goalModel, x, y, z);
+		goalInstance = new ModelInstance(goalModel, (float) x, (float) y, (float) z);
 	}
 
 	public static void enableTrees(){

@@ -1,19 +1,23 @@
 package com.mygdx.game;
 
+import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Vector2d;
 
 public class Ball implements Drawable{
-	//TODO why 2D?
 	public Vector2d location, velocity;
 
 	public Ball(Vector2d location, Vector2d velocity) {
 		this.location = location;
 		this.velocity = velocity;
+
+		draw();
 	}
 
-	//TO BE OVERRIDDDEN
-	public void setLocation(Vector2d location) {
+	public void updateLocation(Vector2d location) {
 		this.location = location;
+
+		//Update 3D UI
+		Main.renderBall(location);
 	}
 
 	public void setVelocity(Vector2d velocity) {
@@ -28,8 +32,8 @@ public class Ball implements Drawable{
 		return velocity;
 	}
 
-	//TO BE OVERRIDDEN
-	public void draw() {
-		
+	public void draw(){
+		//Add it to the 3D scene
+		Main.renderBall(location);
 	}
 }
