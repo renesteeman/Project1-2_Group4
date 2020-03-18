@@ -165,11 +165,15 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		renderBall(location.x, location.y, location.z);
 	}
 
-	public static void renderGoal(float x, float y, float z){
+	public static void renderGoal(double x, double y, double z){
 		ModelLoader<?> modelLoader = new G3dModelLoader(new JsonReader());
 		ModelData goalModelData = modelLoader.loadModelData(Gdx.files.internal("core/assets/flag.g3dj"));
 		goalModel = new Model(goalModelData, new TextureProvider.FileTextureProvider());
 		goalInstance = new ModelInstance(goalModel, (float) x, (float) y, (float) z);
+	}
+
+	public static void renderGoal(Vector2d location){
+		renderGoal(location.x, location.y, location.z);
 	}
 
 	public static void enableTrees(){

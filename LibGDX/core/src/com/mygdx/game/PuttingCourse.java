@@ -7,7 +7,7 @@ import java.lang.*;
 import java.io.*;
 import java.nio.file.*;
 
-public class PuttingCourse implements Drawable {
+public class PuttingCourse {
 	public Function2d height;
 	public Vector2d flag, start;
 	public double friction, maxVelocity, holeRadius;
@@ -125,8 +125,4 @@ public class PuttingCourse implements Drawable {
 		return holeRadius;
 	}
 
-	//TO BE OVERRIDDEN
-	public void draw() {
-		
-	}
 }

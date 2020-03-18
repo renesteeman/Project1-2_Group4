@@ -8,6 +8,10 @@ public class Vector2d {
 	public double x = 0.0, y = 0.0, z = 0.0;
 	public static final double EPS = 1e-9; // NEED TO PLAY WITH THIS ONE
 
+	public Vector2d(){
+
+	}
+
 	public Vector2d(double x, double y) {
 		this.x = x;
 		this.y = y;

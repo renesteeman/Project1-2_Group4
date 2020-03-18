@@ -17,12 +17,12 @@ public class PuttingSimulator {
 		this.course = course;
 		this.engine = engine;
 		height = course.get_height();
-		ball = new Ball(course.get_start_position(), new Vector2d()); // TO BE REPLACED
-		goal = new Goal(course.get_flag_position()); // TO BE REPLACED
+//		ball = new Ball(course.get_start_position(), new Vector2d()); // TO BE REPLACED
+//		goal = new Goal(course.get_flag_position()); // TO BE REPLACED
 	}
 
 	public void set_ball_position(Vector2d location) {
-		ball.setLocation(location);
+		ball.updateLocation(location);
 	}
 
 	public Vector2d get_ball_position() {
