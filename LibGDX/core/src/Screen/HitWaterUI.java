@@ -15,8 +15,10 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.mygdx.game.Ball;
 import com.mygdx.game.PuttingCourse;
+import com.mygdx.game.PuttingSimulator;
 import com.mygdx.game.Vector2d;
 
+import static com.mygdx.game.Vector2d.*;
 
 public class HitWaterUI extends Game implements InputProcessor, ApplicationListener{
     int backgroundWidth;
@@ -44,8 +46,8 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
         //TODO remove these setters
         Ball.location = new Vector2d(0, 0, 0);
         PuttingCourse.start = new Vector2d(10, 1, 1);
-        Vector2d ballLocation = Ball.location;
-        Vector2d startPoint = PuttingCourse.start;
+        final Vector2d ballLocation = Ball.location;
+        final Vector2d startPoint = PuttingCourse.start;
         maxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
 
         batch = new SpriteBatch();
@@ -76,33 +78,27 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
         setBallButton.setHeight(30);
         setBallButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
 
-        positive.addListener(new ClickListener(){
-			/*
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				rotation = rotation + 10;
-				if(rotation >= 360){
-					rotation = 0;
-				}
-			}
-			 */
+        setBallButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Calculate where the ball should go and set that as the new position
+                //distanceFromStart
+                Vector2d direction = substract(ballLocation, startPoint);
+                Vector2d directionNormalized = getNormalized(direction);
 
+                Vector2d newBallPosition = addVectors(startPoint, multiplyVector(distanceFromStart, directionNormalized));
+                //TODO Fix
+                PuttingSimulator.updateBallLocation(newBallPosition);
+            }
+        });
+
+        positive.addListener(new ClickListener(){
             @Override
             public boolean isPressed() {
                 return super.isPressed();
             }
         });
         negative.addListener(new ClickListener(){
-			/*
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				rotation = rotation - 10;
-				if(rotation < 0){
-					rotation = 350;
-				}
-			}
-			 */
-
             @Override
             public boolean isPressed() {
                 return super.isPressed();
@@ -172,13 +168,11 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-
         return false;
     }
 

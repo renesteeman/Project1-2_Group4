@@ -27,6 +27,32 @@ public class Vector2d {
 	public double get_y() { return y; }
 	public double get_z() { return z; }
 
+	public static Vector2d multiplyVector(double constant, Vector2d vector){
+		double x = vector.x * constant;
+		double y = vector.y * constant;
+		double z = vector.z * constant;
+
+		return new Vector2d(x, y, z);
+	}
+
+	public static Vector2d addVectors(Vector2d first, Vector2d second){
+		double x = first.x + second.x;
+		double y = first.y + second.y;
+		double z = first.z + second.z;
+
+		return new Vector2d(x, y, z);
+	}
+
+	public static Vector2d getNormalized(Vector2d vector){
+		double vectorSize = Math.sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z);
+
+		double x = vector.x / vectorSize;
+		double y = vector.y / vectorSize;
+		double z = vector.z / vectorSize;
+
+		return new Vector2d(x, y, z);
+	}
+
 	public static Vector2d substract(Vector2d l, Vector2d r) {
 		return new Vector2d(l.x - r.x, l.y - r.y);
 	}
