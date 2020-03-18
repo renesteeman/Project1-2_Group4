@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 public class PuttingSimulator {
+	//TODO why 2D?
 	public Function2d height;
 	public PuttingCourse course;
 	public PhysicsEngine engine;

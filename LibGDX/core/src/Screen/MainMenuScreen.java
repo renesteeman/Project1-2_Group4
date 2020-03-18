@@ -11,23 +11,23 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class MainMenuScreen implements Screen {
 
-    GameUI game;
-    SettingsMenu test;
-    Texture exitButton;
-    Texture startButton;
-    Texture settingsButton;
-    Texture line;
-    Texture golf;
-    BitmapFont font;
-    BitmapFont font1;
+    GameUI MainMenuScreengame;
+    SettingsMenu MainMenuScreenTest;
+    Texture MainMenuScreenExitButton;
+    Texture MainMenuScreenStartButton;
+    Texture MainMenuScreenSettingsButton;
+    Texture MainMenuScreenLine;
+    Texture MainMenuScreenGolf;
+    BitmapFont MainMenuScreenFont;
+    BitmapFont MainMenuScreenFont1;
 
-    private static final int START_BUTTON_WIDTH = 400;
-    private static final int START_BUTTON_HEIGHT = 400;
-    private static final int EXIT_BUTTON_WIDTH = 100;
-    private static final int EXIT_BUTTON_HEIGHT = 100;
-    private static final int SETTINGS_BUTTON_SIZE = 80;
-    private static final int GOLF_IMAGE_WIDTH = 200;
-    private static final int GOLF_IMAGE_HEIGHT = 200;
+    private static final int MainMenuScreenSTART_BUTTON_WIDTH = 400;
+    private static final int MainMenuScreenSTART_BUTTON_HEIGHT = 400;
+    private static final int MainMenuScreenEXIT_BUTTON_WIDTH = 100;
+    private static final int MainMenuScreenEXIT_BUTTON_HEIGHT = 100;
+    private static final int MainMenuScreenSETTINGS_BUTTON_SIZE = 80;
+    private static final int MainMenuScreenGOLF_IMAGE_WIDTH = 200;
+    private static final int MainMenuScreenGOLF_IMAGE_HEIGHT = 200;
 
     public MainMenuScreen(GameUI game){
         this.game = game;

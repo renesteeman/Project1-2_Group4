@@ -11,10 +11,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameUI extends Game {
-	public SpriteBatch batch;
+	public SpriteBatch GameUIbatch;
 
-	public static final int WINDOW_WIDTH = 750;
-	public static final int WINDOW_HEIGHT = 750;
+	public static final int GameUIWINDOW_WIDTH = 750;
+	public static final int GameUIWINDOW_HEIGHT = 750;
 	
 	@Override
 	public void create () {

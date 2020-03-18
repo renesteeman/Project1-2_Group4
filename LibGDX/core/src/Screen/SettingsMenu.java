@@ -10,17 +10,17 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class SettingsMenu implements Screen {
 
-    GameUI settings;
-    Texture settingsButton;
-    Texture backButton;
-    Texture okButton;
-    Texture line;
-    BitmapFont font;
+    GameUI SettingsMenuSettings;
+    Texture SettingsMenuSettingsButton;
+    Texture SettingsMenuBackButton;
+    Texture SettingsMenuOkButton;
+    Texture SettingsMenuLine;
+    BitmapFont SettingsMenuFont;
 
-    private static final int SETTINGS_BUTTON_SIZE = 80;
-    private static final int BACK_BUTTON_SIZE = 80;
-    private static final int OK_BUTTON_WIDTH = 90;
-    private static final int OK_BUTTON_HEIGHT = 90;
+    private static final int SettingsMenuSETTINGS_BUTTON_SIZE = 80;
+    private static final int SettingsMenuBACK_BUTTON_SIZE = 80;
+    private static final int SettingsMenuOK_BUTTON_WIDTH = 90;
+    private static final int SettingsMenuOK_BUTTON_HEIGHT = 90;
 
 
     public SettingsMenu(GameUI start){

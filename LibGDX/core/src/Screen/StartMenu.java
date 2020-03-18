@@ -11,19 +11,19 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class StartMenu implements Screen{
 
-    GameUI start;
-    Texture backButton;
-    Texture okButton;
-    Texture line;
-    BitmapFont font;
-    BitmapFont font1;
-    BitmapFont choice;
-    BitmapFont choice1;
-    BitmapFont customize;
+    GameUI StartMenuStart;
+    Texture StartMenuBackButton;
+    Texture StartMenuOkButton;
+    Texture StartMenuLine;
+    BitmapFont StartMenuFont;
+    BitmapFont StartMenuFont1;
+    BitmapFont StartMenuChoice;
+    BitmapFont StartMenuChoice1;
+    BitmapFont StartMenuCustomize;
 
-    private static final int BACK_BUTTON_SIZE = 80;
-    private static final int OK_BUTTON_WIDTH = 90;
-    private static final int OK_BUTTON_HEIGHT = 90;
+    private static final int StartMenuBACK_BUTTON_SIZE = 80;
+    private static final int StartMenuOK_BUTTON_WIDTH = 90;
+    private static final int StartMenuOK_BUTTON_HEIGHT = 90;
 
     public StartMenu(GameUI start){
         this.start = start;

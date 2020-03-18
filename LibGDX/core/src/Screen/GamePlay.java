@@ -15,9 +15,9 @@ public class GamePlay implements Screen {
     Texture line;
     BitmapFont font;
 
-    private static final int BACK_BUTTON_SIZE = 80;
-    private static final int OK_BUTTON_WIDTH = 90;
-    private static final int OK_BUTTON_HEIGHT = 90;
+    private static final int GamePlayBACK_BUTTON_SIZE = 80;
+    private static final int GamePlayOK_BUTTON_WIDTH = 90;
+    private static final int GamePlayOK_BUTTON_HEIGHT = 90;
 
     public GamePlay(GameUI game){
         this.game = game;
@@ -46,15 +46,15 @@ public class GamePlay implements Screen {
         generator.dispose();
         font.draw(game.batch, "Game", GameUI.WINDOW_WIDTH/3, GameUI.WINDOW_HEIGHT-100);
 
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/10) + BACK_BUTTON_SIZE && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < BACK_BUTTON_SIZE + GameUI.WINDOW_HEIGHT-140 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-140 ){
-            game.batch.draw(line, (GameUI.WINDOW_WIDTH)/10, (GameUI.WINDOW_HEIGHT-220), BACK_BUTTON_SIZE, 150);
+        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/10) + GamePlayBACK_BUTTON_SIZE && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < GamePlayBACK_BUTTON_SIZE + GameUI.WINDOW_HEIGHT-140 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-140 ){
+            game.batch.draw(line, (GameUI.WINDOW_WIDTH)/10, (GameUI.WINDOW_HEIGHT-220), GamePlayBACK_BUTTON_SIZE, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
                 game.setScreen(new StartMenu(game));
             }
         }
 
-        game.batch.draw(backButton, GameUI.WINDOW_WIDTH/10, GameUI.WINDOW_HEIGHT-150, BACK_BUTTON_SIZE, BACK_BUTTON_SIZE);
+        game.batch.draw(backButton, GameUI.WINDOW_WIDTH/10, GameUI.WINDOW_HEIGHT-150, GamePlayBACK_BUTTON_SIZE, GamePlayBACK_BUTTON_SIZE);
         game.batch.end();
     }
 

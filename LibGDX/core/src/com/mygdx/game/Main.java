@@ -26,6 +26,122 @@ import java.util.Random;
 //TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 
+	//CustomizedMenu
+	GameUI CustomizedGame;
+	Texture CustomizedBackButton;
+	Texture CustomizedLine;
+	Texture CustomizedOkButton;
+	BitmapFont CustomizedFont;
+	BitmapFont CustomizedVelocity;
+	BitmapFont CustomizedAcceleration;
+	BitmapFont CustomizedCoefficient;
+	BitmapFont CustomizedDistance;
+	BitmapFont CustomizedMass;
+	BitmapFont CustomizedHeight;
+
+	String CustomizedText;
+	TextField CustomizedField;
+
+	//DefaultedMenu
+	GameUI DefaultGame;
+	Texture DefaultBackButton;
+	Texture DefaultLine;
+	Texture DefaultOkButton;
+	BitmapFont DefaultFont;
+	BitmapFont DefaultVelocity;
+	BitmapFont DefaultAcceleration;
+	BitmapFont DefaultCoefficient;
+	BitmapFont DefaultDistance;
+	BitmapFont DefaultMass;
+	BitmapFont DefaultHeight;
+	BitmapFont DefaultVelocity1;
+	BitmapFont DefaultAcceleration1;
+	BitmapFont DefaultCoefficient1;
+	BitmapFont DefaultDistance1;
+	BitmapFont DefaultMass1;
+	BitmapFont DefaultHeight1;
+
+	//GamePlay
+	private static final int GamePlayBACK_BUTTON_SIZE = 80;
+	private static final int GamePlayOK_BUTTON_WIDTH = 90;
+	private static final int GamePlayOK_BUTTON_HEIGHT = 90;
+
+	//GameScreen
+	Texture GameScreenImg;
+	float GameScreenX;
+	float GameScreenY;
+
+	//HitWaterUI
+	int HitWaterUIBackgroundWidth;
+
+	SpriteBatch HitWaterUIBatch;
+	private Stage HitWaterStage;
+	private Skin HitWaterSkin;
+
+	double HitWaterDistanceFromStart;
+
+	double HitWaterMaxDistanceFromStart;
+
+	String HitWaterDistanceFromStartString;
+
+	BitmapFont HitWaterFont;
+
+	Sprite HitWaterWhiteBackground;
+
+	TextButton HitWaterPositive;
+	TextButton HitWaterNegative;
+
+	//MainMenuScreen
+	GameUI MainMenuScreengame;
+	SettingsMenu MainMenuScreenTest;
+	Texture MainMenuScreenExitButton;
+	Texture MainMenuScreenStartButton;
+	Texture MainMenuScreenSettingsButton;
+	Texture MainMenuScreenLine;
+	Texture MainMenuScreenGolf;
+	BitmapFont MainMenuScreenFont;
+	BitmapFont MainMenuScreenFont1;
+
+	//SettingsMenu
+	GameUI SettingsMenuSettings;
+	Texture SettingsMenuSettingsButton;
+	Texture SettingsMenuBackButton;
+	Texture SettingsMenuOkButton;
+	Texture SettingsMenuLine;
+	BitmapFont SettingsMenuFont;
+
+	private static final int SettingsMenuSETTINGS_BUTTON_SIZE = 80;
+	private static final int SettingsMenuBACK_BUTTON_SIZE = 80;
+	private static final int SettingsMenuOK_BUTTON_WIDTH = 90;
+	private static final int SettingsMenuOK_BUTTON_HEIGHT = 90;
+	private static final int MainMenuScreenSTART_BUTTON_WIDTH = 400;
+	private static final int MainMenuScreenSTART_BUTTON_HEIGHT = 400;
+	private static final int MainMenuScreenEXIT_BUTTON_WIDTH = 100;
+	private static final int MainMenuScreenEXIT_BUTTON_HEIGHT = 100;
+	private static final int MainMenuScreenSETTINGS_BUTTON_SIZE = 80;
+	private static final int MainMenuScreenGOLF_IMAGE_WIDTH = 200;
+	private static final int MainMenuScreenGOLF_IMAGE_HEIGHT = 200;
+
+	//StartMenu
+	GameUI StartMenuStart;
+	Texture StartMenuBackButton;
+	Texture StartMenuOkButton;
+	Texture StartMenuLine;
+	BitmapFont StartMenuFont;
+	BitmapFont StartMenuFont1;
+	BitmapFont StartMenuChoice;
+	BitmapFont StartMenuChoice1;
+	BitmapFont StartMenuCustomize;
+
+	private static final int StartMenuBACK_BUTTON_SIZE = 80;
+	private static final int StartMenuOK_BUTTON_WIDTH = 90;
+	private static final int StartMenuOK_BUTTON_HEIGHT = 90;
+
+	//GameUI
+	public SpriteBatch GameUIbatch;
+
+	public static final int GameUIWINDOW_WIDTH = 750;
+	public static final int GameUIWINDOW_HEIGHT = 750;
 	//size in meter
 	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)
 	final float terrainStepSize = 1;

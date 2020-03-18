@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class GameScreen implements Screen {
 
-    Texture img;
-    float x;
-    float y;
+    Texture GameScreenImg;
+    float GameScreenX;
+    float GameScreenY;
 
     GameUI game;
 
