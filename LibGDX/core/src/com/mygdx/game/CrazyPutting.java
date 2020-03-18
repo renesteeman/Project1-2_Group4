@@ -1,3 +1,5 @@
+package com.mygdx.game;
+
 import java.util.*;
 import java.lang.*;
 import java.io.*;

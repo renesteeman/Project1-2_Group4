@@ -2,6 +2,7 @@ package com.mygdx.game.UIClasses;
 
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Function2d;
+import com.mygdx.game.Goal;
 import com.mygdx.game.Main;
 import com.mygdx.game.Vector2d;
 
@@ -9,7 +10,9 @@ public class GDXGoal extends Goal {
     private Function2d height;
     private Vector3 location3;
 
-    public GDXGoal() {}
+    public GDXGoal() {
+
+    }
 
     @Override 
     public void setlocation(Vector2d location) {

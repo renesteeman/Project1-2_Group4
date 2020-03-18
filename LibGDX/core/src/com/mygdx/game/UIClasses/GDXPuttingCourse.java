@@ -1,7 +1,11 @@
 package com.mygdx.game.UIClasses;
 
+import com.mygdx.game.PuttingCourse;
+
 public class GDXPuttingCourse extends PuttingCourse {
-	public GDXPuttingCourse() {}
+	public GDXPuttingCourse() {
+
+	}
 
 	@Override
 	void draw() {

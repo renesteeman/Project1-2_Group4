@@ -1,3 +1,5 @@
+package com.mygdx.game;
+
 public class EulerSolver implements PhysicsEngine {
 	private double step = 1e-4; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
 	private Function2d height;

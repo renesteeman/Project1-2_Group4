@@ -1,3 +1,5 @@
+package com.mygdx.game;
+
 public class PuttingSimulator {
 	public Function2d height;
 	public PuttingCourse course;

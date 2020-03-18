@@ -1,3 +1,5 @@
+package com.mygdx.game;
+
 public class Goal {
 	protected Vector2d location;
 
