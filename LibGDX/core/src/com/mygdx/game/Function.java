@@ -4,85 +4,177 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Function implements Function2d {
-    private final String OPERATORS = "-+/*^"; //primitive operators
     private String infix;
     private String postfix;
 
+
+    /**
+     * Constructor of function. Infix is parsed into such a way every couple of elements (i.e., numbers, operators and functions (e.g., sin)) has spaces in between them.
+     * @param infix equation in string form.
+     */
     public Function(String infix) {
         this.infix = parseSpaces(infix);
         this.postfix = infixToPostfix(this.infix);
     }
 
-    public String getInfix() {
-        return this.infix;
-    }
+    /**
+     * @return equation in infix notation.
+     */
+    public String getInfix() { return this.infix; }
 
-    public String getPostfix() {
-        return this.postfix;
-    }
+    /**
+     * @return equation in postfix notation.
+     */
+    public String getPostfix() { return this.postfix; }
 
-    //Source used: https://rosettacode.org/wiki/Parsing/Shunting-yard_algorithm#Java
+
+    /**
+     * Transform function from infix notation to postfix notation.
+     * @param infix is the equation we have to put in postfix notation.
+     * @return equation in postfix notation.
+     */
     public String infixToPostfix(String infix) {
-        /* To find out the precedence, we take the index of the
-           token in the ops string and divide by 2 (rounding down). 
-           This will give us: 0, 0, 1, 1, 2 */
+        String[] split = infix.split(" ");
 
         StringBuilder sb = new StringBuilder();
-        Stack<Integer> s = new Stack<>();
+        Stack<String> s = new Stack<>();
 
-        for (String token : infix.split("\\s")) {
-            if (token.isEmpty()) {
-                continue;
+        int i = 0; //To keep track of how many tokens are used
+        while(i < split.length) {
+            String token = split[i];
+
+            //If token is number or variable x,y or pi or e, then append to output with a space.
+            if(isDouble(token) || token.equals("x") || token.equals("y") || token.equals("pi") || token.equals("e")) {
+                sb.append(token).append(' ');
             }
-            char c = token.charAt(0);
-            int idx = OPERATORS.indexOf(c);
+            else if(isFunction(token)) { //Else if token is a function, e.g., sin, then push it onto the stack
+                s.push(token);
+            }
+            else if(isOperator(token)) { //Else if token is an operator, then...
+                // ... if the stack is not empty, then pop operators under certain conditions and at last push the token onto the stack.
+                // Else token is immediately placed on stack.
+                if(!s.isEmpty()) {
+                    //System.out.println("Stack not empty...\nPrecedence: " + getPrecedence(token));
+                    String peeked = s.peek();
 
-            // check for operator
-            if (idx != -1) {
-                if (s.isEmpty()) {
-                    s.push(idx);
-                }
-                else {
-                    while (!s.isEmpty()) {
-                        int prec2 = s.peek() / 2;
-                        int prec1 = idx / 2;
+                    //While( (at the top of the stack is a function (e.g., sin) OR the precedence of the element at the top of the stack is bigger than the token
+                    // OR the precedence is equal (not including the power-sign "^") ) AND element at the top of the stack is not a left parenthesis
+                    // AND the stack is not empty), then append operators to the output.
+                    while ((isFunction(peeked)
+                            || isGreaterPrecedence(token, peeked)
+                            || isEqualPrecedence(token, peeked) )
+                            && !peeked.equals("(")
+                            && !s.isEmpty()) {
+                        //System.out.println("pop element ...");
+                        sb.append(s.pop()).append(' ');
 
-                        if (prec2 > prec1 || (prec2 == prec1 && c != '^')) {
-                            sb.append(OPERATORS.charAt(s.pop())).append(' ');
-                        }
-                        else {
-                            break;
+                        //If stack is not empty, then update the value of peeked
+                        if(!s.isEmpty()){
+                            peeked = s.peek();
                         }
                     }
-                    s.push(idx);
+                    //System.out.println("Popped element(s) and stack size is: " + s.size() + "\n");
                 }
+                s.push(token);
+
             }
-            else if (c == '(') {
-                s.push(-2); // -2 stands for '('
+            else if(token.equals("(")) { //Else if token is left parenthesis, we push it onto the stack.
+                //System.out.println("Pushing left parenthesis ...");
+                s.push(token);
             }
-            else if (c == ')') {
-                // until '(' on stack, pop operators.
-                while (s.peek() != -2) {
-                    sb.append(OPERATORS.charAt(s.pop())).append(' ');
+            else if(token.equals(")")){ //Else if token is right parenthesis, then pop elements from stack until left parenthesis is on top.
+                //System.out.println("Discarding left parenthesis ...");
+                while (!s.peek().equals("(")) {
+                    sb.append(s.pop()).append(' ');
                 }
                 s.pop();
             }
-            else {
-                sb.append(token).append(' ');
-            }
-        }
-        while (!s.isEmpty()) {
-            sb.append(OPERATORS.charAt(s.pop())).append(' ');
+            i++;
         }
 
+        //If there are no tokens left, the operator stack is completely popped and appended to the output
+        while(!s.isEmpty()){
+            sb.append(s.pop());
+            //Only append a space if there is an element in the stack after one pop
+            if(!s.isEmpty()){
+                sb.append(' ');
+            }
+        }
+        //System.out.println("\n" + sb.toString());
         return sb.toString();
     }
+
+    /**
+     * @param str a string of text
+     * @return a positive integer if str is an operator, but -1 if it isn't an operator
+     */
+    private int getPrecedence(String str){
+        if(str.equals("+") || str.equals("-")) {
+            return 2;
+        } else if(str.equals("*") || str.equals("/")) {
+            return 3;
+        } else if(str.equals("^")) {
+            return 4;
+        } else {
+            return -1;
+        }
+    }
+
+    /**
+     * Checks if the precedence of str1 is equal to the precedence of str2, but they may not be the power-sign "^"
+     * @param str1 a string of text
+     * @param str2 a string of text
+     * @return true if the precedence of str1 is the same as str2 AND str1 is not the power-sign "^"
+     */
+    private boolean isEqualPrecedence(String str1, String str2) {
+        return getPrecedence(str1) == getPrecedence(str2) && !str1.equals("^");
+    }
+
+    /**
+     * Checks if the precedence of str2 is bigger than the precedence of str1
+     * @param str1 a string of text
+     * @param str2 another string of text
+     * @return precedence of str1 < precedence of str2
+     */
+    private boolean isGreaterPrecedence(String str1, String str2) {
+        return getPrecedence(str1) < getPrecedence(str2);
+    }
+
+    /**
+     * @param str a string of text
+     * @return return true if str is a function, e.g., sin, else return false
+     */
+    private boolean isFunction(String str) {
+        return (str.contains("sin") || str.contains("cos") || str.contains("tan") || str.contains("log") || str.contains("ln"));
+    }
+
+    /**
+     * @param str a string of text
+     * @return returns true if string is parsable to a double, else return false.
+     */
+    private boolean isDouble(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param str a string of text
+     * @return true if str is an operator, else return false
+     */
+    private boolean isOperator(String str){
+        return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/") || str.equals("^");
+    }
+
 
     private String parseSpaces(String s) {
         ArrayList<Character> cur = new ArrayList<>();
         ArrayList<String> spl = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
-        int flag = 0;
+        int flag = 4;
 
         /*
             flag :
@@ -100,7 +192,7 @@ public class Function implements Function2d {
 
         for (int i = 0; i < s.length(); i++) {
             int current_flag = 2;
-            if (('0' <= s.charAt(i) && s.charAt(i) <= '9') || (s.charAt(i) == '-') || (s.charAt(i) == '.'))
+            if (('0' <= s.charAt(i) && s.charAt(i) <= '9') || (flag == 4 && s.charAt(i) == '-') || (s.charAt(i) == '.'))
                 current_flag = 1;
             else if (s.charAt(i) == ' ')
                 current_flag = 0;
@@ -186,6 +278,11 @@ public class Function implements Function2d {
         return res;
     }
 
+    /**
+     * Calculate solution of equation at the location of Vector2d with it's x- and y-value
+     * @param p 2D location vector with x- and y-value
+     * @return solution of equation
+     */
     @Override
     public double evaluate(Vector2d p) {
         double xValue = p.x, yValue = p.y;
@@ -194,14 +291,15 @@ public class Function implements Function2d {
 
         String[] split = equation.split("\\s");
         Stack<Double> s = new Stack<>();
+
         double sol = 0;
         int i = 0;
 
+        //Go through the entire list (i.e., split[])
         while(i < split.length){
-            //If first character of split[i] is primitive operator AND split[i] is 1 character long,
-            // then it is a primitive operator. Thus, we can perform an action, e.g., multiplication.
-            //Since equation is in postfix notation, the first place an operator can be is at i=2.
-            if(OPERATORS.indexOf(split[i].charAt(0)) != -1 && split[i].length() == 1){
+            //If split[i] is an operator, then pop two numbers from the stack, do a calculation
+            // with the popped numbers and operator, and then push it back onto the stack.
+            if(isOperator(split[i])){
                 double e1 = s.pop();
                 double e2 = s.pop();
                 double e3;
@@ -219,15 +317,39 @@ public class Function implements Function2d {
                 }
                 s.push(e3);
                 i++;
+            }
+            else if(isFunction(split[i])){ //Else if split[i] is a function, then we only pop one number.
+                double e1 = s.pop();
+                double e2;
 
-                //If i == split.length, the calculations are done.
-                if(i == split.length) {
-                    sol = s.pop();
+                if(split[i].equals("sin")) {
+                    e2 = Math.sin(e1);
+                } else if(split[i].equals("cos")) {
+                    e2 = Math.cos(e1);
+                } else if(split[i].equals("tan")) {
+                    e2 = Math.tan(e1);
+                } else if(split[i].equals("log")) {
+                    e2 = Math.log10(e1);
+                } else { //else split[i].equals("ln")
+                    e2 = Math.log(e1);
                 }
+                s.push(e2);
+                i++;
             }
             else {
-                s.push(Double.parseDouble(split[i]));
+                if(split[i].equals("e")){
+                    s.push(Math.E);
+                } else if(split[i].equals("pi")) {
+                    s.push(Math.PI);
+                } else if(isDouble(split[i])) {
+                    s.push(Double.parseDouble(split[i]));
+                }
                 i++;
+            }
+
+            //If i == split.length, the calculations are done.
+            if(i == split.length) {
+                sol = s.pop();
             }
         }
         return sol;
@@ -236,7 +358,7 @@ public class Function implements Function2d {
     public final double DELTA_VALUE = 1e-9; // NEED TO PLAY WITH THIS VALUE
     public final double REVERSE_DELTA_VALUE = 1e9;
 
-    @Override 
+    @Override
     public Vector2d gradient(Vector2d p) {
         double val1 = evaluate(new Vector2d(p.x + DELTA_VALUE, p.y));
         double val2 = evaluate(new Vector2d(p.x, p.y + DELTA_VALUE));
@@ -245,7 +367,7 @@ public class Function implements Function2d {
         double p1 = (val1 - val3) * REVERSE_DELTA_VALUE;
         double p2 = (val2 - val3) * REVERSE_DELTA_VALUE;
         return new Vector2d(p1, p2);
-    }   
+    }
 
     @Override
     public String toString() {
@@ -253,7 +375,10 @@ public class Function implements Function2d {
     }
 
     public static void main(String[] args) {
-        Function example = new Function("3 + x * 2 / ( y - 5 ) ^ 2 ^ 3");
+        String function = "3 + x * 2 / (y - 5)^2 ^ 3";
+        Function example = new Function(function);
+
+        System.out.printf("function:%s%n", function);
         System.out.printf("infix:   %s%n", example.getInfix());
         System.out.printf("postfix: %s%n", example.getPostfix());
 
