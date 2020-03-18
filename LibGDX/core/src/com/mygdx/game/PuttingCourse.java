@@ -1,3 +1,5 @@
+import com.mygdx.game.Function2d;
+
 import java.util.*;
 import java.lang.*;
 import java.io.*;

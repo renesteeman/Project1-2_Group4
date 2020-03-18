@@ -1,3 +1,7 @@
+package com.mygdx.game;
+
+import com.mygdx.game.Vector2d;
+
 public class Ball {
 	public Vector2d location, velocity;
 

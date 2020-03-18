@@ -1,3 +1,5 @@
+package com.mygdx.game;
+
 public class Vector2d {
 	public double x = 0.0, y = 0.0;
 	public static final double EPS = 1e-9; // NEED TO PLAY WITH THIS ONE
