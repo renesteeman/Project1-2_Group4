@@ -9,7 +9,8 @@ import java.nio.file.*;
 
 public class PuttingCourse {
 	public Function2d height;
-	public Vector2d flag, start;
+	public static Vector2d start;
+	public Vector2d flag;
 	public double friction, maxVelocity, holeRadius;
 
 	public PuttingCourse(Function2d height, Vector2d flag, Vector2d start) {

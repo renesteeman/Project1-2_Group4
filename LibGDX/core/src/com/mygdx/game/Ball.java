@@ -4,7 +4,8 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.Vector2d;
 
 public class Ball implements Drawable{
-	public Vector2d location, velocity;
+	public static Vector2d location;
+	public Vector2d velocity;
 
 	public Ball(Vector2d location, Vector2d velocity) {
 		this.location = location;

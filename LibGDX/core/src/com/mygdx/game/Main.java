@@ -4,6 +4,8 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.loaders.ModelLoader;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g3d.*;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
@@ -23,6 +25,7 @@ import java.util.Random;
 
 //TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
+
 	//size in meter
 	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)
 	final float terrainStepSize = 1;
