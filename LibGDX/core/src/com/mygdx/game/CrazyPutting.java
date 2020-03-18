@@ -9,7 +9,6 @@ public class CrazyPutting extends PuttingSimulator {
 		MENU,
 		GAME_MOD1,
 		GAME_MOD2
-		// anything else?
 	};
 
 	protected GameState state = GameState.MENU;

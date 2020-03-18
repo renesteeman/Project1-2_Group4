@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import java.util.ArrayList;
 import java.util.Random;
 
+//TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 	//size in meter
 	//1 must be evenly divisible by this step size or it must be an integer (.25, .5, 1, 5)

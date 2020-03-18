@@ -5,6 +5,7 @@ public class EulerSolver implements PhysicsEngine {
 	private Function2d height;
 	private PuttingCourse course;
 
+	//TODO allow people to enter their prefered G value
 	public final double __G = 9.81;
 
 	public EulerSolver(Function2d height, PuttingCourse course) {

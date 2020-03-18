@@ -8,9 +8,10 @@ import java.io.*;
 import java.nio.file.*;
 
 public class PuttingCourse {
-	protected Function2d height;
-	protected Vector2d flag, start;
-	protected double friction, maxVelocity, holeRadius;
+	public Function2d height;
+	//TODO why 2D?
+	public Vector2d flag, start;
+	public double friction, maxVelocity, holeRadius;
 
 	public PuttingCourse(Function2d height, Vector2d flag, Vector2d start) {
 		this.height = height;
