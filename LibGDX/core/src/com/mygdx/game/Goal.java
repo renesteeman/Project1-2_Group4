@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-public class Goal {
+public class Goal implements Drawable{
 	//TODO why 2D?
 	protected Vector2d location;
 

@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import com.mygdx.game.Vector2d;
 
-public class Ball {
+public class Ball implements Drawable{
 	//TODO why 2D?
 	public Vector2d location, velocity;
 
