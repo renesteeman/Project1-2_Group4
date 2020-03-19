@@ -36,7 +36,7 @@ public class PuttingSimulator {
 		while (!ball.getVelocity().equals(nullVector)) {
 			engine.process(ball.getLocation(), ball.getVelocity(), DTIME);
 			ball.updateLocation(engine.getLocation());
-			ball.udpateVelocity(engine.getVelocity());
+			ball.setVelocity(engine.getVelocity());
 			requestGraphicsUpdate();
 			try {
 			    Thread.sleep(100);

@@ -35,6 +35,8 @@ import java.util.Random;
 
 //TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener, Screen {
+	//TODO improve structure
+	CrazyPutting crazyPutting = new CrazyPutting();
 
 	//Shared 2D stuff
 	SpriteBatch batch2D;
