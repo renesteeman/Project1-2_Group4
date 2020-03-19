@@ -186,6 +186,7 @@ public class Function implements Function2d {
             4 - opening bracket
             5 - closing bracket
             6 - primitive operations
+            7 - pi 
         */
 
         //System.out.println(s);
@@ -196,7 +197,7 @@ public class Function implements Function2d {
                 current_flag = 1;
             else if (s.charAt(i) == ' ')
                 current_flag = 0;
-            else if (s.charAt(i) == 'x' || s.charAt(i) == 'y' || s.charAt(i) == 'p' || s.charAt(i) == 'e')
+            else if (s.charAt(i) == 'x' || s.charAt(i) == 'y' || s.charAt(i) == 'e')
                 current_flag = 3;
             else if (s.charAt(i) == '(')
                 current_flag = 4;
@@ -204,6 +205,8 @@ public class Function implements Function2d {
                 current_flag = 5;
             else if (s.charAt(i) == '+' || s.charAt(i) == '-' || s.charAt(i) == '*' || s.charAt(i) == '/' || s.charAt(i) == '^')
                 current_flag = 6;
+            else if (s.charAt(i) == 'p')
+                current_flag = 7;
 
             if (current_flag == flag && s.charAt(i) == '-') {
                 // usually we consider minus a part of the number, the only exception is [number-] construction
@@ -231,6 +234,10 @@ public class Function implements Function2d {
                 cur.clear();
                 if (current_flag != 0)
                     cur.add(s.charAt(i));
+                if (current_flag == 7) {
+                    cur.add('i');
+                    i++;
+                }
                 flag = current_flag;
             }
         }
@@ -375,7 +382,7 @@ public class Function implements Function2d {
     }
 
     public static void main(String[] args) {
-        String function = "3 + x * 2 / (y - 5)^2 ^ 3";
+        String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
         Function example = new Function(function);
 
         System.out.printf("function:%s%n", function);
