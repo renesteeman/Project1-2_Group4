@@ -186,6 +186,7 @@ public class Function implements Function2d {
             4 - opening bracket
             5 - closing bracket
             6 - primitive operations
+            7 - pi and e
         */
 
         //System.out.println(s);
@@ -196,7 +197,7 @@ public class Function implements Function2d {
                 current_flag = 1;
             else if (s.charAt(i) == ' ')
                 current_flag = 0;
-            else if (s.charAt(i) == 'x' || s.charAt(i) == 'y')
+            else if (s.charAt(i) == 'x' || s.charAt(i) == 'y' || s.charAt(i) == 'p' || s.charAt(i) == 'e')
                 current_flag = 3;
             else if (s.charAt(i) == '(')
                 current_flag = 4;
