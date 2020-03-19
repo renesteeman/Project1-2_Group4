@@ -4,4 +4,6 @@ interface PhysicsEngine {
 	void process(Vector2d p, Vector2d v, double dtime);
 	void set_step_size(double h);
 	double getStepSize();
+	Vector2d getLocation();
+	Vector2d getVelocity();
 }
