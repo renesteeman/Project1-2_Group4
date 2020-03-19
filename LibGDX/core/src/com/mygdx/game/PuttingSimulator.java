@@ -1,4 +1,4 @@
-//package com.mygdx.game;
+package com.mygdx.game;
 
 public class PuttingSimulator {
 	public Function2d height;
@@ -10,7 +10,7 @@ public class PuttingSimulator {
 	protected double DTIME = 1e-2; // 100 FPS
 	protected boolean victory = false;
 
-	//Main graphicsEngine;
+	Main graphicsEngine;
 
 	public PuttingSimulator() {}
 
@@ -62,7 +62,7 @@ public class PuttingSimulator {
 	}
 
 	public void requestGraphicsUpdate() {
-	//	graphicsEngine.updateGraphics();
+		graphicsEngine.updateGraphics();
 	}
 
 	// TO BE OVERRIDDEN

@@ -1,7 +1,7 @@
-//package com.mygdx.game;
+package com.mygdx.game;
 
-//import com.badlogic.gdx.math.Vector3;
-//import com.mygdx.game.Vector2d;
+import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.Vector2d;
 
 public class Ball implements Drawable{
 	public static Vector2d location;
@@ -18,7 +18,7 @@ public class Ball implements Drawable{
 		this.location = location;
 
 		//Update 3D UI
-		//Main.renderBall(location);
+		Main.renderBall(location);
 	}
 
 	public void setVelocity(Vector2d velocity) {
@@ -35,6 +35,6 @@ public class Ball implements Drawable{
 
 	public void draw(){
 		//Add it to the 3D scene
-		//Main.renderBall(location);
+		Main.renderBall(location);
 	}
 }

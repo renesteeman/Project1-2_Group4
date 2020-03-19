@@ -1,4 +1,4 @@
-//package com.mygdx.game;
+package com.mygdx.game;
 
 public class Goal implements Drawable{
 	protected Vector2d location;
@@ -13,7 +13,7 @@ public class Goal implements Drawable{
 
 	public void draw() {
 		//Draw 3D
-		//Main.renderGoal(location);
+		Main.renderGoal(location);
 	}
 
 	@Override
@@ -21,6 +21,6 @@ public class Goal implements Drawable{
 		this.location = location;
 
 		//Update 3D
-		//Main.renderGoal(location);
+		Main.renderGoal(location);
 	}
 }

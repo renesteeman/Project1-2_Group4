@@ -1,6 +1,6 @@
-//package com.mygdx.game;
+package com.mygdx.game;
 
-//import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.Vector3;
 
 //Note that y and z are inverted for the 2D vectors because of the required API
 //A 2D vector is just a 3D vector, but the API requires it
