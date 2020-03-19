@@ -14,19 +14,28 @@ public class CrazyPutting extends PuttingSimulator {
 	protected GameState state = GameState.MENU;
 
 	protected String shotsFilename = "shots.txt";
-	protected Scanner shotsInp;
+	protected Scanner shotScn;
+
+	protected Vector2d shotInput;
 
 	public void game() throws FileNotFoundException, InputMismatchException {
 		if (state == GameState.GAME_MOD2) {
-			File f = new File(shotsFilename);
+			File f = new File(shotScn);
 			shotsInp = new Scanner(f);
 		}
 
-		Vector2d shotInput = requestShotInput();
-		while (shotInput != null && !victory) {
-			take_shot(shotInput);
-			shotInput = requestShotInput();
+		GameState initialGameState = state;
+		shotInput = requestShotInput();
+	}
+
+	// TO BE CALLED
+	void processShotRequest() {
+		take_shot(shotInput);
+		if (victory) {
+			System.out.println("You won gg wp");
+			return;
 		}
+		requestShotInput();
 	}
 
 	// TO BE OVERRIDDEN
