@@ -1,7 +1,6 @@
 package Screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,33 +11,91 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 
+import java.util.*;
 
-public class CustomizedMenu implements Screen, Input.TextInputListener {
+public class CustomizedMenu implements Screen {
 
-    GameUI CustomizedGame;
-    Texture CustomizedBackButton;
-    Texture CustomizedLine;
-    Texture CustomizedOkButton;
-    BitmapFont CustomizedFont;
-    BitmapFont CustomizedVelocity;
-    BitmapFont CustomizedAcceleration;
-    BitmapFont CustomizedCoefficient;
-    BitmapFont CustomizedDistance;
-    BitmapFont CustomizedMass;
-    BitmapFont CustomizedHeight;
+    GameUI customizedMenuGame;
+    Texture customizedMenuBackButton;
+    Texture customizedMenuLine;
+    Texture customizedMenuOkButton;
+    BitmapFont customizedMenuFont;
+    BitmapFont customizedMenuVelocity;
+    BitmapFont customizedMenuAcceleration;
+    BitmapFont customizedMenuCoefficient;
+    BitmapFont customizedMenuDistance;
+    BitmapFont customizedMenuMass;
+    BitmapFont customizedMenuHeight;
+    BitmapFont customizedMenuHeight2;
+    BitmapFont customizedMenuHeight3;
+    Stage customizedMenuStage;
 
-    String CustomizedText;
-    TextField CustomizedField;
+    TextField customizedMenuVel;
+    TextField customizedMenuAcc;
+    TextField customizedMenuMu;
+    TextField customizedMenuDis;
+    TextField customizedMenuMas;
+    TextField customizedMenuHei;
 
-    private static final int CustomizedBACK_BUTTON_SIZE = 80;
-    private static final int CustomizedOK_BUTTON_WIDTH = 90;
-    private static final int CustomizedOK_BUTTON_HEIGHT = 90;
+    //Variables fot the answers
+    BitmapFont customizedMenuVelocity1;
 
+    private static final int customizedMenu_BACK_BUTTON_SIZE = 80;
+    private static final int customizedMenu_OK_BUTTON_WIDTH = 90;
+    private static final int customizedMenu_OK_BUTTON_HEIGHT = 90;
+
+    //Constructor
     public CustomizedMenu(GameUI game){
-        this.CustomizedGame = game;
-        backButton = new Texture("back.png");
-        line = new Texture("line.png");
-        okButton = new Texture("ok.png");
+        this.customizedMenuGame = game;
+        customizedMenuBackButton = new Texture("back.png");
+        customizedMenuLine = new Texture("line.png");
+        customizedMenuOkButton = new Texture("ok.png");
+
+
+        customizedMenuStage = new Stage();
+        Gdx.input.setInputProcessor(customizedMenuStage);
+        Skin customizedMenuSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+
+        //Different TextFields
+        //Velocity
+        customizedMenuVel = new TextField("", customizedMenuSkin);
+        customizedMenuVel.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) - 40, GameUI.gameUI_WINDOW_HEIGHT-317);
+        customizedMenuVel.setSize(200, 20);
+        customizedMenuVel.setColor(Color.FOREST);
+        //Acceleration
+        customizedMenuAcc = new TextField("", customizedMenuSkin);
+        customizedMenuAcc.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) - 40, GameUI.gameUI_WINDOW_HEIGHT-367);
+        customizedMenuAcc.setSize(200, 20);
+        customizedMenuAcc.setColor(Color.FOREST);
+        //Mu
+        customizedMenuMu = new TextField("", customizedMenuSkin);
+        customizedMenuMu.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) + 40, GameUI.gameUI_WINDOW_HEIGHT-417);
+        customizedMenuMu.setSize(200, 20);
+        customizedMenuMu.setColor(Color.FOREST);
+        //Distance
+        customizedMenuDis = new TextField("", customizedMenuSkin);
+        customizedMenuDis.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) + 40, GameUI.gameUI_WINDOW_HEIGHT-467);
+        customizedMenuDis.setSize(200, 20);
+        customizedMenuDis.setColor(Color.FOREST);
+        //Mass
+        customizedMenuMas = new TextField("", customizedMenuSkin);
+        customizedMenuMas.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) - 40, GameUI.gameUI_WINDOW_HEIGHT-517);
+        customizedMenuMas.setSize(200, 20);
+        customizedMenuMas.setColor(Color.FOREST);
+        //Height Equation
+        customizedMenuHei = new TextField("", customizedMenuSkin);
+        customizedMenuHei.setPosition((GameUI.gameUI_WINDOW_WIDTH/3) + 40, GameUI.gameUI_WINDOW_HEIGHT-567);
+        customizedMenuHei.setSize(200, 20);
+        customizedMenuHei.setColor(Color.FOREST);
+
+        customizedMenuStage.addActor(customizedMenuVel);
+        customizedMenuStage.addActor(customizedMenuAcc);
+        customizedMenuStage.addActor(customizedMenuMu);
+        customizedMenuStage.addActor(customizedMenuDis);
+        customizedMenuStage.addActor(customizedMenuMas);
+        customizedMenuStage.addActor(customizedMenuHei);
+
+
     }
 
     @Override
@@ -51,135 +108,142 @@ public class CustomizedMenu implements Screen, Input.TextInputListener {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        CustomizedGame.batch.begin();
+        customizedMenuGame.gameUIBatch.begin();
 
-        FreeTypeFontGenerator CustomizedGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-        FreeTypeFontGenerator CustomizedWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+        FreeTypeFontGenerator customizedMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+        FreeTypeFontGenerator customizedMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
 
         //Different texts
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter velo = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter acc = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter mu = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter dist = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter weight = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter hauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 60;
-        velo.size = 20;
-        acc.size = 20;
-        mu.size = 20;
-        dist.size = 20;
-        weight.size = 20;
-        hauteur.size = 20;
+        customizedMenuParameter.size = 60;
+        customizedMenuVelo.size = 20;
+        customizedMenuAcc.size = 20;
+        customizedMenuMu.size = 20;
+        customizedMenuDist.size = 20;
+        customizedMenuWeight.size = 20;
+        customizedMenuHauteur.size = 20;
+        customizedMenuHauteur2.size = 20;
+        customizedMenuHauteur3.size = 20;
 
-        parameter.characters = "Customized Menu";
-        velo.characters = "Initial Velocity: ";
-        acc.characters = "Acceleration: ";
-        mu.characters = "Coefficient of friction: ";
-        dist.characters = "Distance from the Hole: ";
-        weight.characters = "Mass of the ball: ";
-        hauteur.characters = "Equation of the height: ";
+        customizedMenuParameter.characters = "customized Menu";
+        customizedMenuVelo.characters = "Initial Velocity: ";
+        customizedMenuAcc.characters = "Acceleration: ";
+        customizedMenuMu.characters = "Coefficient of friction: ";
+        customizedMenuDist.characters = "Distance from the Hole: ";
+        customizedMenuWeight.characters = "Mass of the ball: ";
+        customizedMenuHauteur.characters = "Equation of the height: ";
+        customizedMenuHauteur2.characters = "Write the equation in that form please: ";
+        customizedMenuHauteur3.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
 
-        font = generator.generateFont(parameter);
-        velocity = writingStyle.generateFont(velo);
-        acceleration = writingStyle.generateFont(acc);
-        coefficient = writingStyle.generateFont(mu);
-        CustomizedDistance = writingStyle.generateFont(dist);
-        CustomizedMass = writingStyle.generateFont(weight);
-        height = writingStyle.generateFont(hauteur);
+        customizedMenuFont = customizedMenuGenerator.generateFont(customizedMenuParameter);
+        customizedMenuVelocity = customizedMenuWritingStyle.generateFont(customizedMenuVelo);
+        customizedMenuAcceleration = customizedMenuWritingStyle.generateFont(customizedMenuAcc);
+        customizedMenuCoefficient = customizedMenuWritingStyle.generateFont(customizedMenuMu);
+        customizedMenuDistance = customizedMenuWritingStyle.generateFont(customizedMenuDist);
+        customizedMenuMass = customizedMenuWritingStyle.generateFont(customizedMenuWeight);
+        customizedMenuHeight = customizedMenuWritingStyle.generateFont(customizedMenuHauteur);
+        customizedMenuHeight2 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur2);
+        customizedMenuHeight3 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur3);
 
-        font.setColor(Color.FOREST);
-        velocity.setColor(Color.FOREST);
-        acceleration.setColor(Color.FOREST);
-        coefficient.setColor(Color.FOREST);
-        CustomizedDistance.setColor(Color.FOREST);
-        CustomizedMass.setColor(Color.FOREST);
-        height.setColor(Color.FOREST);
+        customizedMenuFont.setColor(Color.FOREST);
+        customizedMenuVelocity.setColor(Color.FOREST);
+        customizedMenuAcceleration.setColor(Color.FOREST);
+        customizedMenuCoefficient.setColor(Color.FOREST);
+        customizedMenuDistance.setColor(Color.FOREST);
+        customizedMenuMass.setColor(Color.FOREST);
+        customizedMenuHeight.setColor(Color.FOREST);
+        customizedMenuHeight2.setColor(Color.FOREST);
+        customizedMenuHeight3.setColor(Color.FOREST);
 
-        generator.dispose();
 
-        font.draw(CustomizedGame.batch, "Customized Menu", GameUI.WINDOW_WIDTH/4, GameUI.WINDOW_HEIGHT-100);
-        velocity.draw(CustomizedGame.batch, "Initial Velocity: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-300);
-        acceleration.draw(CustomizedGame.batch, "Acceleration: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-350);
-        coefficient.draw(CustomizedGame.batch, "Coefficient of friction: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-400);
-        CustomizedDistance.draw(CustomizedGame.batch, "Distance from the Hole: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-450);
-        CustomizedMass.draw(CustomizedGame.batch, "Mass of the ball: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-500);
-        height.draw(CustomizedGame.batch, "Equation of the height: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-550);
+        customizedMenuGenerator.dispose();
+
+        customizedMenuFont.draw(customizedMenuGame.gameUIBatch, "customized Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+        customizedMenuVelocity.draw(customizedMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
+        customizedMenuAcceleration.draw(customizedMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
+        customizedMenuCoefficient.draw(customizedMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
+        customizedMenuDistance.draw(customizedMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
+        customizedMenuMass.draw(customizedMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
+        customizedMenuHeight.draw(customizedMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
+        customizedMenuHeight2.draw(customizedMenuGame.gameUIBatch, "Write the equation in that form please:", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-600);
+        customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2, GameUI.gameUI_WINDOW_HEIGHT-600);
 
 
         //Drawing the line under the Back Button
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/10) + BACK_BUTTON_SIZE && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < BACK_BUTTON_SIZE + GameUI.WINDOW_HEIGHT-140 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-140 ){
-            CustomizedGame.batch.draw(line, (GameUI.WINDOW_WIDTH)/10, (GameUI.WINDOW_HEIGHT-220), BACK_BUTTON_SIZE, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + customizedMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), customizedMenu_BACK_BUTTON_SIZE, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                CustomizedGame.setScreen(new StartMenu(CustomizedGame));
+                customizedMenuGame.setScreen(new StartMenu(customizedMenuGame));
             }
         }
 
         //Drawing the line under the Ok button
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH-150) + OK_BUTTON_WIDTH && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < OK_BUTTON_HEIGHT + GameUI.WINDOW_HEIGHT/10 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT/10 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH-150, (GameUI.WINDOW_HEIGHT/10)-60, OK_BUTTON_WIDTH, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + customizedMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, customizedMenu_OK_BUTTON_WIDTH, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                CustomizedGame.setScreen(new GamePlay(CustomizedGame));
+                customizedMenuGame.setScreen(new ChoiceModeScreen(customizedMenuGame));
+//                System.out.println("Velocity: " + getcustomizedMenuVel());
+//                System.out.println("Acceleration: " + getcustomizedMenuAcc());
+//                System.out.println("Coefficient: " + getcustomizedMenuMu());
+//                System.out.println("Distance: " + getcustomizedMenuDis());
+//                System.out.println("Mass: " + getcustomizedMenuMas());
+//                System.out.println("Height Equation: " + getcustomizedMenuHei());
             }
         }
         //Drawing the different buttons
-        CustomizedGame.batch.draw(backButton, GameUI.WINDOW_WIDTH/10, GameUI.WINDOW_HEIGHT-150, BACK_BUTTON_SIZE, BACK_BUTTON_SIZE);
-        CustomizedGame.batch.draw(okButton, GameUI.WINDOW_WIDTH-150, GameUI.WINDOW_HEIGHT/10, OK_BUTTON_WIDTH, OK_BUTTON_HEIGHT);
-
+        customizedMenuGame.gameUIBatch.draw(customizedMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, customizedMenu_BACK_BUTTON_SIZE, customizedMenu_BACK_BUTTON_SIZE);
+        customizedMenuGame.gameUIBatch.draw(customizedMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, customizedMenu_OK_BUTTON_WIDTH, customizedMenu_OK_BUTTON_HEIGHT);
 
         //Drawing the line under the different texts
+        //And get the input for each value when they're clicked
+
+        FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        customizedMenuVelo2.size = 100;
+        customizedMenuVelo2.characters = " ";
+        customizedMenuVelocity1 = customizedMenuWritingStyle.generateFont(customizedMenuVelo2);
+        customizedMenuVelocity1.setColor(Color.FOREST);
+        customizedMenuWritingStyle.dispose();
+        customizedMenuVelocity1.draw(customizedMenuGame.gameUIBatch, " ", GameUI.gameUI_WINDOW_WIDTH/6, GameUI.gameUI_WINDOW_HEIGHT-380);
+
         //Velocity
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/8) + 200 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.WINDOW_HEIGHT-300 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-330 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH/8, (GameUI.WINDOW_HEIGHT)-380, 200, 150);
-            if(Gdx.input.justTouched()){
-                //Gdx.input.getTextInput(this, "Velocity", "", "Enter the initial velocity");
-            }
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-300 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-330 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-380, 200, 150);
         }
         //Acceleration
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/8) + 200 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.WINDOW_HEIGHT-350 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-380 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH/8, (GameUI.WINDOW_HEIGHT)-430, 150, 150);
-            if(Gdx.input.justTouched()){
-               // Gdx.input.getTextInput(this, "Acceleration", "", "Enter the acceleration");
-            }
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-380 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-430, 150, 150);
         }
         //Mu
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/8) + 200 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.WINDOW_HEIGHT-400 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-430 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH/8, (GameUI.WINDOW_HEIGHT)-480, 290, 150);
-            if(Gdx.input.justTouched()){
-                //Gdx.input.getTextInput(this, "Coefficient of Friction", "", "Enter the coefficient of friction");
-            }
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-400 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-430 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-480, 290, 150);
         }
         //Distance
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/8) + 200 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.WINDOW_HEIGHT-450 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-480 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH/8, (GameUI.WINDOW_HEIGHT)-530, 290, 150);
-            if(Gdx.input.justTouched()){
-               // Gdx.input.getTextInput(this, "Distance", "", "Distance from hole for a successful putt");
-            }
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-450 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-480 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-530, 290, 150);
         }
         //Mass
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/8) + 200 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.WINDOW_HEIGHT-500 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-530 ){
-            CustomizedGame.batch.draw(line, GameUI.WINDOW_WIDTH/8, (GameUI.WINDOW_HEIGHT)-580, 200, 150);
-            if(Gdx.input.justTouched()){
-                //Gdx.input.getTextInput(this, "Mass of the ball", "", "Enter the mass of the ball");
-            }
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-500 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-530 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-580, 200, 150);
         }
+        //Height equation
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-550 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-580 ){
+            customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-630, 290, 150);
+        }
+        customizedMenuGame.gameUIBatch.end();
 
-        //Answers of the fields
-        /*Stage stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
+        customizedMenuStage.draw();
 
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
-        field = new TextField("" , skin);
-        field.setPosition(500, 500);
-        field.setSize(20, 20);
-
-        stage.addActor(field);`
-         */
-
-        CustomizedGame.batch.end();
     }
 
     @Override
@@ -206,13 +270,27 @@ public class CustomizedMenu implements Screen, Input.TextInputListener {
 
     }
 
-    @Override
-    public void input(String text) {
-        this.CusteomizedText = text;
+    public float getcustomizedMenuAcc() {
+        return Float.parseFloat(customizedMenuAcc.getText());
     }
 
-    @Override
-    public void canceled() {
-        CusteomizedText = "Default Value";
+    public float getcustomizedMenuDis() {
+        return Float.parseFloat(customizedMenuDis.getText());
+    }
+
+    public String getcustomizedMenuHei() {
+        return customizedMenuHei.getText();
+    }
+
+    public float getcustomizedMenuMas() {
+        return Float.parseFloat(customizedMenuMas.getText());
+    }
+
+    public float getcustomizedMenuMu() {
+        return Float.parseFloat(customizedMenuMu.getText());
+    }
+
+    public float getcustomizedMenuVel() {
+        return Float.parseFloat(customizedMenuVel.getText());
     }
 }

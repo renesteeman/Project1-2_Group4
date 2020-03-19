@@ -19,24 +19,25 @@ import com.mygdx.game.Vector2d;
 
 
 public class HitWaterUI extends Game implements InputProcessor, ApplicationListener{
-    int HitWaterUIBackgroundWidth;
 
-    SpriteBatch HitWaterUIBatch;
-    private Stage HitWaterStage;
-    private Skin HitWaterSkin;
+    int hitWaterUIBackgroundWidth;
 
-    double HitWaterDistanceFromStart;
+    SpriteBatch hitWaterUIBatch;
+    private Stage hitWaterUIStage;
+    private Skin hitWaterUISkin;
 
-    double HitWaterMaxDistanceFromStart;
+    double hitWaterUIDistanceFromStart;
 
-    String HitWaterDistanceFromStartString;
+    double hitWaterUIMaxDistanceFromStart;
 
-    BitmapFont HitWaterFont;
+    String hitWaterUIDistanceFromStartString;
 
-    Sprite HitWaterWhiteBackground;
+    BitmapFont hitWaterUIFont;
 
-    TextButton HitWaterPositive;
-    TextButton HitWaterNegative;
+    Sprite hitWaterUIWhiteBackground;
+
+    TextButton hitWaterUIPositive;
+    TextButton hitWaterUINegative;
 
     @Override
     public void create () {
@@ -46,37 +47,37 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
         PuttingCourse.start = new Vector2d(10, 1, 1);
         Vector2d ballLocation = Ball.location;
         Vector2d startPoint = PuttingCourse.start;
-        maxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
+        hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
 
-        batch = new SpriteBatch();
-        skin = new Skin(Gdx.files.internal("uiskin.json"));
-        stage = new Stage(new ScreenViewport());
+        hitWaterUIBatch = new SpriteBatch();
+        hitWaterUISkin = new Skin(Gdx.files.internal("uiskin.json"));
+        hitWaterUIStage = new Stage(new ScreenViewport());
 
-        backgroundWidth = Gdx.graphics.getWidth()/4;
-        whiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
-        whiteBackground.setSize(backgroundWidth, Gdx.graphics.getHeight());
-        whiteBackground.setPosition(Gdx.graphics.getWidth()-backgroundWidth,0);
+        hitWaterUIBackgroundWidth = Gdx.graphics.getWidth()/4;
+        hitWaterUIWhiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
+        hitWaterUIWhiteBackground.setSize(hitWaterUIBackgroundWidth, Gdx.graphics.getHeight());
+        hitWaterUIWhiteBackground.setPosition(Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,0);
 
-        font = new BitmapFont(Gdx.files.internal("Arial.fnt"));
-        font.getData().setScale(0.6f,0.6f);
-        distanceFromStartString = "How far from the start do you want to set the ball?";
+        hitWaterUIFont = new BitmapFont(Gdx.files.internal("Arial.fnt"));
+        hitWaterUIFont.getData().setScale(0.6f,0.6f);
+        hitWaterUIDistanceFromStartString = "How far from the start do you want to set the ball?";
 
-        positive = new TextButton(">", skin, "default");
-        positive.setWidth(25);
-        positive.setHeight(25);
-        positive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
+        hitWaterUIPositive = new TextButton(">", hitWaterUISkin, "default");
+        hitWaterUIPositive.setWidth(25);
+        hitWaterUIPositive.setHeight(25);
+        hitWaterUIPositive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
 
-        negative = new TextButton("<", skin, "default");
-        negative.setWidth(25);
-        negative.setHeight(25);
-        negative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
+        hitWaterUINegative = new TextButton("<", hitWaterUISkin, "default");
+        hitWaterUINegative.setWidth(25);
+        hitWaterUINegative.setHeight(25);
+        hitWaterUINegative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
 
-        final TextButton setBallButton = new TextButton("Set", skin, "default");
-        setBallButton.setWidth(100);
-        setBallButton.setHeight(30);
-        setBallButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
+        final TextButton hitWaterUISetBallButton = new TextButton("Set", hitWaterUISkin, "default");
+        hitWaterUISetBallButton.setWidth(100);
+        hitWaterUISetBallButton.setHeight(30);
+        hitWaterUISetBallButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
 
-        positive.addListener(new ClickListener(){
+        hitWaterUIPositive.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -92,7 +93,7 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
                 return super.isPressed();
             }
         });
-        negative.addListener(new ClickListener(){
+        hitWaterUINegative.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -109,46 +110,46 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
             }
         });
 
-        stage.addActor(positive);
-        stage.addActor(negative);
-        stage.addActor(setBallButton);
+        hitWaterUIStage.addActor(hitWaterUIPositive);
+        hitWaterUIStage.addActor(hitWaterUINegative);
+        hitWaterUIStage.addActor(hitWaterUISetBallButton);
 
-        InputMultiplexer inputMultiplexer = new InputMultiplexer(stage, this);
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        InputMultiplexer hitWaterUIInputMultiplexer = new InputMultiplexer(hitWaterUIStage, this);
+        Gdx.input.setInputProcessor(hitWaterUIInputMultiplexer);
     }
 
     @Override
     public void render () {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        stage.act(Gdx.graphics.getDeltaTime());
+        hitWaterUIStage.act(Gdx.graphics.getDeltaTime());
 
-        if(positive.isPressed()){
-            distanceFromStart += Gdx.graphics.getDeltaTime() *20;
-            if(distanceFromStart >= maxDistanceFromStart){
-                distanceFromStart = maxDistanceFromStart;
+        if(hitWaterUIPositive.isPressed()){
+            hitWaterUIDistanceFromStart += Gdx.graphics.getDeltaTime() *20;
+            if(hitWaterUIDistanceFromStart >= hitWaterUIMaxDistanceFromStart){
+                hitWaterUIDistanceFromStart = hitWaterUIMaxDistanceFromStart;
             }
         }
 
-        if(negative.isPressed()){
-            distanceFromStart -= Gdx.graphics.getDeltaTime() *20;
-            if(distanceFromStart < 0){
-                distanceFromStart = 0;
+        if(hitWaterUINegative.isPressed()){
+            hitWaterUIDistanceFromStart -= Gdx.graphics.getDeltaTime() *20;
+            if(hitWaterUIDistanceFromStart < 0){
+                hitWaterUIDistanceFromStart = 0;
             }
         }
 
-        int distanceFromStartRounded = (int) distanceFromStart;
+        int distanceFromStartRounded = (int) hitWaterUIDistanceFromStart;
 
-        batch.begin();
-        font.setColor(Color.BLACK);
-        whiteBackground.draw(batch);
-        font.draw(batch, distanceFromStartString, Gdx.graphics.getWidth()-backgroundWidth,
-                Gdx.graphics.getHeight() * 9/10, backgroundWidth, 1, true);
-        font.draw(batch, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-backgroundWidth,
-                Gdx.graphics.getHeight() * 7/10, backgroundWidth, 1, true);
-        batch.end();
+        hitWaterUIBatch.begin();
+        hitWaterUIFont.setColor(Color.BLACK);
+        hitWaterUIWhiteBackground.draw(hitWaterUIBatch);
+        hitWaterUIFont.draw(hitWaterUIBatch, hitWaterUIDistanceFromStartString, Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+                Gdx.graphics.getHeight() * 9/10, hitWaterUIBackgroundWidth, 1, true);
+        hitWaterUIFont.draw(hitWaterUIBatch, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+                Gdx.graphics.getHeight() * 7/10, hitWaterUIBackgroundWidth, 1, true);
+        hitWaterUIBatch.end();
 
-        stage.draw();
+        hitWaterUIStage.draw();
     }
 
     @Override

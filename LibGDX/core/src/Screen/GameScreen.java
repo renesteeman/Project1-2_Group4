@@ -1,27 +1,24 @@
 package Screen;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 
 
 public class GameScreen implements Screen {
 
-    Texture GameScreenImg;
-    float GameScreenX;
-    float GameScreenY;
+    Texture gameScreenImg;
+    float gameScreenX;
+    float gameScreenY;
 
-    GameUI game;
+    GameUI gameScreenGame;
 
     public GameScreen ( GameUI game){
-        this.game = game;
+        this.gameScreenGame = game;
     }
 
     @Override
     public void show() {
-        img = new Texture("badlogic.jpg");
+        gameScreenImg = new Texture("badlogic.jpg");
     }
 
     @Override

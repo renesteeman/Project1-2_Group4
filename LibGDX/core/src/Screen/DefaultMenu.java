@@ -10,33 +10,35 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class DefaultMenu implements Screen {
 
-    GameUI DefaultGame;
-    Texture DefaultBackButton;
-    Texture DefaultLine;
-    Texture DefaultOkButton;
-    BitmapFont DefaultFont;
-    BitmapFont DefaultVelocity;
-    BitmapFont DefaultAcceleration;
-    BitmapFont DefaultCoefficient;
-    BitmapFont DefaultDistance;
-    BitmapFont DefaultMass;
-    BitmapFont DefaultHeight;
-    BitmapFont DefaultVelocity1;
-    BitmapFont DefaultAcceleration1;
-    BitmapFont DefaultCoefficient1;
-    BitmapFont DefaultDistance1;
-    BitmapFont DefaultMass1;
-    BitmapFont DefaultHeight1;
+    GameUI defaultMenuGame;
+    Texture defaultMenuBackButton;
+    Texture defaultMenuLine;
+    Texture defaultMenuOkButton;
+    BitmapFont defaultMenuFont;
+    BitmapFont defaultMenuVelocity;
+    BitmapFont defaultMenuAcceleration;
+    BitmapFont defaultMenuCoefficient;
+    BitmapFont defaultMenuDistance;
+    BitmapFont defaultMenuMass;
+    BitmapFont defaultMenuHeight;
 
-    private static final int DefaultMenuBACK_BUTTON_SIZE = 80;
-    private static final int DefaultMenuOK_BUTTON_WIDTH = 90;
-    private static final int DefaultMenuOK_BUTTON_HEIGHT = 90;
+    //Variables that are used in the game
+    BitmapFont defaultMenuVelocity1;
+    BitmapFont defaultMenuAcceleration1;
+    BitmapFont defaultMenuCoefficient1;
+    BitmapFont defaultMenuDistance1;
+    BitmapFont defaultMenuMass1;
+    BitmapFont defaultMenuHeight1;
+
+    private static final int defaultMenu_BACK_BUTTON_SIZE = 80;
+    private static final int defaultMenu_OK_BUTTON_WIDTH = 90;
+    private static final int defaultMenu_OK_BUTTON_HEIGHT = 90;
 
     public DefaultMenu(GameUI game){
-        this.game = game;
-        backButton = new Texture("back.png");
-        line = new Texture("line.png");
-        DefaultOkButton =new Texture(("ok.png"));
+        this.defaultMenuGame = game;
+        defaultMenuBackButton = new Texture("back.png");
+        defaultMenuLine = new Texture("line.png");
+        defaultMenuOkButton =new Texture(("ok.png"));
     }
 
     @Override
@@ -49,127 +51,127 @@ public class DefaultMenu implements Screen {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
+        defaultMenuGame.gameUIBatch.begin();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-        FreeTypeFontGenerator writingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+        FreeTypeFontGenerator defaultMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+        FreeTypeFontGenerator defaultMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
 
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter velo = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter acc = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter mu = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter dist = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter weight = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter hauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        parameter.size = 60;
-        velo.size = 20;
-        acc.size = 20;
-        mu.size = 20;
-        dist.size = 20;
-        weight.size = 20;
-        hauteur.size = 20;
+        defaultMenuParameter.size = 60;
+        defaultMenuVelo.size = 20;
+        defaultMenuAcc.size = 20;
+        defaultMenuMu.size = 20;
+        defaultMenuDist.size = 20;
+        defaultMenuWeight.size = 20;
+        defaultMenuHauteur.size = 20;
 
-        parameter.characters = "Default Menu";
-        velo.characters = "Initial Velocity: ";
-        acc.characters = "Acceleration: ";
-        mu.characters = "Coefficient of friction: ";
-        dist.characters = "Distance from the Hole: ";
-        weight.characters = "Mass of the ball: ";
-        hauteur.characters = "Equation of the height: ";
+        defaultMenuParameter.characters = "Default Menu";
+        defaultMenuVelo.characters = "Initial Velocity: ";
+        defaultMenuAcc.characters = "Acceleration: ";
+        defaultMenuMu.characters = "Coefficient of friction: ";
+        defaultMenuDist.characters = "Distance from the Hole: ";
+        defaultMenuWeight.characters = "Mass of the ball: ";
+        defaultMenuHauteur.characters = "Equation of the height: ";
 
-        DefaultFont = generator.generateFont(parameter);
-        DefaultVelocity = writingStyle.generateFont(velo);
-        DefaultAcceleration = writingStyle.generateFont(acc);
-        DefaultCoefficient = writingStyle.generateFont(mu);
-        DefaultDistance = writingStyle.generateFont(dist);
-        DefaultMass = writingStyle.generateFont(weight);
-        DefaultHeight = writingStyle.generateFont(hauteur);
+        defaultMenuFont = defaultMenuGenerator.generateFont(defaultMenuParameter);
+        defaultMenuVelocity = defaultMenuWritingStyle.generateFont(defaultMenuVelo);
+        defaultMenuAcceleration = defaultMenuWritingStyle.generateFont(defaultMenuAcc);
+        defaultMenuCoefficient = defaultMenuWritingStyle.generateFont(defaultMenuMu);
+        defaultMenuDistance = defaultMenuWritingStyle.generateFont(defaultMenuDist);
+        defaultMenuMass = defaultMenuWritingStyle.generateFont(defaultMenuWeight);
+        defaultMenuHeight = defaultMenuWritingStyle.generateFont(defaultMenuHauteur);
 
-        DefaultFont.setColor(Color.FOREST);
-        DefaultVelocity.setColor(Color.FOREST);
-        DefaultAcceleration.setColor(Color.FOREST);
-        DefaultCoefficient.setColor(Color.FOREST);
-        DefaultDistance.setColor(Color.FOREST);
-        DefaultMass.setColor(Color.FOREST);
-        DefaultHeight.setColor(Color.FOREST);
+        defaultMenuFont.setColor(Color.FOREST);
+        defaultMenuVelocity.setColor(Color.FOREST);
+        defaultMenuAcceleration.setColor(Color.FOREST);
+        defaultMenuCoefficient.setColor(Color.FOREST);
+        defaultMenuDistance.setColor(Color.FOREST);
+        defaultMenuMass.setColor(Color.FOREST);
+        defaultMenuHeight.setColor(Color.FOREST);
 
-        generator.dispose();
+        defaultMenuGenerator.dispose();
 
-        DefaultFont.draw(game.batch, "Default Menu", GameUI.WINDOW_WIDTH/4, GameUI.WINDOW_HEIGHT-100);
-        DefaultVelocity.draw(game.batch, "Initial Velocity: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-300);
-        DefaultAcceleration.draw(game.batch, "Acceleration: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-350);
-        DefaultCoefficient.draw(game.batch, "Coefficient of friction: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-400);
-        DefaultDistance.draw(game.batch, "Distance from the Hole: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-450);
-        DefaultMass.draw(game.batch, "Mass of the ball: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-500);
-        DefaultHeight.draw(game.batch, "Equation of the height: ", GameUI.WINDOW_WIDTH/8, GameUI.WINDOW_HEIGHT-550);
+        defaultMenuFont.draw(defaultMenuGame.gameUIBatch, "Default Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+        defaultMenuVelocity.draw(defaultMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
+        defaultMenuAcceleration.draw(defaultMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
+        defaultMenuCoefficient.draw(defaultMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
+        defaultMenuDistance.draw(defaultMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
+        defaultMenuMass.draw(defaultMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
+        defaultMenuHeight.draw(defaultMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
 
 
         //Default Input
-        FreeTypeFontGenerator.FreeTypeFontParameter velo1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter acc1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter mu1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter dist1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter weight1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        FreeTypeFontGenerator.FreeTypeFontParameter hauteur1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        velo1.size = 20;
-        acc1.size = 20;
-        mu1.size = 20;
-        dist1.size = 20;
-        weight1.size = 20;
-        hauteur1.size = 20;
+        defaultMenuVelo1.size = 20;
+        defaultMenuAcc1.size = 20;
+        defaultMenuMu1.size = 20;
+        defaultMenuDist1.size = 20;
+        defaultMenuWeight1.size = 20;
+        defaultMenuHauteur1.size = 20;
 
-        velo1.characters = "0 m/s";
-        acc1.characters = "9.81 m/s^2";
-        mu1.characters = "0.131";
-        dist1.characters = "0.02 m";
-        weight1.characters = "45.93 g";
-        hauteur1.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
+        defaultMenuVelo1.characters = "0 m/s";
+        defaultMenuAcc1.characters = "9.81 m/s^2";
+        defaultMenuMu1.characters = "0.131";
+        defaultMenuDist1.characters = "0.02 m";
+        defaultMenuWeight1.characters = "45.93 g";
+        defaultMenuHauteur1.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
 
-        DefaultVelocity1 = writingStyle.generateFont(velo1);
-        DefaultAcceleration1 = writingStyle.generateFont(acc1);
-        DefaultCoefficient1 = writingStyle.generateFont(mu1);
-        DefaultDistance1 = writingStyle.generateFont(dist1);
-        DefaultMass1 = writingStyle.generateFont(weight1);
-        DefaultHeight1 = writingStyle.generateFont(hauteur1);
+        defaultMenuVelocity1 = defaultMenuWritingStyle.generateFont(defaultMenuVelo1);
+        defaultMenuAcceleration1 = defaultMenuWritingStyle.generateFont(defaultMenuAcc1);
+        defaultMenuCoefficient1 = defaultMenuWritingStyle.generateFont(defaultMenuMu1);
+        defaultMenuDistance1 = defaultMenuWritingStyle.generateFont(defaultMenuDist1);
+        defaultMenuMass1 = defaultMenuWritingStyle.generateFont(defaultMenuWeight1);
+        defaultMenuHeight1 = defaultMenuWritingStyle.generateFont(defaultMenuHauteur1);
 
-        DefaultVelocity1.setColor(Color.FOREST);
-        DefaultAcceleration1.setColor(Color.FOREST);
-        DefaultCoefficient1.setColor(Color.FOREST);
-        DefaultDistance1.setColor(Color.FOREST);
-        DefaultMass1.setColor(Color.FOREST);
-        DefaultHeight1.setColor(Color.FOREST);
+        defaultMenuVelocity1.setColor(Color.FOREST);
+        defaultMenuAcceleration1.setColor(Color.FOREST);
+        defaultMenuCoefficient1.setColor(Color.FOREST);
+        defaultMenuDistance1.setColor(Color.FOREST);
+        defaultMenuMass1.setColor(Color.FOREST);
+        defaultMenuHeight1.setColor(Color.FOREST);
 
-        DefaultVelocity1.draw(game.batch, "0 m/s", GameUI.WINDOW_WIDTH/2, GameUI.WINDOW_HEIGHT-300);
-        DefaultAcceleration1.draw(game.batch, "9.81 m/s^2", GameUI.WINDOW_WIDTH/2, GameUI.WINDOW_HEIGHT-350);
-        DefaultCoefficient1.draw(game.batch, "0.131", (GameUI.WINDOW_WIDTH/2) + 50, GameUI.WINDOW_HEIGHT-400);
-        DefaultDistance1.draw(game.batch, "0.02 m", (GameUI.WINDOW_WIDTH/2) + 50, GameUI.WINDOW_HEIGHT-450);
-        DefaultMass1.draw(game.batch, "45.93 g", (GameUI.WINDOW_WIDTH/2) + 50, GameUI.WINDOW_HEIGHT-500);
-        DefaultHeight1.draw(game.batch, "-0.01*x + 0.003*x^2 + 0.04 * y", (GameUI.WINDOW_WIDTH/2), GameUI.WINDOW_HEIGHT-550);
+        defaultMenuVelocity1.draw(defaultMenuGame.gameUIBatch, "0 m/s", GameUI.gameUI_WINDOW_WIDTH/3 + 50, GameUI.gameUI_WINDOW_HEIGHT-300);
+        defaultMenuAcceleration1.draw(defaultMenuGame.gameUIBatch, "9.81 m/s^2", GameUI.gameUI_WINDOW_WIDTH/3+50, GameUI.gameUI_WINDOW_HEIGHT-350);
+        defaultMenuCoefficient1.draw(defaultMenuGame.gameUIBatch, "0.131", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-400);
+        defaultMenuDistance1.draw(defaultMenuGame.gameUIBatch, "0.02 m", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-450);
+        defaultMenuMass1.draw(defaultMenuGame.gameUIBatch, "45.93 g", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-500);
+        defaultMenuHeight1.draw(defaultMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", (GameUI.gameUI_WINDOW_WIDTH/3)+50, GameUI.gameUI_WINDOW_HEIGHT-550);
 
         //Draw the line under the Back Button
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/10) + BACK_BUTTON_SIZE && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < BACK_BUTTON_SIZE + GameUI.WINDOW_HEIGHT-140 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-140 ){
-            game.batch.draw(line, (GameUI.WINDOW_WIDTH)/10, (GameUI.WINDOW_HEIGHT-220), BACK_BUTTON_SIZE, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + defaultMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+            defaultMenuGame.gameUIBatch.draw(defaultMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), defaultMenu_BACK_BUTTON_SIZE, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                game.setScreen(new StartMenu(game));
+                defaultMenuGame.setScreen(new StartMenu(defaultMenuGame));
             }
         }
         //Draw the line under the Ok button
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH-150) + OK_BUTTON_WIDTH && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < OK_BUTTON_HEIGHT + GameUI.WINDOW_HEIGHT/10 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT/10 ){
-            game.batch.draw(line, GameUI.WINDOW_WIDTH-150, (GameUI.WINDOW_HEIGHT/10)-60, OK_BUTTON_WIDTH, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + defaultMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+            defaultMenuGame.gameUIBatch.draw(defaultMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, defaultMenu_OK_BUTTON_WIDTH, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                game.setScreen(new GamePlay(game));
+                defaultMenuGame.setScreen(new ChoiceModeScreen(defaultMenuGame));
             }
         }
 
         //Draw the buttons
-        game.batch.draw(backButton, GameUI.WINDOW_WIDTH/10, GameUI.WINDOW_HEIGHT-150, BACK_BUTTON_SIZE, BACK_BUTTON_SIZE);
-        game.batch.draw(DefaultOkButton, GameUI.WINDOW_WIDTH-150, GameUI.WINDOW_HEIGHT/10, OK_BUTTON_WIDTH, OK_BUTTON_HEIGHT);
+        defaultMenuGame.gameUIBatch.draw(defaultMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, defaultMenu_BACK_BUTTON_SIZE, defaultMenu_BACK_BUTTON_SIZE);
+        defaultMenuGame.gameUIBatch.draw(defaultMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, defaultMenu_OK_BUTTON_WIDTH, defaultMenu_OK_BUTTON_HEIGHT);
 
-        game.batch.end();
+        defaultMenuGame.gameUIBatch.end();
     }
 
     @Override

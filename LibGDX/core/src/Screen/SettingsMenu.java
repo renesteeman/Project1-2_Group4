@@ -10,25 +10,25 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 
 public class SettingsMenu implements Screen {
 
-    GameUI SettingsMenuSettings;
-    Texture SettingsMenuSettingsButton;
-    Texture SettingsMenuBackButton;
-    Texture SettingsMenuOkButton;
-    Texture SettingsMenuLine;
-    BitmapFont SettingsMenuFont;
+    GameUI settingsMenuSettings;
+    Texture settingsMenuSettingsButton;
+    Texture settingsMenuBackButton;
+    Texture settingsMenuOkButton;
+    Texture settingsMenuLine;
+    BitmapFont settingsMenuFont;
 
-    private static final int SettingsMenuSETTINGS_BUTTON_SIZE = 80;
-    private static final int SettingsMenuBACK_BUTTON_SIZE = 80;
-    private static final int SettingsMenuOK_BUTTON_WIDTH = 90;
-    private static final int SettingsMenuOK_BUTTON_HEIGHT = 90;
+    private static final int settingsMenu_SETTINGS_BUTTON_SIZE = 80;
+    private static final int settingsMenu_BACK_BUTTON_SIZE = 80;
+    private static final int settingsMenu_OK_BUTTON_WIDTH = 90;
+    private static final int settingsMenu_OK_BUTTON_HEIGHT = 90;
 
 
     public SettingsMenu(GameUI start){
-        this.settings = start;
-        settingsButton = new Texture(("settings.png"));
-        backButton = new Texture("back.png");
-        okButton = new Texture("ok.png");
-        line = new Texture("line.png");
+        this.settingsMenuSettings = start;
+        settingsMenuSettingsButton = new Texture(("settings.png"));
+        settingsMenuBackButton = new Texture("back.png");
+        settingsMenuOkButton = new Texture("ok.png");
+        settingsMenuLine = new Texture("line.png");
     }
 
     @Override
@@ -41,38 +41,38 @@ public class SettingsMenu implements Screen {
 
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        settings.batch.begin();
+        settingsMenuSettings.gameUIBatch.begin();
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 50;
-        parameter.characters = "Settings";
-        font = generator.generateFont(parameter);
-        font.setColor(Color.FOREST);
-        generator.dispose();
-        font.draw(settings.batch, "Settings", GameUI.WINDOW_WIDTH/3, GameUI.WINDOW_HEIGHT-100);
+        FreeTypeFontGenerator settingsMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter settingsMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        settingsMenuParameter.size = 50;
+        settingsMenuParameter.characters = "Settings";
+        settingsMenuFont = settingsMenuGenerator.generateFont(settingsMenuParameter);
+        settingsMenuFont.setColor(Color.FOREST);
+        settingsMenuGenerator.dispose();
+        settingsMenuFont.draw(settingsMenuSettings.gameUIBatch, "Settings", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
 
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH-150) + OK_BUTTON_WIDTH && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < OK_BUTTON_HEIGHT + GameUI.WINDOW_HEIGHT/10 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT/10 ){
-            settings.batch.draw(line, GameUI.WINDOW_WIDTH-150, (GameUI.WINDOW_HEIGHT/10)-60, OK_BUTTON_WIDTH, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + settingsMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+            settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, settingsMenu_OK_BUTTON_WIDTH, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                settings.setScreen(new MainMenuScreen(settings));
+                settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
             }
         }
-        if(Gdx.input.getX() > GameUI.WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.WINDOW_WIDTH/10) + BACK_BUTTON_SIZE && GameUI.WINDOW_HEIGHT - Gdx.input.getY() < BACK_BUTTON_SIZE + GameUI.WINDOW_HEIGHT-140 && GameUI.WINDOW_HEIGHT - Gdx.input.getY() > GameUI.WINDOW_HEIGHT-140 ){
-            settings.batch.draw(line, (GameUI.WINDOW_WIDTH)/10, (GameUI.WINDOW_HEIGHT-220), BACK_BUTTON_SIZE, 150);
+        if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + settingsMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+            settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), settingsMenu_BACK_BUTTON_SIZE, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                settings.setScreen(new MainMenuScreen(settings));
+                settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
             }
         }
 
 
-        settings.batch.draw(settingsButton, GameUI.WINDOW_WIDTH*2/3, GameUI.WINDOW_HEIGHT - 150, SETTINGS_BUTTON_SIZE, SETTINGS_BUTTON_SIZE);
-        settings.batch.draw(okButton, GameUI.WINDOW_WIDTH-150, GameUI.WINDOW_HEIGHT/10, OK_BUTTON_WIDTH, OK_BUTTON_HEIGHT);
-        settings.batch.draw(backButton, GameUI.WINDOW_WIDTH/10, GameUI.WINDOW_HEIGHT-150, BACK_BUTTON_SIZE, BACK_BUTTON_SIZE);
+        settingsMenuSettings.gameUIBatch.draw(settingsMenuSettingsButton, GameUI.gameUI_WINDOW_WIDTH*2/3, GameUI.gameUI_WINDOW_HEIGHT - 150, settingsMenu_SETTINGS_BUTTON_SIZE, settingsMenu_SETTINGS_BUTTON_SIZE);
+        settingsMenuSettings.gameUIBatch.draw(settingsMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, settingsMenu_OK_BUTTON_WIDTH, settingsMenu_OK_BUTTON_HEIGHT);
+        settingsMenuSettings.gameUIBatch.draw(settingsMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, settingsMenu_BACK_BUTTON_SIZE, settingsMenu_BACK_BUTTON_SIZE);
 
-        settings.batch.end();
+        settingsMenuSettings.gameUIBatch.end();
     }
 
     @Override

@@ -11,14 +11,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class GameUI extends Game {
-	public SpriteBatch GameUIbatch;
+	public SpriteBatch gameUIBatch;
 
-	public static final int GameUIWINDOW_WIDTH = 750;
-	public static final int GameUIWINDOW_HEIGHT = 750;
+	public static final int gameUI_WINDOW_WIDTH = 750;
+	public static final int gameUI_WINDOW_HEIGHT = 750;
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
+		gameUIBatch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 		//this.setScreen((new SettingsMenu(this)));
 	}

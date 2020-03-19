@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 public class PuttingSimulator {
-	//TODO why 2D?
 	public Function2d height;
 	public PuttingCourse course;
 	public PhysicsEngine engine;
@@ -47,6 +46,7 @@ public class PuttingSimulator {
 	}
 
 	public boolean victoriousPosition() {
+		//TODO rewrite for 3D
 		return (victory || ((Vector2d.substract(ball.getLocation(), goal.getLocation())).len() <= course.get_hole_tolerance()));
 	}
 
