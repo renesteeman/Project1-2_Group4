@@ -20,8 +20,8 @@ public class CrazyPutting extends PuttingSimulator {
 
 	public void game() throws FileNotFoundException, InputMismatchException {
 		if (state == GameState.GAME_MOD2) {
-			File f = new File(shotScn);
-			shotsInp = new Scanner(f);
+			File f = new File(shotsFilename);
+			shotScn = new Scanner(f);
 		}
 
 		GameState initialGameState = state;
@@ -41,9 +41,9 @@ public class CrazyPutting extends PuttingSimulator {
 	// TO BE OVERRIDDEN
 	public Vector2d requestShotInput() {
 		if (state == GameState.GAME_MOD2) {
-			if (!shotsInp.hasNextLine())
+			if (!shotScn.hasNextLine())
 				return null;
-			String[] curarray = shotsInp.nextLine().split(" ");
+			String[] curarray = shotScn.nextLine().split(" ");
 			Vector2d ans = new Vector2d(new Double(curarray[0]), new Double(curarray[1]));
 			return ans;
 		}
