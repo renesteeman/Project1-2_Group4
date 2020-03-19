@@ -51,7 +51,6 @@ public class CustomizedMenu implements Screen {
         customizedMenuLine = new Texture("line.png");
         customizedMenuOkButton = new Texture("ok.png");
 
-
         customizedMenuStage = new Stage();
         Gdx.input.setInputProcessor(customizedMenuStage);
         Skin customizedMenuSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
@@ -164,7 +163,6 @@ public class CustomizedMenu implements Screen {
         customizedMenuHeight2.setColor(Color.FOREST);
         customizedMenuHeight3.setColor(Color.FOREST);
 
-
         customizedMenuGenerator.dispose();
 
         customizedMenuFont.draw(customizedMenuGame.gameUIBatch, "customized Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
@@ -176,7 +174,6 @@ public class CustomizedMenu implements Screen {
         customizedMenuHeight.draw(customizedMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
         customizedMenuHeight2.draw(customizedMenuGame.gameUIBatch, "Write the equation in that form please:", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-600);
         customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2, GameUI.gameUI_WINDOW_HEIGHT-600);
-
 
         //Drawing the line under the Back Button
         if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + customizedMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
@@ -201,6 +198,7 @@ public class CustomizedMenu implements Screen {
 //                System.out.println("Height Equation: " + getcustomizedMenuHei());
             }
         }
+
         //Drawing the different buttons
         customizedMenuGame.gameUIBatch.draw(customizedMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, customizedMenu_BACK_BUTTON_SIZE, customizedMenu_BACK_BUTTON_SIZE);
         customizedMenuGame.gameUIBatch.draw(customizedMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, customizedMenu_OK_BUTTON_WIDTH, customizedMenu_OK_BUTTON_HEIGHT);

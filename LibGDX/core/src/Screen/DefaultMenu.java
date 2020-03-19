@@ -106,7 +106,6 @@ public class DefaultMenu implements Screen {
         defaultMenuMass.draw(defaultMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
         defaultMenuHeight.draw(defaultMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
 
-
         //Default Input
         FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc1 = new FreeTypeFontGenerator.FreeTypeFontParameter();

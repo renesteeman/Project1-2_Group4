@@ -67,7 +67,6 @@ public class SettingsMenu implements Screen {
             }
         }
 
-
         settingsMenuSettings.gameUIBatch.draw(settingsMenuSettingsButton, GameUI.gameUI_WINDOW_WIDTH*2/3, GameUI.gameUI_WINDOW_HEIGHT - 150, settingsMenu_SETTINGS_BUTTON_SIZE, settingsMenu_SETTINGS_BUTTON_SIZE);
         settingsMenuSettings.gameUIBatch.draw(settingsMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, settingsMenu_OK_BUTTON_WIDTH, settingsMenu_OK_BUTTON_HEIGHT);
         settingsMenuSettings.gameUIBatch.draw(settingsMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, settingsMenu_BACK_BUTTON_SIZE, settingsMenu_BACK_BUTTON_SIZE);

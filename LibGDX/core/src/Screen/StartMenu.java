@@ -70,7 +70,6 @@ public class StartMenu implements Screen{
         FreeTypeFontGenerator.FreeTypeFontParameter startMenuCusto = new FreeTypeFontGenerator.FreeTypeFontParameter();
         FreeTypeFontGenerator.FreeTypeFontParameter startMenuOwn = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-
         startMenuParameter.size = 90;
         startMenuMakeChoice.size = 40;
         startMenuBasic.size = 30;
@@ -102,7 +101,6 @@ public class StartMenu implements Screen{
         startMenuFont1.draw(startMenuStart.gameUIBatch, "Default", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-350);
         startMenuCustomize.draw(startMenuStart.gameUIBatch, "Customized", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-400);
         startMenuOwnPath.draw(startMenuStart.gameUIBatch, "Path to your startMenuOwn parameters:", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-450);
-
 
         //Menu choice
         if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-400 ){

@@ -88,7 +88,6 @@ public class HelpMenu implements Screen {
             }
         }
 
-
         helpMenuHelp.gameUIBatch.draw(helpMenuHelpButton, GameUI.gameUI_WINDOW_WIDTH-200, GameUI.gameUI_WINDOW_HEIGHT - 150, helpMenu_HELP_BUTTON_SIZE, helpMenu_HELP_BUTTON_SIZE);
         helpMenuHelp.gameUIBatch.draw(helpMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, helpMenu_OK_BUTTON_WIDTH, helpMenu_OK_BUTTON_HEIGHT);
         helpMenuHelp.gameUIBatch.draw(helpMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, helpMenu_BACK_BUTTON_SIZE, helpMenu_BACK_BUTTON_SIZE);

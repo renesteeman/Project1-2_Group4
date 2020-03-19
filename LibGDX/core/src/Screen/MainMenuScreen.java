@@ -87,11 +87,11 @@ public class MainMenuScreen implements Screen {
             }
         }
 
-            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/4,GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
-            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenExitButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT/10, mainMenuScreen_EXIT_BUTTON_WIDTH, mainMenuScreen_EXIT_BUTTON_HEIGHT);
-            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenSettingsButton, GameUI.gameUI_WINDOW_WIDTH - 150, GameUI.gameUI_WINDOW_HEIGHT / 10, mainMenuScreen_SETTINGS_BUTTON_SIZE, mainMenuScreen_SETTINGS_BUTTON_SIZE);
-            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH-480, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
-            mainMenuScreenGame.gameUIBatch.end();
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/4,GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenExitButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT/10, mainMenuScreen_EXIT_BUTTON_WIDTH, mainMenuScreen_EXIT_BUTTON_HEIGHT);
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenSettingsButton, GameUI.gameUI_WINDOW_WIDTH - 150, GameUI.gameUI_WINDOW_HEIGHT / 10, mainMenuScreen_SETTINGS_BUTTON_SIZE, mainMenuScreen_SETTINGS_BUTTON_SIZE);
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH-480, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
+        mainMenuScreenGame.gameUIBatch.end();
     }
 
     @Override
