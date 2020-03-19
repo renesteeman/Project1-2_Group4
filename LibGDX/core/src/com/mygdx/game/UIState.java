@@ -3,7 +3,7 @@ package com.mygdx.game;
 public enum UIState {
     GamePlay,
     HitWaterUI,
-    GameUI,
+    ShootUI,
     WonScreen,
     Only3D;
 }

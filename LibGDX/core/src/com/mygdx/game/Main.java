@@ -40,7 +40,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	SpriteBatch batch2D;
 
 	//Used to set what will be rendered
-	UIState CurrentUIState = UIState.GameUI;
+	UIState CurrentUIState = UIState.ShootUI;
 
 	//GamePlay
 	GameUI gamePlayGame;
@@ -123,6 +123,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 	@Override
 	public void render (float delta) {
+		batch2D = new SpriteBatch();
+
 		//Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT|GL20.GL_DEPTH_BUFFER_BIT);
@@ -152,6 +154,155 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 		//2D UI
 		switch(CurrentUIState){
+			case ShootUI:
+				//ShootUI
+				Stage ShootUIStage;
+				Skin ShootUISkin;
+				double ShootUIRotation = 0;
+				double ShootUIpower = 1;
+				int ShootUIScore = 0;
+				String ShootUIScoreString;
+				String ShootUIRotationString;
+				String ShootUIPowerString;
+				BitmapFont ShootUIFont;
+
+				Sprite ShootUIWhiteBackground;
+
+				boolean ShootUIIsPressed;
+				TextButton ShootUIPositive;
+				TextButton ShootUINegative;
+				TextButton ShootUIPositivePower;
+				TextButton ShootUINegativePower;
+
+				//ShootUI
+				ShootUISkin = new Skin(Gdx.files.internal("uiskin.json"));
+				ShootUIStage = new Stage(new ScreenViewport());
+
+				final int backgroundWidth = Gdx.graphics.getWidth()/4;
+				ShootUIWhiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
+				ShootUIWhiteBackground.setSize(backgroundWidth, Gdx.graphics.getHeight());
+				ShootUIWhiteBackground.setPosition(Gdx.graphics.getWidth()-backgroundWidth,0);
+
+				ShootUIFont = new BitmapFont(Gdx.files.internal("Arial.fnt"));
+				ShootUIFont.getData().setScale(0.6f,0.6f);
+				ShootUIScoreString = "Your score: ";
+				ShootUIRotationString = "Angle: ";
+				ShootUIPowerString = "Power (m/s): ";
+
+				ShootUIPositive = new TextButton(">", ShootUISkin, "default");
+				ShootUIPositive.setWidth(25);
+				ShootUIPositive.setHeight(25);
+				ShootUIPositive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
+
+				ShootUINegative = new TextButton("<", ShootUISkin, "default");
+				ShootUINegative.setWidth(25);
+				ShootUINegative.setHeight(25);
+				ShootUINegative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
+
+				ShootUIPositivePower = new TextButton("+", ShootUISkin, "default");
+				ShootUIPositivePower.setWidth(25);
+				ShootUIPositivePower.setHeight(25);
+				ShootUIPositivePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 10/20);
+
+				ShootUINegativePower = new TextButton("-", ShootUISkin, "default");
+				ShootUINegativePower.setWidth(25);
+				ShootUINegativePower.setHeight(25);
+				ShootUINegativePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 9/20);
+
+				final TextButton ShootUIShootButton = new TextButton("Shoot!", ShootUISkin, "default");
+				ShootUIShootButton.setWidth(100);
+				ShootUIShootButton.setHeight(30);
+				ShootUIShootButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
+
+				ShootUIPositive.addListener(new ClickListener(){
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+
+				ShootUINegative.addListener(new ClickListener(){
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+
+				ShootUIPositivePower.addListener(new ClickListener(){
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+
+				ShootUINegativePower.addListener(new ClickListener(){
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+
+				ShootUIShootButton.addListener(new ClickListener(){
+					@Override
+					public void clicked(InputEvent event, float x, float y) {
+
+					}
+				});
+
+				ShootUIStage.addActor(ShootUIPositive);
+				ShootUIStage.addActor(ShootUINegative);
+				ShootUIStage.addActor(ShootUIPositivePower);
+				ShootUIStage.addActor(ShootUINegativePower);
+				ShootUIStage.addActor(ShootUIShootButton);
+
+				InputMultiplexer inputMultiplexer = new InputMultiplexer(ShootUIStage, cameraInputController, this);
+				Gdx.input.setInputProcessor(inputMultiplexer);
+
+				//ShootUI
+				ShootUIStage.act(Gdx.graphics.getDeltaTime());
+
+				if(ShootUIPositive.isPressed()){
+					ShootUIRotation += Gdx.graphics.getDeltaTime() *20;
+					if(ShootUIRotation >= 360){
+						ShootUIRotation = 0;
+					}
+				}
+
+				if(ShootUINegative.isPressed()){
+					ShootUIRotation -= Gdx.graphics.getDeltaTime() *20;
+					if(ShootUIRotation < 0){
+						ShootUIRotation = 350;
+					}
+				}
+
+				if(ShootUIPositivePower.isPressed()) {
+					ShootUIpower += Gdx.graphics.getDeltaTime() *2;
+					if (ShootUIpower >= 5) {
+						ShootUIpower = 5;
+					}
+				}
+
+				if(ShootUINegativePower.isPressed()) {
+					ShootUIpower -= Gdx.graphics.getDeltaTime() *2;
+					if (ShootUIpower <= 1) {
+						ShootUIpower = 1;
+					}
+				}
+
+				int rotationRounded = (int) ShootUIRotation;
+				int powerRounded = (int) ShootUIpower;
+
+				batch2D.begin();
+				ShootUIFont.setColor(Color.BLACK);
+				ShootUIWhiteBackground.draw(batch2D);
+				ShootUIFont.draw(batch2D, ShootUIScoreString + ShootUIScore, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 9/10);
+				ShootUIFont.draw(batch2D, ShootUIRotationString + rotationRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 7/10);
+				ShootUIFont.draw(batch2D, ShootUIPowerString + powerRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/10);
+				batch2D.end();
+
+				ShootUIStage.draw();
+
+				break;
 			case GamePlay:
 				//GamePlay
 				gamePlayBackButton = new Texture("back.png");
@@ -179,13 +330,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 				batch2D.draw(gamePlayBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, gamePlay_BACK_BUTTON_SIZE, gamePlay_BACK_BUTTON_SIZE);
 				batch2D.end();
-				break;
-			case GameUI:
-				//GameUI
-				batch2D = new SpriteBatch();
-
-				//GameUI
-				super.render();
 				break;
 
 			case HitWaterUI:
@@ -261,10 +405,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				hitWaterUIStage.addActor(hitWaterUINegative);
 				hitWaterUIStage.addActor(hitWaterUISetBallButton);
 
-				InputMultiplexer hitWaterUIInputMultiplexer = new InputMultiplexer(hitWaterUIStage, this);
+				InputMultiplexer hitWaterUIInputMultiplexer = new InputMultiplexer(hitWaterUIStage, this, cameraInputController);
 				Gdx.input.setInputProcessor(hitWaterUIInputMultiplexer);
-
-
 
 				//HitWaterUI
 				hitWaterUIStage.act(Gdx.graphics.getDeltaTime());
@@ -564,9 +706,8 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBuilder = new ModelBuilder();
 
 		//NOTE: when updating the 3D model, export it as fbx, than convert it to g3dj .\fbx-conv-win32 -f -o G3DJ NAME.fbx, than set opacity to 1 for all the materials
-		//TODO only call these functions from a general game class
 		renderBall(0, getTerrainHeight(0, 0), 0);
-		renderGoal(0, getTerrainHeight(0, 0),0);
+		renderGoal(5, getTerrainHeight(5, 5),5);
 
 		//Test for the trees
 //		enableTrees();

@@ -18,67 +18,69 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 public class ShootUI extends Game implements InputProcessor, ApplicationListener{
 
 	SpriteBatch batch;
-	private Stage stage;
-	private Skin skin;
-	private double rotation = 0;
-	private double power = 1;
-	private int score = 0;
-	private String ScoreString;
-	private String RotationString;
-	private String PowerString;
-	BitmapFont font;
 
-	Sprite whiteBackground;
+	private Stage ShootUIStage;
+	private Skin ShootUISkin;
+	private double ShootUIRotation = 0;
+	private double ShootUIpower = 1;
+	private int ShootUIScore = 0;
+	private String ShootUIScoreString;
+	private String ShootUIRotationString;
+	private String ShootUIPowerString;
+	BitmapFont ShootUIFont;
 
-	public boolean isPressed;
-	TextButton positive;
-	TextButton negative;
-	TextButton positivePower;
-	TextButton negativePower;
+	Sprite ShootUIWhiteBackground;
+
+	public boolean ShootUIIsPressed;
+	TextButton ShootUIPositive;
+	TextButton ShootUINegative;
+	TextButton ShootUIPositivePower;
+	TextButton ShootUINegativePower;
 
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-		skin = new Skin(Gdx.files.internal("uiskin.json"));
-		stage = new Stage(new ScreenViewport());
+
+		ShootUISkin = new Skin(Gdx.files.internal("uiskin.json"));
+		ShootUIStage = new Stage(new ScreenViewport());
 
 		final int backgroundWidth = Gdx.graphics.getWidth()/4;
-		whiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
-		whiteBackground.setSize(backgroundWidth, Gdx.graphics.getHeight());
-		whiteBackground.setPosition(Gdx.graphics.getWidth()-backgroundWidth,0);
+		ShootUIWhiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
+		ShootUIWhiteBackground.setSize(backgroundWidth, Gdx.graphics.getHeight());
+		ShootUIWhiteBackground.setPosition(Gdx.graphics.getWidth()-backgroundWidth,0);
 
-		font = new BitmapFont(Gdx.files.internal("Arial.fnt"));
-		font.getData().setScale(0.6f,0.6f);
-		ScoreString = "Your score: ";
-		RotationString = "Angle: ";
-		PowerString = "Power (m/s): ";
+		ShootUIFont = new BitmapFont(Gdx.files.internal("Arial.fnt"));
+		ShootUIFont.getData().setScale(0.6f,0.6f);
+		ShootUIScoreString = "Your score: ";
+		ShootUIRotationString = "Angle: ";
+		ShootUIPowerString = "Power (m/s): ";
 
-		positive = new TextButton(">", skin, "default");
-		positive.setWidth(25);
-		positive.setHeight(25);
-		positive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
+		ShootUIPositive = new TextButton(">", ShootUISkin, "default");
+		ShootUIPositive.setWidth(25);
+		ShootUIPositive.setHeight(25);
+		ShootUIPositive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
 
-		negative = new TextButton("<", skin, "default");
-		negative.setWidth(25);
-		negative.setHeight(25);
-		negative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
+		ShootUINegative = new TextButton("<", ShootUISkin, "default");
+		ShootUINegative.setWidth(25);
+		ShootUINegative.setHeight(25);
+		ShootUINegative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
 
-		positivePower = new TextButton("+", skin, "default");
-		positivePower.setWidth(25);
-		positivePower.setHeight(25);
-		positivePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 10/20);
+		ShootUIPositivePower = new TextButton("+", ShootUISkin, "default");
+		ShootUIPositivePower.setWidth(25);
+		ShootUIPositivePower.setHeight(25);
+		ShootUIPositivePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 10/20);
 
-		negativePower = new TextButton("-", skin, "default");
-		negativePower.setWidth(25);
-		negativePower.setHeight(25);
-		negativePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 9/20);
+		ShootUINegativePower = new TextButton("-", ShootUISkin, "default");
+		ShootUINegativePower.setWidth(25);
+		ShootUINegativePower.setHeight(25);
+		ShootUINegativePower.setPosition(Gdx.graphics.getWidth() * 9/10, Gdx.graphics.getHeight() * 9/20);
 
-		final TextButton shoot = new TextButton("Shoot!", skin, "default");
-		shoot.setWidth(100);
-		shoot.setHeight(30);
-		shoot.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
+		final TextButton ShootUIShootButton = new TextButton("Shoot!", ShootUISkin, "default");
+		ShootUIShootButton.setWidth(100);
+		ShootUIShootButton.setHeight(30);
+		ShootUIShootButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
 
-		positive.addListener(new ClickListener(){
+		ShootUIPositive.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -95,7 +97,7 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 			}
 		});
 
-		negative.addListener(new ClickListener(){
+		ShootUINegative.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -112,7 +114,7 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 			}
 		});
 
-		positivePower.addListener(new ClickListener(){
+		ShootUIPositivePower.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -129,7 +131,7 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 			}
 		});
 
-		negativePower.addListener(new ClickListener(){
+		ShootUINegativePower.addListener(new ClickListener(){
 			/*
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
@@ -146,20 +148,20 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 			}
 		});
 
-		shoot.addListener(new ClickListener(){
+		ShootUIShootButton.addListener(new ClickListener(){
 			@Override
 			public void clicked(InputEvent event, float x, float y) {
 
 			}
 		});
 
-		stage.addActor(positive);
-		stage.addActor(negative);
-		stage.addActor(positivePower);
-		stage.addActor(negativePower);
-		stage.addActor(shoot);
+		ShootUIStage.addActor(ShootUIPositive);
+		ShootUIStage.addActor(ShootUINegative);
+		ShootUIStage.addActor(ShootUIPositivePower);
+		ShootUIStage.addActor(ShootUINegativePower);
+		ShootUIStage.addActor(ShootUIShootButton);
 
-		InputMultiplexer inputMultiplexer = new InputMultiplexer(stage, this);
+		InputMultiplexer inputMultiplexer = new InputMultiplexer(ShootUIStage, this);
 		Gdx.input.setInputProcessor(inputMultiplexer);
 
 	}
@@ -168,48 +170,48 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 	public void render () {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		stage.act(Gdx.graphics.getDeltaTime());
+		ShootUIStage.act(Gdx.graphics.getDeltaTime());
 
-		if(positive.isPressed()){
-			rotation += Gdx.graphics.getDeltaTime() *20;
-			if(rotation >= 360){
-				rotation = 0;
+		if(ShootUIPositive.isPressed()){
+			ShootUIRotation += Gdx.graphics.getDeltaTime() *20;
+			if(ShootUIRotation >= 360){
+				ShootUIRotation = 0;
 			}
 		}
 
-		if(negative.isPressed()){
-			rotation -= Gdx.graphics.getDeltaTime() *20;
-			if(rotation < 0){
-				rotation = 350;
+		if(ShootUINegative.isPressed()){
+			ShootUIRotation -= Gdx.graphics.getDeltaTime() *20;
+			if(ShootUIRotation < 0){
+				ShootUIRotation = 350;
 			}
 		}
 
-		if(positivePower.isPressed()) {
-			power += Gdx.graphics.getDeltaTime() *2;
-			if (power >= 5) {
-				power = 5;
+		if(ShootUIPositivePower.isPressed()) {
+			ShootUIpower += Gdx.graphics.getDeltaTime() *2;
+			if (ShootUIpower >= 5) {
+				ShootUIpower = 5;
 			}
 		}
 
-		if(negativePower.isPressed()) {
-			power -= Gdx.graphics.getDeltaTime() *2;
-			if (power <= 1) {
-				power = 1;
+		if(ShootUINegativePower.isPressed()) {
+			ShootUIpower -= Gdx.graphics.getDeltaTime() *2;
+			if (ShootUIpower <= 1) {
+				ShootUIpower = 1;
 			}
 		}
 
-		int rotationRounded = (int) rotation;
-		int powerRounded = (int) power;
+		int rotationRounded = (int) ShootUIRotation;
+		int powerRounded = (int) ShootUIpower;
 
 		batch.begin();
-		font.setColor(Color.BLACK);
-		whiteBackground.draw(batch);
-		font.draw(batch, ScoreString + score, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 9/10);
-		font.draw(batch, RotationString + rotationRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 7/10);
-		font.draw(batch, PowerString + powerRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/10);
+		ShootUIFont.setColor(Color.BLACK);
+		ShootUIWhiteBackground.draw(batch);
+		ShootUIFont.draw(batch, ShootUIScoreString + ShootUIScore, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 9/10);
+		ShootUIFont.draw(batch, ShootUIRotationString + rotationRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 7/10);
+		ShootUIFont.draw(batch, ShootUIPowerString + powerRounded, Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/10);
 		batch.end();
 
-		stage.draw();
+		ShootUIStage.draw();
 	}
 	
 	@Override
@@ -234,7 +236,7 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 		if (button == Input.Buttons.LEFT) {
-			isPressed = true;
+			ShootUIIsPressed = true;
 		}
 		return true;
 	}
@@ -242,7 +244,7 @@ public class ShootUI extends Game implements InputProcessor, ApplicationListener
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 		if (button == Input.Buttons.LEFT){
-			isPressed = false;
+			ShootUIIsPressed = false;
 		}
 		return false;
 	}

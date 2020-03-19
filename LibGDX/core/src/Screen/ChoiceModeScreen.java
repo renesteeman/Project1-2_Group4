@@ -49,7 +49,7 @@ public class ChoiceModeScreen implements Screen {
         choiceModeScreenBot.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent e, float x, float y, int point, int button){
-                game.setScreen(new GamePlay(game));
+                game.setScreen(new Main());
             }
         });
 
