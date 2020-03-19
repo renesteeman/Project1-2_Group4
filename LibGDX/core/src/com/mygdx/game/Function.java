@@ -186,7 +186,6 @@ public class Function implements Function2d {
             4 - opening bracket
             5 - closing bracket
             6 - primitive operations
-            7 - pi and e
         */
 
         //System.out.println(s);
