@@ -9,5 +9,5 @@ public enum UIState {
     HitWaterUI,
     mainMenuScreen,
     SettingsMenu,
-    StartMenu;
+    StartMenu, ChoiceModeScreen, GameUI, HelpMenu, MainMenuScreen, WonScreen;
 }

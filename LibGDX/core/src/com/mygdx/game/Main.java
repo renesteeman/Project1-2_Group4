@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import Screen.*;
 
 import java.util.ArrayList;
 import java.util.Random;
