@@ -24,7 +24,43 @@ public class ChoiceModeScreen implements Screen {
 
     public ChoiceModeScreen(final GameUI game){
         this.choiceModeScreenGame = game;
+        choiceModeScreenStage = new Stage();
+        Gdx.input.setInputProcessor(choiceModeScreenStage);
+        Skin choiceModeSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
 
+        choiceModeScreenHuman = new TextButton("Play as a human", choiceModeSkin);
+        choiceModeScreenHuman.setPosition(GameUI.gameUI_WINDOW_WIDTH/6, GameUI.gameUI_WINDOW_HEIGHT - 300);
+        choiceModeScreenHuman.setSize(200, 50);
+        choiceModeScreenHuman.setColor(Color.FOREST);
+
+        choiceModeScreenHuman.addListener(new ClickListener(){
+            @Override
+           public void touchUp(InputEvent e, float x, float y, int point, int button){
+                game.setScreen(new GamePlay(game));
+            }
+       });
+
+        choiceModeScreenBot = new TextButton("Play using your own file", choiceModeSkin);
+        choiceModeScreenBot.setPosition(GameUI.gameUI_WINDOW_WIDTH/6, GameUI.gameUI_WINDOW_HEIGHT - 400);
+        choiceModeScreenBot.setSize(200, 50);
+        choiceModeScreenBot.setColor(Color.FOREST);
+
+        choiceModeScreenBot.addListener(new ClickListener(){
+            @Override
+            public void touchUp(InputEvent e, float x, float y, int point, int button){
+                game.setScreen(new GamePlay(game));
+            }
+        });
+
+        choiceModeScreenPath = new TextField("", choiceModeSkin);
+        choiceModeScreenPath.setPosition((GameUI.gameUI_WINDOW_WIDTH/6) + choiceModeScreenBot.getWidth() + 50, GameUI.gameUI_WINDOW_HEIGHT-400);
+        choiceModeScreenPath.setSize(200, 50);
+        choiceModeScreenPath.setColor(Color.FOREST);
+        choiceModeScreenPath.setText("Your path:");
+
+        choiceModeScreenStage.addActor(choiceModeScreenHuman);
+        choiceModeScreenStage.addActor(choiceModeScreenBot);
+        choiceModeScreenStage.addActor(choiceModeScreenPath);
     }
 
 
