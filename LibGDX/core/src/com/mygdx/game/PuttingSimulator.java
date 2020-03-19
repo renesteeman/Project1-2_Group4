@@ -16,8 +16,8 @@ public class PuttingSimulator {
 		this.course = course;
 		this.engine = engine;
 		height = course.get_height();
-//		ball = new Ball(course.get_start_position(), new Vector2d()); // TO BE REPLACED
-//		goal = new Goal(course.get_flag_position()); // TO BE REPLACED
+		ball = new Ball(course.get_start_position(), new Vector2d()); // TO BE REPLACED
+		goal = new Goal(course.get_flag_position()); // TO BE REPLACED
 	}
 
 	public void set_ball_position(Vector2d location) {
@@ -32,9 +32,18 @@ public class PuttingSimulator {
 		ball.setVelocity(initial_ball_velocity);
 
 		Vector2d nullVector = new Vector2d();
+
 		while (!ball.getVelocity().equals(nullVector)) {
 			engine.process(ball.getLocation(), ball.getVelocity(), DTIME);
+			ball.updateLocation(engine.getLocation());
+			ball.udpateVelocity(engine.getVelocity());
 			requestGraphicsUpdate();
+			try {
+			    Thread.sleep(100);
+			}
+			catch(InterruptedException ex) {
+			    Thread.currentThread().interrupt();
+			}
 			if (height.evaluate(ball.getLocation()) < 0) {
 				requestBallRepositioning();
 				break;
