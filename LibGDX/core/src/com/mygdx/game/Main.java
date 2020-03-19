@@ -40,7 +40,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	SpriteBatch batch2D;
 
 	//Used to set what will be rendered
-	UIState CurrentUIState = UIState.GamePlay;
+	UIState CurrentUIState = UIState.Only3D;
 
 	//GamePlay
 	GameUI gamePlayGame;
@@ -52,13 +52,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	private static final int gamePlay_OK_BUTTON_HEIGHT = 90;
 
 	//GameUI
-	public SpriteBatch gameUIBatch;
 	public static final int gameUI_WINDOW_WIDTH = 750;
 	public static final int gameUI_WINDOW_HEIGHT = 750;
 
 	//HitWaterUI
 	int hitWaterUIBackgroundWidth;
-	SpriteBatch hitWaterUIBatch;
 	private Stage hitWaterUIStage;
 	private Skin hitWaterUISkin;
 	double hitWaterUIDistanceFromStart;
@@ -124,11 +122,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	CameraInputController cameraInputController;
 
 	@Override
-	public void create () {
-
-	}
-
-	@Override
 	public void render (float delta) {
 		//Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		Gdx.gl.glClearColor(.1f, .1f, .1f, 1);
@@ -150,17 +143,22 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		modelBatch.begin(camera);
 		modelBatch.render(ballInstance, environment);
 		modelBatch.render(goalInstance, environment);
+
 		for(ModelInstance treeInstance : treeInstances){
 			modelBatch.render(treeInstance, environment);
 		}
-		modelBatch.end();
 
+		modelBatch.end();
 
 		//2D UI
 		switch(CurrentUIState){
 			case GamePlay:
 				//GamePlay
-				gamePlayGame.gameUIBatch.begin();
+				gamePlayBackButton = new Texture("back.png");
+				gamePlayLine = new Texture("line.png");
+
+				//GamePlay
+				batch2D.begin();
 				FreeTypeFontGenerator gamePlayGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
 
 				FreeTypeFontGenerator.FreeTypeFontParameter gamePlayParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -169,25 +167,105 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				gamePlayFont = gamePlayGenerator.generateFont(gamePlayParameter);
 				gamePlayFont.setColor(Color.FOREST);
 				gamePlayGenerator.dispose();
-				gamePlayFont.draw(gamePlayGame.gameUIBatch, "Game", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+				gamePlayFont.draw(batch2D, "Game", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
 
 				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + gamePlay_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < gamePlay_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-					gamePlayGame.gameUIBatch.draw(gamePlayLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), gamePlay_BACK_BUTTON_SIZE, 150);
+					batch2D.draw(gamePlayLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), gamePlay_BACK_BUTTON_SIZE, 150);
 					if(Gdx.input.justTouched()){
 						this.dispose();
-						gamePlayGame.setScreen(new StartMenu(gamePlayGame));
+//						this.setScreen(new StartMenu(gamePlayGame));
 					}
 				}
 
-				gamePlayGame.gameUIBatch.draw(gamePlayBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, gamePlay_BACK_BUTTON_SIZE, gamePlay_BACK_BUTTON_SIZE);
-				gamePlayGame.gameUIBatch.end();
+				batch2D.draw(gamePlayBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, gamePlay_BACK_BUTTON_SIZE, gamePlay_BACK_BUTTON_SIZE);
+				batch2D.end();
 				break;
 			case GameUI:
+				//GameUI
+				batch2D = new SpriteBatch();
+
 				//GameUI
 				super.render();
 				break;
 
 			case HitWaterUI:
+				//HitWaterUI
+				Ball.location = new Vector2d(0, 0, 0);
+				PuttingCourse.start = new Vector2d(10, 1, 1);
+				Vector2d ballLocation = Ball.location;
+				Vector2d startPoint = PuttingCourse.start;
+				hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
+
+				batch2D = new SpriteBatch();
+				hitWaterUISkin = new Skin(Gdx.files.internal("uiskin.json"));
+				hitWaterUIStage = new Stage(new ScreenViewport());
+
+				hitWaterUIBackgroundWidth = Gdx.graphics.getWidth()/4;
+				hitWaterUIWhiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
+				hitWaterUIWhiteBackground.setSize(hitWaterUIBackgroundWidth, Gdx.graphics.getHeight());
+				hitWaterUIWhiteBackground.setPosition(Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,0);
+
+				hitWaterUIFont = new BitmapFont(Gdx.files.internal("Arial.fnt"));
+				hitWaterUIFont.getData().setScale(0.6f,0.6f);
+				hitWaterUIDistanceFromStartString = "How far from the start do you want to set the ball?";
+
+				hitWaterUIPositive = new TextButton(">", hitWaterUISkin, "default");
+				hitWaterUIPositive.setWidth(25);
+				hitWaterUIPositive.setHeight(25);
+				hitWaterUIPositive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
+
+				hitWaterUINegative = new TextButton("<", hitWaterUISkin, "default");
+				hitWaterUINegative.setWidth(25);
+				hitWaterUINegative.setHeight(25);
+				hitWaterUINegative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
+
+				final TextButton hitWaterUISetBallButton = new TextButton("Set", hitWaterUISkin, "default");
+				hitWaterUISetBallButton.setWidth(100);
+				hitWaterUISetBallButton.setHeight(30);
+				hitWaterUISetBallButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
+
+				hitWaterUIPositive.addListener(new ClickListener(){
+			/*
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				rotation = rotation + 10;
+				if(rotation >= 360){
+					rotation = 0;
+				}
+			}
+			 */
+
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+				hitWaterUINegative.addListener(new ClickListener(){
+			/*
+			@Override
+			public void clicked(InputEvent event, float x, float y) {
+				rotation = rotation - 10;
+				if(rotation < 0){
+					rotation = 350;
+				}
+			}
+			 */
+
+					@Override
+					public boolean isPressed() {
+						return super.isPressed();
+					}
+				});
+
+				hitWaterUIStage.addActor(hitWaterUIPositive);
+				hitWaterUIStage.addActor(hitWaterUINegative);
+				hitWaterUIStage.addActor(hitWaterUISetBallButton);
+
+				InputMultiplexer hitWaterUIInputMultiplexer = new InputMultiplexer(hitWaterUIStage, this);
+				Gdx.input.setInputProcessor(hitWaterUIInputMultiplexer);
+
+
+
 				//HitWaterUI
 				hitWaterUIStage.act(Gdx.graphics.getDeltaTime());
 
@@ -207,21 +285,21 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 				int distanceFromStartRounded = (int) hitWaterUIDistanceFromStart;
 
-				hitWaterUIBatch.begin();
+				batch2D.begin();
 				hitWaterUIFont.setColor(Color.BLACK);
-				hitWaterUIWhiteBackground.draw(hitWaterUIBatch);
-				hitWaterUIFont.draw(hitWaterUIBatch, hitWaterUIDistanceFromStartString, Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+				hitWaterUIWhiteBackground.draw(batch2D);
+				hitWaterUIFont.draw(batch2D, hitWaterUIDistanceFromStartString, Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
 						Gdx.graphics.getHeight() * 9/10, hitWaterUIBackgroundWidth, 1, true);
-				hitWaterUIFont.draw(hitWaterUIBatch, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+				hitWaterUIFont.draw(batch2D, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
 						Gdx.graphics.getHeight() * 7/10, hitWaterUIBackgroundWidth, 1, true);
-				hitWaterUIBatch.end();
+				batch2D.end();
 
 				hitWaterUIStage.draw();
 				break;
 
 			case WonScreen:
 				//WonScreen
-				wonScreenGame.gameUIBatch.begin();
+				batch2D.begin();
 				FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
 
 				FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -230,9 +308,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				wonScreenFont = generator.generateFont(parameter);
 				wonScreenFont.setColor(Color.FOREST);
 				generator.dispose();
-				wonScreenFont.draw(wonScreenGame.gameUIBatch, "YOU WON!", GameUI.gameUI_WINDOW_WIDTH/3-50, GameUI.gameUI_WINDOW_HEIGHT-300);
+				wonScreenFont.draw(batch2D, "YOU WON!", GameUI.gameUI_WINDOW_WIDTH/3-50, GameUI.gameUI_WINDOW_HEIGHT-300);
 
-				wonScreenGame.gameUIBatch.end();
+				batch2D.end();
 				break;
 		}
 	}
@@ -511,96 +589,6 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		environment = new Environment();
 		environment.set(new ColorAttribute(ColorAttribute.AmbientLight, .5f, .5f, .5f, 1f));
 		environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
-
-
-
-		//2D UI creation
-		//GamePlay
-		gamePlayBackButton = new Texture("back.png");
-		gamePlayLine = new Texture("line.png");
-
-
-		//GameUI
-		gameUIBatch = new SpriteBatch();
-
-
-		//HitWaterUI
-		Ball.location = new Vector2d(0, 0, 0);
-		PuttingCourse.start = new Vector2d(10, 1, 1);
-		Vector2d ballLocation = Ball.location;
-		Vector2d startPoint = PuttingCourse.start;
-		hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
-
-		hitWaterUIBatch = new SpriteBatch();
-		hitWaterUISkin = new Skin(Gdx.files.internal("uiskin.json"));
-		hitWaterUIStage = new Stage(new ScreenViewport());
-
-		hitWaterUIBackgroundWidth = Gdx.graphics.getWidth()/4;
-		hitWaterUIWhiteBackground = new Sprite(new Texture(Gdx.files.internal("whiteBackground.png")));
-		hitWaterUIWhiteBackground.setSize(hitWaterUIBackgroundWidth, Gdx.graphics.getHeight());
-		hitWaterUIWhiteBackground.setPosition(Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,0);
-
-		hitWaterUIFont = new BitmapFont(Gdx.files.internal("Arial.fnt"));
-		hitWaterUIFont.getData().setScale(0.6f,0.6f);
-		hitWaterUIDistanceFromStartString = "How far from the start do you want to set the ball?";
-
-		hitWaterUIPositive = new TextButton(">", hitWaterUISkin, "default");
-		hitWaterUIPositive.setWidth(25);
-		hitWaterUIPositive.setHeight(25);
-		hitWaterUIPositive.setPosition(Gdx.graphics.getWidth() * 18/20, Gdx.graphics.getHeight() * 3/5);
-
-		hitWaterUINegative = new TextButton("<", hitWaterUISkin, "default");
-		hitWaterUINegative.setWidth(25);
-		hitWaterUINegative.setHeight(25);
-		hitWaterUINegative.setPosition(Gdx.graphics.getWidth() * 17/20, Gdx.graphics.getHeight() * 3/5);
-
-		final TextButton hitWaterUISetBallButton = new TextButton("Set", hitWaterUISkin, "default");
-		hitWaterUISetBallButton.setWidth(100);
-		hitWaterUISetBallButton.setHeight(30);
-		hitWaterUISetBallButton.setPosition(Gdx.graphics.getWidth() * 8/10, Gdx.graphics.getHeight() * 6/20);
-
-		hitWaterUIPositive.addListener(new ClickListener(){
-			/*
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				rotation = rotation + 10;
-				if(rotation >= 360){
-					rotation = 0;
-				}
-			}
-			 */
-
-			@Override
-			public boolean isPressed() {
-				return super.isPressed();
-			}
-		});
-		hitWaterUINegative.addListener(new ClickListener(){
-			/*
-			@Override
-			public void clicked(InputEvent event, float x, float y) {
-				rotation = rotation - 10;
-				if(rotation < 0){
-					rotation = 350;
-				}
-			}
-			 */
-
-			@Override
-			public boolean isPressed() {
-				return super.isPressed();
-			}
-		});
-
-		hitWaterUIStage.addActor(hitWaterUIPositive);
-		hitWaterUIStage.addActor(hitWaterUINegative);
-		hitWaterUIStage.addActor(hitWaterUISetBallButton);
-
-		InputMultiplexer hitWaterUIInputMultiplexer = new InputMultiplexer(hitWaterUIStage, this);
-		Gdx.input.setInputProcessor(hitWaterUIInputMultiplexer);
-
-		//WonScreen
-		//nothing inside
 	}
 
 //	public void resize(int width, int height) {

@@ -4,5 +4,6 @@ public enum UIState {
     GamePlay,
     HitWaterUI,
     GameUI,
-    WonScreen;
+    WonScreen,
+    Only3D;
 }
