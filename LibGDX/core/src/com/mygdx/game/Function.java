@@ -382,7 +382,8 @@ public class Function implements Function2d {
     }
 
     public static void main(String[] args) {
-        String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
+        //String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
+        String function = "2x+y";
         Function example = new Function(function);
 
         System.out.printf("function:%s%n", function);
@@ -390,6 +391,9 @@ public class Function implements Function2d {
         System.out.printf("postfix: %s%n", example.getPostfix());
 
         int x = 5; int y = 4;
-        System.out.println(example.getInfix()+" with x = "+x+" and y = "+y+" is: " +  example.evaluate(new Vector2d(x, y)));
+        //System.out.println(example.getInfix()+" with x = "+x+" and y = "+y+" is: " +  example.evaluate(new Vector2d(x, y)));
+        System.out.println(example.evaluate(new Vector2d(x, y)));
+        System.out.println(example.gradient(new Vector2d(x, y)).x);
+        System.out.println(example.gradient(new Vector2d(x, y)).y); 
     }
 }
