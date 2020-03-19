@@ -383,7 +383,7 @@ public class Function implements Function2d {
 
     public static void main(String[] args) {
         //String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
-        String function = "2x+y";
+        String function = "cos(pi) + 2";
         Function example = new Function(function);
 
         System.out.printf("function:%s%n", function);

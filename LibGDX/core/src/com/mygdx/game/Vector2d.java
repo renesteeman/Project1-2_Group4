@@ -27,49 +27,35 @@ public class Vector2d {
 	public double get_y() { return y; }
 	public double get_z() { return z; }
 
-	public static Vector2d multiplyVector(double constant, Vector2d vector){
-		double x = vector.x * constant;
-		double y = vector.y * constant;
-		double z = vector.z * constant;
-
-		return new Vector2d(x, y, z);
-	}
-
-	public static Vector2d addVectors(Vector2d first, Vector2d second){
-		double x = first.x + second.x;
-		double y = first.y + second.y;
-		double z = first.z + second.z;
-
-		return new Vector2d(x, y, z);
-	}
-
-	public static Vector2d getNormalized(Vector2d vector){
-		double vectorSize = Math.sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z);
-
-		double x = vector.x / vectorSize;
-		double y = vector.y / vectorSize;
-		double z = vector.z / vectorSize;
-
-		return new Vector2d(x, y, z);
+	public static Vector2d add(Vector2d l, Vector2d r) {
+		return new Vector2d(l.x + r.x, l.y + r.y, l.z + r.z);
 	}
 
 	public static Vector2d substract(Vector2d l, Vector2d r) {
-		return new Vector2d(l.x - r.x, l.y - r.y);
+		return new Vector2d(l.x - r.x, l.y - r.y, l.z - r.z);
 	}
 
-	public static double getDistance(Vector2d pointA, Vector2d pointB){
-		return Math.sqrt((pointB.x-pointA.x)*(pointB.x-pointA.x)
-				+ (pointB.y - pointA.y)*(pointB.y - pointA.y)
-				+ (pointB.z - pointA.z)*(pointB.z - pointA.z));
+	public static Vector2d mul(Vector2d v, double constant) {
+		return new Vector2d(v.x * constant, v.y * constant, v.z * constant);
+	}
+
+	public Vector2d getNormalized() {
+		double l = len();
+		return new Vector2d(x / l, y / l, z / l);
+	}
+
+	public static double getDistance(Vector2d pointA, Vector2d pointB) {
+		Vector2d res = Vector2d.substract(pointA, pointB);
+		return res.len();
 	}
 
 	public double len() {
-		return Math.sqrt(x * x + y * y);
+		return Math.sqrt(x * x + y * y + z * z);
 	} 
 
 	@Override
 	public String toString() {
-		return String.format("(%d, %d)", x, y);
+		return String.format("(%f, %f, %f)", x, y, z);
 	}
 
 	@Override
@@ -77,6 +63,6 @@ public class Vector2d {
 		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
 		Vector2d v = (Vector2d)obj;
-		return (Math.abs(v.x - x) <= EPS && Math.abs(v.y - y) <= EPS);
+		return (Math.abs(v.x - x) <= EPS && Math.abs(v.y - y) <= EPS && Math.abs(v.z - z) <= EPS);
 	}
 }

@@ -1,0 +1,6 @@
+height = x^2+y^2
+flag = (5, 0)
+start = (-5, 0)
+friction = 0.0
+vmax = 20.0
+tol = 1.0
