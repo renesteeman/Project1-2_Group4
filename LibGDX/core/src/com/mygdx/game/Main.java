@@ -40,7 +40,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	SpriteBatch batch2D;
 
 	//Used to set what will be rendered
-	UIState CurrentUIState = UIState.Only3D;
+	UIState CurrentUIState = UIState.GameUI;
 
 	//GamePlay
 	GameUI gamePlayGame;
