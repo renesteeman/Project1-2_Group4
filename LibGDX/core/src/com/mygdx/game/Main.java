@@ -35,6 +35,9 @@ import java.util.Random;
 //TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener {
 
+	//Used to set what will be rendered
+	UIState CurrentUIState = UIState.StartMenu;
+
 	//ChoiceModeScreen
 	GameUI choiceModeScreenGame;
 	BitmapFont choiceModeScreenTitle;
@@ -566,591 +569,596 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 
 		//2D UI
+		switch(CurrentUIState){
+			case ChoiceModeScreen:
+				//ChoiceModeScreen
+				choiceModeScreenGame.gameUIBatch.begin();
+				FreeTypeFontGenerator choiceModeScreenGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
 
-		//ChoiceModeScreen
-		choiceModeScreenGame.gameUIBatch.begin();
-		FreeTypeFontGenerator choiceModeScreenGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator.FreeTypeFontParameter choiceModeScreenParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				choiceModeScreenParameter.size = 70;
+				choiceModeScreenParameter.characters = "Choose Your Game Mode";
+				choiceModeScreenTitle = choiceModeScreenGenerator.generateFont(choiceModeScreenParameter);
+				choiceModeScreenTitle.setColor(Color.FOREST);
+				choiceModeScreenGenerator.dispose();
+				choiceModeScreenTitle.draw(choiceModeScreenGame.gameUIBatch, "Choose Your Game Mode", GameUI.gameUI_WINDOW_WIDTH/4-50, GameUI.gameUI_WINDOW_HEIGHT-100);
 
-		FreeTypeFontGenerator.FreeTypeFontParameter choiceModeScreenParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		choiceModeScreenParameter.size = 70;
-		choiceModeScreenParameter.characters = "Choose Your Game Mode";
-		choiceModeScreenTitle = choiceModeScreenGenerator.generateFont(choiceModeScreenParameter);
-		choiceModeScreenTitle.setColor(Color.FOREST);
-		choiceModeScreenGenerator.dispose();
-		choiceModeScreenTitle.draw(choiceModeScreenGame.gameUIBatch, "Choose Your Game Mode", GameUI.gameUI_WINDOW_WIDTH/4-50, GameUI.gameUI_WINDOW_HEIGHT-100);
+				choiceModeScreenGame.gameUIBatch.end();
+				choiceModeScreenStage.draw();
+				break;
 
-		choiceModeScreenGame.gameUIBatch.end();
-		choiceModeScreenStage.draw();
+			case CustomizedMenu:
+				//CustomizedMenu
+				customizedMenuGame.gameUIBatch.begin();
 
+				FreeTypeFontGenerator customizedMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator customizedMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
 
-		//CustomizedMenu
-		customizedMenuGame.gameUIBatch.begin();
+				//Different texts
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-		FreeTypeFontGenerator customizedMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-		FreeTypeFontGenerator customizedMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+				customizedMenuParameter.size = 60;
+				customizedMenuVelo.size = 20;
+				customizedMenuAcc.size = 20;
+				customizedMenuMu.size = 20;
+				customizedMenuDist.size = 20;
+				customizedMenuWeight.size = 20;
+				customizedMenuHauteur.size = 20;
+				customizedMenuHauteur2.size = 20;
+				customizedMenuHauteur3.size = 20;
 
-		//Different texts
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuHauteur3 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				customizedMenuParameter.characters = "customized Menu";
+				customizedMenuVelo.characters = "Initial Velocity: ";
+				customizedMenuAcc.characters = "Acceleration: ";
+				customizedMenuMu.characters = "Coefficient of friction: ";
+				customizedMenuDist.characters = "Distance from the Hole: ";
+				customizedMenuWeight.characters = "Mass of the ball: ";
+				customizedMenuHauteur.characters = "Equation of the height: ";
+				customizedMenuHauteur2.characters = "Write the equation in that form please: ";
+				customizedMenuHauteur3.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
 
-		customizedMenuParameter.size = 60;
-		customizedMenuVelo.size = 20;
-		customizedMenuAcc.size = 20;
-		customizedMenuMu.size = 20;
-		customizedMenuDist.size = 20;
-		customizedMenuWeight.size = 20;
-		customizedMenuHauteur.size = 20;
-		customizedMenuHauteur2.size = 20;
-		customizedMenuHauteur3.size = 20;
+				customizedMenuFont = customizedMenuGenerator.generateFont(customizedMenuParameter);
+				customizedMenuVelocity = customizedMenuWritingStyle.generateFont(customizedMenuVelo);
+				customizedMenuAcceleration = customizedMenuWritingStyle.generateFont(customizedMenuAcc);
+				customizedMenuCoefficient = customizedMenuWritingStyle.generateFont(customizedMenuMu);
+				customizedMenuDistance = customizedMenuWritingStyle.generateFont(customizedMenuDist);
+				customizedMenuMass = customizedMenuWritingStyle.generateFont(customizedMenuWeight);
+				customizedMenuHeight = customizedMenuWritingStyle.generateFont(customizedMenuHauteur);
+				customizedMenuHeight2 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur2);
+				customizedMenuHeight3 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur3);
 
-		customizedMenuParameter.characters = "customized Menu";
-		customizedMenuVelo.characters = "Initial Velocity: ";
-		customizedMenuAcc.characters = "Acceleration: ";
-		customizedMenuMu.characters = "Coefficient of friction: ";
-		customizedMenuDist.characters = "Distance from the Hole: ";
-		customizedMenuWeight.characters = "Mass of the ball: ";
-		customizedMenuHauteur.characters = "Equation of the height: ";
-		customizedMenuHauteur2.characters = "Write the equation in that form please: ";
-		customizedMenuHauteur3.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
+				customizedMenuFont.setColor(Color.FOREST);
+				customizedMenuVelocity.setColor(Color.FOREST);
+				customizedMenuAcceleration.setColor(Color.FOREST);
+				customizedMenuCoefficient.setColor(Color.FOREST);
+				customizedMenuDistance.setColor(Color.FOREST);
+				customizedMenuMass.setColor(Color.FOREST);
+				customizedMenuHeight.setColor(Color.FOREST);
+				customizedMenuHeight2.setColor(Color.FOREST);
+				customizedMenuHeight3.setColor(Color.FOREST);
 
-		customizedMenuFont = customizedMenuGenerator.generateFont(customizedMenuParameter);
-		customizedMenuVelocity = customizedMenuWritingStyle.generateFont(customizedMenuVelo);
-		customizedMenuAcceleration = customizedMenuWritingStyle.generateFont(customizedMenuAcc);
-		customizedMenuCoefficient = customizedMenuWritingStyle.generateFont(customizedMenuMu);
-		customizedMenuDistance = customizedMenuWritingStyle.generateFont(customizedMenuDist);
-		customizedMenuMass = customizedMenuWritingStyle.generateFont(customizedMenuWeight);
-		customizedMenuHeight = customizedMenuWritingStyle.generateFont(customizedMenuHauteur);
-		customizedMenuHeight2 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur2);
-		customizedMenuHeight3 = customizedMenuWritingStyle.generateFont(customizedMenuHauteur3);
+				customizedMenuGenerator.dispose();
 
-		customizedMenuFont.setColor(Color.FOREST);
-		customizedMenuVelocity.setColor(Color.FOREST);
-		customizedMenuAcceleration.setColor(Color.FOREST);
-		customizedMenuCoefficient.setColor(Color.FOREST);
-		customizedMenuDistance.setColor(Color.FOREST);
-		customizedMenuMass.setColor(Color.FOREST);
-		customizedMenuHeight.setColor(Color.FOREST);
-		customizedMenuHeight2.setColor(Color.FOREST);
-		customizedMenuHeight3.setColor(Color.FOREST);
+				customizedMenuFont.draw(customizedMenuGame.gameUIBatch, "customized Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+				customizedMenuVelocity.draw(customizedMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
+				customizedMenuAcceleration.draw(customizedMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
+				customizedMenuCoefficient.draw(customizedMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
+				customizedMenuDistance.draw(customizedMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
+				customizedMenuMass.draw(customizedMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
+				customizedMenuHeight.draw(customizedMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
+				customizedMenuHeight2.draw(customizedMenuGame.gameUIBatch, "Write the equation in that form please:", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-600);
+				customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2, GameUI.gameUI_WINDOW_HEIGHT-600);
 
-		customizedMenuGenerator.dispose();
+				//Drawing the line under the Back Button
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + customizedMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), customizedMenu_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						customizedMenuGame.setScreen(new StartMenu(customizedMenuGame));
+					}
+				}
 
-		customizedMenuFont.draw(customizedMenuGame.gameUIBatch, "customized Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
-		customizedMenuVelocity.draw(customizedMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
-		customizedMenuAcceleration.draw(customizedMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
-		customizedMenuCoefficient.draw(customizedMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
-		customizedMenuDistance.draw(customizedMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
-		customizedMenuMass.draw(customizedMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
-		customizedMenuHeight.draw(customizedMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
-		customizedMenuHeight2.draw(customizedMenuGame.gameUIBatch, "Write the equation in that form please:", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-600);
-		customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2, GameUI.gameUI_WINDOW_HEIGHT-600);
-
-		//Drawing the line under the Back Button
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + customizedMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), customizedMenu_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				customizedMenuGame.setScreen(new StartMenu(customizedMenuGame));
-			}
-		}
-
-		//Drawing the line under the Ok button
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + customizedMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, customizedMenu_OK_BUTTON_WIDTH, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				customizedMenuGame.setScreen(new ChoiceModeScreen(customizedMenuGame));
+				//Drawing the line under the Ok button
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + customizedMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, customizedMenu_OK_BUTTON_WIDTH, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						customizedMenuGame.setScreen(new ChoiceModeScreen(customizedMenuGame));
 //                System.out.println("Velocity: " + getcustomizedMenuVel());
 //                System.out.println("Acceleration: " + getcustomizedMenuAcc());
 //                System.out.println("Coefficient: " + getcustomizedMenuMu());
 //                System.out.println("Distance: " + getcustomizedMenuDis());
 //                System.out.println("Mass: " + getcustomizedMenuMas());
 //                System.out.println("Height Equation: " + getcustomizedMenuHei());
-			}
+					}
+				}
+
+				//Drawing the different buttons
+				customizedMenuGame.gameUIBatch.draw(customizedMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, customizedMenu_BACK_BUTTON_SIZE, customizedMenu_BACK_BUTTON_SIZE);
+				customizedMenuGame.gameUIBatch.draw(customizedMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, customizedMenu_OK_BUTTON_WIDTH, customizedMenu_OK_BUTTON_HEIGHT);
+
+				//Drawing the line under the different texts
+				//And get the input for each value when they're clicked
+
+				FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				customizedMenuVelo2.size = 100;
+				customizedMenuVelo2.characters = " ";
+				customizedMenuVelocity1 = customizedMenuWritingStyle.generateFont(customizedMenuVelo2);
+				customizedMenuVelocity1.setColor(Color.FOREST);
+				customizedMenuWritingStyle.dispose();
+				customizedMenuVelocity1.draw(customizedMenuGame.gameUIBatch, " ", GameUI.gameUI_WINDOW_WIDTH/6, GameUI.gameUI_WINDOW_HEIGHT-380);
+
+				//Velocity
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-300 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-330 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-380, 200, 150);
+				}
+				//Acceleration
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-380 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-430, 150, 150);
+				}
+				//Mu
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-400 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-430 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-480, 290, 150);
+				}
+				//Distance
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-450 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-480 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-530, 290, 150);
+				}
+				//Mass
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-500 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-530 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-580, 200, 150);
+				}
+				//Height equation
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-550 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-580 ){
+					customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-630, 290, 150);
+				}
+				customizedMenuGame.gameUIBatch.end();
+
+				customizedMenuStage.draw();
+				break;
+			case DefaultMenu:
+				//DefaultMenu
+				defaultMenuGame.gameUIBatch.begin();
+
+				FreeTypeFontGenerator defaultMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator defaultMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+				defaultMenuParameter.size = 60;
+				defaultMenuVelo.size = 20;
+				defaultMenuAcc.size = 20;
+				defaultMenuMu.size = 20;
+				defaultMenuDist.size = 20;
+				defaultMenuWeight.size = 20;
+				defaultMenuHauteur.size = 20;
+
+				defaultMenuParameter.characters = "Default Menu";
+				defaultMenuVelo.characters = "Initial Velocity: ";
+				defaultMenuAcc.characters = "Acceleration: ";
+				defaultMenuMu.characters = "Coefficient of friction: ";
+				defaultMenuDist.characters = "Distance from the Hole: ";
+				defaultMenuWeight.characters = "Mass of the ball: ";
+				defaultMenuHauteur.characters = "Equation of the height: ";
+
+				defaultMenuFont = defaultMenuGenerator.generateFont(defaultMenuParameter);
+				defaultMenuVelocity = defaultMenuWritingStyle.generateFont(defaultMenuVelo);
+				defaultMenuAcceleration = defaultMenuWritingStyle.generateFont(defaultMenuAcc);
+				defaultMenuCoefficient = defaultMenuWritingStyle.generateFont(defaultMenuMu);
+				defaultMenuDistance = defaultMenuWritingStyle.generateFont(defaultMenuDist);
+				defaultMenuMass = defaultMenuWritingStyle.generateFont(defaultMenuWeight);
+				defaultMenuHeight = defaultMenuWritingStyle.generateFont(defaultMenuHauteur);
+
+				defaultMenuFont.setColor(Color.FOREST);
+				defaultMenuVelocity.setColor(Color.FOREST);
+				defaultMenuAcceleration.setColor(Color.FOREST);
+				defaultMenuCoefficient.setColor(Color.FOREST);
+				defaultMenuDistance.setColor(Color.FOREST);
+				defaultMenuMass.setColor(Color.FOREST);
+				defaultMenuHeight.setColor(Color.FOREST);
+
+				defaultMenuGenerator.dispose();
+
+				defaultMenuFont.draw(defaultMenuGame.gameUIBatch, "Default Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+				defaultMenuVelocity.draw(defaultMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
+				defaultMenuAcceleration.draw(defaultMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
+				defaultMenuCoefficient.draw(defaultMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
+				defaultMenuDistance.draw(defaultMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
+				defaultMenuMass.draw(defaultMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
+				defaultMenuHeight.draw(defaultMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
+
+				//Default Input
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+				defaultMenuVelo1.size = 20;
+				defaultMenuAcc1.size = 20;
+				defaultMenuMu1.size = 20;
+				defaultMenuDist1.size = 20;
+				defaultMenuWeight1.size = 20;
+				defaultMenuHauteur1.size = 20;
+
+				defaultMenuVelo1.characters = "0 m/s";
+				defaultMenuAcc1.characters = "9.81 m/s^2";
+				defaultMenuMu1.characters = "0.131";
+				defaultMenuDist1.characters = "0.02 m";
+				defaultMenuWeight1.characters = "45.93 g";
+				defaultMenuHauteur1.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
+
+				defaultMenuVelocity1 = defaultMenuWritingStyle.generateFont(defaultMenuVelo1);
+				defaultMenuAcceleration1 = defaultMenuWritingStyle.generateFont(defaultMenuAcc1);
+				defaultMenuCoefficient1 = defaultMenuWritingStyle.generateFont(defaultMenuMu1);
+				defaultMenuDistance1 = defaultMenuWritingStyle.generateFont(defaultMenuDist1);
+				defaultMenuMass1 = defaultMenuWritingStyle.generateFont(defaultMenuWeight1);
+				defaultMenuHeight1 = defaultMenuWritingStyle.generateFont(defaultMenuHauteur1);
+
+				defaultMenuVelocity1.setColor(Color.FOREST);
+				defaultMenuAcceleration1.setColor(Color.FOREST);
+				defaultMenuCoefficient1.setColor(Color.FOREST);
+				defaultMenuDistance1.setColor(Color.FOREST);
+				defaultMenuMass1.setColor(Color.FOREST);
+				defaultMenuHeight1.setColor(Color.FOREST);
+
+				defaultMenuVelocity1.draw(defaultMenuGame.gameUIBatch, "0 m/s", GameUI.gameUI_WINDOW_WIDTH/3 + 50, GameUI.gameUI_WINDOW_HEIGHT-300);
+				defaultMenuAcceleration1.draw(defaultMenuGame.gameUIBatch, "9.81 m/s^2", GameUI.gameUI_WINDOW_WIDTH/3+50, GameUI.gameUI_WINDOW_HEIGHT-350);
+				defaultMenuCoefficient1.draw(defaultMenuGame.gameUIBatch, "0.131", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-400);
+				defaultMenuDistance1.draw(defaultMenuGame.gameUIBatch, "0.02 m", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-450);
+				defaultMenuMass1.draw(defaultMenuGame.gameUIBatch, "45.93 g", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-500);
+				defaultMenuHeight1.draw(defaultMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", (GameUI.gameUI_WINDOW_WIDTH/3)+50, GameUI.gameUI_WINDOW_HEIGHT-550);
+
+				//Draw the line under the Back Button
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + defaultMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					defaultMenuGame.gameUIBatch.draw(defaultMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), defaultMenu_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						defaultMenuGame.setScreen(new StartMenu(defaultMenuGame));
+					}
+				}
+				//Draw the line under the Ok button
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + defaultMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+					defaultMenuGame.gameUIBatch.draw(defaultMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, defaultMenu_OK_BUTTON_WIDTH, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						defaultMenuGame.setScreen(new ChoiceModeScreen(defaultMenuGame));
+					}
+				}
+
+				//Draw the buttons
+				defaultMenuGame.gameUIBatch.draw(defaultMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, defaultMenu_BACK_BUTTON_SIZE, defaultMenu_BACK_BUTTON_SIZE);
+				defaultMenuGame.gameUIBatch.draw(defaultMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, defaultMenu_OK_BUTTON_WIDTH, defaultMenu_OK_BUTTON_HEIGHT);
+
+				defaultMenuGame.gameUIBatch.end();
+				break;
+			case GamePlay:
+				//GamePlay
+				gamePlayGame.gameUIBatch.begin();
+				FreeTypeFontGenerator gamePlayGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter gamePlayParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				gamePlayParameter.size = 100;
+				gamePlayParameter.characters = "Game";
+				gamePlayFont = gamePlayGenerator.generateFont(gamePlayParameter);
+				gamePlayFont.setColor(Color.FOREST);
+				gamePlayGenerator.dispose();
+				gamePlayFont.draw(gamePlayGame.gameUIBatch, "Game", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + gamePlay_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < gamePlay_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					gamePlayGame.gameUIBatch.draw(gamePlayLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), gamePlay_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						gamePlayGame.setScreen(new StartMenu(gamePlayGame));
+					}
+				}
+
+				gamePlayGame.gameUIBatch.draw(gamePlayBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, gamePlay_BACK_BUTTON_SIZE, gamePlay_BACK_BUTTON_SIZE);
+				gamePlayGame.gameUIBatch.end();
+				break;
+			case GameUI:
+				//GameUI
+				super.render();
+				break;
+			case HelpMenu:
+				//HelpMenu
+				helpMenuHelp.gameUIBatch.begin();
+
+				FreeTypeFontGenerator helpMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				helpMenuParameter.size = 50;
+				helpMenuParameter.characters = "Command";
+				helpMenuFont = helpMenuGenerator.generateFont(helpMenuParameter);
+				helpMenuFont.setColor(Color.FOREST);
+				helpMenuGenerator.dispose();
+				helpMenuFont.draw(helpMenuHelp.gameUIBatch, "Command", GameUI.gameUI_WINDOW_WIDTH-750, GameUI.gameUI_WINDOW_HEIGHT-100);
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + helpMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < helpMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+					helpMenuHelp.gameUIBatch.draw(helpMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, helpMenu_OK_BUTTON_WIDTH, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						helpMenuHelp.setScreen(new MainMenuScreen(helpMenuHelp));
+					}
+				}
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + helpMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < helpMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					helpMenuHelp.gameUIBatch.draw(helpMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), helpMenu_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						helpMenuHelp.setScreen(new MainMenuScreen(helpMenuHelp));
+					}
+				}
+
+				helpMenuHelp.gameUIBatch.draw(helpMenuHelpButton, GameUI.gameUI_WINDOW_WIDTH-200, GameUI.gameUI_WINDOW_HEIGHT - 150, helpMenu_HELP_BUTTON_SIZE, helpMenu_HELP_BUTTON_SIZE);
+				helpMenuHelp.gameUIBatch.draw(helpMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, helpMenu_OK_BUTTON_WIDTH, helpMenu_OK_BUTTON_HEIGHT);
+				helpMenuHelp.gameUIBatch.draw(helpMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, helpMenu_BACK_BUTTON_SIZE, helpMenu_BACK_BUTTON_SIZE);
+				helpMenuHelp.gameUIBatch.draw(helpMenuLeftButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-300, helpMenu_LEFT_BUTTON_WIDTH, helpMenu_LEFT_BUTTON_HEIGHT);
+				helpMenuHelp.gameUIBatch.draw(helpMenuRightButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT - 400, helpMenu_RIGHT_BUTTON_WIDTH, helpMenu_RIGHT_BUTTON_HEIGHT);
+				helpMenuHelp.gameUIBatch.draw(helpMenuPlusButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-500, helpMenu_PLUS_BUTTON_SIZE, helpMenu_PLUS_BUTTON_SIZE);
+				helpMenuHelp.gameUIBatch.draw(helpMenuMinusButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-600, helpMenu_MINUS_BUTTON_SIZE, helpMenu_MINUS_BUTTON_SIZE);
+				helpMenuHelp.gameUIBatch.draw(helpMenuShootButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-700, helpMenu_SHOOT_BUTTON_SIZE, helpMenu_SHOOT_BUTTON_SIZE);
+
+				//write the different rules
+				FreeTypeFontGenerator helpMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuLeftR = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuRightR = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuPlusR = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuMinusR = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter helpMenuShootR = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+				helpMenuLeftR.size = 30;
+				helpMenuRightR.size = 30;
+				helpMenuMinusR.size = 30;
+				helpMenuPlusR.size = 30;
+				helpMenuShootR.size = 30;
+
+				helpMenuLeftR.characters = "Change direction to the left";
+				helpMenuRightR.characters = "Change direction to the right";
+				helpMenuPlusR.characters = "Increases the power of the shoot";
+				helpMenuMinusR.characters = "Decreases the power of the shoot";
+				helpMenuShootR.characters = "Shoot the ball";
+
+				helpMenuLeftRule = helpMenuWritingStyle.generateFont(helpMenuLeftR);
+				helpMenuRightRule = helpMenuWritingStyle.generateFont(helpMenuRightR);
+				helpMenuPlusRule = helpMenuWritingStyle.generateFont(helpMenuPlusR);
+				helpMenuMinusRule = helpMenuWritingStyle.generateFont(helpMenuMinusR);
+				helpMenuShootRule = helpMenuWritingStyle.generateFont(helpMenuShootR);
+
+				helpMenuLeftRule.setColor(Color.FOREST);
+				helpMenuRightRule.setColor(Color.FOREST);
+				helpMenuPlusRule.setColor(Color.FOREST);
+				helpMenuMinusRule.setColor(Color.FOREST);
+				helpMenuShootRule.setColor(Color.FOREST);
+
+				helpMenuWritingStyle.dispose();
+				helpMenuLeftRule.draw(helpMenuHelp.gameUIBatch, "Change direction to the left", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-250);
+				helpMenuRightRule.draw(helpMenuHelp.gameUIBatch, "Change direction to the right", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-350);
+				helpMenuPlusRule.draw(helpMenuHelp.gameUIBatch, "Increases the power of the shoot", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-450);
+				helpMenuMinusRule.draw(helpMenuHelp.gameUIBatch, "Decreases the power of the shoot", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-550);
+				helpMenuShootRule.draw(helpMenuHelp.gameUIBatch, "Shoot the ball", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-650);
+
+				helpMenuHelp.gameUIBatch.end();
+				break;
+
+			case HitWaterUI:
+				//HitWaterUI
+				hitWaterUIStage.act(Gdx.graphics.getDeltaTime());
+
+				if(hitWaterUIPositive.isPressed()){
+					hitWaterUIDistanceFromStart += Gdx.graphics.getDeltaTime() *20;
+					if(hitWaterUIDistanceFromStart >= hitWaterUIMaxDistanceFromStart){
+						hitWaterUIDistanceFromStart = hitWaterUIMaxDistanceFromStart;
+					}
+				}
+
+				if(hitWaterUINegative.isPressed()){
+					hitWaterUIDistanceFromStart -= Gdx.graphics.getDeltaTime() *20;
+					if(hitWaterUIDistanceFromStart < 0){
+						hitWaterUIDistanceFromStart = 0;
+					}
+				}
+
+				int distanceFromStartRounded = (int) hitWaterUIDistanceFromStart;
+
+				hitWaterUIBatch.begin();
+				hitWaterUIFont.setColor(Color.BLACK);
+				hitWaterUIWhiteBackground.draw(hitWaterUIBatch);
+				hitWaterUIFont.draw(hitWaterUIBatch, hitWaterUIDistanceFromStartString, Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+						Gdx.graphics.getHeight() * 9/10, hitWaterUIBackgroundWidth, 1, true);
+				hitWaterUIFont.draw(hitWaterUIBatch, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
+						Gdx.graphics.getHeight() * 7/10, hitWaterUIBackgroundWidth, 1, true);
+				hitWaterUIBatch.end();
+
+				hitWaterUIStage.draw();
+				break;
+
+			case MainMenuScreen:
+				//MainMenuScreen
+				FreeTypeFontGenerator mainMenuScreenGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter mainMenuScreenParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter mainMenuScreenGroup4 = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				mainMenuScreenParameter.size = 90;
+				mainMenuScreenParameter.characters = "Mini Golf";
+				mainMenuScreenGroup4.characters = "Group 4";
+				mainMenuScreenGroup4.size = 30;
+
+				mainMenuScreenFont = mainMenuScreenGenerator.generateFont(mainMenuScreenParameter);
+				mainMenuScreenFont1 = mainMenuScreenGenerator.generateFont(mainMenuScreenGroup4);
+				mainMenuScreenFont.setColor(Color.FOREST);
+				mainMenuScreenFont1.setColor(Color.FOREST);
+				mainMenuScreenGenerator.dispose();
+
+				mainMenuScreenGame.gameUIBatch.begin();
+				mainMenuScreenFont.draw(mainMenuScreenGame.gameUIBatch, " Mini Golf", GameUI.gameUI_WINDOW_WIDTH/5, GameUI.gameUI_WINDOW_HEIGHT-100);
+				mainMenuScreenFont1.draw(mainMenuScreenGame.gameUIBatch, "Group 4", GameUI.gameUI_WINDOW_WIDTH / 10, GameUI.gameUI_WINDOW_HEIGHT - 50);
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/4 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH/5 + mainMenuScreen_START_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_START_BUTTON_HEIGHT + (GameUI.gameUI_WINDOW_HEIGHT/7)-150 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > (GameUI.gameUI_WINDOW_HEIGHT/7)+80){
+					mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/4) +50, (GameUI.gameUI_WINDOW_HEIGHT/7)+80, mainMenuScreen_START_BUTTON_WIDTH-120, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						mainMenuScreenGame.setScreen(new StartMenu(mainMenuScreenGame));
+					}
+				}
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH/10 + mainMenuScreen_EXIT_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_EXIT_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10){
+					mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/10), (GameUI.gameUI_WINDOW_HEIGHT/10)-50, mainMenuScreen_EXIT_BUTTON_WIDTH, 150);
+					if(Gdx.input.justTouched()){
+						Gdx.app.exit();
+					}
+				}
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH-150 + mainMenuScreen_SETTINGS_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_SETTINGS_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10){
+					mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH)-150, (GameUI.gameUI_WINDOW_HEIGHT/10) - 55, mainMenuScreen_SETTINGS_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						mainMenuScreenGame.setScreen(new SettingsMenu(mainMenuScreenGame));
+					}
+				}
+
+				mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
+				mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenExitButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT/10, mainMenuScreen_EXIT_BUTTON_WIDTH, mainMenuScreen_EXIT_BUTTON_HEIGHT);
+				mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenSettingsButton, GameUI.gameUI_WINDOW_WIDTH - 150, GameUI.gameUI_WINDOW_HEIGHT / 10, mainMenuScreen_SETTINGS_BUTTON_SIZE, mainMenuScreen_SETTINGS_BUTTON_SIZE);
+				mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH-480, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
+				mainMenuScreenGame.gameUIBatch.end();
+
+			case SettingsMenu:
+				//SettingsMenu
+				settingsMenuSettings.gameUIBatch.begin();
+
+				FreeTypeFontGenerator settingsMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator.FreeTypeFontParameter settingsMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				settingsMenuParameter.size = 50;
+				settingsMenuParameter.characters = "Settings";
+				settingsMenuFont = settingsMenuGenerator.generateFont(settingsMenuParameter);
+				settingsMenuFont.setColor(Color.FOREST);
+				settingsMenuGenerator.dispose();
+				settingsMenuFont.draw(settingsMenuSettings.gameUIBatch, "Settings", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + settingsMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
+					settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, settingsMenu_OK_BUTTON_WIDTH, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
+					}
+				}
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + settingsMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), settingsMenu_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
+					}
+				}
+
+				settingsMenuSettings.gameUIBatch.draw(settingsMenuSettingsButton, GameUI.gameUI_WINDOW_WIDTH*2/3, GameUI.gameUI_WINDOW_HEIGHT - 150, settingsMenu_SETTINGS_BUTTON_SIZE, settingsMenu_SETTINGS_BUTTON_SIZE);
+				settingsMenuSettings.gameUIBatch.draw(settingsMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, settingsMenu_OK_BUTTON_WIDTH, settingsMenu_OK_BUTTON_HEIGHT);
+				settingsMenuSettings.gameUIBatch.draw(settingsMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, settingsMenu_BACK_BUTTON_SIZE, settingsMenu_BACK_BUTTON_SIZE);
+
+				settingsMenuSettings.gameUIBatch.end();
+				break;
+
+			case StartMenu:
+				//StartMenu
+				startMenuStart.gameUIBatch.begin();
+				FreeTypeFontGenerator startMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+				FreeTypeFontGenerator startMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter startMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter startMenuMakeChoice = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter startMenuBasic = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter startMenuCusto = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				FreeTypeFontGenerator.FreeTypeFontParameter startMenuOwn = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+				startMenuParameter.size = 90;
+				startMenuMakeChoice.size = 40;
+				startMenuBasic.size = 30;
+				startMenuCusto.size = 30;
+				startMenuOwn.size = 30;
+
+				startMenuParameter.characters = "Start";
+				startMenuMakeChoice.characters = "Which set of parameters do you want to use?";
+				startMenuBasic.characters = "Default";
+				startMenuCusto.characters = "Customized";
+				startMenuOwn.characters = "Path to your startMenuOwn parameters:";
+
+				startMenuFont = startMenuGenerator.generateFont(startMenuParameter);
+				startMenuChoice = startMenuWritingStyle.generateFont(startMenuMakeChoice);
+				startMenuFont1 = startMenuWritingStyle.generateFont(startMenuBasic);
+				startMenuCustomize = startMenuWritingStyle.generateFont(startMenuCusto);
+				startMenuOwnPath = startMenuWritingStyle.generateFont(startMenuOwn);
+
+				startMenuFont.setColor(Color.FOREST);
+				startMenuChoice.setColor(Color.FOREST);
+				startMenuFont1.setColor(Color.FOREST);
+				startMenuCustomize.setColor(Color.FOREST);
+				startMenuOwnPath.setColor(Color.FOREST);
+
+				startMenuGenerator.dispose();
+
+				startMenuFont.draw(startMenuStart.gameUIBatch, "Start", GameUI.gameUI_WINDOW_WIDTH-750, GameUI.gameUI_WINDOW_HEIGHT-100);
+				startMenuChoice.draw(startMenuStart.gameUIBatch, "Which set of parameters do you want to use?", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-200);
+				startMenuFont1.draw(startMenuStart.gameUIBatch, "Default", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-350);
+				startMenuCustomize.draw(startMenuStart.gameUIBatch, "Customized", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-400);
+				startMenuOwnPath.draw(startMenuStart.gameUIBatch, "Path to your startMenuOwn parameters:", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-450);
+
+				//Menu choice
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-400 ){
+					startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/7, (GameUI.gameUI_WINDOW_HEIGHT-435), 120, 150);
+					if(Gdx.input.justTouched()){
+						startMenuStart.setScreen(new DefaultMenu(startMenuStart));
+					}
+				}
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-400 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-450 ){
+					startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/7, (GameUI.gameUI_WINDOW_HEIGHT-485), 180, 150);
+					if(Gdx.input.justTouched()){
+						startMenuStart.setScreen(new CustomizedMenu(startMenuStart));
+					}
+				}
+
+				if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + startMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < startMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
+					startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), startMenu_BACK_BUTTON_SIZE, 150);
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						startMenuStart.setScreen(new MainMenuScreen(startMenuStart));
+					}
+				}
+
+				//start.batch.draw(okButton, GameUI.WINDOW_WIDTH-150, GameUI.WINDOW_HEIGHT/10, OK_BUTTON_WIDTH, OK_BUTTON_HEIGHT);
+				startMenuStart.gameUIBatch.draw(startMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, startMenu_BACK_BUTTON_SIZE, startMenu_BACK_BUTTON_SIZE);
+				startMenuStart.gameUIBatch.end();
+				startMenuStage.draw();
+				break;
+
+			case WonScreen:
+				//WonScreen
+				wonScreenGame.gameUIBatch.begin();
+				FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
+
+				FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+				parameter.size = 100;
+				parameter.characters = "YOU WON!";
+				wonScreenFont = generator.generateFont(parameter);
+				wonScreenFont.setColor(Color.FOREST);
+				generator.dispose();
+				wonScreenFont.draw(wonScreenGame.gameUIBatch, "YOU WON!", GameUI.gameUI_WINDOW_WIDTH/3-50, GameUI.gameUI_WINDOW_HEIGHT-300);
+
+				wonScreenGame.gameUIBatch.end();
+				break;
 		}
-
-		//Drawing the different buttons
-		customizedMenuGame.gameUIBatch.draw(customizedMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, customizedMenu_BACK_BUTTON_SIZE, customizedMenu_BACK_BUTTON_SIZE);
-		customizedMenuGame.gameUIBatch.draw(customizedMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, customizedMenu_OK_BUTTON_WIDTH, customizedMenu_OK_BUTTON_HEIGHT);
-
-		//Drawing the line under the different texts
-		//And get the input for each value when they're clicked
-
-		FreeTypeFontGenerator.FreeTypeFontParameter customizedMenuVelo2 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		customizedMenuVelo2.size = 100;
-		customizedMenuVelo2.characters = " ";
-		customizedMenuVelocity1 = customizedMenuWritingStyle.generateFont(customizedMenuVelo2);
-		customizedMenuVelocity1.setColor(Color.FOREST);
-		customizedMenuWritingStyle.dispose();
-		customizedMenuVelocity1.draw(customizedMenuGame.gameUIBatch, " ", GameUI.gameUI_WINDOW_WIDTH/6, GameUI.gameUI_WINDOW_HEIGHT-380);
-
-		//Velocity
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-300 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-330 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-380, 200, 150);
-		}
-		//Acceleration
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-380 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-430, 150, 150);
-		}
-		//Mu
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-400 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-430 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-480, 290, 150);
-		}
-		//Distance
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-450 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-480 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-530, 290, 150);
-		}
-		//Mass
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-500 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-530 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-580, 200, 150);
-		}
-		//Height equation
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/8 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/8) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-550 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-580 ){
-			customizedMenuGame.gameUIBatch.draw(customizedMenuLine, GameUI.gameUI_WINDOW_WIDTH/8, (GameUI.gameUI_WINDOW_HEIGHT)-630, 290, 150);
-		}
-		customizedMenuGame.gameUIBatch.end();
-
-		customizedMenuStage.draw();
-
-
-
-		//DefaultMenu
-		defaultMenuGame.gameUIBatch.begin();
-
-		FreeTypeFontGenerator defaultMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-		FreeTypeFontGenerator defaultMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-		defaultMenuParameter.size = 60;
-		defaultMenuVelo.size = 20;
-		defaultMenuAcc.size = 20;
-		defaultMenuMu.size = 20;
-		defaultMenuDist.size = 20;
-		defaultMenuWeight.size = 20;
-		defaultMenuHauteur.size = 20;
-
-		defaultMenuParameter.characters = "Default Menu";
-		defaultMenuVelo.characters = "Initial Velocity: ";
-		defaultMenuAcc.characters = "Acceleration: ";
-		defaultMenuMu.characters = "Coefficient of friction: ";
-		defaultMenuDist.characters = "Distance from the Hole: ";
-		defaultMenuWeight.characters = "Mass of the ball: ";
-		defaultMenuHauteur.characters = "Equation of the height: ";
-
-		defaultMenuFont = defaultMenuGenerator.generateFont(defaultMenuParameter);
-		defaultMenuVelocity = defaultMenuWritingStyle.generateFont(defaultMenuVelo);
-		defaultMenuAcceleration = defaultMenuWritingStyle.generateFont(defaultMenuAcc);
-		defaultMenuCoefficient = defaultMenuWritingStyle.generateFont(defaultMenuMu);
-		defaultMenuDistance = defaultMenuWritingStyle.generateFont(defaultMenuDist);
-		defaultMenuMass = defaultMenuWritingStyle.generateFont(defaultMenuWeight);
-		defaultMenuHeight = defaultMenuWritingStyle.generateFont(defaultMenuHauteur);
-
-		defaultMenuFont.setColor(Color.FOREST);
-		defaultMenuVelocity.setColor(Color.FOREST);
-		defaultMenuAcceleration.setColor(Color.FOREST);
-		defaultMenuCoefficient.setColor(Color.FOREST);
-		defaultMenuDistance.setColor(Color.FOREST);
-		defaultMenuMass.setColor(Color.FOREST);
-		defaultMenuHeight.setColor(Color.FOREST);
-
-		defaultMenuGenerator.dispose();
-
-		defaultMenuFont.draw(defaultMenuGame.gameUIBatch, "Default Menu", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
-		defaultMenuVelocity.draw(defaultMenuGame.gameUIBatch, "Initial Velocity: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-300);
-		defaultMenuAcceleration.draw(defaultMenuGame.gameUIBatch, "Acceleration: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-350);
-		defaultMenuCoefficient.draw(defaultMenuGame.gameUIBatch, "Coefficient of friction: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-400);
-		defaultMenuDistance.draw(defaultMenuGame.gameUIBatch, "Distance from the Hole: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-450);
-		defaultMenuMass.draw(defaultMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
-		defaultMenuHeight.draw(defaultMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
-
-		//Default Input
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuVelo1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuAcc1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuMu1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuDist1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuWeight1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter defaultMenuHauteur1 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-		defaultMenuVelo1.size = 20;
-		defaultMenuAcc1.size = 20;
-		defaultMenuMu1.size = 20;
-		defaultMenuDist1.size = 20;
-		defaultMenuWeight1.size = 20;
-		defaultMenuHauteur1.size = 20;
-
-		defaultMenuVelo1.characters = "0 m/s";
-		defaultMenuAcc1.characters = "9.81 m/s^2";
-		defaultMenuMu1.characters = "0.131";
-		defaultMenuDist1.characters = "0.02 m";
-		defaultMenuWeight1.characters = "45.93 g";
-		defaultMenuHauteur1.characters = "-0.01*x + 0.003*x^2 + 0.04 * y";
-
-		defaultMenuVelocity1 = defaultMenuWritingStyle.generateFont(defaultMenuVelo1);
-		defaultMenuAcceleration1 = defaultMenuWritingStyle.generateFont(defaultMenuAcc1);
-		defaultMenuCoefficient1 = defaultMenuWritingStyle.generateFont(defaultMenuMu1);
-		defaultMenuDistance1 = defaultMenuWritingStyle.generateFont(defaultMenuDist1);
-		defaultMenuMass1 = defaultMenuWritingStyle.generateFont(defaultMenuWeight1);
-		defaultMenuHeight1 = defaultMenuWritingStyle.generateFont(defaultMenuHauteur1);
-
-		defaultMenuVelocity1.setColor(Color.FOREST);
-		defaultMenuAcceleration1.setColor(Color.FOREST);
-		defaultMenuCoefficient1.setColor(Color.FOREST);
-		defaultMenuDistance1.setColor(Color.FOREST);
-		defaultMenuMass1.setColor(Color.FOREST);
-		defaultMenuHeight1.setColor(Color.FOREST);
-
-		defaultMenuVelocity1.draw(defaultMenuGame.gameUIBatch, "0 m/s", GameUI.gameUI_WINDOW_WIDTH/3 + 50, GameUI.gameUI_WINDOW_HEIGHT-300);
-		defaultMenuAcceleration1.draw(defaultMenuGame.gameUIBatch, "9.81 m/s^2", GameUI.gameUI_WINDOW_WIDTH/3+50, GameUI.gameUI_WINDOW_HEIGHT-350);
-		defaultMenuCoefficient1.draw(defaultMenuGame.gameUIBatch, "0.131", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-400);
-		defaultMenuDistance1.draw(defaultMenuGame.gameUIBatch, "0.02 m", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-450);
-		defaultMenuMass1.draw(defaultMenuGame.gameUIBatch, "45.93 g", (GameUI.gameUI_WINDOW_WIDTH/3) + 50, GameUI.gameUI_WINDOW_HEIGHT-500);
-		defaultMenuHeight1.draw(defaultMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", (GameUI.gameUI_WINDOW_WIDTH/3)+50, GameUI.gameUI_WINDOW_HEIGHT-550);
-
-		//Draw the line under the Back Button
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + defaultMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			defaultMenuGame.gameUIBatch.draw(defaultMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), defaultMenu_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				defaultMenuGame.setScreen(new StartMenu(defaultMenuGame));
-			}
-		}
-		//Draw the line under the Ok button
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + defaultMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < defaultMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
-			defaultMenuGame.gameUIBatch.draw(defaultMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, defaultMenu_OK_BUTTON_WIDTH, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				defaultMenuGame.setScreen(new ChoiceModeScreen(defaultMenuGame));
-			}
-		}
-
-		//Draw the buttons
-		defaultMenuGame.gameUIBatch.draw(defaultMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, defaultMenu_BACK_BUTTON_SIZE, defaultMenu_BACK_BUTTON_SIZE);
-		defaultMenuGame.gameUIBatch.draw(defaultMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, defaultMenu_OK_BUTTON_WIDTH, defaultMenu_OK_BUTTON_HEIGHT);
-
-		defaultMenuGame.gameUIBatch.end();
-
-
-		//GamePlay
-		gamePlayGame.gameUIBatch.begin();
-		FreeTypeFontGenerator gamePlayGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter gamePlayParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		gamePlayParameter.size = 100;
-		gamePlayParameter.characters = "Game";
-		gamePlayFont = gamePlayGenerator.generateFont(gamePlayParameter);
-		gamePlayFont.setColor(Color.FOREST);
-		gamePlayGenerator.dispose();
-		gamePlayFont.draw(gamePlayGame.gameUIBatch, "Game", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + gamePlay_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < gamePlay_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			gamePlayGame.gameUIBatch.draw(gamePlayLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), gamePlay_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				gamePlayGame.setScreen(new StartMenu(gamePlayGame));
-			}
-		}
-
-		gamePlayGame.gameUIBatch.draw(gamePlayBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, gamePlay_BACK_BUTTON_SIZE, gamePlay_BACK_BUTTON_SIZE);
-		gamePlayGame.gameUIBatch.end();
-
-
-		//GameUI
-		super.render();
-
-		//HelpMenu
-		helpMenuHelp.gameUIBatch.begin();
-
-		FreeTypeFontGenerator helpMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		helpMenuParameter.size = 50;
-		helpMenuParameter.characters = "Command";
-		helpMenuFont = helpMenuGenerator.generateFont(helpMenuParameter);
-		helpMenuFont.setColor(Color.FOREST);
-		helpMenuGenerator.dispose();
-		helpMenuFont.draw(helpMenuHelp.gameUIBatch, "Command", GameUI.gameUI_WINDOW_WIDTH-750, GameUI.gameUI_WINDOW_HEIGHT-100);
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + helpMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < helpMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
-			helpMenuHelp.gameUIBatch.draw(helpMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, helpMenu_OK_BUTTON_WIDTH, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				helpMenuHelp.setScreen(new MainMenuScreen(helpMenuHelp));
-			}
-		}
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + helpMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < helpMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			helpMenuHelp.gameUIBatch.draw(helpMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), helpMenu_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				helpMenuHelp.setScreen(new MainMenuScreen(helpMenuHelp));
-			}
-		}
-
-		helpMenuHelp.gameUIBatch.draw(helpMenuHelpButton, GameUI.gameUI_WINDOW_WIDTH-200, GameUI.gameUI_WINDOW_HEIGHT - 150, helpMenu_HELP_BUTTON_SIZE, helpMenu_HELP_BUTTON_SIZE);
-		helpMenuHelp.gameUIBatch.draw(helpMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, helpMenu_OK_BUTTON_WIDTH, helpMenu_OK_BUTTON_HEIGHT);
-		helpMenuHelp.gameUIBatch.draw(helpMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, helpMenu_BACK_BUTTON_SIZE, helpMenu_BACK_BUTTON_SIZE);
-		helpMenuHelp.gameUIBatch.draw(helpMenuLeftButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-300, helpMenu_LEFT_BUTTON_WIDTH, helpMenu_LEFT_BUTTON_HEIGHT);
-		helpMenuHelp.gameUIBatch.draw(helpMenuRightButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT - 400, helpMenu_RIGHT_BUTTON_WIDTH, helpMenu_RIGHT_BUTTON_HEIGHT);
-		helpMenuHelp.gameUIBatch.draw(helpMenuPlusButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-500, helpMenu_PLUS_BUTTON_SIZE, helpMenu_PLUS_BUTTON_SIZE);
-		helpMenuHelp.gameUIBatch.draw(helpMenuMinusButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-600, helpMenu_MINUS_BUTTON_SIZE, helpMenu_MINUS_BUTTON_SIZE);
-		helpMenuHelp.gameUIBatch.draw(helpMenuShootButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT-700, helpMenu_SHOOT_BUTTON_SIZE, helpMenu_SHOOT_BUTTON_SIZE);
-
-		//write the different rules
-		FreeTypeFontGenerator helpMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuLeftR = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuRightR = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuPlusR = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuMinusR = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter helpMenuShootR = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-		helpMenuLeftR.size = 30;
-		helpMenuRightR.size = 30;
-		helpMenuMinusR.size = 30;
-		helpMenuPlusR.size = 30;
-		helpMenuShootR.size = 30;
-
-		helpMenuLeftR.characters = "Change direction to the left";
-		helpMenuRightR.characters = "Change direction to the right";
-		helpMenuPlusR.characters = "Increases the power of the shoot";
-		helpMenuMinusR.characters = "Decreases the power of the shoot";
-		helpMenuShootR.characters = "Shoot the ball";
-
-		helpMenuLeftRule = helpMenuWritingStyle.generateFont(helpMenuLeftR);
-		helpMenuRightRule = helpMenuWritingStyle.generateFont(helpMenuRightR);
-		helpMenuPlusRule = helpMenuWritingStyle.generateFont(helpMenuPlusR);
-		helpMenuMinusRule = helpMenuWritingStyle.generateFont(helpMenuMinusR);
-		helpMenuShootRule = helpMenuWritingStyle.generateFont(helpMenuShootR);
-
-		helpMenuLeftRule.setColor(Color.FOREST);
-		helpMenuRightRule.setColor(Color.FOREST);
-		helpMenuPlusRule.setColor(Color.FOREST);
-		helpMenuMinusRule.setColor(Color.FOREST);
-		helpMenuShootRule.setColor(Color.FOREST);
-
-		helpMenuWritingStyle.dispose();
-		helpMenuLeftRule.draw(helpMenuHelp.gameUIBatch, "Change direction to the left", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-250);
-		helpMenuRightRule.draw(helpMenuHelp.gameUIBatch, "Change direction to the right", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-350);
-		helpMenuPlusRule.draw(helpMenuHelp.gameUIBatch, "Increases the power of the shoot", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-450);
-		helpMenuMinusRule.draw(helpMenuHelp.gameUIBatch, "Decreases the power of the shoot", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-550);
-		helpMenuShootRule.draw(helpMenuHelp.gameUIBatch, "Shoot the ball", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-650);
-
-		helpMenuHelp.gameUIBatch.end();
-
-		//HitWaterUI
-		hitWaterUIStage.act(Gdx.graphics.getDeltaTime());
-
-		if(hitWaterUIPositive.isPressed()){
-			hitWaterUIDistanceFromStart += Gdx.graphics.getDeltaTime() *20;
-			if(hitWaterUIDistanceFromStart >= hitWaterUIMaxDistanceFromStart){
-				hitWaterUIDistanceFromStart = hitWaterUIMaxDistanceFromStart;
-			}
-		}
-
-		if(hitWaterUINegative.isPressed()){
-			hitWaterUIDistanceFromStart -= Gdx.graphics.getDeltaTime() *20;
-			if(hitWaterUIDistanceFromStart < 0){
-				hitWaterUIDistanceFromStart = 0;
-			}
-		}
-
-		int distanceFromStartRounded = (int) hitWaterUIDistanceFromStart;
-
-		hitWaterUIBatch.begin();
-		hitWaterUIFont.setColor(Color.BLACK);
-		hitWaterUIWhiteBackground.draw(hitWaterUIBatch);
-		hitWaterUIFont.draw(hitWaterUIBatch, hitWaterUIDistanceFromStartString, Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
-				Gdx.graphics.getHeight() * 9/10, hitWaterUIBackgroundWidth, 1, true);
-		hitWaterUIFont.draw(hitWaterUIBatch, String.valueOf(distanceFromStartRounded), Gdx.graphics.getWidth()-hitWaterUIBackgroundWidth,
-				Gdx.graphics.getHeight() * 7/10, hitWaterUIBackgroundWidth, 1, true);
-		hitWaterUIBatch.end();
-
-		hitWaterUIStage.draw();
-
-
-
-		//MainMenuScreen
-		FreeTypeFontGenerator mainMenuScreenGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter mainMenuScreenParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter mainMenuScreenGroup4 = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		mainMenuScreenParameter.size = 90;
-		mainMenuScreenParameter.characters = "Mini Golf";
-		mainMenuScreenGroup4.characters = "Group 4";
-		mainMenuScreenGroup4.size = 30;
-
-		mainMenuScreenFont = mainMenuScreenGenerator.generateFont(mainMenuScreenParameter);
-		mainMenuScreenFont1 = mainMenuScreenGenerator.generateFont(mainMenuScreenGroup4);
-		mainMenuScreenFont.setColor(Color.FOREST);
-		mainMenuScreenFont1.setColor(Color.FOREST);
-		mainMenuScreenGenerator.dispose();
-
-		mainMenuScreenGame.gameUIBatch.begin();
-		mainMenuScreenFont.draw(mainMenuScreenGame.gameUIBatch, " Mini Golf", GameUI.gameUI_WINDOW_WIDTH/5, GameUI.gameUI_WINDOW_HEIGHT-100);
-		mainMenuScreenFont1.draw(mainMenuScreenGame.gameUIBatch, "Group 4", GameUI.gameUI_WINDOW_WIDTH / 10, GameUI.gameUI_WINDOW_HEIGHT - 50);
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/4 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH/5 + mainMenuScreen_START_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_START_BUTTON_HEIGHT + (GameUI.gameUI_WINDOW_HEIGHT/7)-150 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > (GameUI.gameUI_WINDOW_HEIGHT/7)+80){
-			mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/4) +50, (GameUI.gameUI_WINDOW_HEIGHT/7)+80, mainMenuScreen_START_BUTTON_WIDTH-120, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				mainMenuScreenGame.setScreen(new StartMenu(mainMenuScreenGame));
-			}
-		}
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH/10 + mainMenuScreen_EXIT_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_EXIT_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10){
-			mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/10), (GameUI.gameUI_WINDOW_HEIGHT/10)-50, mainMenuScreen_EXIT_BUTTON_WIDTH, 150);
-			if(Gdx.input.justTouched()){
-				Gdx.app.exit();
-			}
-		}
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH-150 + mainMenuScreen_SETTINGS_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_SETTINGS_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10){
-			mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH)-150, (GameUI.gameUI_WINDOW_HEIGHT/10) - 55, mainMenuScreen_SETTINGS_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				mainMenuScreenGame.setScreen(new SettingsMenu(mainMenuScreenGame));
-			}
-		}
-
-		mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/4, GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
-		mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenExitButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT/10, mainMenuScreen_EXIT_BUTTON_WIDTH, mainMenuScreen_EXIT_BUTTON_HEIGHT);
-		mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenSettingsButton, GameUI.gameUI_WINDOW_WIDTH - 150, GameUI.gameUI_WINDOW_HEIGHT / 10, mainMenuScreen_SETTINGS_BUTTON_SIZE, mainMenuScreen_SETTINGS_BUTTON_SIZE);
-		mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH-480, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
-		mainMenuScreenGame.gameUIBatch.end();
-
-
-
-		//SettingsMenu
-		settingsMenuSettings.gameUIBatch.begin();
-
-		FreeTypeFontGenerator settingsMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter settingsMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		settingsMenuParameter.size = 50;
-		settingsMenuParameter.characters = "Settings";
-		settingsMenuFont = settingsMenuGenerator.generateFont(settingsMenuParameter);
-		settingsMenuFont.setColor(Color.FOREST);
-		settingsMenuGenerator.dispose();
-		settingsMenuFont.draw(settingsMenuSettings.gameUIBatch, "Settings", GameUI.gameUI_WINDOW_WIDTH/3, GameUI.gameUI_WINDOW_HEIGHT-100);
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH-150 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH-150) + settingsMenu_OK_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_OK_BUTTON_HEIGHT + GameUI.gameUI_WINDOW_HEIGHT/10 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT/10 ){
-			settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, GameUI.gameUI_WINDOW_WIDTH-150, (GameUI.gameUI_WINDOW_HEIGHT/10)-60, settingsMenu_OK_BUTTON_WIDTH, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
-			}
-		}
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + settingsMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < settingsMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			settingsMenuSettings.gameUIBatch.draw(settingsMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), settingsMenu_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				settingsMenuSettings.setScreen(new MainMenuScreen(settingsMenuSettings));
-			}
-		}
-
-		settingsMenuSettings.gameUIBatch.draw(settingsMenuSettingsButton, GameUI.gameUI_WINDOW_WIDTH*2/3, GameUI.gameUI_WINDOW_HEIGHT - 150, settingsMenu_SETTINGS_BUTTON_SIZE, settingsMenu_SETTINGS_BUTTON_SIZE);
-		settingsMenuSettings.gameUIBatch.draw(settingsMenuOkButton, GameUI.gameUI_WINDOW_WIDTH-150, GameUI.gameUI_WINDOW_HEIGHT/10, settingsMenu_OK_BUTTON_WIDTH, settingsMenu_OK_BUTTON_HEIGHT);
-		settingsMenuSettings.gameUIBatch.draw(settingsMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, settingsMenu_BACK_BUTTON_SIZE, settingsMenu_BACK_BUTTON_SIZE);
-
-		settingsMenuSettings.gameUIBatch.end();
-
-
-
-		//StartMenu
-		startMenuStart.gameUIBatch.begin();
-		FreeTypeFontGenerator startMenuGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-		FreeTypeFontGenerator startMenuWritingStyle = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter startMenuParameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter startMenuMakeChoice = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter startMenuBasic = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter startMenuCusto = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		FreeTypeFontGenerator.FreeTypeFontParameter startMenuOwn = new FreeTypeFontGenerator.FreeTypeFontParameter();
-
-		startMenuParameter.size = 90;
-		startMenuMakeChoice.size = 40;
-		startMenuBasic.size = 30;
-		startMenuCusto.size = 30;
-		startMenuOwn.size = 30;
-
-		startMenuParameter.characters = "Start";
-		startMenuMakeChoice.characters = "Which set of parameters do you want to use?";
-		startMenuBasic.characters = "Default";
-		startMenuCusto.characters = "Customized";
-		startMenuOwn.characters = "Path to your startMenuOwn parameters:";
-
-		startMenuFont = startMenuGenerator.generateFont(startMenuParameter);
-		startMenuChoice = startMenuWritingStyle.generateFont(startMenuMakeChoice);
-		startMenuFont1 = startMenuWritingStyle.generateFont(startMenuBasic);
-		startMenuCustomize = startMenuWritingStyle.generateFont(startMenuCusto);
-		startMenuOwnPath = startMenuWritingStyle.generateFont(startMenuOwn);
-
-		startMenuFont.setColor(Color.FOREST);
-		startMenuChoice.setColor(Color.FOREST);
-		startMenuFont1.setColor(Color.FOREST);
-		startMenuCustomize.setColor(Color.FOREST);
-		startMenuOwnPath.setColor(Color.FOREST);
-
-		startMenuGenerator.dispose();
-
-		startMenuFont.draw(startMenuStart.gameUIBatch, "Start", GameUI.gameUI_WINDOW_WIDTH-750, GameUI.gameUI_WINDOW_HEIGHT-100);
-		startMenuChoice.draw(startMenuStart.gameUIBatch, "Which set of parameters do you want to use?", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-200);
-		startMenuFont1.draw(startMenuStart.gameUIBatch, "Default", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-350);
-		startMenuCustomize.draw(startMenuStart.gameUIBatch, "Customized", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-400);
-		startMenuOwnPath.draw(startMenuStart.gameUIBatch, "Path to your startMenuOwn parameters:", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-450);
-
-		//Menu choice
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-400 ){
-			startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/7, (GameUI.gameUI_WINDOW_HEIGHT-435), 120, 150);
-			if(Gdx.input.justTouched()){
-				startMenuStart.setScreen(new DefaultMenu(startMenuStart));
-			}
-		}
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-400 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-450 ){
-			startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/7, (GameUI.gameUI_WINDOW_HEIGHT-485), 180, 150);
-			if(Gdx.input.justTouched()){
-				startMenuStart.setScreen(new CustomizedMenu(startMenuStart));
-			}
-		}
-
-		if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + startMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < startMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){
-			startMenuStart.gameUIBatch.draw(startMenuLine, (GameUI.gameUI_WINDOW_WIDTH)/10, (GameUI.gameUI_WINDOW_HEIGHT-220), startMenu_BACK_BUTTON_SIZE, 150);
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				startMenuStart.setScreen(new MainMenuScreen(startMenuStart));
-			}
-		}
-
-		//start.batch.draw(okButton, GameUI.WINDOW_WIDTH-150, GameUI.WINDOW_HEIGHT/10, OK_BUTTON_WIDTH, OK_BUTTON_HEIGHT);
-		startMenuStart.gameUIBatch.draw(startMenuBackButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT-150, startMenu_BACK_BUTTON_SIZE, startMenu_BACK_BUTTON_SIZE);
-		startMenuStart.gameUIBatch.end();
-		startMenuStage.draw();
-
-
-		//WonScreen
-		wonScreenGame.gameUIBatch.begin();
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Georgia Italic.ttf"));
-
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 100;
-		parameter.characters = "YOU WON!";
-		wonScreenFont = generator.generateFont(parameter);
-		wonScreenFont.setColor(Color.FOREST);
-		generator.dispose();
-		wonScreenFont.draw(wonScreenGame.gameUIBatch, "YOU WON!", GameUI.gameUI_WINDOW_WIDTH/3-50, GameUI.gameUI_WINDOW_HEIGHT-300);
-
-		wonScreenGame.gameUIBatch.end();
-
 	}
 
 	public static void renderBall(double x, double y, double z){
