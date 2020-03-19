@@ -93,8 +93,6 @@ public class CustomizedMenu implements Screen {
         customizedMenuStage.addActor(customizedMenuDis);
         customizedMenuStage.addActor(customizedMenuMas);
         customizedMenuStage.addActor(customizedMenuHei);
-
-
     }
 
     @Override
@@ -173,7 +171,7 @@ public class CustomizedMenu implements Screen {
         customizedMenuMass.draw(customizedMenuGame.gameUIBatch, "Mass of the ball: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-500);
         customizedMenuHeight.draw(customizedMenuGame.gameUIBatch, "Equation of the height: ", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-550);
         customizedMenuHeight2.draw(customizedMenuGame.gameUIBatch, "Write the equation in that form please:", GameUI.gameUI_WINDOW_WIDTH/8, GameUI.gameUI_WINDOW_HEIGHT-600);
-        customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2, GameUI.gameUI_WINDOW_HEIGHT-600);
+        customizedMenuHeight3.draw(customizedMenuGame.gameUIBatch, "-0.01*x + 0.003*x^2 + 0.04 * y", GameUI.gameUI_WINDOW_WIDTH/2+20, GameUI.gameUI_WINDOW_HEIGHT-600);
 
         //Drawing the line under the Back Button
         if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/10 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/10) + customizedMenu_BACK_BUTTON_SIZE && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < customizedMenu_BACK_BUTTON_SIZE + GameUI.gameUI_WINDOW_HEIGHT-140 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-140 ){

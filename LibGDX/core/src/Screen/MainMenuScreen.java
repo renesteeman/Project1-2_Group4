@@ -34,7 +34,7 @@ public class MainMenuScreen implements Screen {
         this.mainMenuScreenTest = mainMenuScreenTest;
         mainMenuScreenStartButton = new Texture("start.png");
         mainMenuScreenExitButton = new Texture("exit.png");
-        mainMenuScreenSettingsButton = new Texture(("settings.png"));
+        mainMenuScreenSettingsButton = new Texture(("help.png"));
         mainMenuScreenLine = new Texture("line.png");
         mainMenuScreenGolf = new Texture("golf.png");
     }
@@ -63,11 +63,11 @@ public class MainMenuScreen implements Screen {
         mainMenuScreenGenerator.dispose();
 
         mainMenuScreenGame.gameUIBatch.begin();
-        mainMenuScreenFont.draw(mainMenuScreenGame.gameUIBatch, " Mini Golf", GameUI.gameUI_WINDOW_WIDTH/5, GameUI.gameUI_WINDOW_HEIGHT-100);
+        mainMenuScreenFont.draw(mainMenuScreenGame.gameUIBatch, " Mini Golf", GameUI.gameUI_WINDOW_WIDTH/3-15, GameUI.gameUI_WINDOW_HEIGHT-100);
         mainMenuScreenFont1.draw(mainMenuScreenGame.gameUIBatch, "Group 4", GameUI.gameUI_WINDOW_WIDTH / 10, GameUI.gameUI_WINDOW_HEIGHT - 50);
 
         if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/4 && Gdx.input.getX() < GameUI.gameUI_WINDOW_WIDTH/5 + mainMenuScreen_START_BUTTON_WIDTH && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() < mainMenuScreen_START_BUTTON_HEIGHT + (GameUI.gameUI_WINDOW_HEIGHT/7)-150 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > (GameUI.gameUI_WINDOW_HEIGHT/7)+80){
-            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/4) +50, (GameUI.gameUI_WINDOW_HEIGHT/7)+80, mainMenuScreen_START_BUTTON_WIDTH-120, 150);
+            mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH/3) +60, (GameUI.gameUI_WINDOW_HEIGHT/7)+80, mainMenuScreen_START_BUTTON_WIDTH-120, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
                 mainMenuScreenGame.setScreen(new StartMenu(mainMenuScreenGame));
@@ -83,14 +83,14 @@ public class MainMenuScreen implements Screen {
             mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenLine, (GameUI.gameUI_WINDOW_WIDTH)-150, (GameUI.gameUI_WINDOW_HEIGHT/10) - 55, mainMenuScreen_SETTINGS_BUTTON_SIZE, 150);
             if(Gdx.input.justTouched()){
                 this.dispose();
-                mainMenuScreenGame.setScreen(new SettingsMenu(mainMenuScreenGame));
+                mainMenuScreenGame.setScreen(new HelpMenu(mainMenuScreenGame));
             }
         }
 
-        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/4,GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenStartButton, GameUI.gameUI_WINDOW_WIDTH/3+15,GameUI.gameUI_WINDOW_HEIGHT/8, mainMenuScreen_START_BUTTON_WIDTH, mainMenuScreen_START_BUTTON_HEIGHT);
         mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenExitButton, GameUI.gameUI_WINDOW_WIDTH/10, GameUI.gameUI_WINDOW_HEIGHT/10, mainMenuScreen_EXIT_BUTTON_WIDTH, mainMenuScreen_EXIT_BUTTON_HEIGHT);
         mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenSettingsButton, GameUI.gameUI_WINDOW_WIDTH - 150, GameUI.gameUI_WINDOW_HEIGHT / 10, mainMenuScreen_SETTINGS_BUTTON_SIZE, mainMenuScreen_SETTINGS_BUTTON_SIZE);
-        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH-480, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
+        mainMenuScreenGame.gameUIBatch.draw(mainMenuScreenGolf, GameUI.gameUI_WINDOW_WIDTH/3+100, GameUI.gameUI_WINDOW_HEIGHT/2, mainMenuScreen_GOLF_IMAGE_WIDTH, mainMenuScreen_GOLF_IMAGE_HEIGHT);
         mainMenuScreenGame.gameUIBatch.end();
     }
 

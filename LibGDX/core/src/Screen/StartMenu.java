@@ -43,7 +43,7 @@ public class StartMenu implements Screen{
         Skin startMenuSkin = new Skin(Gdx.files.internal("skins/uiskin.json"));
 
         startMenuPath = new TextField("", startMenuSkin);
-        startMenuPath.setPosition((GameUI.gameUI_WINDOW_WIDTH/2)+60, GameUI.gameUI_WINDOW_HEIGHT-470);
+        startMenuPath.setPosition((GameUI.gameUI_WINDOW_WIDTH/2)+70, GameUI.gameUI_WINDOW_HEIGHT-470);
         startMenuPath.setSize(200, 20);
         startMenuPath.setColor(Color.FOREST);
         startMenuPath.setText("Your path:");
@@ -80,7 +80,7 @@ public class StartMenu implements Screen{
         startMenuMakeChoice.characters = "Which set of parameters do you want to use?";
         startMenuBasic.characters = "Default";
         startMenuCusto.characters = "Customized";
-        startMenuOwn.characters = "Path to your startMenuOwn parameters:";
+        startMenuOwn.characters = "Path to your own parameters:";
 
         startMenuFont = startMenuGenerator.generateFont(startMenuParameter);
         startMenuChoice = startMenuWritingStyle.generateFont(startMenuMakeChoice);
@@ -100,7 +100,7 @@ public class StartMenu implements Screen{
         startMenuChoice.draw(startMenuStart.gameUIBatch, "Which set of parameters do you want to use?", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-200);
         startMenuFont1.draw(startMenuStart.gameUIBatch, "Default", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-350);
         startMenuCustomize.draw(startMenuStart.gameUIBatch, "Customized", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-400);
-        startMenuOwnPath.draw(startMenuStart.gameUIBatch, "Path to your startMenuOwn parameters:", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-450);
+        startMenuOwnPath.draw(startMenuStart.gameUIBatch, "Path to your own parameters:", GameUI.gameUI_WINDOW_WIDTH/7, GameUI.gameUI_WINDOW_HEIGHT-450);
 
         //Menu choice
         if(Gdx.input.getX() > GameUI.gameUI_WINDOW_WIDTH/7 && Gdx.input.getX() < (GameUI.gameUI_WINDOW_WIDTH/7) + 200 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() <  GameUI.gameUI_WINDOW_HEIGHT-350 && GameUI.gameUI_WINDOW_HEIGHT - Gdx.input.getY() > GameUI.gameUI_WINDOW_HEIGHT-400 ){

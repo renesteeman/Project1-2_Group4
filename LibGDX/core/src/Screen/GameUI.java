@@ -1,6 +1,6 @@
 package Screen;
 
-import Screen.GameScreen;
+import Screen.*;
 import Screen.MainMenuScreen;
 import Screen.SettingsMenu;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -13,8 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class GameUI extends Game {
 	public SpriteBatch gameUIBatch;
 
-	public static final int gameUI_WINDOW_WIDTH = 750;
-	public static final int gameUI_WINDOW_HEIGHT = 750;
+	public static final int gameUI_WINDOW_WIDTH = 1200;
+	public static final int gameUI_WINDOW_HEIGHT = 800;
 	
 	@Override
 	public void create () {
