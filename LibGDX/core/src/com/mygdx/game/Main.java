@@ -30,13 +30,14 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import Screen.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
 //TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener, Screen {
 	//TODO improve structure
-	CrazyPutting crazyPutting = new CrazyPutting();
+	CrazyPutting crazyPutting;
 
 	//Shared 2D stuff
 	SpriteBatch batch2D;
@@ -303,6 +304,19 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				batch2D.end();
 
 				ShootUIStage.draw();
+
+
+				//TODO remove
+				crazyPutting = new CrazyPutting();
+				crazyPutting.graphicsEngine = this;
+				try {
+					crazyPutting.game();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				System.out.println("YEE");
+				updateGraphics();
+
 
 				break;
 			case GamePlay:
@@ -742,5 +756,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	@Override
 	public void hide() {
 
+	}
+
+	public void updateGraphics() {
+		renderGoal(crazyPutting.goal.getLocation());
+		renderBall(crazyPutting.ball.getLocation());
 	}
 }

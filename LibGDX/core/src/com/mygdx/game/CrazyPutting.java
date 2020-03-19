@@ -13,7 +13,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	protected GameState state = GameState.MENU;
 
-	protected String shotsFilename = "shots.txt";
+	protected String shotsFilename = "C:\\Users\\steem\\Desktop\\Study\\Project 1-2\\LibGDX\\core\\src\\com\\mygdx\\game\\shots.txt";
 	protected Scanner shotScn;
 
 	protected Vector2d shotInput;
