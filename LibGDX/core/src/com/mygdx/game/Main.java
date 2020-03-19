@@ -325,7 +325,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		choiceModeScreenHuman.addListener(new ClickListener(){
 			@Override
 			public void touchUp(InputEvent e, float x, float y, int point, int button){
-				game.setScreen(new GamePlay(game));
+				choiceModeScreenGame.setScreen(new GamePlay(choiceModeScreenGame));
 			}
 		});
 
@@ -337,7 +337,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 		choiceModeScreenBot.addListener(new ClickListener(){
 			@Override
 			public void touchUp(InputEvent e, float x, float y, int point, int button){
-				game.setScreen(new GamePlay(game));
+				choiceModeScreenGame.setScreen(new GamePlay(choiceModeScreenGame));
 			}
 		});
 
