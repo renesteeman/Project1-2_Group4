@@ -10,6 +10,8 @@ public class PuttingSimulator {
 	protected double DTIME = 1e-2; // 100 FPS
 	protected boolean victory = false;
 
+	Main graphicsEngine;
+
 	public PuttingSimulator() {}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
@@ -59,9 +61,8 @@ public class PuttingSimulator {
 		return (victory || ((Vector2d.substract(ball.getLocation(), goal.getLocation())).len() <= course.get_hole_tolerance()));
 	}
 
-	// TO BE OVERRIDDEN
 	public void requestGraphicsUpdate() {
-
+		graphicsEngine.updateGraphics();
 	}
 
 	// TO BE OVERRIDDEN

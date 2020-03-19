@@ -64,12 +64,6 @@ public class CrazyPutting extends PuttingSimulator {
 
 	// TO BE OVERRIDDEN
 	@Override
-	public void requestGraphicsUpdate() {
-
-	}
-
-	// TO BE OVERRIDDEN
-	@Override
 	public void requestBallRepositioning() {
 
 	}
