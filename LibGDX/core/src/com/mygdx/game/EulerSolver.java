@@ -1,15 +1,15 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
 import java.io.*;
 
 public class EulerSolver implements PhysicsEngine {
-	private double step = 1e-2; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+	private double step = 1e-4; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
 	private Function2d height;
 	private PuttingCourse course;
 	private Vector2d location, velocity;
 
 	//TODO allow people to enter their prefered G value
-	public final double __G = 10; //9.81;
+	public final double __G = 9.81;
 
 	public EulerSolver(Function2d height, PuttingCourse course) {
 		this.height = height;
@@ -30,7 +30,7 @@ public class EulerSolver implements PhysicsEngine {
 			p = new Vector2d(pnextx, pnexty);
 			v = new Vector2d(vnextx, vnexty);
 
-			System.out.println(p + " " + v + " " + gradient);
+			//System.out.println(p + " " + v + " " + gradient);
 		}
 		location = p;
 		velocity = v;

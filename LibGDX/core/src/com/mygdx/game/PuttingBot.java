@@ -1,4 +1,4 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
 interface PuttingBot {
 	//TODO why 2D?

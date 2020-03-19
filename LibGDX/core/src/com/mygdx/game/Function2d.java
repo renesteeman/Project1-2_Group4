@@ -1,4 +1,4 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
 //TODO what is this supposed to do?
 public interface Function2d {

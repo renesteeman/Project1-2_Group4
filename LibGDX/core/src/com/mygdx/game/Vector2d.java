@@ -1,12 +1,12 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
-import com.badlogic.gdx.math.Vector3;
+//import com.badlogic.gdx.math.Vector3;
 
 //Note that y and z are inverted for the 2D vectors because of the required API
 //A 2D vector is just a 3D vector, but the API requires it
 public class Vector2d {
 	public double x = 0.0, y = 0.0, z = 0.0;
-	public static final double EPS = 1e-9; // NEED TO PLAY WITH THIS ONE
+	public static final double EPS = 1e-1; // NEED TO PLAY WITH THIS ONE
 
 	public Vector2d(){
 

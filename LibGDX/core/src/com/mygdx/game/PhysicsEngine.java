@@ -1,4 +1,4 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
 interface PhysicsEngine {
 	void process(Vector2d p, Vector2d v, double dtime);

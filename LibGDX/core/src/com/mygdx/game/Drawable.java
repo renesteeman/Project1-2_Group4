@@ -1,4 +1,4 @@
-package com.mygdx.game;
+//package com.mygdx.game;
 
 public interface Drawable {
     Vector2d location = null;
