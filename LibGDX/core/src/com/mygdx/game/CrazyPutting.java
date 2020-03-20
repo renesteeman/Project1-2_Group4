@@ -42,7 +42,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	// TO BE CALLED
 	void processShotRequest() {
-		take_shot(shotInput);
+		takeShot(shotInput);
 		if (victory) {
 			System.out.println("You won gg wp");
 			return;
