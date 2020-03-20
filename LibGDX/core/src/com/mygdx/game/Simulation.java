@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-public class PuttingSimulator {
+public class Simulation {
 	public Function2d height;
 	public PuttingCourse course;
 	public PhysicsEngine engine;
@@ -10,9 +10,9 @@ public class PuttingSimulator {
 	protected double DTIME = 1e-2; // 100 FPS
 	protected boolean victory = false;
 
-	public PuttingSimulator() {}
+	public Simulation() {}
 
-	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
+	public Simulation(PuttingCourse course, PhysicsEngine engine) {
 		this.course = course;
 		this.engine = engine;
 		height = course.get_height();
@@ -22,6 +22,7 @@ public class PuttingSimulator {
 		goal = new Goal(course.get_flag_position());
 	}
 
+	//TODO rewrite
 	public void takeShot(Vector2d initial_ball_velocity) {
 		ball.setVelocity(initial_ball_velocity);
 
@@ -48,6 +49,7 @@ public class PuttingSimulator {
 			victory = true;
 	}
 
+	//TODO rewrite
 	public boolean victoriousPosition() {
 		//TODO rewrite for 3D
 		return (victory || ((Vector2d.substract(ball.location, goal.location)).len() <= course.get_hole_tolerance()));

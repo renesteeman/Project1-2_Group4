@@ -4,7 +4,7 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
-public class CrazyPutting extends PuttingSimulator {
+public class CrazyPutting extends Simulation {
 	public enum GameState {
 		MENU,
 		GAME_MOD1,
