@@ -4,7 +4,7 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
-public class CrazyPutting extends PuttingSimulator {
+public class CrazyPutting extends Simulation {
 	public enum GameState {
 		MENU,
 		GAME_MOD1,
@@ -42,7 +42,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	// TO BE CALLED
 	void processShotRequest() {
-		take_shot(shotInput);
+		takeShot(shotInput);
 		if (victory) {
 			System.out.println("You won gg wp");
 			return;

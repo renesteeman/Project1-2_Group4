@@ -1,10 +1,7 @@
 package com.mygdx.game;
 
-import com.badlogic.gdx.math.Vector3;
-import com.mygdx.game.Vector2d;
-
 public class Ball implements Drawable{
-	public static Vector2d location;
+	public Vector2d location;
 	public Vector2d velocity;
 
 	public Ball(Vector2d location, Vector2d velocity) {
@@ -23,14 +20,6 @@ public class Ball implements Drawable{
 
 	public void setVelocity(Vector2d velocity) {
 		this.velocity = velocity;
-	}
-
-	public Vector2d getLocation() {
-		return location;
-	}
-
-	public Vector2d getVelocity() {
-		return velocity;
 	}
 
 	public void draw(){
