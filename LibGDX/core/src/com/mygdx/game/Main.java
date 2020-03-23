@@ -32,10 +32,11 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
-//TODO How does this interact with the menu?
 public class Main extends ApplicationAdapter implements InputProcessor, ApplicationListener, Screen {
-	//TODO improve structure
+	//TODO what does this line mean?
 	CrazyPutting crazyPutting;
+
+	PuttingCourse puttingCourse;
 
 	//Shared 2D stuff
 	SpriteBatch batch2D;
@@ -121,6 +122,11 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	ShaderProgram groundShader;
 
 	CameraInputController cameraInputController;
+
+	//TODO call the constructor when starting a game
+	public Main(PuttingCourse puttingCourse) {
+		this.puttingCourse = puttingCourse;
+	}
 
 	@Override
 	public void render (float delta) {
@@ -303,18 +309,16 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 
 				ShootUIStage.draw();
 
-
 				//TODO remove
-				crazyPutting = new CrazyPutting();
-				crazyPutting.graphicsEngine = this;
-				try {
-					crazyPutting.game();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				System.out.println("YEE");
-				updateGraphics();
-
+//				crazyPutting = new CrazyPutting();
+//				crazyPutting.graphicsEngine = this;
+//				try {
+//					crazyPutting.game();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				System.out.println("YEE");
+//				updateGraphics();
 
 				break;
 			case GamePlay:
@@ -347,9 +351,10 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				break;
 
 			case HitWaterUI:
+				//TODO rewrite
 				//HitWaterUI
-				Ball.location = new Vector2d(0, 0, 0);
-				PuttingCourse.start = new Vector2d(10, 1, 1);
+//				Ball.location = new Vector2d(0, 0, 0);
+//				PuttingCourse.start = new Vector2d(10, 1, 1);
 				Vector2d ballLocation = Ball.location;
 				Vector2d startPoint = PuttingCourse.start;
 				hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);

@@ -3,10 +3,10 @@ package com.mygdx.game;
 import java.util.ArrayList;
 import java.util.Stack;
 
+//TODO rename
 public class Function implements Function2d {
     private String infix;
     private String postfix;
-
 
     /**
      * Constructor of function. Infix is parsed into such a way every couple of elements (i.e., numbers, operators and functions (e.g., sin)) has spaces in between them.

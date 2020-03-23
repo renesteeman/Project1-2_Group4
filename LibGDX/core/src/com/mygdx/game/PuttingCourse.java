@@ -17,22 +17,30 @@ This class keeps track of everything having to do with the course/map
 public class PuttingCourse {
     Function2d height;
     double frictionCoefficient;
-    Vector2d startlocation;
+    Vector2d startLocation;
     Vector2d goalLocation;
     double goalRadius;
     double maxVelocity;
-    ArrayList<GameObject> gameObjects;
 
-    public PuttingCourse(Function2d height, double frictionCoefficient, Vector2d startlocation, Vector2d goalLocation, double goalRadius, double maxVelocity) {
+    Ball ball;
+    Goal goal;
+    ArrayList<Tree> trees = new ArrayList<>();
+
+    public PuttingCourse(Function2d height, double frictionCoefficient, Vector2d startLocation, Vector2d goalLocation, double goalRadius, double maxVelocity) {
         this.height = height;
         this.frictionCoefficient = frictionCoefficient;
-        this.startlocation = startlocation;
+        this.startLocation = startLocation;
         this.goalLocation = goalLocation;
         this.goalRadius = goalRadius;
         this.maxVelocity = maxVelocity;
+
+        //TODO is the use of new Vector2d() for the ball's velocity correct?
+        this.ball = new Ball(startLocation, new Vector2d());
+        this.goal = new Goal(goalLocation);
     }
 
     //Loads course from file
+    //TODO add support for trees and sand
     public PuttingCourse(String path){
 
         try {
@@ -64,7 +72,7 @@ public class PuttingCourse {
             curarray = inp.nextLine().split(" ");
             s1 = curarray[2].replace("(", "").replace(",", "");
             s2 = curarray[3].replace(")", "");
-            this.startlocation = new Vector2d(Double.valueOf(s1), Double.valueOf(s2));
+            this.startLocation = new Vector2d(Double.valueOf(s1), Double.valueOf(s2));
 
             curarray = inp.nextLine().split(" ");
             this.frictionCoefficient = Double.valueOf(curarray[2]);
@@ -74,11 +82,15 @@ public class PuttingCourse {
 
             curarray = inp.nextLine().split(" ");
             this.goalRadius = Double.valueOf(curarray[2]);
+
+            //TODO is the use of new Vector2d() for the ball's velocity correct?
+            this.ball = new Ball(startLocation, new Vector2d());
+            this.goal = new Goal(goalLocation);
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
         }
-
     }
 
     public void saveAsFile(String name){
@@ -88,7 +100,7 @@ public class PuttingCourse {
             PrintWriter outp = new PrintWriter("courses\\" + name + ".txt", "UTF-8");
             outp.printf("height = %s\n", height.toString());
             outp.printf("flag = (%f, %f)\n", goalLocation.x, goalLocation.y);
-            outp.printf("start = (%f, %f)\n", startlocation.x, startlocation.y);
+            outp.printf("start = (%f, %f)\n", startLocation.x, startLocation.y);
             outp.printf("friction = %f\n", frictionCoefficient);
             outp.printf("vmax = %f\n", maxVelocity);
             outp.printf("tol = %f\n", goalRadius);
@@ -123,7 +135,7 @@ public class PuttingCourse {
     }
 
     public void setStart(Vector2d start) {
-        this.startlocation = start;
+        this.startLocation = start;
     }
 
     public void setFriction(double friction) {
@@ -147,7 +159,7 @@ public class PuttingCourse {
     }
 
     public Vector2d get_start_position() {
-        return startlocation;
+        return startLocation;
     }
 
     public double get_friction_coefficient() {

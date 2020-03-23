@@ -11,7 +11,6 @@ public class Ball implements GameObject{
 		render();
 	}
 
-	@Override
 	public void render() {
 		Main.renderBall(location);
 	}

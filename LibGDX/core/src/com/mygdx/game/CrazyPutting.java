@@ -22,7 +22,6 @@ public class CrazyPutting extends Simulation {
 	protected Vector2d shotInput;
 
 	public CrazyPutting() {
-		//TODO Fix
 		//this.course = new PuttingCourse("C:\\Users\\steem\\Desktop\\Study\\Project 1-2\\LibGDX\\core\\src\\com\\mygdx\\game\\courses\\course0.txt");
 		this.course = new PuttingCourse("courses\\course0.txt");
 		this.engine = new EulerSolver(course.get_height(), course);
@@ -31,6 +30,7 @@ public class CrazyPutting extends Simulation {
 		goal = new Goal(course.get_flag_position()); // TO BE REPLACED
 	}
 
+	//TODO rewrite
 	public void game() throws FileNotFoundException, InputMismatchException {
 		//TODO fix this
 		state = GameState.GAME_MOD2;
@@ -56,6 +56,7 @@ public class CrazyPutting extends Simulation {
 		}
 	}
 
+	//TODO rewrite or remove
 	// TO BE CALLED
 	void processShotRequest() {
 		takeShot(shotInput);
@@ -66,6 +67,7 @@ public class CrazyPutting extends Simulation {
 		requestShotInput();
 	}
 
+	//TODO rewrite or remove
 	// TO BE OVERRIDDEN
 	public Vector2d requestShotInput() {
 		if (state == GameState.GAME_MOD2) {
@@ -79,8 +81,8 @@ public class CrazyPutting extends Simulation {
 		return null;
 	}
 
+	//TODO rewrite or remove
 	// TO BE OVERRIDDEN
-	@Override
 	public void requestBallRepositioning() {
 
 	}

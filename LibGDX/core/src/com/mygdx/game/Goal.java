@@ -1,13 +1,14 @@
 package com.mygdx.game;
 
-public class Goal implements Drawable{
+public class Goal implements GameObject{
 	public Vector2d location;
 
 	public Goal(Vector2d location) {
 		this.location = location;
 	}
 
-	public void draw() {
+	@Override
+	public void render() {
 		//Draw 3D
 		Main.renderGoal(location);
 	}

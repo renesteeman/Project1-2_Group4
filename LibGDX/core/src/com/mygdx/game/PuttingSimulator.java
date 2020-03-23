@@ -1,6 +1,8 @@
 package com.mygdx.game;
 
+//TODO rewrite file and make clear what it's supposed to do
 public class PuttingSimulator {
+	//TODO stop using these variables and use the variables from PuttingCourse instead (you don't want to keep track of the same thing in multiple places with multiple update methods)
 	public Function2d height;
 	public PuttingCourse course;
 	public PhysicsEngine engine;

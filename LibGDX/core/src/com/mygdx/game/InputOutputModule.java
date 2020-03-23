@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//TODO rewrite hole file and make clear what it does
+//TODO rewrite whole file and make clear what it does. Is this file even needed with PuttingCourse having a save and load function already?
 public class InputOutputModule {
     private Function2d height;
     private Vector2d start;
