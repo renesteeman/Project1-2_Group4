@@ -6,7 +6,7 @@ import java.io.*;
 
 
 //TODO redo and make it clearer what this file does
-public class CrazyPutting extends Simulation {
+public class CrazyPutting extends PuttingSimulator {
 	public enum GameState {
 		MENU,
 		GAME_MOD1,
@@ -59,7 +59,7 @@ public class CrazyPutting extends Simulation {
 	//TODO rewrite or remove
 	// TO BE CALLED
 	void processShotRequest() {
-		takeShot(shotInput);
+		//takeShot(shotInput);
 		if (victory) {
 			System.out.println("You won gg wp");
 			return;

@@ -28,7 +28,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -355,9 +354,9 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 				//HitWaterUI
 //				Ball.location = new Vector2d(0, 0, 0);
 //				PuttingCourse.start = new Vector2d(10, 1, 1);
-				Vector2d ballLocation = Ball.location;
-				Vector2d startPoint = PuttingCourse.start;
-				hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
+//				Vector2d ballLocation = Ball.location;
+//				Vector2d startPoint = PuttingCourse.start;
+//				hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
 
 				batch2D = new SpriteBatch();
 				hitWaterUISkin = new Skin(Gdx.files.internal("uiskin.json"));
@@ -762,7 +761,7 @@ public class Main extends ApplicationAdapter implements InputProcessor, Applicat
 	}
 
 	public void updateGraphics() {
-		renderGoal(crazyPutting.goal.getLocation());
-		renderBall(crazyPutting.ball.getLocation());
+//		renderGoal(crazyPutting.goal.getLocation());
+//		renderBall(crazyPutting.ball.getLocation());
 	}
 }

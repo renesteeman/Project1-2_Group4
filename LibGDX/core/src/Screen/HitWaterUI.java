@@ -5,16 +5,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.mygdx.game.Ball;
-import com.mygdx.game.PuttingCourse;
-import com.mygdx.game.Vector2d;
 
 
 public class HitWaterUI extends Game implements InputProcessor, ApplicationListener{
@@ -42,11 +39,11 @@ public class HitWaterUI extends Game implements InputProcessor, ApplicationListe
     public void create () {
         //Calculate how far the ball may be placed
         //TODO remove these setters
-        Ball.location = new Vector2d(0, 0, 0);
-        PuttingCourse.start = new Vector2d(10, 1, 1);
-        Vector2d ballLocation = Ball.location;
-        Vector2d startPoint = PuttingCourse.start;
-        hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
+//        Ball.location = new Vector2d(0, 0, 0);
+//        PuttingCourse.start = new Vector2d(10, 1, 1);
+//        Vector2d ballLocation = Ball.location;
+//        Vector2d startPoint = PuttingCourse.start;
+//        hitWaterUIMaxDistanceFromStart = Vector2d.getDistance(ballLocation, startPoint);
 
         hitWaterUIBatch = new SpriteBatch();
         hitWaterUISkin = new Skin(Gdx.files.internal("uiskin.json"));

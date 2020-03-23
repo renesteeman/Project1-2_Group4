@@ -7,7 +7,6 @@ public class Goal implements GameObject{
 		this.location = location;
 	}
 
-	@Override
 	public void render() {
 		//Draw 3D
 		Main.renderGoal(location);

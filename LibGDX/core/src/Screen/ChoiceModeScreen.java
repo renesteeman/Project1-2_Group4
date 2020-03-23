@@ -12,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.mygdx.game.Main;
 
 public class ChoiceModeScreen implements Screen {
 
@@ -37,7 +36,8 @@ public class ChoiceModeScreen implements Screen {
         choiceModeScreenHuman.addListener(new ClickListener(){
             @Override
            public void touchUp(InputEvent e, float x, float y, int point, int button){
-                game.setScreen(new Main());
+                //TODO
+//                game.setScreen(new Main());
             }
        });
 
@@ -49,7 +49,8 @@ public class ChoiceModeScreen implements Screen {
         choiceModeScreenBot.addListener(new ClickListener(){
             @Override
             public void touchUp(InputEvent e, float x, float y, int point, int button){
-                game.setScreen(new Main());
+                //TODO
+//                game.setScreen(new Main());
             }
         });
 

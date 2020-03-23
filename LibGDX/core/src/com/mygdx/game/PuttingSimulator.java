@@ -29,7 +29,10 @@ public class PuttingSimulator {
 	}
 
 	public Vector2d get_ball_position() {
-		return ball.getLocation();
+//		return ball.getLocation();
+
+		//TODO tmp return
+		return new Vector2d();
 	}
 
 	public void take_shot(Vector2d initial_ball_velocity) {
@@ -37,22 +40,22 @@ public class PuttingSimulator {
 
 		Vector2d nullVector = new Vector2d();
 
-		while (!ball.getVelocity().equals(nullVector)) {
-			engine.process(ball.getLocation(), ball.getVelocity(), DTIME);
-			ball.updateLocation(engine.getLocation());
-			ball.setVelocity(engine.getVelocity());
-			requestGraphicsUpdate();
-			try {
-			    Thread.sleep(10);
-			}
-			catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}
-			if (height.evaluate(ball.getLocation()) < 0) {
-				requestBallRepositioning();
-				break;
-			}
-		}
+//		while (!ball.getVelocity().equals(nullVector)) {
+//			engine.process(ball.getLocation(), ball.getVelocity(), DTIME);
+//			ball.updateLocation(engine.getLocation());
+//			ball.setVelocity(engine.getVelocity());
+//			requestGraphicsUpdate();
+//			try {
+//			    Thread.sleep(10);
+//			}
+//			catch(InterruptedException ex) {
+//			    Thread.currentThread().interrupt();
+//			}
+//			if (height.evaluate(ball.getLocation()) < 0) {
+//				requestBallRepositioning();
+//				break;
+//			}
+//		}
 
 		if (victoriousPosition())
 			victory = true;
@@ -60,7 +63,10 @@ public class PuttingSimulator {
 
 	public boolean victoriousPosition() {
 		//TODO rewrite for 3D
-		return (victory || ((Vector2d.substract(ball.getLocation(), goal.getLocation())).len() <= course.get_hole_tolerance()));
+//		return (victory || ((Vector2d.substract(ball.getLocation(), goal.getLocation())).len() <= course.get_hole_tolerance()));
+
+		//TODO tmp return
+		return false;
 	}
 
 	public void requestGraphicsUpdate() {
