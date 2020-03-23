@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-public class Ball implements Drawable{
+public class Ball implements GameObject{
 	public Vector2d location;
 	public Vector2d velocity;
 
@@ -8,7 +8,12 @@ public class Ball implements Drawable{
 		this.location = location;
 		this.velocity = velocity;
 
-		draw();
+		render();
+	}
+
+	@Override
+	public void render() {
+		Main.renderBall(location);
 	}
 
 	public void updateLocation(Vector2d location) {
@@ -22,8 +27,4 @@ public class Ball implements Drawable{
 		this.velocity = velocity;
 	}
 
-	public void draw(){
-		//Add it to the 3D scene
-		Main.renderBall(location);
-	}
 }

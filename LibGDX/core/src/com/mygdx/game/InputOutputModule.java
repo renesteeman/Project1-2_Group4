@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-//TODO rewrite hole file
+//TODO rewrite hole file and make clear what it does
 public class InputOutputModule {
     private Function2d height;
     private Vector2d start;

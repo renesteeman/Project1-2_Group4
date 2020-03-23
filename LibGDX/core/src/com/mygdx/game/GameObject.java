@@ -1,8 +1,7 @@
 package com.mygdx.game;
 
-public interface Drawable {
+public interface GameObject {
     Vector2d location = null;
-    
-    void draw();
+    void render();
     void updateLocation(Vector2d location);
 }

@@ -4,6 +4,8 @@ import java.util.*;
 import java.lang.*;
 import java.io.*;
 
+
+//TODO redo and make it clearer what this file does
 public class CrazyPutting extends Simulation {
 	public enum GameState {
 		MENU,
