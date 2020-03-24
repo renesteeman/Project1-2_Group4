@@ -1,9 +1,6 @@
 package com.mygdx.game.LevelEditor;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g3d.Environment;
@@ -18,6 +15,8 @@ import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -90,13 +89,16 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     CameraInputController cameraInputController;
 
+    //TODO TMP
+    ShapeRenderer shapes;
+
     @Override
     public void create() {
+        //TODO TMP
+        shapes = new ShapeRenderer();
+
 //		//Use 1080p
 //		Gdx.graphics.setWindowedMode(1920, 1080);
-
-        //Needed to process input
-        Gdx.input.setInputProcessor(this);
 
         //Create camera
         camera = new PerspectiveCamera(75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -133,9 +135,12 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
                 new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
                 new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
 
-        //Set camera controller
+        //Set camera controller AND INPUT PROCESSOR
         cameraInputController = new CameraInputController(camera);
-        Gdx.input.setInputProcessor(cameraInputController);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(this);
+        multiplexer.addProcessor(cameraInputController);
+        Gdx.input.setInputProcessor(this);
 
         //Set lightning
         environment = new Environment();
@@ -143,7 +148,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         environment.add(new DirectionalLight().set(0.8f, 0.8f, 0.8f, -1f, -0.8f, -0.2f));
     }
 
-    public void render (float delta) {
+    @Override
+    public void render () {
         batch2D = new SpriteBatch();
 
         //Gdx.gl20.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -172,6 +178,14 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         }
 
         modelBatch.end();
+
+        //TODO TMP
+        Matrix4 inverseProjectView = camera.invProjectionView;
+
+//        shapes.setProjectionMatrix(camera.combined);
+//        shapes.begin(ShapeRenderer.ShapeType.Filled);
+//        shapes.circle(tp.x, tp.y, 0.25f, 16);
+//        shapes.end();
     }
 
     public void renderBall(double x, double y, double z){
@@ -363,6 +377,37 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        System.out.println("TEST");
+
+//        //TODO TMP
+//        // ignore if its not left mouse button or first touch pointer
+//        if (button != Input.Buttons.LEFT || pointer > 0) return false;
+//
+//        Vector3 clickVector = new Vector3();
+//        clickVector.x = (2.0f*((float)(screenX-0)/(Gdx.graphics.getWidth())))-1.0f;
+//        clickVector.y = 1.0f-(2.0f*((float)(screenY-0)/(Gdx.graphics.getHeight())));
+//        clickVector.z = (float) (2.0 * 1 - 1.0);
+//
+//        Matrix4 inverseProjectionMatrix = camera.invProjectionView;
+//
+//        float[] multiplicationArray = new float[]{clickVector.x, clickVector.y, clickVector.z, 1};
+//
+//        Matrix4.mul(multiplicationArray, inverseProjectionMatrix.val);
+//
+//        Vector3 result = new Vector3();
+//        result.x = multiplicationArray[0];
+//        result.y = multiplicationArray[1];
+//        result.z = multiplicationArray[2];
+//        float w = multiplicationArray[3];
+//        w = (float) (1.0 / w);
+//
+//        result.x *= w;
+//        result.y *= w;
+//        result.z *= w;
+//
+//        System.out.println("ResultX = " + result.x + " ResultY = " + result.y + " ResultZ = " + result.z);
+//
+////        camera.unproject(tp.set(screenX, screenY, 0));
         return false;
     }
 
@@ -386,10 +431,10 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         return false;
     }
 
-//	public void resize(int width, int height) {
-//		viewport.update(width, height);
-//		camera.update();
-//	}
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+		camera.update();
+	}
 
     public void hide() {
 
