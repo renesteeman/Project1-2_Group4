@@ -22,6 +22,10 @@ public class PuttingCourse {
     double goalRadius;
     double maxVelocity;
 
+    //TODO set to actual values
+    double courseWidth = 50;
+    double courseLength = 80;
+
     Ball ball;
     Goal goal;
     ArrayList<Tree> trees = new ArrayList<>();

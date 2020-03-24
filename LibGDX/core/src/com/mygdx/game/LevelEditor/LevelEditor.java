@@ -3,15 +3,14 @@ package com.mygdx.game.LevelEditor;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g3d.Environment;
-import com.badlogic.gdx.graphics.g3d.Model;
-import com.badlogic.gdx.graphics.g3d.ModelBatch;
-import com.badlogic.gdx.graphics.g3d.ModelInstance;
+import com.badlogic.gdx.graphics.g3d.*;
+import com.badlogic.gdx.graphics.g3d.attributes.BlendingAttribute;
 import com.badlogic.gdx.graphics.g3d.attributes.ColorAttribute;
 import com.badlogic.gdx.graphics.g3d.environment.DirectionalLight;
 import com.badlogic.gdx.graphics.g3d.loader.G3dModelLoader;
 import com.badlogic.gdx.graphics.g3d.model.data.ModelData;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.graphics.g3d.utils.MeshPartBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.ModelBuilder;
 import com.badlogic.gdx.graphics.g3d.utils.TextureProvider;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -46,6 +45,7 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     //NON-2D-UI
     //size in meter
+    //TODO use values from puttingcourse
     final float terrainStepSize = 1;
     final int terrainWidth = 20;
     final int terrainLength = 15;
@@ -86,6 +86,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     Mesh ground;
     ShaderProgram groundShader;
+
+    ModelInstance waterInstance;
 
     CameraInputController cameraInputController;
 
@@ -135,6 +137,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
                 new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
                 new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
 
+        waterInstance = getWaterInstance();
+
         //Set camera controller AND INPUT PROCESSOR
         cameraInputController = new CameraInputController(camera);
         InputMultiplexer multiplexer = new InputMultiplexer();
@@ -172,6 +176,7 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         modelBatch.begin(camera);
         modelBatch.render(ballInstance, environment);
         modelBatch.render(goalInstance, environment);
+        modelBatch.render(waterInstance, environment);
 
         for(ModelInstance treeInstance : treeInstances){
             modelBatch.render(treeInstance, environment);
@@ -379,39 +384,11 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("TEST");
 
-        //TODO TMP
-        // ignore if its not left mouse button or first touch pointer
-//        if (button != Input.Buttons.LEFT || pointer > 0) return false;
-//
-//        Vector3 clickVector = new Vector3();
-//        clickVector.x = (2.0f*((float)(screenX-0)/(Gdx.graphics.getWidth())))-1.0f;
-//        clickVector.y = 1.0f-(2.0f*((float)(screenY-0)/(Gdx.graphics.getHeight())));
-//        clickVector.z = (float) (2.0 * 1 - 1.0);
-//
-//        Matrix4 inverseProjectionMatrix = camera.invProjectionView;
-//
-//        float[] multiplicationArray = new float[]{clickVector.x, clickVector.y, clickVector.z, 1};
-//
-//        Matrix4.mul(multiplicationArray, inverseProjectionMatrix.val);
-//
-//        Vector3 result = new Vector3();
-//        result.x = multiplicationArray[0];
-//        result.y = multiplicationArray[1];
-//        result.z = multiplicationArray[2];
-//        float w = multiplicationArray[3];
-////        w = (float) (1.0 / w);
-//
-//        result.x *= w;
-//        result.y *= w;
-//        result.z *= w;
-//
-//        System.out.println("ResultX = " + result.x + " ResultY = " + result.y + " ResultZ = " + result.z);
-//        renderBall(result.x, result.y, result.z);
+//        Vector3 world = camera.unproject(new Vector3(screenX, screenY, 1));
+//        renderBall(world.x, world.y, world.z);
 
-        Vector3 world = camera.unproject(new Vector3(screenX, screenY, 1));
-        renderBall(world.x, world.y, world.z);
+        camera.getPickRay(screenX, screenY);
 
-//        camera.unproject(tp.set(screenX, screenY, 0));
         return false;
     }
 
@@ -442,6 +419,24 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     public void hide() {
 
+    }
+
+    ModelInstance getWaterInstance(){
+        ModelBuilder modelBuilder = new ModelBuilder();
+        modelBuilder.begin();
+        MeshPartBuilder builder = modelBuilder.part("terrain", GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, new Material(ColorAttribute.createDiffuse(new Color(0.2f, 0.2f, 1, 1f)), new BlendingAttribute(0.5f)));
+        Vector3 pos1 = new Vector3(0,0,0);
+        Vector3 pos2 = new Vector3(0,0, terrainWidth);
+        Vector3 pos3 = new Vector3(terrainLength,0,terrainWidth);
+        Vector3 pos4 = new Vector3(terrainLength,0,0);
+        MeshPartBuilder.VertexInfo v1 = new MeshPartBuilder.VertexInfo().setPos(pos1).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.5f, 0.0f);
+        MeshPartBuilder.VertexInfo v2 = new MeshPartBuilder.VertexInfo().setPos(pos2).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.0f, 0.0f);
+        MeshPartBuilder.VertexInfo v3 = new MeshPartBuilder.VertexInfo().setPos(pos3).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.0f, 0.5f);
+        MeshPartBuilder.VertexInfo v4 = new MeshPartBuilder.VertexInfo().setPos(pos4).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.5f, 0.5f);
+        builder.rect(v1, v2, v3, v4);
+        Model water = modelBuilder.end();
+        ModelInstance waterInstance = new ModelInstance(water, 0, 0, 0);
+        return waterInstance;
     }
 
 }
