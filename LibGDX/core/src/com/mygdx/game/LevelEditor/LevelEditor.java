@@ -84,10 +84,13 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
     Model treeModel;
     ArrayList<ModelInstance> treeInstances = new ArrayList<ModelInstance>();
 
-    Mesh ground;
-    ShaderProgram groundShader;
+    Mesh terrain;
+    ShaderProgram terrainShader;
 
+    Model water;
     ModelInstance waterInstance;
+    Model ground;
+    ModelInstance groundInstance;
 
     CameraInputController cameraInputController;
 
@@ -131,13 +134,14 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 //		removeTreeWithinRadius(5, getTerrainHeight(5, 5), 5, 1);
 
         //Set ground shader and mesh
-        groundShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
+        terrainShader = new ShaderProgram(Gdx.files.internal("shader/vertexshader.glsl").readString(), Gdx.files.internal("shader/fragmentshader.glsl").readString());
 
-        ground = new Mesh(true, MAX_VERTS, 0,
+        terrain = new Mesh(true, MAX_VERTS, 0,
                 new VertexAttribute(VertexAttributes.Usage.Position, POSITION_COMPONENTS, "a_position"),
                 new VertexAttribute(VertexAttributes.Usage.ColorPacked, 4, "a_color"));
 
         waterInstance = getWaterInstance();
+        groundInstance = getGroundInstance();
 
         //Set camera controller AND INPUT PROCESSOR
         cameraInputController = new CameraInputController(camera);
@@ -177,6 +181,7 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         modelBatch.render(ballInstance, environment);
         modelBatch.render(goalInstance, environment);
         modelBatch.render(waterInstance, environment);
+        modelBatch.render(groundInstance, environment);
 
         for(ModelInstance treeInstance : treeInstances){
             modelBatch.render(treeInstance, environment);
@@ -246,8 +251,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 
     void createTerrain(float xOffset, float yOffset){
         //Go over chunks of terrain and create as many chunks as needed to create the terrain
-        for(int x=0; x<terrainWidth/terrainStepSize; x++){
-            for(int z=0; z<terrainLength/terrainStepSize; z++){
+        for(int x=0; x<terrainLength/terrainStepSize; x++){
+            for(int z=0; z<terrainWidth/terrainStepSize; z++){
                 float xCoordinate = x*terrainStepSize+xOffset;
                 float zCoordinate = z*terrainStepSize+yOffset;
                 drawGroundQuad(xCoordinate, zCoordinate);
@@ -275,62 +280,38 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         terrainVertices[terrainVertexIndex++] = x;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z);
         terrainVertices[terrainVertexIndex++] = z;
-        if(getTerrainHeight(x, z) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 
         //bottom right vertex
         terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z);
         terrainVertices[terrainVertexIndex++] = z;
-        if(getTerrainHeight(x + terrainStepSize, z) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 
         //Top left vertex
         terrainVertices[terrainVertexIndex++] = x;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z + terrainStepSize);
         terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
-        if(getTerrainHeight(x, z + terrainStepSize) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 
         //Second triangle (bottom right, top left, top right)
         //bottom right
         terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z);
         terrainVertices[terrainVertexIndex++] = z;
-        if(getTerrainHeight(x + terrainStepSize, z) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 
         //top left vertex
         terrainVertices[terrainVertexIndex++] = x;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x, z + terrainStepSize);
         terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
-        if(getTerrainHeight(x, z + terrainStepSize) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
 
         //top right vertex
         terrainVertices[terrainVertexIndex++] = x + terrainStepSize;
         terrainVertices[terrainVertexIndex++] = getTerrainHeight(x + terrainStepSize, z + terrainStepSize);
         terrainVertices[terrainVertexIndex++] = z + terrainStepSize;
-        if(getTerrainHeight(x + terrainStepSize, z + terrainStepSize) > 0){
-            terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
-        } else {
-            terrainVertices[terrainVertexIndex++] = Color.BLUE.toFloatBits();
-        }
+        terrainVertices[terrainVertexIndex++] = Color.GREEN.toFloatBits();
     }
 
     //Based of https://github.com/mattdesl/lwjgl-basics/wiki/LibGDX-Meshes-Lesson-1
@@ -340,16 +321,16 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
             return;
 
         //sends our vertex data to the mesh
-        ground.setVertices(terrainVertices);
+        terrain.setVertices(terrainVertices);
 
         //number of vertices we need to render
         int vertexCount = (terrainVertexIndex /NUM_COMPONENTS);
 
         //start the shader before setting any uniforms
-        groundShader.begin();
-        groundShader.setUniformMatrix("u_projTrans", camera.combined);
-        ground.render(groundShader, GL20.GL_TRIANGLES, 0, vertexCount);
-        groundShader.end();
+        terrainShader.begin();
+        terrainShader.setUniformMatrix("u_projTrans", camera.combined);
+        terrain.render(terrainShader, GL20.GL_TRIANGLES, 0, vertexCount);
+        terrainShader.end();
 
         //reset index to zero
         terrainVertexIndex = 0;
@@ -363,6 +344,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         if(treesEnabled){
             treeModel.dispose();
         }
+        water.dispose();
+        ground.dispose();
     }
 
     @Override
@@ -422,9 +405,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
     }
 
     ModelInstance getWaterInstance(){
-        ModelBuilder modelBuilder = new ModelBuilder();
         modelBuilder.begin();
-        MeshPartBuilder builder = modelBuilder.part("terrain", GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, new Material(ColorAttribute.createDiffuse(new Color(0.2f, 0.2f, 1, 1f)), new BlendingAttribute(0.5f)));
+        MeshPartBuilder builder = modelBuilder.part("water", GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, new Material(ColorAttribute.createDiffuse(new Color(0.2f, 0.2f, 1, 1f)), new BlendingAttribute(0.5f)));
         Vector3 pos1 = new Vector3(0,0,0);
         Vector3 pos2 = new Vector3(0,0, terrainWidth);
         Vector3 pos3 = new Vector3(terrainLength,0,terrainWidth);
@@ -434,9 +416,45 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         MeshPartBuilder.VertexInfo v3 = new MeshPartBuilder.VertexInfo().setPos(pos3).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.0f, 0.5f);
         MeshPartBuilder.VertexInfo v4 = new MeshPartBuilder.VertexInfo().setPos(pos4).setNor(new Vector3(0,1,0)).setCol(null).setUV(0.5f, 0.5f);
         builder.rect(v1, v2, v3, v4);
-        Model water = modelBuilder.end();
+        water = modelBuilder.end();
         ModelInstance waterInstance = new ModelInstance(water, 0, 0, 0);
         return waterInstance;
+    }
+
+    ModelInstance getGroundInstance(){
+        modelBuilder.begin();
+        float depth = 2;
+        MeshPartBuilder builder = modelBuilder.part("ground", GL20.GL_TRIANGLES, VertexAttributes.Usage.Position | VertexAttributes.Usage.Normal, new Material(ColorAttribute.createDiffuse(new Color(.63f, 0.25f, .12f, 1f)), new BlendingAttribute(1f)));
+
+        //Bottom
+        Vector3 pos1 = new Vector3(0,-depth,0);
+        Vector3 pos2 = new Vector3(0,-depth, terrainWidth);
+        Vector3 pos3 = new Vector3(terrainLength,-depth,terrainWidth);
+        Vector3 pos4 = new Vector3(terrainLength,-depth,0);
+        MeshPartBuilder.VertexInfo v1 = new MeshPartBuilder.VertexInfo().setPos(pos1);
+        MeshPartBuilder.VertexInfo v2 = new MeshPartBuilder.VertexInfo().setPos(pos2);
+        MeshPartBuilder.VertexInfo v3 = new MeshPartBuilder.VertexInfo().setPos(pos3);
+        MeshPartBuilder.VertexInfo v4 = new MeshPartBuilder.VertexInfo().setPos(pos4);
+        builder.rect(v1, v2, v3, v4);
+
+        //Sides
+        Vector3 pos5 = new Vector3(0,0,0);
+        Vector3 pos6 = new Vector3(0,0, terrainWidth);
+        Vector3 pos7 = new Vector3(terrainLength, 0 ,terrainWidth);
+        Vector3 pos8 = new Vector3(terrainLength, 0,0);
+        MeshPartBuilder.VertexInfo v5 = new MeshPartBuilder.VertexInfo().setPos(pos5);
+        MeshPartBuilder.VertexInfo v6 = new MeshPartBuilder.VertexInfo().setPos(pos6);
+        MeshPartBuilder.VertexInfo v7 = new MeshPartBuilder.VertexInfo().setPos(pos7);
+        MeshPartBuilder.VertexInfo v8 = new MeshPartBuilder.VertexInfo().setPos(pos8);
+        builder.rect(v1, v5, v8, v4);
+        builder.rect(v1, v5, v6, v2);
+        builder.rect(v3, v7, v6, v2);
+        builder.rect(v3, v7, v8, v4);
+
+
+        ground = modelBuilder.end();
+        ModelInstance groundInstance = new ModelInstance(ground, 0, 0, 0);
+        return groundInstance;
     }
 
 }
