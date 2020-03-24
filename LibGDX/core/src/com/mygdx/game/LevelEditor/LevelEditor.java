@@ -435,21 +435,31 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         MeshPartBuilder.VertexInfo v2 = new MeshPartBuilder.VertexInfo().setPos(pos2);
         MeshPartBuilder.VertexInfo v3 = new MeshPartBuilder.VertexInfo().setPos(pos3);
         MeshPartBuilder.VertexInfo v4 = new MeshPartBuilder.VertexInfo().setPos(pos4);
-        builder.rect(v1, v2, v3, v4);
+        builder.rect(v4, v3, v2, v1);
 
         //Sides
         Vector3 pos5 = new Vector3(0,0,0);
         Vector3 pos6 = new Vector3(0,0, terrainWidth);
         Vector3 pos7 = new Vector3(terrainLength, 0 ,terrainWidth);
         Vector3 pos8 = new Vector3(terrainLength, 0,0);
-        MeshPartBuilder.VertexInfo v5 = new MeshPartBuilder.VertexInfo().setPos(pos5);
-        MeshPartBuilder.VertexInfo v6 = new MeshPartBuilder.VertexInfo().setPos(pos6);
-        MeshPartBuilder.VertexInfo v7 = new MeshPartBuilder.VertexInfo().setPos(pos7);
-        MeshPartBuilder.VertexInfo v8 = new MeshPartBuilder.VertexInfo().setPos(pos8);
+        MeshPartBuilder.VertexInfo v5 = new MeshPartBuilder.VertexInfo().setPos(pos5).setCol(null);
+        MeshPartBuilder.VertexInfo v6 = new MeshPartBuilder.VertexInfo().setPos(pos6).setCol(null);
+        MeshPartBuilder.VertexInfo v7 = new MeshPartBuilder.VertexInfo().setPos(pos7).setCol(null);
+        MeshPartBuilder.VertexInfo v8 = new MeshPartBuilder.VertexInfo().setPos(pos8).setCol(null);
+
+        //behind
         builder.rect(v1, v5, v8, v4);
-        builder.rect(v1, v5, v6, v2);
+//        builder.rect(v1, v4, v8, v5);
+
+        //front
         builder.rect(v3, v7, v6, v2);
-        builder.rect(v3, v7, v8, v4);
+
+        //right side
+        builder.rect(v4, v8, v7, v3);
+
+        //left side
+        builder.rect(v1, v2, v6, v5);
+
 
 
         ground = modelBuilder.end();
