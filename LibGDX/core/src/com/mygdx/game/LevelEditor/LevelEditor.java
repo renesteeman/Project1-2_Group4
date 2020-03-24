@@ -140,7 +140,7 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this);
         multiplexer.addProcessor(cameraInputController);
-        Gdx.input.setInputProcessor(this);
+        Gdx.input.setInputProcessor(multiplexer);
 
         //Set lightning
         environment = new Environment();
@@ -379,8 +379,8 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         System.out.println("TEST");
 
-//        //TODO TMP
-//        // ignore if its not left mouse button or first touch pointer
+        //TODO TMP
+        // ignore if its not left mouse button or first touch pointer
 //        if (button != Input.Buttons.LEFT || pointer > 0) return false;
 //
 //        Vector3 clickVector = new Vector3();
@@ -399,15 +399,19 @@ public class LevelEditor extends ApplicationAdapter implements InputProcessor, A
 //        result.y = multiplicationArray[1];
 //        result.z = multiplicationArray[2];
 //        float w = multiplicationArray[3];
-//        w = (float) (1.0 / w);
+////        w = (float) (1.0 / w);
 //
 //        result.x *= w;
 //        result.y *= w;
 //        result.z *= w;
 //
 //        System.out.println("ResultX = " + result.x + " ResultY = " + result.y + " ResultZ = " + result.z);
-//
-////        camera.unproject(tp.set(screenX, screenY, 0));
+//        renderBall(result.x, result.y, result.z);
+
+        Vector3 world = camera.unproject(new Vector3(screenX, screenY, 1));
+        renderBall(world.x, world.y, world.z);
+
+//        camera.unproject(tp.set(screenX, screenY, 0));
         return false;
     }
 
