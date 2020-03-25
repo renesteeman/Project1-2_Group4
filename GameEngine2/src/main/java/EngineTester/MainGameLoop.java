@@ -111,6 +111,7 @@ public class MainGameLoop {
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
             entity.increaseRotation(getDeltaTime() * 100, getDeltaTime() * 100, 0);
             camera.move();
+            System.out.println(camera.getPosition().toString());
 
             renderer.prepare();
             shader.start();
