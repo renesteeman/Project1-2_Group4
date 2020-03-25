@@ -65,4 +65,7 @@ public class DisplayManager {
         return window;
     }
 
+    public static float getDeltaTime() {
+        return delta;
+    }
 }
