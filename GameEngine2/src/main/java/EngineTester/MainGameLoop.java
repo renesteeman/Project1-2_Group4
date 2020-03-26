@@ -4,11 +4,8 @@ import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Models.TexturedModel;
-import RenderEngine.DisplayManager;
-import RenderEngine.Loader;
+import RenderEngine.*;
 import Models.RawModel;
-import RenderEngine.OBJLoader;
-import RenderEngine.Renderer;
 import Shaders.StaticShader;
 import Textures.ModelTexture;
 import org.joml.Vector3f;
@@ -23,8 +20,6 @@ public class MainGameLoop {
         GL.createCapabilities();
 
         Loader loader = new Loader();
-        StaticShader shader = new StaticShader();
-        Renderer renderer = new Renderer(shader);
 
         RawModel model = OBJLoader.loadObjModel("dragon", loader);
 //        ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
@@ -39,27 +34,21 @@ public class MainGameLoop {
         Camera camera = new Camera();
 
         //Game loop
+        MasterRenderer renderer = new MasterRenderer();
         while(!DisplayManager.closed()){
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
             entity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
             camera.move();
 
-            renderer.prepare();
-            shader.start();
+            renderer.processEntity(entity);
 
-            shader.loadLight(light);
-            shader.loadViewMatrix(camera);
-
-            renderer.render(entity, shader);
-
-            shader.stop();
+            renderer.render(light, camera);
 
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
         }
 
-        shader.cleanUp();
+        renderer.cleanUp();
         loader.cleanUp();
-
     }
 }
