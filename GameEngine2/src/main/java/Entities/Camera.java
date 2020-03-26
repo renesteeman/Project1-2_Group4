@@ -1,6 +1,7 @@
 package Entities;
 
 import RenderEngine.DisplayManager;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -17,24 +18,37 @@ public class Camera {
     //Tilted
     private float roll;
 
+    private final float MOVEMENT_SPEED = 20f;
+
     public Camera(){}
 
+    public Camera(Vector3f position){
+        this.position = position;
+    }
+
     public void move(){
-        //Everything is in reverse since you move the world and not an actual camera
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
-            position.z -= getDeltaTime() * 2f;
+            position.z -= getDeltaTime() * MOVEMENT_SPEED;
         }
 
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
-            position.z -= getDeltaTime() * -0.2f;
+            position.z += getDeltaTime() * MOVEMENT_SPEED;
         }
 
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_A) == GLFW.GLFW_PRESS){
-            position.x -= getDeltaTime() * 0.2f;
+            position.x -= getDeltaTime() * MOVEMENT_SPEED;
         }
 
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_D) == GLFW.GLFW_PRESS){
-            position.x -= getDeltaTime() * -0.2f;
+            position.x += getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_SPACE) == GLFW.GLFW_PRESS){
+            position.y += getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
+            position.y -= getDeltaTime() * MOVEMENT_SPEED;
         }
     }
 
