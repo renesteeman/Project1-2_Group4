@@ -5,9 +5,11 @@ import RenderEngine.Loader;
 import Textures.ModelTexture;
 import javafx.css.Size;
 
+import java.util.Arrays;
+
 public class Terrain {
 
-    private static final float SIZE = 800;
+    private static final int SIZE = 800;
     private static final int VERTEX_COUNT = 128;
 
     private float x;
@@ -15,11 +17,18 @@ public class Terrain {
     private RawModel model;
     private ModelTexture texture;
 
+    private boolean[][] isSandArray;
+
     public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
         this.texture = texture;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
+        isSandArray = new boolean[SIZE][SIZE];
+    }
+
+    public void setSand(int x, int z, boolean isSand){
+        isSandArray[x][z] = isSand;
     }
 
     public static float getSIZE() {
