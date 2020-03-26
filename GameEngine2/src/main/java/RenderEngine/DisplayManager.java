@@ -19,6 +19,8 @@ public class DisplayManager {
         GLFW.glfwDefaultWindowHints();
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
+        //SMAA
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
         window = GLFW.glfwCreateWindow(WIDTH, HEIGHT, title, 0, 0);
 
         if (window == 0) {
