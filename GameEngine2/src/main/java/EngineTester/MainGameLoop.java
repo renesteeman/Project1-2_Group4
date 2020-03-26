@@ -4,9 +4,10 @@ import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Models.TexturedModel;
+import OBJConverter.ModelData;
+import OBJConverter.OBJFileLoader;
 import RenderEngine.*;
 import Models.RawModel;
-import Shaders.StaticShader;
 import Terrain.Terrain;
 import Textures.ModelTexture;
 import org.joml.Vector3f;
@@ -22,18 +23,19 @@ public class MainGameLoop {
     public static void main(String[] args){
         DisplayManager.createDisplay();
         GL.createCapabilities();
-
         Loader loader = new Loader();
 
-        RawModel model = OBJLoader.loadObjModel("dragon", loader);
+        ModelData modelData = OBJFileLoader.loadOBJ("dragon");
+        RawModel dragonModel = loader.loadToVAO(modelData.getVertices(), modelData.getTextureCoords(), modelData.getNormals(), modelData.getIndices());
+        TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("brick")));
 //        ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
-        TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("brick")));
-        ModelTexture texture = texturedModel.getTexture();
-        texture.setShineDamper(10);
-        texture.setReflectivity(1);
+//        TexturedModel texturedModel = new TexturedModel(, new ModelTexture(loader.loadTexture("brick")));
+//        ModelTexture texture = texturedModel.getTexture();
+//        texture.setShineDamper(10);
+//        texture.setReflectivity(1);
 
         List<Entity> entities = new ArrayList<Entity>();
-        Entity entity1 = new Entity(texturedModel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         entities.add(entity1);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));

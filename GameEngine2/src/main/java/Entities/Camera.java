@@ -19,6 +19,7 @@ public class Camera {
     private float roll;
 
     private final float MOVEMENT_SPEED = 20f;
+    private final float ROTATION_SPEED = 25f;
 
     public Camera(){}
 
@@ -49,6 +50,14 @@ public class Camera {
 
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
             position.y -= getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_Q) == GLFW.GLFW_PRESS){
+            yaw -= getDeltaTime() * ROTATION_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_E) == GLFW.GLFW_PRESS){
+            yaw += getDeltaTime() * ROTATION_SPEED;
         }
     }
 
