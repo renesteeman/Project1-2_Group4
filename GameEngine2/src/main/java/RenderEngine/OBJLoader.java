@@ -30,7 +30,7 @@ public class OBJLoader {
         List<Vector3f> normals = new ArrayList<Vector3f>();
         List<Integer> indices = new ArrayList<Integer>();
         float[] verticesArray;
-        float[] normalsArray;
+        float[] normalsArray = null;
         float[] textureArray = null;
         int[] indicesArray;
 
@@ -43,7 +43,6 @@ public class OBJLoader {
                     vertices.add(vertex);
                 } else if(line.startsWith("vt ")){
                     Vector2f texture = new Vector2f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]));
-                    System.out.println("TEXTURE " + texture.toString());
                     textures.add(texture);
                 } else if(line.startsWith("vn ")){
                     Vector3f normal = new Vector3f(Float.parseFloat(currentLine[1]), Float.parseFloat(currentLine[2]), Float.parseFloat(currentLine[3]));
@@ -92,12 +91,10 @@ public class OBJLoader {
             indicesArray[i] = indices.get(i);
         }
 
-        return loader.loadToVAO(verticesArray, textureArray, indicesArray);
+        return loader.loadToVAO(verticesArray, textureArray, normalsArray, indicesArray);
     }
 
     private static void processVertex(String[] vertexData, List<Integer> indices, List<Vector2f> textures, List<Vector3f> normals, float[] textureArray, float[] normalsArray){
-        System.out.println("TEXTURE= " + textures.toString());
-
         int currentVertexPointer = Integer.parseInt(vertexData[0]) - 1;
         indices.add(currentVertexPointer);
         Vector2f currentTex = textures.get(Integer.parseInt(vertexData[1])-1);

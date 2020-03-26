@@ -2,6 +2,7 @@ package EngineTester;
 
 import Entities.Camera;
 import Entities.Entity;
+import Entities.Light;
 import Models.TexturedModel;
 import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
@@ -25,11 +26,12 @@ public class MainGameLoop {
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer(shader);
 
-        RawModel model = OBJLoader.loadObjModel("tree", loader);
-        ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
+        RawModel model = OBJLoader.loadObjModel("dragon", loader);
+//        ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
+        TexturedModel texturedModel = new TexturedModel(model, new ModelTexture(loader.loadTexture("brick")));
 
         Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Light light = new Light(new Vector3f(0, 0, -20), new Vector3f(1, 1, 1));
 
         Camera camera = new Camera();
 
@@ -41,6 +43,8 @@ public class MainGameLoop {
 
             renderer.prepare();
             shader.start();
+
+            shader.loadLight(light);
             shader.loadViewMatrix(camera);
 
             renderer.render(entity, shader);

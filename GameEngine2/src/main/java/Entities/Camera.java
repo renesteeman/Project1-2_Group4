@@ -22,7 +22,7 @@ public class Camera {
     public void move(){
         //Everything is in reverse since you move the world and not an actual camera
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
-            position.z -= getDeltaTime() * 0.2f;
+            position.z -= getDeltaTime() * 2f;
         }
 
         if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
