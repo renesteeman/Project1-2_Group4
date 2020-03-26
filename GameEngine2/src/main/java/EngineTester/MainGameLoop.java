@@ -10,6 +10,8 @@ import RenderEngine.*;
 import Models.RawModel;
 import Terrain.Terrain;
 import Textures.ModelTexture;
+import Textures.TerrainTexture;
+import Textures.TerrainTexturePack;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL;
 
@@ -25,23 +27,25 @@ public class MainGameLoop {
         GL.createCapabilities();
         Loader loader = new Loader();
 
+        Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
+
+        //Models and entities
         ModelData modelData = OBJFileLoader.loadOBJ("dragon");
         RawModel dragonModel = loader.loadToVAO(modelData.getVertices(), modelData.getTextureCoords(), modelData.getNormals(), modelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("brick")));
-//        ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
-//        TexturedModel texturedModel = new TexturedModel(, new ModelTexture(loader.loadTexture("brick")));
-//        ModelTexture texture = texturedModel.getTexture();
-//        texture.setShineDamper(10);
-//        texture.setReflectivity(1);
 
         List<Entity> entities = new ArrayList<Entity>();
         Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         entities.add(entity1);
 
-        Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
+        //Terrain
+        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("nice_grass"));
+        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("nice_sand"));
 
-        Terrain terrain = new Terrain(0, -1, loader, new ModelTexture(loader.loadTexture("grass")));
-        Terrain terrain2 = new Terrain(-1, -1, loader, new ModelTexture(loader.loadTexture("grass")));
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
+
+        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack);
+        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack);
 
         Camera camera = new Camera(new Vector3f(0, 5, 0));
 

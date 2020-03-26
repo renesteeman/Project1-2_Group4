@@ -3,6 +3,7 @@ package Terrain;
 import Models.RawModel;
 import RenderEngine.Loader;
 import Textures.ModelTexture;
+import Textures.TerrainTexturePack;
 import javafx.css.Size;
 
 import java.util.Arrays;
@@ -15,12 +16,12 @@ public class Terrain {
     private float x;
     private float z;
     private RawModel model;
-    private ModelTexture texture;
+    private TerrainTexturePack texturePack;
 
     private boolean[][] isSandArray;
 
-    public Terrain(int gridX, int gridZ, Loader loader, ModelTexture texture){
-        this.texture = texture;
+    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack){
+        this.texturePack = texturePack;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
@@ -29,6 +30,10 @@ public class Terrain {
 
     public void setSand(int x, int z, boolean isSand){
         isSandArray[x][z] = isSand;
+    }
+
+    public boolean isSand(int x, int z){
+        return isSandArray[x][z];
     }
 
     public static float getSIZE() {
@@ -51,8 +56,8 @@ public class Terrain {
         return model;
     }
 
-    public ModelTexture getTexture() {
-        return texture;
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
     }
 
     private RawModel generateTerrain(Loader loader){

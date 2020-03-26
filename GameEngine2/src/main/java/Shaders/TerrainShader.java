@@ -17,6 +17,8 @@ public class TerrainShader extends ShaderProgram {
     private int location_lightColor;
     private int location_shineDamper;
     private int location_reflectivity;
+    private int location_grassTexture;
+    private int location_sandTexture;
 
     public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -31,6 +33,8 @@ public class TerrainShader extends ShaderProgram {
         location_lightColor = super.getUniformLocation("lightColor");
         location_shineDamper = super.getUniformLocation("shineDamper");
         location_reflectivity = super.getUniformLocation("reflectivity");
+        location_grassTexture = super.getUniformLocation("grassTexture");
+        location_sandTexture = super.getUniformLocation("sandTexture");
     }
 
     @Override
@@ -38,6 +42,13 @@ public class TerrainShader extends ShaderProgram {
         super.bindAttribute(0, "position");
         super.bindAttribute(1, "textureCoords");
         super.bindAttribute(2, "normal");
+        //TODO use isSandIn
+        super.bindAttribute(3, "isSandIn");
+    }
+
+    public void connectTextureUnits(){
+        super.loadInt(location_grassTexture, 0);
+        super.loadInt(location_sandTexture, 1);
     }
 
     public void loadShineVariables(float damper, float reflectivity){

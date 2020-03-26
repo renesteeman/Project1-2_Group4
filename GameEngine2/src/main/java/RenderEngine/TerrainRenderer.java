@@ -1,11 +1,10 @@
 package RenderEngine;
 
-import Entities.Entity;
 import Models.RawModel;
-import Models.TexturedModel;
 import Shaders.TerrainShader;
 import Terrain.Terrain;
 import Textures.ModelTexture;
+import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -24,6 +23,7 @@ public class TerrainRenderer {
         this.shader = shader;
         shader.start();
         shader.loadProjectionMatrix(projectionMatrix);
+        shader.connectTextureUnits();
         shader.stop();
     }
 
@@ -44,10 +44,8 @@ public class TerrainRenderer {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
-        ModelTexture texture = terrain.getTexture();
-        shader.loadShineVariables(texture.getShineDamper(), texture.getReflectivity());
-        GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getId());
+        bindTextures(terrain);
+        shader.loadShineVariables(1, 0);
     }
 
     private void unbindTexturedModel(){
@@ -62,5 +60,15 @@ public class TerrainRenderer {
     private void loadModelMatrix(Terrain terrain){
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
         shader.loadTransformationMatrix(transformationMatrix);
+    }
+
+    private void bindTextures(Terrain terrain){
+        TerrainTexturePack texturePack = terrain.getTexturePack();
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D,texturePack.getGrassTexture().getTextureID());
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE1);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D,texturePack.getSandTexture().getTextureID());
     }
 }
