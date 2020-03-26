@@ -25,18 +25,18 @@ public class MainGameLoop {
         StaticShader shader = new StaticShader();
         Renderer renderer = new Renderer(shader);
 
-        RawModel model = OBJLoader.loadObjModel("stall", loader);
+        RawModel model = OBJLoader.loadObjModel("tree", loader);
         ModelTexture texture = new ModelTexture(loader.loadTexture("brick"));
         TexturedModel texturedModel = new TexturedModel(model, texture);
 
-        Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -5), 0, 0, 0, 1);
+        Entity entity = new Entity(texturedModel, new Vector3f(0, 0, -50), 0, 0, 0, 1);
 
         Camera camera = new Camera();
 
         //Game loop
         while(!DisplayManager.closed()){
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-            entity.increaseRotation(getDeltaTime() * 100, getDeltaTime() * 100, 0);
+            entity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
             camera.move();
 
             renderer.prepare();
