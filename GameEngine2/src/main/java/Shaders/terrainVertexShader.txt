@@ -3,10 +3,8 @@
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;
-//Determine if you're dealing with sand or grass
-in int isSandIn;
 
-out vec2 pass_textureCoords;
+out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
@@ -20,12 +18,10 @@ uniform vec3 lightPosition;
 void main(void){
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
     gl_Position = projectionMatrix * viewMatrix * worldPosition;
-    pass_textureCoords = textureCoords;
+    pass_textureCoordinates = textureCoords;
 
     surfaceNormal = (transformationMatrix * vec4(normal, 0.0)).xyz;
     toLightVector = lightPosition - worldPosition.xyz;
 
     toCameraVector = (inverse(viewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
-
-    isSand = isSandIn;
 }

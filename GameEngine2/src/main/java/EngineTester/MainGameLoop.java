@@ -41,11 +41,14 @@ public class MainGameLoop {
         //Terrain
         TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("nice_grass"));
         TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("nice_sand"));
+        //TODO remove
+        TerrainTexture brickTexture = new TerrainTexture(loader.loadTexture("brick"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(("blendMap")));
 
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
 
-        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack);
-        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack);
+        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap);
+        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack, blendMap);
 
         Camera camera = new Camera(new Vector3f(0, 5, 0));
 
