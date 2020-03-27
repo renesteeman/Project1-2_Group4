@@ -2,6 +2,7 @@ package Entities;
 
 import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
+import Terrain.Terrain;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWScrollCallback;
@@ -44,7 +45,8 @@ public class Camera {
         });
     }
 
-    public void move(){
+    //Needs the terrain to prevent the camera from clipping trough it
+    public void move(Terrain terrain){
         //third person camera
 //        calculateZoom();
         calculateAngleAroundPlayerAndPitch();
@@ -52,50 +54,60 @@ public class Camera {
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
 
-        calculateCameraPosition(horizontalDistance, verticalDistance);
+        calculateCameraPosition(horizontalDistance, verticalDistance, terrain);
         this.yaw = 180 - (ball.getRotY() + angleAroundBall);
 
-        //Controls for free moving camera
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
-//            position.z -= getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
-//            position.z += getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_A) == GLFW.GLFW_PRESS){
-//            position.x -= getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_D) == GLFW.GLFW_PRESS){
-//            position.x += getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_SPACE) == GLFW.GLFW_PRESS){
-//            position.y += getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
-//            position.y -= getDeltaTime() * MOVEMENT_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_Q) == GLFW.GLFW_PRESS){
-//            yaw -= getDeltaTime() * ROTATION_SPEED;
-//        }
-//
-//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_E) == GLFW.GLFW_PRESS){
-//            yaw += getDeltaTime() * ROTATION_SPEED;
-//        }
+        /*
+        Controls for free moving camera
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
+            position.z -= getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
+            position.z += getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_A) == GLFW.GLFW_PRESS){
+            position.x -= getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_D) == GLFW.GLFW_PRESS){
+            position.x += getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_SPACE) == GLFW.GLFW_PRESS){
+            position.y += getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
+            position.y -= getDeltaTime() * MOVEMENT_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_Q) == GLFW.GLFW_PRESS){
+            yaw -= getDeltaTime() * ROTATION_SPEED;
+        }
+
+        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_E) == GLFW.GLFW_PRESS){
+            yaw += getDeltaTime() * ROTATION_SPEED;
+        }
+*/
     }
 
-    private void calculateCameraPosition(float horizontalDistance, float verticalDistance){
+    private void calculateCameraPosition(float horizontalDistance, float verticalDistance, Terrain terrain){
         float theta = ball.getRotY() + angleAroundBall;
         float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(theta)));
         float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(theta)));
+
         position.x = ball.getPosition().x - offsetX;
         position.z = ball.getPosition().z - offsetZ;
-        position.y = ball.getPosition().y + verticalDistance;
+
+        //Prevent clipping trough terrain
+        float terrainHeight = terrain.getHeightOfTerrain(position.x, position.z);
+        if(ball.getPosition().y + verticalDistance > terrainHeight){
+            position.y = ball.getPosition().y + verticalDistance;
+        } else {
+            position.y = terrainHeight+1f;
+        }
 
     }
 

@@ -59,7 +59,6 @@ public class MainGameLoop {
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
 
         Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "heightmap");
-        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack, blendMap, "heightmap");
 
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
@@ -81,11 +80,10 @@ public class MainGameLoop {
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
 //            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
-            camera.move();
+            camera.move(terrain);
 
             //Handle terrain
             renderer.processTerrain(terrain);
-            renderer.processTerrain(terrain2);
 
             //Render objects
             for(Entity entity : entities){
