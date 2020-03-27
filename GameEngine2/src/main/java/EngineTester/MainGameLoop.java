@@ -1,5 +1,6 @@
 package EngineTester;
 
+import Entities.Ball;
 import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
@@ -30,13 +31,19 @@ public class MainGameLoop {
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
         //Models and entities
-        ModelData modelData = OBJFileLoader.loadOBJ("dragon");
-        RawModel dragonModel = loader.loadToVAO(modelData.getVertices(), modelData.getTextureCoords(), modelData.getNormals(), modelData.getIndices());
+        ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
+        RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("brick")));
+
+        ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
+        RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
+        TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("brick")));
 
         List<Entity> entities = new ArrayList<Entity>();
         Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Ball ball = new Ball(texturedBall, new Vector3f(0, 5, -10), 0, 0, 0, 1);
         entities.add(entity1);
+        entities.add(ball);
 
         //Terrain
         TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("nice_grass"));
