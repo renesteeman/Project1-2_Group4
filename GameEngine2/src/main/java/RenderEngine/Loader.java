@@ -32,6 +32,19 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
+    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] terrainType){
+        int vaoID = createVAO();
+        bindIndicesBuffer(indices);
+        storeDataInAttributeList(0, 3, positions);
+        storeDataInAttributeList(1, 2, textureCoords);
+        storeDataInAttributeList(2, 3, normals);
+        storeDataInAttributeList(3, 1, terrainType);
+        unbindVAO();
+
+        //Each vertex has 3 floats
+        return new RawModel(vaoID, indices.length);
+    }
+
     public int loadTexture(String fileName){
         renderEngine.Texture texture = new renderEngine.Texture("./res/"+fileName+".png");
         int textureID = texture.getTextureID();
@@ -53,6 +66,18 @@ public class Loader {
         vbos.add(vboID);
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
         FloatBuffer buffer = storeDataInFloatBuffer(data);
+        //TODO change GL_STATIC_DRAW for terrain editor
+        GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
+        GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
+        //Unbind VAO
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
+    }
+
+    private void storeDataInAttributeList(int attributeNumber, int coordinateSize, int[] data){
+        int vboID = GL15.glGenBuffers();
+        vbos.add(vboID);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
+        IntBuffer buffer = storeDataInIntBuffer(data);
         //TODO change GL_STATIC_DRAW for terrain editor
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);

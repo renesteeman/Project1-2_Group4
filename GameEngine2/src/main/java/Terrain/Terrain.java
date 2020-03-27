@@ -18,22 +18,27 @@ public class Terrain {
     private RawModel model;
     private TerrainTexturePack texturePack;
 
-    private boolean[][] isSandArray;
+    //TerrainType is either 0 = grass or 1 = sand
+    private int[][] terrainTypeTracker;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack){
         this.texturePack = texturePack;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader);
-        isSandArray = new boolean[SIZE][SIZE];
+        terrainTypeTracker = new int[SIZE][SIZE];
     }
 
     public void setSand(int x, int z, boolean isSand){
-        isSandArray[x][z] = isSand;
+        if(isSand){
+            terrainTypeTracker[x][z] = 1;
+        } else {
+            terrainTypeTracker[x][z] = 0;
+        }
     }
 
     public boolean isSand(int x, int z){
-        return isSandArray[x][z];
+        return terrainTypeTracker[x][z] == 1;
     }
 
     public static float getSIZE() {
@@ -66,6 +71,8 @@ public class Terrain {
         float[] normals = new float[count * 3];
         float[] textureCoords = new float[count*2];
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
+        int[] terrainType = new int[count];
+
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
@@ -77,9 +84,11 @@ public class Terrain {
                 normals[vertexPointer*3+2] = 0;
                 textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
                 textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
+                terrainType[vertexPointer] = terrainTypeTracker[(int) vertices[vertexPointer*3]][(int) vertices[vertexPointer*3+2]];
                 vertexPointer++;
             }
         }
+
         int pointer = 0;
         for(int gz=0;gz<VERTEX_COUNT-1;gz++){
             for(int gx=0;gx<VERTEX_COUNT-1;gx++){
@@ -95,6 +104,7 @@ public class Terrain {
                 indices[pointer++] = bottomRight;
             }
         }
-        return loader.loadToVAO(vertices, textureCoords, normals, indices);
+
+        return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainType);
     }
 }
