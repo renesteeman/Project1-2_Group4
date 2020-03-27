@@ -3,6 +3,7 @@ package MouseHandler;
 import RenderEngine.DisplayManager;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWScrollCallback;
 
 import java.nio.DoubleBuffer;
 
@@ -27,17 +28,14 @@ public class MouseHandler {
         x.rewind();
         y.rewind();
 
-        MouseHandler.newX = x.get();
-        MouseHandler.newY = y.get();
+        newX = x.get();
+        newY = y.get();
 
-        MouseHandler.deltaX = MouseHandler.newX - MouseHandler.prevX;
-        MouseHandler.deltaY = MouseHandler.newY - MouseHandler.prevY;
+        deltaX = newX - prevX;
+        deltaY = newY - prevY;
 
-        MouseHandler.prevX = MouseHandler.newX;
-        MouseHandler.prevY = MouseHandler.newY;
-
-        //Handle mouse scrolling
-
+        prevX = newX;
+        prevY = newY;
     }
 
     public static double getDeltaX() {
@@ -47,4 +45,5 @@ public class MouseHandler {
     public static double getDeltaY() {
         return deltaY;
     }
+
 }

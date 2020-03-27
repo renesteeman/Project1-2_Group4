@@ -4,6 +4,7 @@ import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.glfw.GLFWScrollCallback;
 
 import static RenderEngine.DisplayManager.getDeltaTime;
 import static org.lwjgl.glfw.GLFW.*;
@@ -24,19 +25,29 @@ public class Camera {
     private final float MOVEMENT_SPEED = 20f;
     private final float ROTATION_SPEED = 25f;
     private final float MOUSE_SPEED = 0.5f;
+    private final float MOUSE_SCROLL_SPEED = 2f;
+
+    //Handle mouse scrolling
+    private static float mouseWheelVelocity = 0;
 
     private Ball ball;
 
     public Camera(Ball ball, Vector3f position){
         this.ball = ball;
         this.position = position;
+
+        GLFW.glfwSetScrollCallback(DisplayManager.getWindow(), new GLFWScrollCallback() {
+            @Override public void invoke (long win, double dx, double dy) {
+                mouseWheelVelocity = (float) dy;
+                calculateZoom();
+            }
+        });
     }
 
     public void move(){
         //third person camera
-        calculateZoom();
-        calculatePitch();
-        calculateAngleAroundPlayer();
+//        calculateZoom();
+        calculateAngleAroundPlayerAndPitch();
 
         float horizontalDistance = calculateHorizontalDistance();
         float verticalDistance = calculateVerticalDistance();
@@ -89,40 +100,23 @@ public class Camera {
     }
 
     private float calculateHorizontalDistance(){
-        float horizontalDistance = (float) (distanceFromBall * Math.cos(Math.toRadians(pitch)));
-
-        return horizontalDistance;
+        return (float) (distanceFromBall * Math.cos(Math.toRadians(pitch)));
     }
 
     private float calculateVerticalDistance(){
-        float verticalDistance = (float) (distanceFromBall * Math.sin(Math.toRadians(pitch)));
-
-        //Prevent awkward rotations
-        if(pitch<0){
-            pitch = 0;
-        } else if(pitch>180){
-            pitch=180;
-        }
-
-        return verticalDistance;
+        return (float) (distanceFromBall * Math.sin(Math.toRadians(pitch)));
     }
 
     private void calculateZoom(){
-//        float zoomLevel = Mouse.getDWheel() * MOUSE_SPEED;
-//        distanceFromBall -= zoomLevel;
+        float zoomLevel = mouseWheelVelocity * MOUSE_SCROLL_SPEED;
+        distanceFromBall -= zoomLevel;
     }
 
-    private void calculatePitch(){
-        //Right mouse
-        if(glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW.GLFW_PRESS){
-            float pitchChange = (float) (MouseHandler.getDeltaY() * MOUSE_SPEED);
-            pitch -= pitchChange;
-        }
-    }
-
-    private void calculateAngleAroundPlayer(){
+    private void calculateAngleAroundPlayerAndPitch(){
         //Left mouse
         if(glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS){
+            float pitchChange = (float) (MouseHandler.getDeltaY() * MOUSE_SPEED);
+            pitch += pitchChange;
             float angleChange = (float) (MouseHandler.getDeltaX() * MOUSE_SPEED);
             angleAroundBall -= angleChange;
         }
