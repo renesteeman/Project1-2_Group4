@@ -58,8 +58,8 @@ public class MainGameLoop {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
 
-        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap);
-        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack, blendMap);
+        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "heightmap");
+        Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack, blendMap, "heightmap");
 
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
