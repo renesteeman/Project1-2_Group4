@@ -5,6 +5,7 @@ import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
 import Models.TexturedModel;
+import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
 import OBJConverter.OBJFileLoader;
 import RenderEngine.*;
@@ -14,12 +15,15 @@ import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import org.joml.Vector3f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
 
+import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
 import static RenderEngine.DisplayManager.getDeltaTime;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGameLoop {
 
@@ -42,7 +46,7 @@ public class MainGameLoop {
         List<Entity> entities = new ArrayList<Entity>();
         Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(0, 5, -10), 0, 0, 0, 1);
-        entities.add(entity1);
+//        entities.add(entity1);
         entities.add(ball);
 
         //Terrain
@@ -57,19 +61,33 @@ public class MainGameLoop {
         Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap);
         Terrain terrain2 = new Terrain(-1, -1, loader, terrainTexturePack, blendMap);
 
-        Camera camera = new Camera(new Vector3f(0, 5, 0));
+        //Camera
+        Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
         MasterRenderer renderer = new MasterRenderer();
 
         //Game loop
         while(!DisplayManager.closed()){
+            // This line is critical for LWJGL's interoperation with GLFW's
+            // OpenGL context, or any context that is managed externally.
+            // LWJGL detects the context that is current in the current thread,
+            // creates the GLCapabilities instance and makes the OpenGL
+            // bindings available for use.
+            GL.createCapabilities();
+
+            //Handle mouse events
+            MouseHandler.handleMouseEvents();
+
+            //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
+//            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
             camera.move();
 
+            //Handle terrain
             renderer.processTerrain(terrain);
             renderer.processTerrain(terrain2);
 
+            //Render objects
             for(Entity entity : entities){
                 renderer.processEntity(entity);
             }
