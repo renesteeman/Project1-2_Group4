@@ -33,6 +33,7 @@ public class Camera {
     }
 
     public void move(){
+        //third person camera
         calculateZoom();
         calculatePitch();
         calculateAngleAroundPlayer();
@@ -41,64 +42,66 @@ public class Camera {
         float verticalDistance = calculateVerticalDistance();
 
         calculateCameraPosition(horizontalDistance, verticalDistance);
+        this.yaw = 180 - (ball.getRotY() + angleAroundBall);
 
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
-            position.z -= getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
-            position.z += getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_A) == GLFW.GLFW_PRESS){
-            position.x -= getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_D) == GLFW.GLFW_PRESS){
-            position.x += getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_SPACE) == GLFW.GLFW_PRESS){
-            position.y += getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
-            position.y -= getDeltaTime() * MOVEMENT_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_Q) == GLFW.GLFW_PRESS){
-            yaw -= getDeltaTime() * ROTATION_SPEED;
-        }
-
-        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_E) == GLFW.GLFW_PRESS){
-            yaw += getDeltaTime() * ROTATION_SPEED;
-        }
+        //Controls for free moving camera
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_W) == GLFW.GLFW_PRESS){
+//            position.z -= getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_S) == GLFW.GLFW_PRESS){
+//            position.z += getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_A) == GLFW.GLFW_PRESS){
+//            position.x -= getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_D) == GLFW.GLFW_PRESS){
+//            position.x += getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_SPACE) == GLFW.GLFW_PRESS){
+//            position.y += getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW.GLFW_PRESS){
+//            position.y -= getDeltaTime() * MOVEMENT_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_Q) == GLFW.GLFW_PRESS){
+//            yaw -= getDeltaTime() * ROTATION_SPEED;
+//        }
+//
+//        if(glfwGetKey(DisplayManager.getWindow(), GLFW_KEY_E) == GLFW.GLFW_PRESS){
+//            yaw += getDeltaTime() * ROTATION_SPEED;
+//        }
     }
 
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance){
         float theta = ball.getRotY() + angleAroundBall;
         float offsetX = (float) (horizontalDistance * Math.sin(Math.toRadians(theta)));
         float offsetZ = (float) (horizontalDistance * Math.cos(Math.toRadians(theta)));
-        position.x = ball.getPosition().x + offsetX;
-        position.z = ball.getPosition().z + offsetZ;
+        position.x = ball.getPosition().x - offsetX;
+        position.z = ball.getPosition().z - offsetZ;
         position.y = ball.getPosition().y + verticalDistance;
 
     }
 
     private float calculateHorizontalDistance(){
-        //Make sure it doesn't go over the player
         float horizontalDistance = (float) (distanceFromBall * Math.cos(Math.toRadians(pitch)));
-        if(horizontalDistance<0){
-            horizontalDistance = 0;
-        }
 
         return horizontalDistance;
     }
 
     private float calculateVerticalDistance(){
         float verticalDistance = (float) (distanceFromBall * Math.sin(Math.toRadians(pitch)));
-        if(verticalDistance<0){
-            verticalDistance = 0;
+
+        //Prevent awkward rotations
+        if(pitch<0){
+            pitch = 0;
+        } else if(pitch>180){
+            pitch=180;
         }
 
         return verticalDistance;
