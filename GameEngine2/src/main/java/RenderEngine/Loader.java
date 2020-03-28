@@ -1,11 +1,15 @@
 package RenderEngine;
 
 import Models.RawModel;
+import Textures.TextureData;
+import de.matthiasmann.twl.utils.PNGDecoder;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.*;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
@@ -30,13 +34,13 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
-    //Constructor for 2D elements (UI)
-    public RawModel loadToVAO(float[] positions){
+    //Constructor for 2D elements (UI) AND skybox
+    public RawModel loadToVAO(float[] positions, int dimensions){
         int vaoID = createVAO();
-        this.storeDataInAttributeList(0, 2, positions);
+        this.storeDataInAttributeList(0, dimensions, positions);
         unbindVAO();
 
-        return new RawModel(vaoID, positions.length/2);
+        return new RawModel(vaoID, positions.length/dimensions);
     }
 
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] terrainType){
@@ -124,6 +128,51 @@ public class Loader {
         buffer.flip();
 
         return buffer;
+    }
+
+    public int loadCubeMap(String[] textureFiles){
+        int texId = GL11.glGenTextures();
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL13.GL_TEXTURE_CUBE_MAP, texId);
+
+        for(int i=0; i<textureFiles.length; i++){
+            //Order must be right face, left face, top, bottom, back, front
+            TextureData data = decodeTextureFile("./res/skybox/" + textureFiles[i] + ".png");
+            //Go over all faces
+            GL11.glTexImage2D(GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, GL11.GL_RGBA, data.getWidth(), data.getHeight(), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, data.getBuffer());
+        }
+
+        //Improve visual quality of textures
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR);
+        GL11.glTexParameteri(GL13.GL_TEXTURE_CUBE_MAP, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
+
+        textures.add(texId);
+
+        return texId;
+    }
+
+    private TextureData decodeTextureFile(String fileName){
+        int width = 0;
+        int height = 0;
+        ByteBuffer buffer =null;
+
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream(fileName);
+            PNGDecoder decoder = new PNGDecoder(in);
+            width = decoder.getWidth();
+            height = decoder.getHeight();
+            buffer = ByteBuffer.allocateDirect(4*width*height);
+            decoder.decode(buffer, width*4, PNGDecoder.Format.RGBA);
+            buffer.flip();
+            in.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return new TextureData(buffer, width, height);
     }
 
     public void cleanUp(){

@@ -73,7 +73,7 @@ public class MainGameLoop {
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
-        MasterRenderer masterRenderer = new MasterRenderer();
+        MasterRenderer masterRenderer = new MasterRenderer(loader);
 
         //Game loop
         while(!DisplayManager.closed()){

@@ -6,6 +6,7 @@ import Entities.Light;
 import Models.TexturedModel;
 import Shaders.StaticShader;
 import Shaders.TerrainShader;
+import Skybox.SkyboxRenderer;
 import Terrain.Terrain;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL11;
@@ -31,17 +32,21 @@ public class MasterRenderer {
     private Map<TexturedModel, List<Entity>> entities = new HashMap<TexturedModel, List<Entity>>();
     private List<Terrain> terrains = new ArrayList<Terrain>();
 
-    public MasterRenderer(){
+    private SkyboxRenderer skyboxRenderer;
+
+    public MasterRenderer(Loader loader){
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
         createProjectionMatrix();
         renderer = new EntityRenderer(shader, projectionMatrix);
         terrainRenderer = new TerrainRenderer(terrainShader, projectionMatrix);
+        skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
 
     public void render(Light sun, Camera camera){
         prepare();
 
+        //Render entities
         shader.start();
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
@@ -50,15 +55,19 @@ public class MasterRenderer {
 
         shader.stop();
 
+        //Render terrain
         terrainShader.start();
-
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
+
         terrainRenderer.render(terrains);
-        terrains.clear();
 
         terrainShader.stop();
 
+        //Render skybox
+        skyboxRenderer.render(camera);
+
+        terrains.clear();
         entities.clear();
     }
 
@@ -103,6 +112,8 @@ public class MasterRenderer {
         projectionMatrix.m32(-((2 * NEAR_PLANE * FAR_PLANE) / frustum_length));
         projectionMatrix.m33(0);
     }
+
+
 }
 
 
