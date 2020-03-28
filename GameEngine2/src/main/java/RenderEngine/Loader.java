@@ -17,6 +17,7 @@ public class Loader {
     private List<Integer> vbos = new ArrayList<Integer>();
     private List<Integer> textures = new ArrayList<Integer>();
 
+    //Constructor for quality 3D models
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices){
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
@@ -27,6 +28,15 @@ public class Loader {
 
         //Each vertex has 3 floats
         return new RawModel(vaoID, indices.length);
+    }
+
+    //Constructor for 2D elements (UI)
+    public RawModel loadToVAO(float[] positions){
+        int vaoID = createVAO();
+        this.storeDataInAttributeList(0, 2, positions);
+        unbindVAO();
+
+        return new RawModel(vaoID, positions.length/2);
     }
 
     public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] terrainType){
@@ -43,6 +53,7 @@ public class Loader {
     }
 
     public int loadTexture(String fileName){
+        //If the following line causes an error, remove a letter and put it back, this fixes it. Why this error happens in the first place is a mystery and why this solution works is one too.
         renderEngine.Texture texture = new renderEngine.Texture("./res/"+fileName+".png");
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);

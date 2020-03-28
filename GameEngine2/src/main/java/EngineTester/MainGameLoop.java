@@ -4,6 +4,8 @@ import Entities.Ball;
 import Entities.Camera;
 import Entities.Entity;
 import Entities.Light;
+import GUI.GUIRenderer;
+import GUI.GUITexture;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
@@ -14,6 +16,7 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
@@ -60,10 +63,17 @@ public class MainGameLoop {
 
         Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "heightmap");
 
+        //GUI
+        List<GUITexture> GUIs = new ArrayList<GUITexture>();
+        GUITexture GUI = new GUITexture(loader.loadTexture("UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        GUIs.add(GUI);
+
+        GUIRenderer guiRenderer = new GUIRenderer(loader);
+
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
-        MasterRenderer renderer = new MasterRenderer();
+        MasterRenderer masterRenderer = new MasterRenderer();
 
         //Game loop
         while(!DisplayManager.closed()){
@@ -83,20 +93,24 @@ public class MainGameLoop {
             camera.move(terrain);
 
             //Handle terrain
-            renderer.processTerrain(terrain);
+            masterRenderer.processTerrain(terrain);
 
             //Render objects
             for(Entity entity : entities){
-                renderer.processEntity(entity);
+                masterRenderer.processEntity(entity);
             }
 
-            renderer.render(light, camera);
+            masterRenderer.render(light, camera);
+
+            //2D Rendering / UI
+            guiRenderer.render(GUIs);
 
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
         }
 
-        renderer.cleanUp();
+        guiRenderer.cleanUp();
+        masterRenderer.cleanUp();
         loader.cleanUp();
     }
 }

@@ -7,6 +7,7 @@ import org.joml.Vector3f;
 
 public class Maths {
 
+    //3D transformationMatrix
     public static Matrix4f createTransformationMatrix(Vector3f translation, float rx, float ry, float rz, float scale){
         Matrix4f transformationMatrix = new Matrix4f();
         transformationMatrix.translate(translation);
@@ -35,5 +36,14 @@ public class Maths {
         float l2 = ((p3.z - p1.z) * (pos.x - p3.x) + (p1.x - p3.x) * (pos.y - p3.z)) / det;
         float l3 = 1.0f - l1 - l2;
         return l1 * p1.y + l2 * p2.y + l3 * p3.y;
+    }
+
+    //2D transformationMatrix
+    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f scale) {
+        Matrix4f transformationMatrix = new Matrix4f();
+        transformationMatrix.translate(new Vector3f(translation.x, translation.y,  1f));
+        transformationMatrix.scale(new Vector3f(scale.x, scale.y, 1f));
+
+        return transformationMatrix;
     }
 }
