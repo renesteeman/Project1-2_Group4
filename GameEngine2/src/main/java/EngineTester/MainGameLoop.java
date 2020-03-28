@@ -21,6 +21,9 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
+import water.WaterRenderer;
+import water.WaterShader;
+import water.WaterTile;
 
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
@@ -80,6 +83,12 @@ public class MainGameLoop {
         //MousePicker
         MousePicker mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
 
+        //Water
+        WaterShader waterShader = new WaterShader();
+        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix());
+        List<WaterTile> waters = new ArrayList<WaterTile>();
+        waters.add(new WaterTile(0, 0, 0, 100));
+
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -91,30 +100,26 @@ public class MainGameLoop {
 
             //Handle mouse events
             MouseHandler.handleMouseEvents();
+            camera.move(terrain);
+            //Update mousePicker
+            mousePicker.update();
+            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
+
+            //Render 3D elements
+            masterRenderer.renderScene(entities, terrain, light, camera);
 
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
 //            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
-            camera.move(terrain);
-
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
             //Move object(s) based on pointer
 //            if(terrainPoint != null){
 //                dragonEntity.setPosition(terrainPoint);
 //            }
 
-            //Handle terrain
-            masterRenderer.processTerrain(terrain);
+            //Render water
+            waterRenderer.render(waters, camera);
 
-            //Render objects
-            for(Entity entity : entities){
-                masterRenderer.processEntity(entity);
-            }
-
-            masterRenderer.render(light, camera);
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
@@ -123,6 +128,7 @@ public class MainGameLoop {
             DisplayManager.swapBuffers();
         }
 
+        waterShader.cleanUp();
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();

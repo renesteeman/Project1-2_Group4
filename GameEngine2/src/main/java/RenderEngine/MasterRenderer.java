@@ -43,6 +43,16 @@ public class MasterRenderer {
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
 
+    public void renderScene(List<Entity> entities, Terrain terrain, Light light, Camera camera){
+        processTerrain(terrain);
+
+        for (Entity entity : entities) {
+            processEntity(entity);
+        }
+
+        render(light, camera);
+    }
+
     public void render(Light sun, Camera camera){
         prepare();
 
