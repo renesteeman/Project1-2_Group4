@@ -1,6 +1,8 @@
 package RenderEngine;
 
 import org.lwjgl.glfw.GLFW;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
 
 public class DisplayManager {
     private static final int WIDTH = 1280;
@@ -20,7 +22,7 @@ public class DisplayManager {
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
         //SMAA
-        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 0);
         window = GLFW.glfwCreateWindow(WIDTH, HEIGHT, title, 0, 0);
 
         if (window == 0) {
