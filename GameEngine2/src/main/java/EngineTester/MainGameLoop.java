@@ -21,6 +21,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
+import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
 import water.WaterTile;
@@ -89,6 +90,12 @@ public class MainGameLoop {
         List<WaterTile> waters = new ArrayList<WaterTile>();
         waters.add(new WaterTile(0, 0, 0, 100));
 
+        WaterFrameBuffers waterFrameBuffers = new WaterFrameBuffers();
+
+        //DEBUG STUFF
+        GUITexture waterGUI = new GUITexture(waterFrameBuffers.getReflectionTexture(), new Vector2f(-0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
+        GUIs.add(waterGUI);
+
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -105,9 +112,6 @@ public class MainGameLoop {
             mousePicker.update();
             Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
-            //Render 3D elements
-            masterRenderer.renderScene(entities, terrain, light, camera);
-
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
 //            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
@@ -117,9 +121,16 @@ public class MainGameLoop {
 //                dragonEntity.setPosition(terrainPoint);
 //            }
 
-            //Render water
-            waterRenderer.render(waters, camera);
+            //Render water part 1
+            waterFrameBuffers.bindReflectionFrameBuffer();
+            masterRenderer.renderScene(entities, terrain, light, camera);
+            waterFrameBuffers.unbindCurrentFrameBuffer();
 
+            //Render 3D elements
+            masterRenderer.renderScene(entities, terrain, light, camera);
+
+            //Render water part 2
+            waterRenderer.render(waters, camera);
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
@@ -128,6 +139,7 @@ public class MainGameLoop {
             DisplayManager.swapBuffers();
         }
 
+        waterFrameBuffers.cleanUp();
         waterShader.cleanUp();
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
