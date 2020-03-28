@@ -16,6 +16,7 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
+import Toolbox.MousePicker;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
@@ -47,9 +48,9 @@ public class MainGameLoop {
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("brick")));
 
         List<Entity> entities = new ArrayList<Entity>();
-        Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(0, 5, -10), 0, 0, 0, 1);
-//        entities.add(entity1);
+        entities.add(dragonEntity);
         entities.add(ball);
 
         //Terrain
@@ -73,7 +74,11 @@ public class MainGameLoop {
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
+        //3D renderer
         MasterRenderer masterRenderer = new MasterRenderer(loader);
+
+        //MousePicker
+        MousePicker mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
 
         //Game loop
         while(!DisplayManager.closed()){
@@ -89,8 +94,17 @@ public class MainGameLoop {
 
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-//            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
+//            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
             camera.move(terrain);
+
+            //Update mousePicker
+            mousePicker.update();
+            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
+
+            //Move object(s) based on pointer
+//            if(terrainPoint != null){
+//                dragonEntity.setPosition(terrainPoint);
+//            }
 
             //Handle terrain
             masterRenderer.processTerrain(terrain);
