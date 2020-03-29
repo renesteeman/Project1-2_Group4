@@ -21,6 +21,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 import water.WaterFrameBuffers;
 import water.WaterRenderer;
 import water.WaterShader;
@@ -108,6 +110,7 @@ public class MainGameLoop {
             //Handle mouse events
             MouseHandler.handleMouseEvents();
             camera.move(terrain);
+
             //Update mousePicker
             mousePicker.update();
             Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
@@ -122,6 +125,7 @@ public class MainGameLoop {
 //            }
 
             //Render water part 1
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
             waterFrameBuffers.bindReflectionFrameBuffer();
             masterRenderer.renderScene(entities, terrain, light, camera);
             waterFrameBuffers.unbindCurrentFrameBuffer();

@@ -14,8 +14,13 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 
+//Change 15 to object height
+const vec4 plane = vec4(0, -1, 0, 15);
+
 void main(void){
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
+    //Clipping
+    gl_ClipDistance[0] = dot(worldPosition, plane);
     gl_Position = projectionMatrix * viewMatrix * worldPosition;
     pass_textureCoords = textureCoords;
 

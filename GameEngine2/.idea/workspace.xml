@@ -39,6 +39,7 @@
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -114,22 +115,26 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2660" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585400758247" />
-    <state width="1877" height="129" key="GridCell.Tab.0.bottom" timestamp="1585418524388">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="129" key="GridCell.Tab.0.bottom" timestamp="1585476522411">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="129" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585418524388" />
-    <state width="1877" height="129" key="GridCell.Tab.0.center" timestamp="1585418524388">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="129" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585472945896" />
+    <state width="1877" height="129" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585476522411" />
+    <state width="1877" height="129" key="GridCell.Tab.0.center" timestamp="1585476522411">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="129" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585418524388" />
-    <state width="1877" height="129" key="GridCell.Tab.0.left" timestamp="1585418524388">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="129" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585472945896" />
+    <state width="1877" height="129" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585476522411" />
+    <state width="1877" height="129" key="GridCell.Tab.0.left" timestamp="1585476522410">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="129" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585418524388" />
-    <state width="1877" height="129" key="GridCell.Tab.0.right" timestamp="1585418524388">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="129" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585472945896" />
+    <state width="1877" height="129" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585476522410" />
+    <state width="1877" height="129" key="GridCell.Tab.0.right" timestamp="1585476522411">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="129" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585418524388" />
+    <state width="1877" height="129" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585472945896" />
+    <state width="1877" height="129" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585476522411" />
     <state width="938" height="326" key="GridCell.Tab.1.bottom" timestamp="1585216804785">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -146,16 +151,16 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="938" height="326" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585216804785" />
-    <state x="2360" y="94" key="SettingsEditor" timestamp="1585400963412">
+    <state x="2360" y="94" key="SettingsEditor" timestamp="1585477764696">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585077529044" />
-    <state x="2360" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585400963412" />
-    <state x="646" y="236" width="758" height="568" key="find.popup" timestamp="1585417253648">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2360" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585477764696" />
+    <state x="2566" y="236" width="758" height="638" key="find.popup" timestamp="1585475378320">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="646" y="236" width="758" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585417253648" />
-    <state x="2566" y="236" width="758" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585401046200" />
+    <state x="2566" y="236" width="758" height="638" key="find.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585475378320" />
     <state x="342" y="84" key="new project wizard" timestamp="1585077138405">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
