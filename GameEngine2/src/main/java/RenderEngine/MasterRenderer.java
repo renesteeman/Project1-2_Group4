@@ -9,6 +9,7 @@ import Shaders.TerrainShader;
 import Skybox.SkyboxRenderer;
 import Terrain.Terrain;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
@@ -43,21 +44,22 @@ public class MasterRenderer {
         skyboxRenderer = new SkyboxRenderer(loader, projectionMatrix);
     }
 
-    public void renderScene(List<Entity> entities, Terrain terrain, Light light, Camera camera){
+    public void renderScene(List<Entity> entities, Terrain terrain, Light light, Camera camera, Vector4f clipPlane){
         processTerrain(terrain);
 
         for (Entity entity : entities) {
             processEntity(entity);
         }
 
-        render(light, camera);
+        render(light, camera, clipPlane);
     }
 
-    public void render(Light sun, Camera camera){
+    public void render(Light sun, Camera camera, Vector4f clipPlane){
         prepare();
 
         //Render entities
         shader.start();
+        shader.loadClipPlane(clipPlane);
         shader.loadLight(sun);
         shader.loadViewMatrix(camera);
 
@@ -67,6 +69,7 @@ public class MasterRenderer {
 
         //Render terrain
         terrainShader.start();
+        terrainShader.loadClipPlane(clipPlane);
         terrainShader.loadLight(sun);
         terrainShader.loadViewMatrix(camera);
 

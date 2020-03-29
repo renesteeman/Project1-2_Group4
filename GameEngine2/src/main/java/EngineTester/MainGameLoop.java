@@ -19,9 +19,17 @@ import Textures.TerrainTexturePack;
 import FontMeshCreator.FontType;
 import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
+import Toolbox.MousePicker;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
+import water.WaterFrameBuffers;
+import water.WaterRenderer;
+import Shaders.WaterShader;
+import water.WaterTile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +46,6 @@ public class MainGameLoop {
         FontType font = new FontType(loader.loadTexture("tahoma"), new File("res/tahoma.fnt"));
         GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
-
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
         //Models and entities
@@ -51,9 +58,9 @@ public class MainGameLoop {
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("brick")));
 
         List<Entity> entities = new ArrayList<Entity>();
-        Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
-        Ball ball = new Ball(texturedBall, new Vector3f(0, 5, -10), 0, 0, 0, 1);
-//        entities.add(entity1);
+        Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Ball ball = new Ball(texturedBall, new Vector3f(250, 20, -250), 0, 0, 0, 1);
+        entities.add(dragonEntity);
         entities.add(ball);
 
         //Terrain
@@ -77,7 +84,21 @@ public class MainGameLoop {
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
+        //3D renderer
         MasterRenderer masterRenderer = new MasterRenderer(loader);
+
+        //MousePicker
+        MousePicker mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
+
+        //Water
+        WaterFrameBuffers waterFrameBuffers = new WaterFrameBuffers();
+        WaterShader waterShader = new WaterShader();
+        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
+        List<WaterTile> waters = new ArrayList<WaterTile>();
+        WaterTile mainWaterTile = new WaterTile(250, -250, 0, 250);
+        waters.add(mainWaterTile);
+
+
 
         //Game loop
         while(!DisplayManager.closed()){
@@ -90,21 +111,47 @@ public class MainGameLoop {
 
             //Handle mouse events
             MouseHandler.handleMouseEvents();
+            camera.move(terrain);
+
+            //Update mousePicker
+            mousePicker.update();
+            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-//            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
-            camera.move(terrain);
+//            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
 
-            //Handle terrain
-            masterRenderer.processTerrain(terrain);
+            //Move object(s) based on pointer
+//            if(terrainPoint != null){
+//                dragonEntity.setPosition(terrainPoint);
+//            }
 
-            //Render objects
-            for(Entity entity : entities){
-                masterRenderer.processEntity(entity);
-            }
+            //Render water part 1
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-            masterRenderer.render(light, camera);
+            //water reflection
+            waterFrameBuffers.bindReflectionFrameBuffer();
+            float distance = 2*(camera.getPosition().y - mainWaterTile.getHeight());
+            camera.setPreventTerrainClipping(false);
+            camera.getPosition().y -= distance;
+            camera.invertPitch();
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()));
+
+            camera.getPosition().y += distance;
+            camera.invertPitch();
+            camera.setPreventTerrainClipping(true);
+
+            //water refraction
+            waterFrameBuffers.bindRefractionFrameBuffer();
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()));
+
+            waterFrameBuffers.unbindCurrentFrameBuffer();
+
+            //Render 3D elements
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+            //Render water part 2
+            waterRenderer.render(waters, camera);
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
@@ -115,6 +162,8 @@ public class MainGameLoop {
             DisplayManager.swapBuffers();
         }
 
+        waterFrameBuffers.cleanUp();
+        waterShader.cleanUp();
         TextMaster.cleanUp();
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();

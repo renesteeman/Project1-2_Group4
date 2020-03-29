@@ -15,16 +15,18 @@ public class Camera {
     private float distanceFromBall = 50;
     private float angleAroundBall = 0;
 
-    private Vector3f position = new Vector3f(0, 0, 0);
+    private Vector3f position;
     //Up-down rotation
     private float pitch;
     //Left-right rotation
     private float yaw;
     //Tilted
-    private float roll;
+//    private float roll;
 
-    private final float MOVEMENT_SPEED = 20f;
-    private final float ROTATION_SPEED = 25f;
+    private boolean preventTerrainClipping;
+
+//    private final float MOVEMENT_SPEED = 20f;
+//    private final float ROTATION_SPEED = 25f;
     private final float MOUSE_SPEED = 0.5f;
     private final float MOUSE_SCROLL_SPEED = 2f;
 
@@ -34,6 +36,10 @@ public class Camera {
     private Ball ball;
 
     public Camera(Ball ball, Vector3f position){
+        this(ball, position, true);
+    }
+
+    public Camera(Ball ball, Vector3f position, boolean preventTerrainClipping){
         this.ball = ball;
         this.position = position;
 
@@ -43,12 +49,13 @@ public class Camera {
                 calculateZoom();
             }
         });
+
+        this.preventTerrainClipping = preventTerrainClipping;
     }
 
     //Needs the terrain to prevent the camera from clipping trough it
     public void move(Terrain terrain){
         //third person camera
-//        calculateZoom();
         calculateAngleAroundPlayerAndPitch();
 
         float horizontalDistance = calculateHorizontalDistance();
@@ -102,13 +109,16 @@ public class Camera {
         position.z = ball.getPosition().z - offsetZ;
 
         //Prevent clipping trough terrain
-        float terrainHeight = terrain.getHeightOfTerrain(position.x, position.z);
-        if(ball.getPosition().y + verticalDistance > terrainHeight){
-            position.y = ball.getPosition().y + verticalDistance;
+        if(preventTerrainClipping){
+            float terrainHeight = terrain.getHeightOfTerrain(position.x, position.z);
+            if(ball.getPosition().y + verticalDistance > terrainHeight){
+                position.y = ball.getPosition().y + verticalDistance;
+            } else {
+                position.y = terrainHeight+1f;
+            }
         } else {
-            position.y = terrainHeight+1f;
+            position.y = ball.getPosition().y + verticalDistance;
         }
-
     }
 
     private float calculateHorizontalDistance(){
@@ -134,6 +144,18 @@ public class Camera {
         }
     }
 
+    public void invertPitch(){
+        this.pitch = -pitch;
+    }
+
+    public boolean isPreventTerrainClipping() {
+        return preventTerrainClipping;
+    }
+
+    public void setPreventTerrainClipping(boolean preventTerrainClipping) {
+        this.preventTerrainClipping = preventTerrainClipping;
+    }
+
     public Vector3f getPosition() {
         return position;
     }
@@ -146,7 +168,8 @@ public class Camera {
         return yaw;
     }
 
-    public float getRoll() {
-        return roll;
-    }
+//    public float getRoll() {
+//        return roll;
+//    }
+
 }

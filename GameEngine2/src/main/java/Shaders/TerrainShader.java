@@ -4,6 +4,7 @@ import Entities.Camera;
 import Entities.Light;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
+import org.joml.Vector4f;
 
 public class TerrainShader extends ShaderProgram {
 
@@ -22,6 +23,8 @@ public class TerrainShader extends ShaderProgram {
     //TODO remove
     private int location_brickTexture;
     private int location_blendMap;
+    //
+    private int location_plane;
 
     public TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
@@ -40,6 +43,7 @@ public class TerrainShader extends ShaderProgram {
         location_sandTexture = super.getUniformLocation("sandTexture");
         location_brickTexture = super.getUniformLocation("brickTexture");
         location_blendMap = super.getUniformLocation("blendMap");
+        location_plane = super.getUniformLocation("plane");
     }
 
     @Override
@@ -65,6 +69,10 @@ public class TerrainShader extends ShaderProgram {
     public void loadLight(Light light){
         super.loadVector(location_lightPosition, light.getPosition());
         super.loadVector(location_lightColor, light.getColor());
+    }
+
+    public void loadClipPlane(Vector4f plane){
+        super.loadVector(location_plane, plane);
     }
 
     public void loadTransformationMatrix(Matrix4f transformation){

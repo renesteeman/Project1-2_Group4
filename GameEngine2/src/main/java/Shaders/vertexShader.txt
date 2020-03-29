@@ -14,8 +14,7 @@ uniform mat4 projectionMatrix;
 uniform mat4 viewMatrix;
 uniform vec3 lightPosition;
 
-//Change 15 to object height
-const vec4 plane = vec4(0, -1, 0, 15);
+uniform vec4 plane;
 
 void main(void){
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
