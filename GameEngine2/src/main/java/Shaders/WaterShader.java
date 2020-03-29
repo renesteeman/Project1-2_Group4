@@ -1,6 +1,7 @@
 package Shaders;
 
 import Entities.Camera;
+import Entities.Light;
 import Shaders.ShaderProgram;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
@@ -18,6 +19,9 @@ public class WaterShader extends ShaderProgram {
 	private int location_DuDvMap;
 	private int location_moveFactor;
 	private int location_cameraPosition;
+	private int location_normalMap;
+	private int location_lightColor;
+	private int location_lightPosition;
 
 	public WaterShader() {
 		super(VERTEX_FILE, FRAGMENT_FILE);
@@ -38,12 +42,21 @@ public class WaterShader extends ShaderProgram {
 		location_DuDvMap = getUniformLocation("DuDvMap");
 		location_moveFactor = getUniformLocation("moveFactor");
 		location_cameraPosition = getUniformLocation("cameraPosition");
+		location_normalMap = getUniformLocation("normalMap");
+		location_lightColor = getUniformLocation("lightColor");
+		location_lightPosition = getUniformLocation("lightPosition");
 	}
 
 	public void connectTextureUnits(){
 		super.loadInt(location_reflectionTexture, 0);
 		super.loadInt(location_refractionTexture, 1);
 		super.loadInt(location_DuDvMap, 2);
+		super.loadInt(location_normalMap, 3);
+	}
+
+	public void loadLight(Light sun){
+		super.loadVector(location_lightColor, sun.getColor());
+		super.loadVector(location_lightPosition, sun.getPosition());
 	}
 
 	public void loadMoveFactor(float factor){

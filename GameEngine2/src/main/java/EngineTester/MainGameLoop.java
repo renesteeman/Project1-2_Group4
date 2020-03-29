@@ -150,7 +150,7 @@ public class MainGameLoop {
             masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
 
             //Render water part 2
-            waterRenderer.render(waters, camera);
+            waterRenderer.render(waters, camera, light);
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
