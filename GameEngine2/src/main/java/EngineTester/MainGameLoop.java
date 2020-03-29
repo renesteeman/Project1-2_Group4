@@ -27,7 +27,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 import water.WaterFrameBuffers;
-import water.WaterRenderer;
+import RenderEngine.WaterRenderer;
 import Shaders.WaterShader;
 import water.WaterTile;
 
@@ -98,8 +98,6 @@ public class MainGameLoop {
         WaterTile mainWaterTile = new WaterTile(250, -250, 0, 250);
         waters.add(mainWaterTile);
 
-
-
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -135,11 +133,13 @@ public class MainGameLoop {
             camera.setPreventTerrainClipping(false);
             camera.getPosition().y -= distance;
             camera.invertPitch();
+
             masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()));
 
             camera.getPosition().y += distance;
             camera.invertPitch();
             camera.setPreventTerrainClipping(true);
+            waterFrameBuffers.unbindCurrentFrameBuffer();
 
             //water refraction
             waterFrameBuffers.bindRefractionFrameBuffer();
