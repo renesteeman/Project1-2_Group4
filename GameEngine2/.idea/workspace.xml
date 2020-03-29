@@ -1,7 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="14082db6-df86-4e71-9a2c-d25ac70b1679" name="Default Changelist" comment="" />
+    <list default="true" id="14082db6-df86-4e71-9a2c-d25ac70b1679" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../.idea/Project1-2_Group4.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/Loader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/Loader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Shaders/ShaderProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shaders/ShaderProgram.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,10 +39,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1ZZxZsI0Y2UGu9s5kEPn15kxb8e" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -33,15 +54,19 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/res/skybox" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="SDKs" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jeanj\Project1-2_Group4\GameEngine2\src\main\java\Shaders" />
       <recent name="C:\Users\steem\Desktop\Study\Project 1-2\GameEngine2\src\main\java\Shaders" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -54,7 +79,7 @@
   </component>
   <component name="RunManager">
     <configuration name="MainGameLoop" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH" value="11.0.5" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="EngineTester.MainGameLoop" />
       <module name="GameEngine.main" />
@@ -92,9 +117,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585069279909">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="331" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585401543496">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="331" y="145" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.864@0.0.1536.864" timestamp="1585401543496" />
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585069279909" />
     <state x="702" y="310" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585390494389">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -104,25 +130,37 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="223" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393042468" />
+    <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1585400611860">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.864@0.0.1536.864" timestamp="1585400611860" />
+    <state x="566" y="317" width="403" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1585416086998">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="566" y="317" width="403" height="236" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.864@0.0.1536.864" timestamp="1585416086998" />
     <state width="433" height="646" key="DebuggerActiveHint" timestamp="1585210555912">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="433" height="646" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585210555912" />
-    <state width="1877" height="129" key="GridCell.Tab.0.bottom" timestamp="1585393819680">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="225" key="GridCell.Tab.0.bottom" timestamp="1585476042149">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="225" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1585476042149" />
     <state width="1877" height="129" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393819680" />
-    <state width="1877" height="129" key="GridCell.Tab.0.center" timestamp="1585393819679">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="225" key="GridCell.Tab.0.center" timestamp="1585476042148">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="225" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1585476042148" />
     <state width="1877" height="129" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393819679" />
-    <state width="1877" height="129" key="GridCell.Tab.0.left" timestamp="1585393819679">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="225" key="GridCell.Tab.0.left" timestamp="1585476042148">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="225" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1585476042148" />
     <state width="1877" height="129" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393819679" />
-    <state width="1877" height="129" key="GridCell.Tab.0.right" timestamp="1585393819679">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="225" key="GridCell.Tab.0.right" timestamp="1585476042148">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="225" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1585476042148" />
     <state width="1877" height="129" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393819679" />
     <state width="938" height="326" key="GridCell.Tab.1.bottom" timestamp="1585216804785">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -140,13 +178,23 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="938" height="326" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585216804785" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1585077529044">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="352" y="14" key="SettingsEditor" timestamp="1585474259662">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="352" y="14" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1585474259662" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585077529044" />
-    <state x="646" y="236" width="758" height="568" key="find.popup" timestamp="1585393655130">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog" timestamp="1585471283597">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="465" y="256" key="com.intellij.ide.util.TipDialog/0.0.1536.864@0.0.1536.864" timestamp="1585471283597" />
+    <state x="93" y="93" width="1350" height="678" key="dock-window-1" timestamp="1585475418475">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="93" y="93" width="1350" height="678" key="dock-window-1/0.0.1536.864@0.0.1536.864" timestamp="1585475418475" />
+    <state x="517" y="196" width="738" height="606" key="find.popup" timestamp="1585475295545">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="517" y="196" width="738" height="606" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1585475295545" />
     <state x="646" y="236" width="758" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585393655130" />
     <state x="342" y="84" key="new project wizard" timestamp="1585077138405">
       <screen x="0" y="0" width="1920" height="1040" />

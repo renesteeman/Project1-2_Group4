@@ -16,11 +16,15 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
+import fontMeshCreator.FontType;
+import fontMeshCreator.GUIText;
+import fontRendering.TextMaster;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
 
+import java.io.File;
 import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +38,10 @@ public class MainGameLoop {
         DisplayManager.createDisplay();
         GL.createCapabilities();
         Loader loader = new Loader();
+        TextMaster.init(loader);
+
+        FontType font = new FontType(loader.loadTexture("arial"), new File("res/arial.fnt"));
+        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
@@ -105,10 +113,13 @@ public class MainGameLoop {
             //2D Rendering / UI
             guiRenderer.render(GUIs);
 
+            TextMaster.render();
+
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
         }
 
+        TextMaster.cleanUp();
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();
