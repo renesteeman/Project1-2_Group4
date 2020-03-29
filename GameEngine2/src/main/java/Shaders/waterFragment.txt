@@ -29,7 +29,7 @@ void main(void) {
 
     refractionTextureCoords = clamp(refractionTextureCoords, 0.001, 0.999);
     reflectionTextureCoords.x = clamp(reflectionTextureCoords.x, 0.001, 0.999);
-    reflectionTextureCoords.y = clamp(reflectionTextureCoords.x, -0.999, -0.001);
+    reflectionTextureCoords.y = clamp(reflectionTextureCoords.y, -0.999, -0.001);
 
     vec4 reflectionColor = texture(reflectionTexture, reflectionTextureCoords);
     vec4 refractionColor = texture(refractionTexture, refractionTextureCoords);
