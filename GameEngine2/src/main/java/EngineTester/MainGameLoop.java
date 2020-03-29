@@ -134,7 +134,7 @@ public class MainGameLoop {
             camera.getPosition().y -= distance;
             camera.invertPitch();
 
-            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()));
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()+0.2f));
 
             camera.getPosition().y += distance;
             camera.invertPitch();
@@ -143,7 +143,7 @@ public class MainGameLoop {
 
             //water refraction
             waterFrameBuffers.bindRefractionFrameBuffer();
-            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()));
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()+0.2f));
             waterFrameBuffers.unbindCurrentFrameBuffer();
 
             //Render 3D elements
