@@ -20,9 +20,9 @@ void main(void) {
     vec2 refractionTextureCoords = vec2(normalizedDeviceSpace.x, normalizedDeviceSpace.y);
     vec2 reflectionTextureCoords = vec2(normalizedDeviceSpace.x, -normalizedDeviceSpace.y);
 
-    vec2 distortion1 = waveStrength * (texture(DuDvMap, vec2(textureCoords.x + moveFactor, textureCoords.y)).rg * 2.0 - 1.0);
-    vec2 distortion2 = waveStrength * (texture(DuDvMap, vec2(-textureCoords.x + moveFactor, textureCoords.y + moveFactor)).rg * 2.0 - 1.0);
-    vec2 totalDistortion = distortion1 + distortion2;
+    vec2 distortedTextureCoords = texture(DuDvMap, vec2(textureCoords.x + moveFactor, textureCoords.y)).rg*0.1;
+    distortedTextureCoords = textureCoords + vec2(distortedTextureCoords.x, distortedTextureCoords.y+moveFactor);
+    vec2 totalDistortion = (texture(DuDvMap, distortedTextureCoords).rg * 2.0 - 1.0) * waveStrength;
 
     refractionTextureCoords += totalDistortion;
     reflectionTextureCoords += totalDistortion;
