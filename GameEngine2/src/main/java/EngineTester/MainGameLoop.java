@@ -16,24 +16,16 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
-import Toolbox.MousePicker;
+import FontMeshCreator.FontType;
+import FontMeshCreator.GUIText;
+import FontRendering.TextMaster;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import water.WaterFrameBuffers;
-import water.WaterRenderer;
-import water.WaterShader;
-import water.WaterTile;
 
-import java.nio.DoubleBuffer;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import static RenderEngine.DisplayManager.getDeltaTime;
-import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGameLoop {
 
@@ -41,6 +33,11 @@ public class MainGameLoop {
         DisplayManager.createDisplay();
         GL.createCapabilities();
         Loader loader = new Loader();
+        TextMaster.init(loader);
+
+        FontType font = new FontType(loader.loadTexture("tahoma"), new File("res/tahoma.fnt"));
+        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
+
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
@@ -54,9 +51,9 @@ public class MainGameLoop {
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("brick")));
 
         List<Entity> entities = new ArrayList<Entity>();
-        Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
+        Entity entity1 = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(0, 5, -10), 0, 0, 0, 1);
-        entities.add(dragonEntity);
+//        entities.add(entity1);
         entities.add(ball);
 
         //Terrain
@@ -80,23 +77,7 @@ public class MainGameLoop {
         //Camera
         Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
 
-        //3D renderer
         MasterRenderer masterRenderer = new MasterRenderer(loader);
-
-        //MousePicker
-        MousePicker mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
-
-        //Water
-        WaterShader waterShader = new WaterShader();
-        WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix());
-        List<WaterTile> waters = new ArrayList<WaterTile>();
-        waters.add(new WaterTile(0, 0, 0, 100));
-
-        WaterFrameBuffers waterFrameBuffers = new WaterFrameBuffers();
-
-        //DEBUG STUFF
-        GUITexture waterGUI = new GUITexture(waterFrameBuffers.getReflectionTexture(), new Vector2f(-0.5f, 0.5f), new Vector2f(0.5f, 0.5f));
-        GUIs.add(waterGUI);
 
         //Game loop
         while(!DisplayManager.closed()){
@@ -109,42 +90,32 @@ public class MainGameLoop {
 
             //Handle mouse events
             MouseHandler.handleMouseEvents();
-            camera.move(terrain);
-
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
             //Handle object movement
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-//            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
+//            entity1.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
+            camera.move(terrain);
 
-            //Move object(s) based on pointer
-//            if(terrainPoint != null){
-//                dragonEntity.setPosition(terrainPoint);
-//            }
+            //Handle terrain
+            masterRenderer.processTerrain(terrain);
 
-            //Render water part 1
-            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
-            waterFrameBuffers.bindReflectionFrameBuffer();
-            masterRenderer.renderScene(entities, terrain, light, camera);
-            waterFrameBuffers.unbindCurrentFrameBuffer();
+            //Render objects
+            for(Entity entity : entities){
+                masterRenderer.processEntity(entity);
+            }
 
-            //Render 3D elements
-            masterRenderer.renderScene(entities, terrain, light, camera);
-
-            //Render water part 2
-            waterRenderer.render(waters, camera);
+            masterRenderer.render(light, camera);
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
+
+            TextMaster.render();
 
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
         }
 
-        waterFrameBuffers.cleanUp();
-        waterShader.cleanUp();
+        TextMaster.cleanUp();
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();

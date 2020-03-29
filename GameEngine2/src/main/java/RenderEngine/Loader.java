@@ -34,6 +34,14 @@ public class Loader {
         return new RawModel(vaoID, indices.length);
     }
 
+    public int loadToVAO(float[] positions, float[] textureCoords){
+        int vaoID = createVAO();
+        storeDataInAttributeList(0, 2, positions);
+        storeDataInAttributeList(1, 2, textureCoords);
+        unbindVAO();
+        return vaoID;
+    }
+
     //Constructor for 2D elements (UI) AND skybox
     public RawModel loadToVAO(float[] positions, int dimensions){
         int vaoID = createVAO();
