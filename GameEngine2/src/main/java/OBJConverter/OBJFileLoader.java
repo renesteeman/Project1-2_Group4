@@ -11,7 +11,7 @@ public class OBJFileLoader {
 
     public static ModelData loadOBJ(String objFileName) {
         FileReader isr = null;
-        File objFile = new File("res/" + objFileName + ".obj");
+        File objFile = new File("res/models/" + objFileName + ".obj");
         try {
             isr = new FileReader(objFile);
         } catch (FileNotFoundException e) {

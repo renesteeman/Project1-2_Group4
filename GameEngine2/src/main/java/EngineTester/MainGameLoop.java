@@ -43,7 +43,7 @@ public class MainGameLoop {
         Loader loader = new Loader();
         TextMaster.init(loader);
 
-        FontType font = new FontType(loader.loadTexture("tahoma"), new File("res/tahoma.fnt"));
+        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
         GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
@@ -51,11 +51,11 @@ public class MainGameLoop {
         //Models and entities
         ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
-        TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("brick")));
+        TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
         ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
-        TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("brick")));
+        TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
         List<Entity> entities = new ArrayList<Entity>();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
@@ -64,19 +64,19 @@ public class MainGameLoop {
         entities.add(ball);
 
         //Terrain
-        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("nice_grass"));
-        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("nice_sand"));
+        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
+        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
         //TODO remove
-        TerrainTexture brickTexture = new TerrainTexture(loader.loadTexture("brick"));
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(("blendMap")));
+        TerrainTexture brickTexture = new TerrainTexture(loader.loadTexture("textures/brick"));
+        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(("textures/blendMap")));
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
 
-        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "heightmap");
+        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "textures/heightmap");
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();
-        GUITexture GUI = new GUITexture(loader.loadTexture("UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        GUITexture GUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
         GUIs.add(GUI);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);

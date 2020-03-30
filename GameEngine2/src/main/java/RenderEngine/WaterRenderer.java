@@ -20,8 +20,8 @@ import water.WaterTile;
 
 public class WaterRenderer {
 
-	private static final String DUDV_MAP = "waterDuDv";
-	private static final String NORMAL_MAP = "waterNormalMap";
+	private static final String DUDV_MAP = "textures/waterDuDv";
+	private static final String NORMAL_MAP = "textures/waterNormalMap";
 	private static final float WAVE_SPEED = 0.03f;
 
 	private RawModel quad;
