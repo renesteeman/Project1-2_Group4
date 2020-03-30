@@ -119,10 +119,17 @@ public class MainGameLoop {
 //            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
 //            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
 
+
+
+
             //Move object(s) based on pointer
-//            if(terrainPoint != null){
-//                dragonEntity.setPosition(terrainPoint);
-//            }
+            if(terrainPoint != null){
+//                System.out.println(terrainPoint);
+                dragonEntity.setPosition(terrainPoint);
+            }
+
+
+
 
             //Render water part 1
             GL11.glEnable(GL30.GL_CLIP_DISTANCE0);

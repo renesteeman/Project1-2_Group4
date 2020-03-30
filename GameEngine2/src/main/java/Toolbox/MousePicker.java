@@ -8,21 +8,22 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.system.CallbackI;
 
 public class MousePicker {
 
     //RECURSION_COUNT determines the precision
-    private static final int RECURSION_COUNT = 200;
-    private static final float RAY_RANGE = 600;
+    private static final int RECURSION_COUNT = 100;
+    private static final float RAY_RANGE = 1000;
 
     private Vector3f currentRay = new Vector3f();
+    private Vector3f currentTerrainPoint;
 
     private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
     private Camera camera;
 
     private Terrain terrain;
-    private Vector3f currentTerrainPoint;
 
     public MousePicker(Camera cam, Matrix4f projection, Terrain terrain) {
         camera = cam;
@@ -70,10 +71,10 @@ public class MousePicker {
     }
 
     private Vector4f toEyeCoords(Vector4f clipCoords) {
-        Matrix4f invertedProjection = projectionMatrix.invert();
-        Vector4f eyeCoords = invertedProjection.transform(clipCoords);
-
-        return new Vector4f(eyeCoords.x, eyeCoords.y, -1f, 0f);
+        Matrix4f invertedProject = new Matrix4f();
+        projectionMatrix.invert(invertedProject);
+        Vector4f eyeCoords = invertedProject.transform(clipCoords);
+        return new Vector4f(eyeCoords.x, eyeCoords.y, -1.0f, 0.0f);
     }
 
     private Vector2f getNormalisedDeviceCoordinates(float mouseX, float mouseY) {
