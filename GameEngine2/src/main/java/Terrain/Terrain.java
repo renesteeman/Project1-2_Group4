@@ -24,6 +24,7 @@ public class Terrain {
     private float[][] heights;
     private float[] normals;
     private float[] vertices;
+    private float[] textureCoords;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
@@ -61,22 +62,14 @@ public class Terrain {
         heights = getHeights();
         Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
         normals = normalsToFloatArray(normalVectors);
-
         vertices = getVertices();
+        textureCoords = getTextureCoords();
 
 
-        float[] textureCoords = new float[VERTEX_COUNT * VERTEX_COUNT*2];
+
+
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
-        int vertexPointer = 0;
 
-        for(int i=0;i<VERTEX_COUNT;i++){
-            for(int j=0;j<VERTEX_COUNT;j++){
-                textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
-                textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
-
-                vertexPointer++;
-            }
-        }
 
         int pointer = 0;
         for(int gz=0;gz<VERTEX_COUNT-1;gz++){
@@ -178,8 +171,22 @@ public class Terrain {
             }
         }
 
-        System.out.println(Arrays.toString(vertices));
         return vertices;
+    }
+
+    private float[] getTextureCoords(){
+        int vertexPointer = 0;
+        float[] textureCoords = new float[VERTEX_COUNT * VERTEX_COUNT*2];
+
+        for(int i=0; i<VERTEX_COUNT;i++) {
+            for (int j=0; j<VERTEX_COUNT; j++) {
+                textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
+                textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
+                vertexPointer++;
+            }
+        }
+
+        return textureCoords;
     }
 
     private Vector3f calculateNormal(int x, int z){
