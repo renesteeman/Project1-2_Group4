@@ -7,6 +7,8 @@ import Toolbox.Maths;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.util.Arrays;
+
 public class Terrain {
 
     //Every terrain must use the same SIZE and VERTEX_COUNT
@@ -21,6 +23,7 @@ public class Terrain {
 
     private float[][] heights;
     private float[] normals;
+    private float[] vertices;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
@@ -59,30 +62,21 @@ public class Terrain {
         Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
         normals = normalsToFloatArray(normalVectors);
 
+        vertices = getVertices();
 
 
-
-        int count = VERTEX_COUNT * VERTEX_COUNT;
-        float[] vertices = new float[count * 3];
-        float[] textureCoords = new float[count*2];
+        float[] textureCoords = new float[VERTEX_COUNT * VERTEX_COUNT*2];
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
         int vertexPointer = 0;
+
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-
-
-                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
-                vertices[vertexPointer*3+1] = heights[j][i];
-                vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
-
                 textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
                 textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
 
                 vertexPointer++;
             }
         }
-
-
 
         int pointer = 0;
         for(int gz=0;gz<VERTEX_COUNT-1;gz++){
@@ -144,8 +138,8 @@ public class Terrain {
         float[] normals = new float[VERTEX_COUNT * VERTEX_COUNT * 3];
         int vertexPointer = 0;
 
-        for(int i=0;i<VERTEX_COUNT;i++) {
-            for (int j = 0; j < VERTEX_COUNT; j++) {
+        for(int i=0; i<VERTEX_COUNT; i++) {
+            for (int j=0; j<VERTEX_COUNT; j++) {
                 Vector3f normal = normalVectors[i][j];
                 normals[vertexPointer*3] = normal.x;
                 normals[vertexPointer*3+1] = normal.y;
@@ -161,14 +155,31 @@ public class Terrain {
     private float[][] getHeights(){
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
 
-        for(int i=0;i<VERTEX_COUNT;i++) {
-            for (int j = 0; j < VERTEX_COUNT; j++) {
+        for(int i=0; i<VERTEX_COUNT; i++) {
+            for (int j=0; j<VERTEX_COUNT; j++) {
                 float height = getHeight(j, i);
                 heights[j][i] = height;
             }
         }
 
         return heights;
+    }
+
+    private float[] getVertices(){
+        int vertexPointer = 0;
+        float[] vertices = new float[VERTEX_COUNT * VERTEX_COUNT * 3];
+
+        for(int i=0; i<VERTEX_COUNT;i++) {
+            for (int j=0; j<VERTEX_COUNT; j++) {
+                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
+                vertices[vertexPointer*3+1] = heights[j][i];
+                vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
+                vertexPointer++;
+            }
+        }
+
+        System.out.println(Arrays.toString(vertices));
+        return vertices;
     }
 
     private Vector3f calculateNormal(int x, int z){
