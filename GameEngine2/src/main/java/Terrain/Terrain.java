@@ -21,7 +21,8 @@ import static org.lwjgl.nuklear.NkDrawList.VERTEX_COUNT;
 public class Terrain {
 
     private final int SIZE;
-    //TODO remove
+    private final int VERTICES_PER_SIZE_UNIT = 1;
+    private final int VERTEX_COUNT;
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
 
@@ -31,8 +32,12 @@ public class Terrain {
     private TerrainTexturePack texturePack;
 
     private float[][] heights;
-    //Dirt of sand, 0 or 1
-    private int[] terrainTypes;
+    //Dirt of sand, 0 or 1, [x][z], corresponds to terrainVertices
+    private int[][] terrainTypes;
+
+    //Keep track of the vertices that make up the terrain
+    //[x][z]
+    private TerrainVertex[][] terrainVertices;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, String heightMap, int size){
         this.texturePack = texturePack;
@@ -40,13 +45,14 @@ public class Terrain {
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader, heightMap);
+        this.VERTEX_COUNT = SIZE * VERTICES_PER_SIZE_UNIT;
     }
 
     public float getSIZE() {
         return SIZE;
     }
 
-    public static int getVertexCount() {
+    public int getVertexCount() {
         return VERTEX_COUNT;
     }
 
@@ -66,11 +72,35 @@ public class Terrain {
         return texturePack;
     }
 
+    //TODO finish
     public void updateTerrainType(int type, Vector2f position, float radius){
-
+        for(int z=0; z<VERTEX_COUNT;z++) {
+            for(int x = 0; x < VERTEX_COUNT; x++) {
+                //TODO For all vertices in radius
+                updateVertex(x, z, type);
+            }
+        }
     }
 
-    //TODO remove heightMap
+    public int getTerrainType(int x, int z){
+        TerrainVertex terrainVertex = getTerrainVertex(x, z);
+        return terrainVertex.getType();
+    }
+
+    public TerrainVertex getTerrainVertex(int x, int z){
+        return terrainVertices[x][z];
+    }
+
+    private void createTerrainVertices() {
+        this.terrainVertices = new TerrainVertex[VERTEX_COUNT][VERTEX_COUNT];
+        for (int z = 0; z < VERTEX_COUNT; z++) {
+            for (int x = 0; x < VERTEX_COUNT; x++) {
+                terrainVertices[x][z] = new TerrainVertex(terrainTypes[x][z]);
+            }
+        }
+    }
+
+    //TODO remove heightMap and rewrite with new terrain system
     private RawModel generateTerrain(Loader loader, String heightMap){
         BufferedImage image = null;
         try {
@@ -90,21 +120,20 @@ public class Terrain {
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
         int vertexPointer = 0;
 
-        //TODO deterime x and z
-        for(int x=0;x<VERTEX_COUNT;x++){
-            for(int y=0;y<VERTEX_COUNT;y++){
-                vertices[vertexPointer*3] = (float)y/((float)VERTEX_COUNT - 1) * SIZE;
-                float height = getHeight(y, x, image);
-                heights[y][x] = height;
-                terrainTypes[vertexPointer] = getTerrainType(y, x, VERTEX_COUNT);
+        for(int z=0;z<VERTEX_COUNT;z++){
+            for(int x=0;x<VERTEX_COUNT;x++){
+                vertices[vertexPointer*3] = (float)x/((float)VERTEX_COUNT - 1) * SIZE;
+                float height = getHeight(x, z, image);
+                heights[x][z] = height;
+                terrainTypes[vertexPointer] = getTerrainType(x, z, VERTEX_COUNT);
                 vertices[vertexPointer*3+1] = height;
-                vertices[vertexPointer*3+2] = (float)x/((float)VERTEX_COUNT - 1) * SIZE;
-                Vector3f normal = calculateNormal(y, x, image);
+                vertices[vertexPointer*3+2] = (float) z /((float)VERTEX_COUNT - 1) * SIZE;
+                Vector3f normal = calculateNormal(x, z, image);
                 normals[vertexPointer*3] = normal.x;
                 normals[vertexPointer*3+1] = normal.y;
                 normals[vertexPointer*3+2] = normal.z;
-                textureCoords[vertexPointer*2] = (float)y/((float)VERTEX_COUNT - 1);
-                textureCoords[vertexPointer*2+1] = (float)x/((float)VERTEX_COUNT - 1);
+                textureCoords[vertexPointer*2] = (float)x/((float)VERTEX_COUNT - 1);
+                textureCoords[vertexPointer*2+1] = (float) z /((float)VERTEX_COUNT - 1);
                 vertexPointer++;
             }
         }
@@ -125,17 +154,6 @@ public class Terrain {
         }
 
         return loader.loadToVAOTerrain(vertices, textureCoords, normals, indices, terrainTypes);
-    }
-
-    public int getTerrainType(int x, int y, int vertexCount){
-        //TODO place the actual function here
-        if((x+y)%5==0){
-            //Sand
-            return 1;
-        } else {
-            //Dirt
-            return 0;
-        }
     }
 
     public float getHeightOfTerrain(float worldX, float worldZ){
