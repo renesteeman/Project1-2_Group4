@@ -3,11 +3,13 @@
 in vec3 position;
 in vec2 textureCoords;
 in vec3 normal;
+in int terrainType;
 
 out vec2 pass_textureCoordinates;
 out vec3 surfaceNormal;
 out vec3 toLightVector;
 out vec3 toCameraVector;
+out int terrainTypeFragment;
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
@@ -17,6 +19,8 @@ uniform vec3 lightPosition;
 uniform vec4 plane;
 
 void main(void){
+    terrainTypeFragment = terrainType;
+
     vec4 worldPosition = transformationMatrix * vec4(position, 1.0);
     //Clipping
     gl_ClipDistance[0] = dot(worldPosition, plane);
