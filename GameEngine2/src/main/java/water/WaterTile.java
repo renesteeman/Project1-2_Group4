@@ -1,4 +1,4 @@
-package water;
+package Water;
 
 public class WaterTile {
 

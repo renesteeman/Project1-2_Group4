@@ -9,14 +9,14 @@ import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
 import Shaders.WaterShader;
 import Toolbox.Maths;
+import Water.WaterFrameBuffers;
+import Water.WaterTile;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import water.WaterFrameBuffers;
-import water.WaterTile;
 
 public class WaterRenderer {
 

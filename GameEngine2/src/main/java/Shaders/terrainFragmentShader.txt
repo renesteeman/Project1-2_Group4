@@ -9,8 +9,6 @@ out vec4 out_Color;
 
 uniform sampler2D grassTexture;
 uniform sampler2D sandTexture;
-uniform sampler2D brickTexture;
-uniform sampler2D blendMap;
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor;
@@ -19,14 +17,13 @@ uniform float reflectivity;
 
 void main(void){
     //To sand or not to sand
-    vec4 blendMapColor = texture(blendMap, pass_textureCoordinates);
-    float grassTextureAmount = 1 - (blendMapColor.r + blendMapColor.b);
+    float grassTextureAmount = 0.9;
+    float sandTextureAmount = 0.1;
     vec2 tiledCoords = pass_textureCoordinates * 7;
     vec4 grassTextureColor = texture(grassTexture, tiledCoords) * grassTextureAmount;
-    vec4 sandTextureColor = texture(sandTexture, tiledCoords) * blendMapColor.r;
-    vec4 brickTextureColor = texture(brickTexture, tiledCoords) * blendMapColor.b;
+    vec4 sandTextureColor = texture(sandTexture, tiledCoords) * sandTextureAmount;
 
-    vec4 totalColor = grassTextureColor + sandTextureColor + brickTextureColor;
+    vec4 totalColor = grassTextureColor + sandTextureColor;
 
     vec3 unitNormalVector = normalize(surfaceNormal);
     vec3 unitLightVector = normalize(toLightVector);

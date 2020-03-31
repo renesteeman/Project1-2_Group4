@@ -20,22 +20,24 @@ import FontMeshCreator.FontType;
 import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
 import Toolbox.MousePicker;
+import Water.WaterTile;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import water.WaterFrameBuffers;
 import RenderEngine.WaterRenderer;
 import Shaders.WaterShader;
-import water.WaterTile;
+import Water.WaterFrameBuffers;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainGameLoop {
+
+    static final int TERRAIN_SIZE = 800;
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
@@ -59,20 +61,32 @@ public class MainGameLoop {
 
         List<Entity> entities = new ArrayList<Entity>();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
-        Ball ball = new Ball(texturedBall, new Vector3f(250, 20, -250), 0, 0, 0, 1);
+        Ball ball = new Ball(texturedBall, new Vector3f(250, 20, 250), 0, 0, 0, 1);
         entities.add(dragonEntity);
         entities.add(ball);
+
+        //TODO remove
+        //Show X-axis
+        for(int i=0; i<10; i++){
+            TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
+            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*50, 50, 0), 0, 0, 0, 1);
+            entities.add(testDragonEntity);
+        }
+
+        //Show Z-axis
+        for(int i=0; i<10; i++){
+            TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
+            Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 50, 50*i), 0, 0, 0, 1);
+            entities.add(testDragonEntity);
+        }
 
         //Terrain
         TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
         TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
-        //TODO remove
-        TerrainTexture brickTexture = new TerrainTexture(loader.loadTexture("textures/brick"));
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(("textures/blendMap")));
 
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "textures/heightmap");
+        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();
@@ -95,7 +109,7 @@ public class MainGameLoop {
         WaterShader waterShader = new WaterShader();
         WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
         List<WaterTile> waters = new ArrayList<WaterTile>();
-        WaterTile mainWaterTile = new WaterTile(250, -250, 0, 250);
+        WaterTile mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE/2);
         waters.add(mainWaterTile);
 
         //Game loop

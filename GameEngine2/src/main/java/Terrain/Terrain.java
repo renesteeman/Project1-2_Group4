@@ -20,28 +20,25 @@ import static org.lwjgl.nuklear.NkDrawList.VERTEX_COUNT;
 
 public class Terrain {
 
-    private static final int SIZE = 800;
-    //TODO remove
-    private static final float MAX_HEIGHT = 40;
+    private final int SIZE;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
 
     private float x;
     private float z;
     private RawModel model;
     private TerrainTexturePack texturePack;
-    private TerrainTexture blendMap;
 
     private float[][] heights;
 
-    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, String heightMap){
+    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
-        this.blendMap = blendMap;
+        this.SIZE = size;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
-        this.model = generateTerrain(loader, heightMap);
+        this.model = generateTerrain(loader);
     }
 
-    public static float getSIZE() {
+    public float getSIZE() {
         return SIZE;
     }
 
@@ -65,20 +62,7 @@ public class Terrain {
         return texturePack;
     }
 
-    public TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-
-    //TODO remove heightMap
-    private RawModel generateTerrain(Loader loader, String heightMap){
-        BufferedImage image = null;
-        try {
-            image = ImageIO.read(new File("res/" + heightMap + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        int VERTEX_COUNT = image.getHeight();
+    private RawModel generateTerrain(Loader loader){
         heights = new float[VERTEX_COUNT][VERTEX_COUNT];
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
@@ -88,7 +72,7 @@ public class Terrain {
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
                 vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
-                float height = getHeight(j, i, image);
+                float height = getHeight(j, i);
                 heights[j][i] = height;
                 vertices[vertexPointer*3+1] = height;
                 vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
@@ -160,25 +144,20 @@ public class Terrain {
         return answer;
     }
 
-    private float getHeight(int x, int z, BufferedImage image){
-        if(x<0 || x>=image.getHeight() || z<0 || z>= image.getHeight()){
-            return 0;
+    //TODO update to actual function
+    private float getHeight(int x, int z){
+        float add=0;
+        if(x>100&&x<150&&z>50&&z<150){
+            add = (float) (-5);
         }
-
-        float height = image.getRGB(x, z);
-        //convert to range -1, 1
-        height += MAX_PIXEL_COLOR/2f;
-        height /= MAX_PIXEL_COLOR/2;
-
-        height *= MAX_HEIGHT;
-        return height;
+        return (float) (2*Math.sin(x)+1*Math.cos(x)+Math.cos(z)+2+add);
     }
 
-    private Vector3f calculateNormal(int x, int z, BufferedImage image){
-        float heightL = getHeight(x-1, z, image);
-        float heightR = getHeight(x+1, z, image);
-        float heightD = getHeight(x, z-1, image);
-        float heightU = getHeight(x, z+1, image);
+    private Vector3f calculateNormal(int x, int z){
+        float heightL = getHeight(x-1, z);
+        float heightR = getHeight(x+1, z);
+        float heightD = getHeight(x, z-1);
+        float heightU = getHeight(x, z+1);
         Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
         normal.normalize();
 

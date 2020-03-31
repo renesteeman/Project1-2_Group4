@@ -1,6 +1,7 @@
 package RenderEngine;
 
 import Models.RawModel;
+import Textures.Texture;
 import Textures.TextureData;
 import de.matthiasmann.twl.utils.PNGDecoder;
 import org.lwjgl.BufferUtils;
@@ -65,8 +66,7 @@ public class Loader {
     }
 
     public int loadTexture(String file){
-        //If the following line causes an error, remove a letter and put it back, this fixes it. Why this error happens in the first place is a mystery and why this solution works is one too.
-        renderEngine.Texture texture = new renderEngine.Texture("./res/"+file+".png");
+        Texture texture = new Texture("./res/"+file+".png");
         GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0);

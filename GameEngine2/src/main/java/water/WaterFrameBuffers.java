@@ -1,4 +1,4 @@
-package water;
+package Water;
 
 import RenderEngine.DisplayManager;
 import org.lwjgl.opengl.GL11;
