@@ -5,8 +5,6 @@ import java.util.List;
 import Entities.Camera;
 import Entities.Light;
 import Models.RawModel;
-import RenderEngine.DisplayManager;
-import RenderEngine.Loader;
 import Shaders.WaterShader;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
@@ -15,8 +13,8 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
-import water.WaterFrameBuffers;
-import water.WaterTile;
+import Water.WaterFrameBuffers;
+import Water.WaterTile;
 
 public class WaterRenderer {
 

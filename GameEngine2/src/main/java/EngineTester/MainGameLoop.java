@@ -26,10 +26,10 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
-import water.WaterFrameBuffers;
+import Water.WaterFrameBuffers;
 import RenderEngine.WaterRenderer;
 import Shaders.WaterShader;
-import water.WaterTile;
+import Water.WaterTile;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -66,13 +66,10 @@ public class MainGameLoop {
         //Terrain
         TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
         TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
-        //TODO remove
-        TerrainTexture brickTexture = new TerrainTexture(loader.loadTexture("textures/brick"));
-        TerrainTexture blendMap = new TerrainTexture(loader.loadTexture(("textures/blendMap")));
 
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture, brickTexture);
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, blendMap, "textures/heightmap");
+        Terrain terrain = new Terrain(0, -1, loader, terrainTexturePack, "textures/heightmap");
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();

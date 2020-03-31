@@ -51,7 +51,7 @@ public class Loader {
         return new RawModel(vaoID, positions.length/dimensions);
     }
 
-    public RawModel loadToVAO(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] terrainType){
+    public RawModel loadToVAOTerrain(float[] positions, float[] textureCoords, float[] normals, int[] indices, int[] terrainType){
         int vaoID = createVAO();
         bindIndicesBuffer(indices);
         storeDataInAttributeList(0, 3, positions);
