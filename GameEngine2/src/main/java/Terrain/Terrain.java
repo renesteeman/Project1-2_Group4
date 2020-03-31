@@ -27,6 +27,8 @@ public class Terrain {
     private float[] textureCoords;
     private int[] indices;
 
+    private int[] terrainTypes;
+
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
@@ -67,7 +69,9 @@ public class Terrain {
         textureCoords = getTextureCoords();
         indices = getIndices();
 
-        return loader.loadToVAO(vertices, textureCoords, normals, indices);
+        terrainTypes = getTerrainTypes();
+
+        return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
     }
 
     public float getHeightOfTerrain(float worldX, float worldZ){
@@ -190,5 +194,29 @@ public class Terrain {
         }
 
         return indices;
+    }
+
+    private int[] getTerrainTypes(){
+        int vertexPointer = 0;
+        int[] terrainTypes = new int[VERTEX_COUNT*VERTEX_COUNT];
+
+        for(int i=0; i<VERTEX_COUNT;i++) {
+            for (int j=0; j<VERTEX_COUNT; j++) {
+                int terrainType = getTerrainType(j, i);
+                terrainTypes[vertexPointer] = terrainType;
+                vertexPointer++;
+            }
+        }
+
+        return terrainTypes;
+    }
+
+    //TODO load in actual values or set all to 0
+    private int getTerrainType(int x, int z){
+        if(x+z>50 && x+z<100){
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
