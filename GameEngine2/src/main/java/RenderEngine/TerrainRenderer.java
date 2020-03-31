@@ -3,6 +3,7 @@ package RenderEngine;
 import Models.RawModel;
 import Shaders.TerrainShader;
 import Terrain.Terrain;
+import Textures.ModelTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import org.joml.Matrix4f;

@@ -55,6 +55,8 @@ public class Terrain {
 
     private RawModel generateTerrain(Loader loader){
         heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+
+
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
         float[] textureCoords = new float[count*2];
@@ -62,31 +64,22 @@ public class Terrain {
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
                 float height = getHeight(j, i);
                 heights[j][i] = height;
+
+                vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
                 vertices[vertexPointer*3+1] = height;
                 vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
 
                 textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
                 textureCoords[vertexPointer*2+1] = (float)i/((float)VERTEX_COUNT - 1);
+
                 vertexPointer++;
             }
         }
 
-
-        float[] normals = new float[count * 3];
         Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
-        vertexPointer = 0;
-        for(int i=0;i<VERTEX_COUNT;i++) {
-            for (int j = 0; j < VERTEX_COUNT; j++) {
-                Vector3f normal = normalVectors[i][j];
-                normals[vertexPointer*3] = normal.x;
-                normals[vertexPointer*3+1] = normal.y;
-                normals[vertexPointer*3+2] = normal.z;
-                vertexPointer++;
-            }
-        }
+        float[] normals = normalsToFloatArray(normalVectors);
 
 
         int pointer = 0;
@@ -104,6 +97,7 @@ public class Terrain {
                 indices[pointer++] = bottomRight;
             }
         }
+
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
 
@@ -143,6 +137,26 @@ public class Terrain {
         }
         return (float) (2*Math.sin(x)+1*Math.cos(x)+Math.cos(z)+2+add);
     }
+
+    private float[] normalsToFloatArray(Vector3f[][] normalVectors){
+        float[] normals = new float[VERTEX_COUNT * VERTEX_COUNT * 3];
+        int vertexPointer = 0;
+
+        for(int i=0;i<VERTEX_COUNT;i++) {
+            for (int j = 0; j < VERTEX_COUNT; j++) {
+                Vector3f normal = normalVectors[i][j];
+                normals[vertexPointer*3] = normal.x;
+                normals[vertexPointer*3+1] = normal.y;
+                normals[vertexPointer*3+2] = normal.z;
+                vertexPointer++;
+            }
+        }
+
+        System.out.println("length " + normals.length + " vertex count " + VERTEX_COUNT);
+        return normals;
+    }
+
+//    private float[] getHeights(int amount)
 
     private Vector3f calculateNormal(int x, int z){
         float heightL = getHeight(x-1, z);
