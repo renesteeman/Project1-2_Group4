@@ -25,6 +25,7 @@ public class Terrain {
     private float[] normals;
     private float[] vertices;
     private float[] textureCoords;
+    private int[] indices;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
@@ -64,28 +65,7 @@ public class Terrain {
         normals = normalsToFloatArray(normalVectors);
         vertices = getVertices();
         textureCoords = getTextureCoords();
-
-
-
-
-        int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
-
-
-        int pointer = 0;
-        for(int gz=0;gz<VERTEX_COUNT-1;gz++){
-            for(int gx=0;gx<VERTEX_COUNT-1;gx++){
-                int topLeft = (gz*VERTEX_COUNT)+gx;
-                int topRight = topLeft + 1;
-                int bottomLeft = ((gz+1)*VERTEX_COUNT)+gx;
-                int bottomRight = bottomLeft + 1;
-                indices[pointer++] = topLeft;
-                indices[pointer++] = bottomLeft;
-                indices[pointer++] = topRight;
-                indices[pointer++] = topRight;
-                indices[pointer++] = bottomLeft;
-                indices[pointer++] = bottomRight;
-            }
-        }
+        indices = getIndices();
 
         return loader.loadToVAO(vertices, textureCoords, normals, indices);
     }
@@ -189,14 +169,26 @@ public class Terrain {
         return textureCoords;
     }
 
-    private Vector3f calculateNormal(int x, int z){
-        float heightL = getHeight(x-1, z);
-        float heightR = getHeight(x+1, z);
-        float heightD = getHeight(x, z-1);
-        float heightU = getHeight(x, z+1);
-        Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
-        normal.normalize();
+    private int[] getIndices(){
+        int vertexPointer = 0;
+        int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
 
-        return normal;
+        for(int gz=0;gz<VERTEX_COUNT-1;gz++){
+            for(int gx=0;gx<VERTEX_COUNT-1;gx++){
+                int topLeft = (gz*VERTEX_COUNT)+gx;
+                int topRight = topLeft + 1;
+                int bottomLeft = ((gz+1)*VERTEX_COUNT)+gx;
+                int bottomRight = bottomLeft + 1;
+
+                indices[vertexPointer++] = topLeft;
+                indices[vertexPointer++] = bottomLeft;
+                indices[vertexPointer++] = topRight;
+                indices[vertexPointer++] = topRight;
+                indices[vertexPointer++] = bottomLeft;
+                indices[vertexPointer++] = bottomRight;
+            }
+        }
+
+        return indices;
     }
 }
