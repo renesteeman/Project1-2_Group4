@@ -9,7 +9,6 @@ out vec4 out_Color;
 
 uniform sampler2D grassTexture;
 uniform sampler2D sandTexture;
-uniform mat3
 
 uniform sampler2D textureSampler;
 uniform vec3 lightColor;
@@ -20,10 +19,11 @@ void main(void){
     vec2 tiledCoords = pass_textureCoordinates * 7;
 
     //Calculate amount of grass/sand without needing an if statement (which would make the shader a lot slower)
-    vec4 grassTextureAmount = texture(grassTexture, tiledCoords) * (1-terrainTypeFragment);
-    vec4 sandTextureAmount = texture(sandTexture, tiledCoords) * terrainTypeFragment;
+    //vec4 grassTextureAmount = texture(grassTexture, tiledCoords) * (1-terrainTypeFragment);
+    //vec4 sandTextureAmount = texture(sandTexture, tiledCoords) * terrainTypeFragment;
 
-    vec4 totalColor = grassTextureAmount + sandTextureAmount;
+    //vec4 totalColor = grassTextureAmount + sandTextureAmount;
+    vec4 totalColor = texture(grassTexture, tiledCoords);
 
     vec3 unitNormalVector = normalize(surfaceNormal);
     vec3 unitLightVector = normalize(toLightVector);

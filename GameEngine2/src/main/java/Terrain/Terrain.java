@@ -20,7 +20,7 @@ import static org.lwjgl.nuklear.NkDrawList.VERTEX_COUNT;
 
 public class Terrain {
 
-    private static final int SIZE = 800;
+    private final int SIZE;
     //TODO remove
     private static final float MAX_HEIGHT = 40;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
@@ -34,14 +34,15 @@ public class Terrain {
     //Dirt of sand, 0 or 1
     private int[] terrainTypes;
 
-    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, String heightMap){
+    public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, String heightMap, int size){
         this.texturePack = texturePack;
+        this.SIZE = size;
         this.x = gridX * SIZE;
         this.z = gridZ * SIZE;
         this.model = generateTerrain(loader, heightMap);
     }
 
-    public static float getSIZE() {
+    public float getSIZE() {
         return SIZE;
     }
 
@@ -65,6 +66,10 @@ public class Terrain {
         return texturePack;
     }
 
+    public void updateTerrainType(int type, Vector2f position, float radius){
+
+    }
+
     //TODO remove heightMap
     private RawModel generateTerrain(Loader loader, String heightMap){
         BufferedImage image = null;
@@ -84,6 +89,8 @@ public class Terrain {
         float[] textureCoords = new float[count*2];
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
         int vertexPointer = 0;
+
+        //TODO deterime x and z
         for(int x=0;x<VERTEX_COUNT;x++){
             for(int y=0;y<VERTEX_COUNT;y++){
                 vertices[vertexPointer*3] = (float)y/((float)VERTEX_COUNT - 1) * SIZE;
