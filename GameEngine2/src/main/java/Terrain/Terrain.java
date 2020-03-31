@@ -2,29 +2,20 @@ package Terrain;
 
 import Models.RawModel;
 import RenderEngine.Loader;
-import Textures.ModelTexture;
-import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
-import javafx.css.Size;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
-import static org.lwjgl.nuklear.NkDrawList.VERTEX_COUNT;
-
 public class Terrain {
 
+    //Every terrain must use the same SIZE and VERTEX_COUNT
     private final int SIZE;
+    private final int VERTEX_COUNT = 128;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
 
-    private float x;
-    private float z;
+    private float xStart;
+    private float zStart;
     private RawModel model;
     private TerrainTexturePack texturePack;
 
@@ -33,8 +24,8 @@ public class Terrain {
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
-        this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
+        this.xStart = gridX * SIZE;
+        this.zStart = gridZ * SIZE;
         this.model = generateTerrain(loader);
     }
 
@@ -42,16 +33,16 @@ public class Terrain {
         return SIZE;
     }
 
-    public static int getVertexCount() {
+    public int getVertexCount() {
         return VERTEX_COUNT;
     }
 
-    public float getX() {
-        return x;
+    public float getxStart() {
+        return xStart;
     }
 
-    public float getZ() {
-        return z;
+    public float getzStart() {
+        return zStart;
     }
 
     public RawModel getModel() {
@@ -117,8 +108,8 @@ public class Terrain {
     }
 
     public float getHeightOfTerrain(float worldX, float worldZ){
-        float terrainX = worldX - this.x;
-        float terrainZ = worldZ - this.z;
+        float terrainX = worldX - this.xStart;
+        float terrainZ = worldZ - this.zStart;
         float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);
         int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
