@@ -3,7 +3,6 @@ package RenderEngine;
 import Models.RawModel;
 import Shaders.TerrainShader;
 import Terrain.Terrain;
-import Textures.ModelTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
@@ -58,7 +57,7 @@ public class TerrainRenderer {
     }
 
     private void loadModelMatrix(Terrain terrain){
-        Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), 0, 0, 0, 1);
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getxStart(), 0, terrain.getzStart()), 0, 0, 0, 1);
         shader.loadTransformationMatrix(transformationMatrix);
     }
 

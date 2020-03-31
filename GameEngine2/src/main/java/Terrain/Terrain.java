@@ -2,29 +2,20 @@ package Terrain;
 
 import Models.RawModel;
 import RenderEngine.Loader;
-import Textures.ModelTexture;
-import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
-import javafx.css.Size;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-
-import static org.lwjgl.nuklear.NkDrawList.VERTEX_COUNT;
 
 public class Terrain {
 
     private final int SIZE;
+//    private final int VERTICES_PER_UNIT = 1;
+    private final int VERTEX_COUNT;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
 
-    private float x;
-    private float z;
+    private float xStart;
+    private float zStart;
     private RawModel model;
     private TerrainTexturePack texturePack;
 
@@ -33,25 +24,27 @@ public class Terrain {
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
-        this.x = gridX * SIZE;
-        this.z = gridZ * SIZE;
+        this.xStart = gridX * SIZE;
+        this.zStart = gridZ * SIZE;
         this.model = generateTerrain(loader);
+        //TODO
+        this.VERTEX_COUNT = SIZE;
     }
 
     public float getSIZE() {
         return SIZE;
     }
 
-    public static int getVertexCount() {
+    public int getVertexCount() {
         return VERTEX_COUNT;
     }
 
-    public float getX() {
-        return x;
+    public float getxStart() {
+        return xStart;
     }
 
-    public float getZ() {
-        return z;
+    public float getzStart() {
+        return zStart;
     }
 
     public RawModel getModel() {
@@ -68,6 +61,7 @@ public class Terrain {
         float[] vertices = new float[count * 3];
         float[] textureCoords = new float[count*2];
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
+
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
@@ -117,8 +111,8 @@ public class Terrain {
     }
 
     public float getHeightOfTerrain(float worldX, float worldZ){
-        float terrainX = worldX - this.x;
-        float terrainZ = worldZ - this.z;
+        float terrainX = worldX - this.xStart;
+        float terrainZ = worldZ - this.zStart;
         float gridSquareSize = SIZE / ((float) heights.length - 1);
         int gridX = (int) Math.floor(terrainX / gridSquareSize);
         int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
@@ -151,6 +145,31 @@ public class Terrain {
             add = (float) (-5);
         }
         return (float) (2*Math.sin(x)+1*Math.cos(x)+Math.cos(z)+2+add);
+    }
+
+    //TODO set to always return 0 or load in old values (save file)
+    public int getTerrainType(int x, int y){
+        if((x+y)%5==0){
+            //Sand
+            return 1;
+        } else {
+            //Dirt
+            return 0;
+        }
+    }
+
+    private float[] generatePositionData(float[][] heights) {
+        float[] positions = new float[heights.length * heights.length * 3];
+        float squareSize = 1 / (VERTEX_COUNT);
+        int pointer = 0;
+        for (int z = 0; z < heights.length; z++) {
+            for (int x = 0; x < heights.length; x++) {
+                positions[pointer++] = xStart + x * squareSize;
+                positions[pointer++] = heights[z][x];
+                positions[pointer++] = zStart + z * squareSize;
+            }
+        }
+        return positions;
     }
 
     private Vector3f calculateNormal(int x, int z){
