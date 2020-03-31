@@ -43,6 +43,7 @@ public class TerrainRenderer {
         GL20.glEnableVertexAttribArray(0);
         GL20.glEnableVertexAttribArray(1);
         GL20.glEnableVertexAttribArray(2);
+        GL20.glEnableVertexAttribArray(3);
         bindTextures(terrain);
         shader.loadShineVariables(1, 0);
     }
@@ -51,6 +52,7 @@ public class TerrainRenderer {
         GL20.glDisableVertexAttribArray(0);
         GL20.glDisableVertexAttribArray(1);
         GL20.glDisableVertexAttribArray(2);
+        GL20.glDisableVertexAttribArray(3);
 
         //Unbind VAO
         GL30.glBindVertexArray(0);
