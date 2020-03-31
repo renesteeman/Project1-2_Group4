@@ -4,7 +4,7 @@ in vec2 pass_textureCoordinates;
 in vec3 surfaceNormal;
 in vec3 toLightVector;
 in vec3 toCameraVector;
-in int terrainTypeFragment;
+in float terrainTypeFragment;
 
 out vec4 out_Color;
 
@@ -19,7 +19,7 @@ uniform float reflectivity;
 void main(void){
     //To sand or not to sand
     float grassTextureAmount = 1-terrainTypeFragment;
-    float sandTextureAmount = terrainTypeFragment-1;
+    float sandTextureAmount = terrainTypeFragment;
     vec2 tiledCoords = pass_textureCoordinates * 7;
     vec4 grassTextureColor = texture(grassTexture, tiledCoords) * grassTextureAmount;
     vec4 sandTextureColor = texture(sandTexture, tiledCoords) * sandTextureAmount;
