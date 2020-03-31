@@ -20,6 +20,7 @@ public class Terrain {
     private TerrainTexturePack texturePack;
 
     private float[][] heights;
+    private float[] normals;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
@@ -54,7 +55,11 @@ public class Terrain {
     }
 
     private RawModel generateTerrain(Loader loader){
-        heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+        heights = getHeights();
+        Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
+        normals = normalsToFloatArray(normalVectors);
+
+
 
 
         int count = VERTEX_COUNT * VERTEX_COUNT;
@@ -64,11 +69,10 @@ public class Terrain {
         int vertexPointer = 0;
         for(int i=0;i<VERTEX_COUNT;i++){
             for(int j=0;j<VERTEX_COUNT;j++){
-                float height = getHeight(j, i);
-                heights[j][i] = height;
+
 
                 vertices[vertexPointer*3] = (float)j/((float)VERTEX_COUNT - 1) * SIZE;
-                vertices[vertexPointer*3+1] = height;
+                vertices[vertexPointer*3+1] = heights[j][i];
                 vertices[vertexPointer*3+2] = (float)i/((float)VERTEX_COUNT - 1) * SIZE;
 
                 textureCoords[vertexPointer*2] = (float)j/((float)VERTEX_COUNT - 1);
@@ -78,8 +82,6 @@ public class Terrain {
             }
         }
 
-        Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
-        float[] normals = normalsToFloatArray(normalVectors);
 
 
         int pointer = 0;
@@ -156,7 +158,18 @@ public class Terrain {
         return normals;
     }
 
-//    private float[] getHeights(int amount)
+    private float[][] getHeights(){
+        float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+
+        for(int i=0;i<VERTEX_COUNT;i++) {
+            for (int j = 0; j < VERTEX_COUNT; j++) {
+                float height = getHeight(j, i);
+                heights[j][i] = height;
+            }
+        }
+
+        return heights;
+    }
 
     private Vector3f calculateNormal(int x, int z){
         float heightL = getHeight(x-1, z);
