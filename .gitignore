@@ -15,5 +15,5 @@ hs_err_pid*
 TMP/
 
 # inteliJ and Gradle files
-GameEngine2/.idea/
-GameEngine2/.gradle/
+.idea/
+.gradle/
