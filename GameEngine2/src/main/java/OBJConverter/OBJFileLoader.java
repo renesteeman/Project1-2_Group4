@@ -12,11 +12,13 @@ public class OBJFileLoader {
     public static ModelData loadOBJ(String objFileName) {
         FileReader isr = null;
         File objFile = new File("res/models/" + objFileName + ".obj");
+
         try {
             isr = new FileReader(objFile);
         } catch (FileNotFoundException e) {
             System.err.println("File not found in res; don't use any extention");
         }
+
         BufferedReader reader = new BufferedReader(isr);
         String line;
         List<Vertex> vertices = new ArrayList<Vertex>();
@@ -26,6 +28,7 @@ public class OBJFileLoader {
         try {
             while (true) {
                 line = reader.readLine();
+
                 if (line.startsWith("v ")) {
                     String[] currentLine = line.split(" ");
                     Vector3f vertex = new Vector3f((float) Float.valueOf(currentLine[1]),
@@ -49,6 +52,7 @@ public class OBJFileLoader {
                     break;
                 }
             }
+
             while (line != null && line.startsWith("f ")) {
                 String[] currentLine = line.split(" ");
                 String[] vertex1 = currentLine[1].split("/");
@@ -66,6 +70,7 @@ public class OBJFileLoader {
         }
 
         removeUnusedVertices(vertices);
+
         float[] verticesArray = new float[vertices.size() * 3];
         float[] texturesArray = new float[vertices.size() * 2];
         float[] normalsArray = new float[vertices.size() * 3];
@@ -74,6 +79,7 @@ public class OBJFileLoader {
         int[] indicesArray = convertIndicesListToArray(indices);
         ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
                 furthest);
+
         return data;
     }
 
@@ -82,6 +88,7 @@ public class OBJFileLoader {
         Vertex currentVertex = vertices.get(index);
         int textureIndex = Integer.parseInt(vertex[1]) - 1;
         int normalIndex = Integer.parseInt(vertex[2]) - 1;
+
         if (!currentVertex.isSet()) {
             currentVertex.setTextureIndex(textureIndex);
             currentVertex.setNormalIndex(normalIndex);
@@ -94,14 +101,17 @@ public class OBJFileLoader {
 
     private static int[] convertIndicesListToArray(List<Integer> indices) {
         int[] indicesArray = new int[indices.size()];
+
         for (int i = 0; i < indicesArray.length; i++) {
             indicesArray[i] = indices.get(i);
         }
+
         return indicesArray;
     }
 
     private static float convertDataToArrays(List<Vertex> vertices, List<Vector2f> textures, List<Vector3f> normals, float[] verticesArray, float[] texturesArray,  float[] normalsArray) {
         float furthestPoint = 0;
+
         for (int i = 0; i < vertices.size(); i++) {
             Vertex currentVertex = vertices.get(i);
             if (currentVertex.getLength() > furthestPoint) {
@@ -119,6 +129,7 @@ public class OBJFileLoader {
             normalsArray[i * 3 + 1] = normalVector.y;
             normalsArray[i * 3 + 2] = normalVector.z;
         }
+
         return furthestPoint;
     }
 

@@ -1,9 +1,6 @@
 package EngineTester;
 
-import Entities.Ball;
-import Entities.Camera;
-import Entities.Entity;
-import Entities.Light;
+import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
 import Models.TexturedModel;
@@ -55,15 +52,27 @@ public class MainGameLoop {
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
-        ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
+        ModelData ballModelData = OBJFileLoader.loadOBJ("Ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
-        TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("textures/brick")));
+        TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
+
+        ModelData goalModelData = OBJFileLoader.loadOBJ("Goal");
+        RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
+        TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
+
+        ModelData treeModelData = OBJFileLoader.loadOBJ("Tree");
+        RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
+        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
         List<Entity> entities = new ArrayList<Entity>();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(250, 20, 250), 0, 0, 0, 1);
+        Goal goal = new Goal(texturedGoal, new Vector3f(250, 20, 260), 0, 0, 0, 1);
+        Tree tree = new Tree(texturedTree, new Vector3f(250, 20, 270), 0, 0, 0, 1);
         entities.add(dragonEntity);
         entities.add(ball);
+        entities.add(goal);
+        entities.add(tree);
 
         //TODO remove
         //Show X-axis
