@@ -7,6 +7,15 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+MINI BLENDER TUTORIAL
+
+When you made a model in blender, you can export the model as an obj. Go to File->Export->Obj. Make sure that under the geometry options you (only) select Write Normals, Include UVs and Triangulate Face.
+Note this will only give you the model, not the texture. To get a working texture based of a material in blender you first open an UV editor in a separate window. Then go into edit mode and select the whole model. Than execute
+Lightmap Pack, you can mostly select the setting you'd like, I went with Image Size=512, Pack Quality=48 and Margin=0.16. You'll than go into the shader editor and add an image that is the same image as
+you created with the UV. Than give the material some transmission (otherwise it'll be black-and-white. Go to Render Properties->Bake and click bake while in edit mode and having the entire object selected.
+Than save the image from the UV editor and use this as your texture.
+ */
 public class OBJFileLoader {
 
     public static ModelData loadOBJ(String objFileName) {
