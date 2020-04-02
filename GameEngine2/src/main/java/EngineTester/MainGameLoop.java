@@ -65,14 +65,17 @@ public class MainGameLoop {
         TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
         List<Entity> entities = new ArrayList<Entity>();
+        //Special arrayList just for trees
+        Trees trees = new Trees();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(250, 20, 250), 0, 0, 0, 1);
         Goal goal = new Goal(texturedGoal, new Vector3f(250, 20, 260), 0, 0, 0, 1);
-        Tree tree = new Tree(texturedTree, new Vector3f(250, 20, 270), 0, 0, 0, 1);
+        Tree tree1 = new Tree(texturedTree, new Vector3f(250, 20, 270), 0, 0, 0, 1);
+        trees.add(tree1);
         entities.add(dragonEntity);
         entities.add(ball);
         entities.add(goal);
-        entities.add(tree);
+        entities.addAll(trees);
 
         //TODO remove
         //Show X-axis
