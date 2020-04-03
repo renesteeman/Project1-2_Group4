@@ -5,13 +5,13 @@ public class WaterTile {
 	private float height;
 	private float x;
 	private float z;
-	private float size;
+	private float width;
 	
 	public WaterTile(float centerX, float centerZ, float height, float size){
 		this.x = centerX;
 		this.z = centerZ;
 		this.height = height;
-		this.size = size;
+		this.width = size;
 	}
 
 	public float getHeight() {
@@ -26,7 +26,7 @@ public class WaterTile {
 		return z;
 	}
 
-	public float getSize() {
-		return size;
+	public float getWidth() {
+		return width;
 	}
 }

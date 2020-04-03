@@ -1,5 +1,6 @@
 package Entities;
 
+import EngineTester.MainGameLoop;
 import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
 import Terrain.Terrain;
@@ -12,7 +13,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 
-    private float distanceFromBall = 50;
+    private float distanceFromBall = 5*MainGameLoop.SCALE;
     private float angleAroundBall = 0;
 
     private Vector3f position;
@@ -35,13 +36,13 @@ public class Camera {
 
     private Ball ball;
 
-    public Camera(Ball ball, Vector3f position){
-        this(ball, position, true);
+    public Camera(Ball ball){
+        this(ball, true);
     }
 
-    public Camera(Ball ball, Vector3f position, boolean preventTerrainClipping){
+    public Camera(Ball ball, boolean preventTerrainClipping){
         this.ball = ball;
-        this.position = position;
+        this.position = new Vector3f(0, 0, 0);
 
         GLFW.glfwSetScrollCallback(DisplayManager.getWindow(), new GLFWScrollCallback() {
             @Override public void invoke (long win, double dx, double dy) {

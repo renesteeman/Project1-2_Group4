@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 public class Terrain {
 
-    //Every terrain must use the same SIZE and VERTEX_COUNT
+    //Every terrain uses the same SIZE and VERTEX_COUNT (SIZE is final in MainGameLoop)
     private final int SIZE;
     private final int VERTEX_COUNT = 128;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
@@ -45,11 +45,11 @@ public class Terrain {
         return VERTEX_COUNT;
     }
 
-    public float getxStart() {
+    public float getXStart() {
         return xStart;
     }
 
-    public float getzStart() {
+    public float getZStart() {
         return zStart;
     }
 
@@ -103,7 +103,7 @@ public class Terrain {
     }
 
     //TODO update to actual function
-    private float getHeight(int x, int z){
+    private float getHeight(float x, float z){
         float add=0;
         if(x>100&&x<150&&z>50&&z<150){
             add = (float) (-5);
@@ -131,10 +131,11 @@ public class Terrain {
 
     private float[][] getHeights(){
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+        float distancePerVertex = SIZE/VERTEX_COUNT;
 
         for(int i=0; i<VERTEX_COUNT; i++) {
             for (int j=0; j<VERTEX_COUNT; j++) {
-                float height = getHeight(j, i);
+                float height = getHeight(j*distancePerVertex, i*distancePerVertex);
                 heights[j][i] = height;
             }
         }

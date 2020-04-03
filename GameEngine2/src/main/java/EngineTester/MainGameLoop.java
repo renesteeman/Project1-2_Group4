@@ -34,6 +34,8 @@ import java.util.List;
 
 public class MainGameLoop {
 
+    //10 units in-engine = 1 meter
+    static public final int SCALE = 10;
     static final int TERRAIN_SIZE = 800;
 
     public static void main(String[] args){
@@ -67,10 +69,10 @@ public class MainGameLoop {
         List<Entity> entities = new ArrayList<Entity>();
         //Special arrayList just for trees
         Trees trees = new Trees();
-        Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -50), 0, 0, 0, 1);
-        Ball ball = new Ball(texturedBall, new Vector3f(250, 20, 250), 0, 0, 0, 1);
-        Goal goal = new Goal(texturedGoal, new Vector3f(250, 20, 260), 0, 0, 0, 1);
-        Tree tree1 = new Tree(texturedTree, new Vector3f(250, 20, 270), 0, 0, 0, 1);
+        Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
+        Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+        Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
         entities.add(dragonEntity);
         entities.add(ball);
@@ -81,14 +83,14 @@ public class MainGameLoop {
         //Show X-axis
         for(int i=0; i<10; i++){
             TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
-            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*50, 50, 0), 0, 0, 0, 1);
+            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*5*SCALE, 5*SCALE, 0), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
 
         //Show Z-axis
         for(int i=0; i<10; i++){
             TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
-            Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 50, 50*i), 0, 0, 0, 1);
+            Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
 
@@ -108,7 +110,7 @@ public class MainGameLoop {
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
         //Camera
-        Camera camera = new Camera(ball, new Vector3f(0, 5, 0));
+        Camera camera = new Camera(ball);
 
         //3D renderer
         MasterRenderer masterRenderer = new MasterRenderer(loader);
@@ -121,7 +123,7 @@ public class MainGameLoop {
         WaterShader waterShader = new WaterShader();
         WaterRenderer waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
         List<WaterTile> waters = new ArrayList<WaterTile>();
-        WaterTile mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE/2);
+        WaterTile mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE);
         waters.add(mainWaterTile);
 
         //Game loop
@@ -146,16 +148,12 @@ public class MainGameLoop {
 //            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
 
 
-
-
             //Move object(s) based on pointer
+            //DEBUG
             if(terrainPoint != null){
 //                System.out.println(terrainPoint);
                 dragonEntity.setPosition(terrainPoint);
             }
-
-
-
 
             //Render water part 1
             GL11.glEnable(GL30.GL_CLIP_DISTANCE0);

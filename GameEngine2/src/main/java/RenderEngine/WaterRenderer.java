@@ -5,8 +5,6 @@ import java.util.List;
 import Entities.Camera;
 import Entities.Light;
 import Models.RawModel;
-import RenderEngine.DisplayManager;
-import RenderEngine.Loader;
 import Shaders.WaterShader;
 import Toolbox.Maths;
 import Water.WaterFrameBuffers;
@@ -52,7 +50,7 @@ public class WaterRenderer {
 		prepareRender(camera, sun);
 
 		for (WaterTile tile : water) {
-			Matrix4f modelMatrix = Maths.createTransformationMatrix( new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0, tile.getSize());
+			Matrix4f modelMatrix = Maths.createTransformationMatrix( new Vector3f(tile.getX(), tile.getHeight(), tile.getZ()), 0, 0, 0, tile.getWidth()/2);
 			shader.loadModelMatrix(modelMatrix);
 			GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, quad.getVertexCount());
 		}
