@@ -49,6 +49,14 @@ public class MainGameLoop {
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
+        //Terrain
+        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
+        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
+
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
+
+        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
+
         //Models and entities
         ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
@@ -81,26 +89,39 @@ public class MainGameLoop {
 
         //TODO remove
         //Show X-axis
+        TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
         for(int i=0; i<10; i++){
-            TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
-            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*5*SCALE, 5*SCALE, 0), 0, 0, 0, 1);
+            float x = i*5*SCALE;
+            float z = 0;
+            float y = 5*SCALE;
+
+            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(x, y, z), 0, 0, 0, 1);
+            entities.add(testDragonEntity);
+        }
+
+        float tmpY = terrain.getHeight(200, 200);
+        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
+        Entity specificTestEntity = new Entity(texturedGoal, new Vector3f(200, tmpY, 20), 0, 0, 0, 1);
+        entities.add(specificTestEntity);
+        Entity specificTestEntity2 = new Entity(texturedGoal, new Vector3f(200, 0, 20), 0, 0, 0, 1);
+        entities.add(specificTestEntity2);
+
+        TexturedModel XtexturedDragonMEME = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/UI_meme")));
+        for(int i=0; i<10; i++){
+            float x = i*5*SCALE;
+            float z = 200;
+            float y = terrain.getHeight(x, z);
+
+            Entity testDragonEntity = new Entity(XtexturedDragonMEME, new Vector3f(x, y, z), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
 
         //Show Z-axis
+        TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
         for(int i=0; i<10; i++){
-            TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
             Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
-
-        //Terrain
-        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
-        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
-
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
-
-        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();
