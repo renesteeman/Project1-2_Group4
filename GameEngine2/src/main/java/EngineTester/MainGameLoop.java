@@ -36,7 +36,7 @@ public class MainGameLoop {
 
     //10 units in-engine = 1 meter
     static public final int SCALE = 10;
-    static final int TERRAIN_SIZE = 800;
+    static final int TERRAIN_SIZE = 80*SCALE;
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
@@ -100,7 +100,7 @@ public class MainGameLoop {
         }
 
         float tmpY = terrain.getHeight(200, 200);
-        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
+//        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
         Entity specificTestEntity = new Entity(texturedGoal, new Vector3f(200, tmpY, 20), 0, 0, 0, 1);
         entities.add(specificTestEntity);
         Entity specificTestEntity2 = new Entity(texturedGoal, new Vector3f(200, 0, 20), 0, 0, 0, 1);

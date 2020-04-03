@@ -13,7 +13,7 @@ public class Terrain {
 
     //Every terrain uses the same SIZE and VERTEX_COUNT (SIZE is final in MainGameLoop)
     private final int SIZE;
-    private final int VERTEX_COUNT = 256;
+    private final int VERTEX_COUNT = 512;
     private final float DISTANCE_PER_VERTEX;
     private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
 
@@ -33,7 +33,7 @@ public class Terrain {
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
-        this.DISTANCE_PER_VERTEX = SIZE/VERTEX_COUNT;
+        this.DISTANCE_PER_VERTEX = (float) SIZE/ (float) VERTEX_COUNT;
         this.xStart = gridX * SIZE;
         this.zStart = gridZ * SIZE;
         this.model = generateTerrain(loader);
@@ -137,14 +137,9 @@ public class Terrain {
 
         for(int i=0; i<VERTEX_COUNT; i++) {
             for (int j=0; j<VERTEX_COUNT; j++) {
-//                Vector2f worldCoordinates = getWorldCoordinates(i, j);
-//
-//
-//                float height = getHeight(worldCoordinates.x, worldCoordinates.y);
-
-                float actualX = j*SIZE;
-                float actualZ = i*SIZE;
-                float height = getHeight(actualX, actualZ);
+                float x = j*DISTANCE_PER_VERTEX;
+                float z = i*DISTANCE_PER_VERTEX;
+                float height = getHeight(x, z);
 
                 heights[j][i] = height;
             }
@@ -213,10 +208,10 @@ public class Terrain {
 
         for(int i=0; i<VERTEX_COUNT;i++) {
             for (int j=0; j<VERTEX_COUNT; j++) {
-                Vector2f worldCoordinates = getWorldCoordinates(i, j);
-                float x = worldCoordinates.x;
-                float z = worldCoordinates.y;
+                float x = i * DISTANCE_PER_VERTEX;
+                float z = j * DISTANCE_PER_VERTEX;
                 int terrainType = getTerrainType(x, z);
+
                 terrainTypes[vertexPointer] = terrainType;
                 vertexPointer++;
             }
@@ -232,9 +227,5 @@ public class Terrain {
         } else {
             return 0;
         }
-    }
-
-    private Vector2f getWorldCoordinates(float i, float j){
-        return new Vector2f(i*DISTANCE_PER_VERTEX, j*DISTANCE_PER_VERTEX);
     }
 }
