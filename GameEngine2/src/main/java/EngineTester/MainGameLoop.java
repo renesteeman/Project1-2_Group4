@@ -48,6 +48,7 @@ public class MainGameLoop {
     static int interactionType = -1;
     static Vector3f terrainPoint;
     static final float REMOVE_DISTANCE = 5;
+    static int oldState = GLFW_RELEASE;
 
     static Loader loader = new Loader();
     static Trees trees = new Trees();
@@ -174,13 +175,6 @@ public class MainGameLoop {
                     MouseHandler.enable();
                 }
             });
-
-            GLFW.glfwSetMouseButtonCallback(DisplayManager.getWindow(), (window, button, action, mods) -> {
-                if(button==GLFW_MOUSE_BUTTON_LEFT){
-                    System.out.println("MOUSE_LEFT");
-                    handleEditAction();
-                }
-            });
         }
 
         //Game loop
@@ -204,6 +198,14 @@ public class MainGameLoop {
                 //Add new trees to scene
                 entities.removeAll(trees);
                 entities.addAll(trees);
+
+                //Handle mouse click (prevents holding the button)
+                int newState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
+                if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) {
+                    System.out.println("MOUSE_LEFT");
+                    handleEditAction();
+                }
+                oldState = newState;
             }
 
             //Render water part 1
@@ -256,13 +258,19 @@ public class MainGameLoop {
             if(interactionType==1){
                 //Place mode
                 //terrainPoint is the point on the terrain that the user clicked on
-                System.out.println("ADD TREE");
                 Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
                 trees.add(treeToAdd);
-                System.out.println(Arrays.toString(trees.toArray()));
             } else if(interactionType==2){
                 //Remove mode within remove distance
-                trees.removeIf(tree -> tree.getPosition().distance(terrainPoint) < REMOVE_DISTANCE);
+                System.out.println("BEFORE" + trees.size());
+                for(int i=0; i<trees.size(); i++){
+                    Entity currentTree = trees.get(i);
+
+                    if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
+                        trees.remove(currentTree);
+                    }
+                }
+                System.out.println("AFTER" + trees.size());
             }
         }
     }
