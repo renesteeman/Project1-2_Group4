@@ -31,7 +31,6 @@ import Water.WaterFrameBuffers;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -45,14 +44,17 @@ public class MainGameLoop {
     //TMP move into a separate directory
     static final boolean editMode = true;
     //0 = place items, 1 = remove items
-    static int interactionType = -1;
+    static int objectType = -1;
     static Vector3f terrainPoint;
-    static final float REMOVE_DISTANCE = 5;
-    static int oldState = GLFW_RELEASE;
+    static final float REMOVE_DISTANCE = SCALE*2;
+    static int oldLeftMouseButtonState = GLFW_RELEASE;
+    static int oldRightMouseButtonState = GLFW_RELEASE;
+    static boolean deleteObjectMode = false;
 
     static Loader loader = new Loader();
     static Trees trees = new Trees();
     static TexturedModel texturedTree;
+    static List<Entity> entities = new ArrayList<Entity>();
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
@@ -89,7 +91,6 @@ public class MainGameLoop {
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
-        List<Entity> entities = new ArrayList<Entity>();
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
@@ -165,13 +166,13 @@ public class MainGameLoop {
             //Handle events related to editing
             GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
                 if (key == GLFW_KEY_1) {
-                    interactionType = 1;
+                    objectType = 1;
                     MouseHandler.disable();
                 } else if (key == GLFW_KEY_2){
-                    interactionType = 2;
+                    objectType = 2;
                     MouseHandler.disable();
                 } else if (key == GLFW_KEY_ESCAPE){
-                    interactionType = -1;
+                    objectType = -1;
                     MouseHandler.enable();
                 }
             });
@@ -195,17 +196,20 @@ public class MainGameLoop {
                 mousePicker.update();
                 terrainPoint = mousePicker.getCurrentTerrainPoint();
 
-                //Add new trees to scene
-                entities.removeAll(trees);
-                entities.addAll(trees);
-
                 //Handle mouse click (prevents holding the button)
-                int newState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
-                if (newState == GLFW_RELEASE && oldState == GLFW_PRESS) {
-                    System.out.println("MOUSE_LEFT");
+                int newLeftMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
+                if (newLeftMouseButtonState == GLFW_RELEASE && oldLeftMouseButtonState == GLFW_PRESS) {
+                    deleteObjectMode = false;
                     handleEditAction();
                 }
-                oldState = newState;
+                oldLeftMouseButtonState = newLeftMouseButtonState;
+
+                int newRightMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+                if (newRightMouseButtonState == GLFW_RELEASE && oldRightMouseButtonState == GLFW_PRESS) {
+                    deleteObjectMode = true;
+                    handleEditAction();
+                }
+                oldRightMouseButtonState = newRightMouseButtonState;
             }
 
             //Render water part 1
@@ -255,22 +259,26 @@ public class MainGameLoop {
 
     public static void handleEditAction(){
         if(terrainPoint!=null){
-            if(interactionType==1){
-                //Place mode
-                //terrainPoint is the point on the terrain that the user clicked on
-                Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
-                trees.add(treeToAdd);
-            } else if(interactionType==2){
-                //Remove mode within remove distance
-                System.out.println("BEFORE" + trees.size());
-                for(int i=0; i<trees.size(); i++){
-                    Entity currentTree = trees.get(i);
+            if(objectType ==1){
+                if(!deleteObjectMode){
+                    //Place mode
+                    //terrainPoint is the point on the terrain that the user clicked on
+                    Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                    trees.add(treeToAdd);
+                    entities.add(treeToAdd);
+                } else if(deleteObjectMode){
+                    //Remove trees within remove distance
+                    System.out.println("BEFORE" + trees.size());
+                    for(int i=0; i<trees.size(); i++){
+                        Entity currentTree = trees.get(i);
 
-                    if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
-                        trees.remove(currentTree);
+                        if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
+                            trees.remove(currentTree);
+                            entities.remove(currentTree);
+                        }
                     }
+                    System.out.println("AFTER" + trees.size());
                 }
-                System.out.println("AFTER" + trees.size());
             }
         }
     }
