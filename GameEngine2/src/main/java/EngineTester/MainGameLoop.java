@@ -21,6 +21,7 @@ import Water.WaterTile;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -30,7 +31,10 @@ import Water.WaterFrameBuffers;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGameLoop {
 
@@ -38,10 +42,20 @@ public class MainGameLoop {
     static public final int SCALE = 10;
     static final int TERRAIN_SIZE = 80*SCALE;
 
+    //TMP move into a separate directory
+    static final boolean editMode = true;
+    //0 = place items, 1 = remove items
+    static int interactionType = -1;
+    static Vector3f terrainPoint;
+    static final float REMOVE_DISTANCE = 5;
+
+    static Loader loader = new Loader();
+    static Trees trees = new Trees();
+    static TexturedModel texturedTree;
+
     public static void main(String[] args){
         DisplayManager.createDisplay();
         GL.createCapabilities();
-        Loader loader = new Loader();
         TextMaster.init(loader);
 
         FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
@@ -72,11 +86,10 @@ public class MainGameLoop {
 
         ModelData treeModelData = OBJFileLoader.loadOBJ("Tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
-        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
         List<Entity> entities = new ArrayList<Entity>();
         //Special arrayList just for trees
-        Trees trees = new Trees();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
@@ -147,6 +160,26 @@ public class MainGameLoop {
         WaterTile mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE);
         waters.add(mainWaterTile);
 
+        if(editMode){
+            //Handle events related to editing
+            GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
+                if (key == GLFW_KEY_1) {
+                    System.out.println("1 pressed");
+                    interactionType = 1;
+                } else if(key == GLFW_KEY_2){
+                    System.out.println("2 pressed");
+                    interactionType = 2;
+                }
+            });
+
+            GLFW.glfwSetMouseButtonCallback(DisplayManager.getWindow(), (window, button, action, mods) -> {
+                if(button==GLFW_MOUSE_BUTTON_LEFT){
+                    System.out.println("MOUSE_LEFT");
+                    handleEditAction();
+                }
+            });
+        }
+
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -160,20 +193,14 @@ public class MainGameLoop {
             MouseHandler.handleMouseEvents();
             camera.move(terrain);
 
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
+            if(editMode){
+                //Update mousePicker
+                mousePicker.update();
+                terrainPoint = mousePicker.getCurrentTerrainPoint();
 
-            //Handle object movement
-//            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-//            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
-
-
-            //Move object(s) based on pointer
-            //DEBUG
-            if(terrainPoint != null){
-//                System.out.println(terrainPoint);
-                dragonEntity.setPosition(terrainPoint);
+                //Add new trees to scene
+                entities.removeAll(trees);
+                entities.addAll(trees);
             }
 
             //Render water part 1
@@ -219,5 +246,21 @@ public class MainGameLoop {
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();
+    }
+
+    public static void handleEditAction(){
+        if(terrainPoint!=null){
+            if(interactionType==1){
+                //Place mode
+                //terrainPoint is the point on the terrain that the user clicked on
+                System.out.println("ADD TREE");
+                Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                trees.add(treeToAdd);
+                System.out.println(Arrays.toString(trees.toArray()));
+            } else if(interactionType==2){
+                //Remove mode within remove distance
+                trees.removeIf(tree -> tree.getPosition().distance(terrainPoint) < REMOVE_DISTANCE);
+            }
+        }
     }
 }

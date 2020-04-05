@@ -15,7 +15,7 @@ public class Terrain {
     private final int SIZE;
     private final int VERTEX_COUNT = 512;
     private final float DISTANCE_PER_VERTEX;
-    private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
+    private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
     private float xStart;
     private float zStart;

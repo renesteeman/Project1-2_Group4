@@ -49,6 +49,10 @@ public class Trees implements Collection<Entity> {
         return trees.toArray(ts);
     }
 
+    public boolean add(Tree tree){
+        return add((Entity) tree);
+    }
+
     @Override
     public boolean add(Entity entity) {
         return trees.add((Tree) entity);
