@@ -164,11 +164,14 @@ public class MainGameLoop {
             //Handle events related to editing
             GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
                 if (key == GLFW_KEY_1) {
-                    System.out.println("1 pressed");
                     interactionType = 1;
-                } else if(key == GLFW_KEY_2){
-                    System.out.println("2 pressed");
+                    MouseHandler.disable();
+                } else if (key == GLFW_KEY_2){
                     interactionType = 2;
+                    MouseHandler.disable();
+                } else if (key == GLFW_KEY_ESCAPE){
+                    interactionType = -1;
+                    MouseHandler.enable();
                 }
             });
 
