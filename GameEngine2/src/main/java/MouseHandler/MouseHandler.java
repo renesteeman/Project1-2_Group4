@@ -8,6 +8,8 @@ import java.nio.DoubleBuffer;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseHandler {
+    private static boolean enabled = true;
+
     private static double prevX = 0;
     private static double prevY = 0;
 
@@ -29,8 +31,13 @@ public class MouseHandler {
         currentX = x.get();
         currentY = y.get();
 
-        deltaX = currentX - prevX;
-        deltaY = currentY - prevY;
+        if(enabled){
+            deltaX = currentX - prevX;
+            deltaY = currentY - prevY;
+        } else {
+            deltaX = 0;
+            deltaY = 0;
+        }
 
         prevX = currentX;
         prevY = currentY;
@@ -50,5 +57,13 @@ public class MouseHandler {
 
     public static double getCurrentY() {
         return currentY;
+    }
+
+    public static void enable() {
+        MouseHandler.enabled = true;
+    }
+
+    public static void disable() {
+        MouseHandler.enabled = false;
     }
 }

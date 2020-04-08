@@ -13,6 +13,10 @@ public class Trees implements Collection<Entity> {
         this.trees = new ArrayList<Tree>();
     }
 
+    public Tree get(int i){
+        return trees.get(i);
+    }
+
     @Override
     public int size() {
         return trees.size();
@@ -47,6 +51,10 @@ public class Trees implements Collection<Entity> {
     @Override
     public <T> T[] toArray(T[] ts) {
         return trees.toArray(ts);
+    }
+
+    public boolean add(Tree tree){
+        return add((Entity) tree);
     }
 
     @Override

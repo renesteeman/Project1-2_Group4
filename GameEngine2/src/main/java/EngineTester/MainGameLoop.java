@@ -21,6 +21,7 @@ import Water.WaterTile;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -32,22 +33,46 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.lwjgl.glfw.GLFW.*;
+
 public class MainGameLoop {
 
     //10 units in-engine = 1 meter
     static public final int SCALE = 10;
-    static final int TERRAIN_SIZE = 800;
+    static final int TERRAIN_SIZE = 80*SCALE;
+
+    //TMP move into a separate directory
+    static final boolean editMode = true;
+    //0 = place items, 1 = remove items
+    static int objectType = -1;
+    static Vector3f terrainPoint;
+    static final float REMOVE_DISTANCE = SCALE*2;
+    static int oldLeftMouseButtonState = GLFW_RELEASE;
+    static int oldRightMouseButtonState = GLFW_RELEASE;
+    static boolean deleteObjectMode = false;
+
+    static Loader loader = new Loader();
+    static Trees trees = new Trees();
+    static TexturedModel texturedTree;
+    static List<Entity> entities = new ArrayList<Entity>();
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
         GL.createCapabilities();
-        Loader loader = new Loader();
         TextMaster.init(loader);
 
         FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
         GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
+
+        //Terrain
+        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
+        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
+
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
+
+        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
 
         //Models and entities
         ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
@@ -64,11 +89,9 @@ public class MainGameLoop {
 
         ModelData treeModelData = OBJFileLoader.loadOBJ("Tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
-        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
-        List<Entity> entities = new ArrayList<Entity>();
         //Special arrayList just for trees
-        Trees trees = new Trees();
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
@@ -81,26 +104,39 @@ public class MainGameLoop {
 
         //TODO remove
         //Show X-axis
+        TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
         for(int i=0; i<10; i++){
-            TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
-            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*5*SCALE, 5*SCALE, 0), 0, 0, 0, 1);
+            float x = i*5*SCALE;
+            float z = 0;
+            float y = 5*SCALE;
+
+            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(x, y, z), 0, 0, 0, 1);
+            entities.add(testDragonEntity);
+        }
+
+        float tmpY = terrain.getHeight(200, 200);
+//        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
+        Entity specificTestEntity = new Entity(texturedGoal, new Vector3f(200, tmpY, 20), 0, 0, 0, 1);
+        entities.add(specificTestEntity);
+        Entity specificTestEntity2 = new Entity(texturedGoal, new Vector3f(200, 0, 20), 0, 0, 0, 1);
+        entities.add(specificTestEntity2);
+
+        TexturedModel XtexturedDragonMEME = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/UI_meme")));
+        for(int i=0; i<10; i++){
+            float x = i*5*SCALE;
+            float z = 200;
+            float y = terrain.getHeight(x, z);
+
+            Entity testDragonEntity = new Entity(XtexturedDragonMEME, new Vector3f(x, y, z), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
 
         //Show Z-axis
+        TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
         for(int i=0; i<10; i++){
-            TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
             Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
-
-        //Terrain
-        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
-        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
-
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
-
-        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();
@@ -126,6 +162,22 @@ public class MainGameLoop {
         WaterTile mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE);
         waters.add(mainWaterTile);
 
+        if(editMode){
+            //Handle events related to editing
+            GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
+                if (key == GLFW_KEY_1) {
+                    objectType = 1;
+                    MouseHandler.disable();
+                } else if (key == GLFW_KEY_2){
+                    objectType = 2;
+                    MouseHandler.disable();
+                } else if (key == GLFW_KEY_ESCAPE){
+                    objectType = -1;
+                    MouseHandler.enable();
+                }
+            });
+        }
+
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -139,20 +191,25 @@ public class MainGameLoop {
             MouseHandler.handleMouseEvents();
             camera.move(terrain);
 
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
+            if(editMode){
+                //Update mousePicker
+                mousePicker.update();
+                terrainPoint = mousePicker.getCurrentTerrainPoint();
 
-            //Handle object movement
-//            entity.increasePosition(0, 0, getDeltaTime() * -0.2f);
-//            dragonEntity.increaseRotation(getDeltaTime() * 0, getDeltaTime() * 50, 0);
+                //Handle mouse click (prevents holding the button)
+                int newLeftMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
+                if (newLeftMouseButtonState == GLFW_RELEASE && oldLeftMouseButtonState == GLFW_PRESS) {
+                    deleteObjectMode = false;
+                    handleEditAction();
+                }
+                oldLeftMouseButtonState = newLeftMouseButtonState;
 
-
-            //Move object(s) based on pointer
-            //DEBUG
-            if(terrainPoint != null){
-//                System.out.println(terrainPoint);
-                dragonEntity.setPosition(terrainPoint);
+                int newRightMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+                if (newRightMouseButtonState == GLFW_RELEASE && oldRightMouseButtonState == GLFW_PRESS) {
+                    deleteObjectMode = true;
+                    handleEditAction();
+                }
+                oldRightMouseButtonState = newRightMouseButtonState;
             }
 
             //Render water part 1
@@ -198,5 +255,31 @@ public class MainGameLoop {
         guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();
+    }
+
+    public static void handleEditAction(){
+        if(terrainPoint!=null){
+            if(objectType ==1){
+                if(!deleteObjectMode){
+                    //Place mode
+                    //terrainPoint is the point on the terrain that the user clicked on
+                    Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                    trees.add(treeToAdd);
+                    entities.add(treeToAdd);
+                } else if(deleteObjectMode){
+                    //Remove trees within remove distance
+                    System.out.println("BEFORE" + trees.size());
+                    for(int i=0; i<trees.size(); i++){
+                        Entity currentTree = trees.get(i);
+
+                        if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
+                            trees.remove(currentTree);
+                            entities.remove(currentTree);
+                        }
+                    }
+                    System.out.println("AFTER" + trees.size());
+                }
+            }
+        }
     }
 }

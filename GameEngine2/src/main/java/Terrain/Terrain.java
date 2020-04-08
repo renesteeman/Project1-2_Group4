@@ -13,8 +13,9 @@ public class Terrain {
 
     //Every terrain uses the same SIZE and VERTEX_COUNT (SIZE is final in MainGameLoop)
     private final int SIZE;
-    private final int VERTEX_COUNT = 128;
-    private static final float MAX_PIXEL_COLOR = 256 * 256 *256;
+    private final int VERTEX_COUNT = 512;
+    private final float DISTANCE_PER_VERTEX;
+    private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 
     private float xStart;
     private float zStart;
@@ -32,6 +33,7 @@ public class Terrain {
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
+        this.DISTANCE_PER_VERTEX = (float) SIZE/ (float) VERTEX_COUNT;
         this.xStart = gridX * SIZE;
         this.zStart = gridZ * SIZE;
         this.model = generateTerrain(loader);
@@ -103,12 +105,14 @@ public class Terrain {
     }
 
     //TODO update to actual function
-    private float getHeight(float x, float z){
+    public float getHeight(float x, float z){
+
         float add=0;
-        if(x>100&&x<150&&z>50&&z<150){
-            add = (float) (-5);
-        }
-        return (float) (2*Math.sin(x)+1*Math.cos(x)+Math.cos(z)+2+add);
+//        if(x>100&&x<150&&z>50&&z<150){
+//            add = (float) (-5);
+//        }
+
+        return (float) (2*Math.sin(x) + 2*Math.sin(z) + add);
     }
 
     private float[] normalsToFloatArray(Vector3f[][] normalVectors){
@@ -125,17 +129,18 @@ public class Terrain {
             }
         }
 
-        System.out.println("length " + normals.length + " vertex count " + VERTEX_COUNT);
         return normals;
     }
 
     private float[][] getHeights(){
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
-        float distancePerVertex = SIZE/VERTEX_COUNT;
 
         for(int i=0; i<VERTEX_COUNT; i++) {
             for (int j=0; j<VERTEX_COUNT; j++) {
-                float height = getHeight(j*distancePerVertex, i*distancePerVertex);
+                float x = j*DISTANCE_PER_VERTEX;
+                float z = i*DISTANCE_PER_VERTEX;
+                float height = getHeight(x, z);
+
                 heights[j][i] = height;
             }
         }
@@ -203,7 +208,10 @@ public class Terrain {
 
         for(int i=0; i<VERTEX_COUNT;i++) {
             for (int j=0; j<VERTEX_COUNT; j++) {
-                int terrainType = getTerrainType(j, i);
+                float x = i * DISTANCE_PER_VERTEX;
+                float z = j * DISTANCE_PER_VERTEX;
+                int terrainType = getTerrainType(x, z);
+
                 terrainTypes[vertexPointer] = terrainType;
                 vertexPointer++;
             }
@@ -213,7 +221,7 @@ public class Terrain {
     }
 
     //TODO load in actual values or set all to 0
-    private int getTerrainType(int x, int z){
+    private int getTerrainType(float x, float z){
         if(x+z>50 && x+z<100){
             return 1;
         } else {

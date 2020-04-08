@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="74b24824-96d7-4d0f-9deb-be8da0f98150" name="Default Changelist" comment="" />
+    <list default="true" id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,17 +15,24 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view />
+      </state>
+    </system>
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
-  <component name="ProjectId" id="1ZwCrhEoPiwxyrgNldaC0olqpF1" />
+  <component name="ProjectId" id="1aGYHeY2qwbjztw19LnwEyoCbZh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -35,12 +42,27 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
+    <property name="create.test.in.the.same.root" value="true" />
+    <property name="not.eligible.for.single.variant.sync" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.32210526" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="Terrain" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="MainGameLoop" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="EngineTester.MainGameLoop" />
-      <module name="GameEngine.main" />
+      <module name="GameEngine2.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="EngineTester.*" />
@@ -62,12 +84,13 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="74b24824-96d7-4d0f-9deb-be8da0f98150" name="Default Changelist" comment="" />
-      <created>1585740971822</created>
+      <changelist id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="" />
+      <created>1586363310533</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1585740971822</updated>
-      <workItem from="1585740979827" duration="13791000" />
+      <updated>1586363310533</updated>
+      <workItem from="1586363313012" duration="1123000" />
+      <workItem from="1586364455600" duration="455000" />
     </task>
     <servers />
   </component>
@@ -75,41 +98,37 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser" timestamp="1585819329674">
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom" timestamp="1586364913645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="236" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585819329674" />
-    <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1585747770423">
+    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364913645" />
+    <state width="1877" height="261" key="GridCell.Tab.0.center" timestamp="1586364913645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="640" y="248" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585747770423" />
-    <state x="652" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1585901406819">
+    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364913645" />
+    <state width="1877" height="261" key="GridCell.Tab.0.left" timestamp="1586364913645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="652" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585901406819" />
-    <state width="1877" height="261" key="GridCell.Tab.0.bottom" timestamp="1585902892630">
+    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364913645" />
+    <state width="1877" height="261" key="GridCell.Tab.0.right" timestamp="1586364913645">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585902892630" />
-    <state width="1877" height="261" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585760426101" />
-    <state width="1877" height="261" key="GridCell.Tab.0.center" timestamp="1585902892630">
+    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364913645" />
+    <state x="105" y="94" width="1693" height="851" key="SettingsEditor" timestamp="1586364668705">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585902892630" />
-    <state width="1877" height="261" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585760426101" />
-    <state width="1877" height="261" key="GridCell.Tab.0.left" timestamp="1585902892630">
+    <state x="105" y="94" width="1693" height="851" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364668705" />
+    <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1586363384506">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585902892630" />
-    <state width="1877" height="261" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585760426101" />
-    <state width="1877" height="261" key="GridCell.Tab.0.right" timestamp="1585902892630">
+    <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586363384506" />
+    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1586364882307">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585902892630" />
-    <state width="1877" height="261" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1585760426101" />
-    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1585901460982">
+    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586364882307" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1586363523397">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1585901460982" />
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586363523397" />
   </component>
 </project>
