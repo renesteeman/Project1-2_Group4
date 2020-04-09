@@ -71,10 +71,13 @@ public class Terrain {
         vertices = getVertices();
         textureCoords = getTextureCoords();
         indices = getIndices();
-
         terrainTypes = getTerrainTypes();
 
         return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
+    }
+
+    public void updateTerrain(Loader loader){
+        this.model = loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
     }
 
     public float getHeightOfTerrain(float worldX, float worldZ){

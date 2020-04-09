@@ -286,6 +286,7 @@ public class MainGameLoop {
                 if(!deleteObjectMode){
                     //Add sand
                     terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
 
                 } else if(deleteObjectMode){
                     //Remove sand
