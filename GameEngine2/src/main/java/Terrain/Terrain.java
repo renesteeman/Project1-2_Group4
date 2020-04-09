@@ -291,18 +291,11 @@ public class Terrain {
 
     private void updateTerrainType2D(int x, int z, int type){
         //TODO check if this is correct
-        //Convert coordinates to align with terrain vertices
-        int xFitsTimes = (int) (x/DISTANCE_PER_VERTEX);
-        int zFitsTimes = (int) (z/DISTANCE_PER_VERTEX);
+        //Convert 2D coordinates to array index
+        //z*VERTEX_COUT = the amount of indices for the rows that are fully filled, x gives the amount of indices for the
+        //last row that is partially filled
+        int index = z*VERTEX_COUNT + x;
 
-        int terrainX = (int) (xFitsTimes*DISTANCE_PER_VERTEX);
-        int terrainZ = (int) (zFitsTimes*DISTANCE_PER_VERTEX);
-
-        int xRemainder = (int) ((x/DISTANCE_PER_VERTEX) - xFitsTimes);
-
-        //Convert coordinate to use in 1D array
-        int terrainIndex = terrainZ * terrainX + xRemainder;
-
-        terrainTypes[terrainIndex] = type;
+        terrainTypes[index] = type;
     }
 }
