@@ -264,10 +264,16 @@ public class Terrain {
             for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
                 //TODO enable circular brush
                 //Only update values within given radius (make the brush circular instead of square)
-//                if(distance(i, j, heightAtPosition, centerX, centerZ, y) < radius){
+                float heightAtPosition = getHeight(i, j);
+                int xPos = (int) (i*DISTANCE_PER_VERTEX);
+                int yPos = (int) (j*DISTANCE_PER_VERTEX);
+
+                System.out.println("xPos = " + xPos + " yPos = " + yPos +  " height = " + heightAtPosition + " centerX = " + centerX + " centerZ = " + centerZ + " y = " + y);
+                System.out.println("Distance = " + distance(xPos, yPos, heightAtPosition, centerX, centerZ, y));
+                if(distance(xPos, yPos, heightAtPosition, centerX, centerZ, y) < radius){
                     //Should be updated
-                updateTerrainType2D(i, j, type);
-//                }
+                    updateTerrainType2D(i, j, type);
+                }
             }
         }
 
