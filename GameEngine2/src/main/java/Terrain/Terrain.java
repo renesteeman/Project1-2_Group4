@@ -230,50 +230,59 @@ public class Terrain {
         }
     }
 
-    public void setTerrainTypeWithinRadius(float x, float y, int type, float radius){
-        Vector2i terrainCoordinates = coordinateToTerrainCoordinates(x, y);
+    public void setTerrainTypeWithinRadius(float x, float y, float z, int type, float radius){
+        Vector2i terrainCoordinates = coordinateToTerrainCoordinates(x, z);
 
         //Go trough the square that contains the 'edit circle'
         int leftX = (int) (terrainCoordinates.x-radius/2);
         int rightX = (int) (terrainCoordinates.x+radius/2);
-        int topY = (int) (terrainCoordinates.y-radius/2);
-        int bottomY = (int) (terrainCoordinates.y+radius/2);
+        int topZ = (int) (terrainCoordinates.y-radius/2);
+        int bottomZ = (int) (terrainCoordinates.y+radius/2);
+        int centerX = (int) terrainCoordinates.x;
+        int centerZ = (int) terrainCoordinates.y;
+
+        int updatedVertices = 0;
 
         for(int i=leftX; i<rightX; i++){
-            for(int j=topY; j<bottomY; j++){
-                if(distance(i, j, x, y) < radius){
+            for(int j=bottomZ; j<topZ; j++){
+                float heightAtPosition = getHeight(i, j);
+                if(distance(i, j, heightAtPosition, centerX, centerZ, y) < radius){
                     //Should be updated
                     updateTerrainType2D(i, j, type);
+                    updatedVertices++;
                 }
             }
         }
+
+        System.out.println(updatedVertices);
     }
 
-    private Vector2i coordinateToTerrainCoordinates(float x, float y){
+    private Vector2i coordinateToTerrainCoordinates(float x, float z){
         Vector2i result = new Vector2i();
         result.x = (int) (x-xStart);
-        result.y = (int) (y-zStart);
+        result.y = (int) (z-zStart);
 
         return result;
     }
 
-    private float distance(int i, int j, float x, float y){
+    private float distance(int i, int j, float heightAtPosition, float x, float z, float y){
         float dX = x-i;
-        float dY = y-j;
+        float dZ = z-j;
+        float dY = y-heightAtPosition;
 
-        return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+        return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2) + Math.pow(dY, 2));
     }
 
-    private void updateTerrainType2D(int x, int y, int type){
+    private void updateTerrainType2D(int x, int z, int type){
         //Convert coordinates to align with terrain vertices
         int xFitsTimes = (int) (x/DISTANCE_PER_VERTEX);
-        int yFitsTimes = (int) (y/DISTANCE_PER_VERTEX);
+        int zFitsTimes = (int) (z/DISTANCE_PER_VERTEX);
 
         int terrainX = (int) (xFitsTimes*DISTANCE_PER_VERTEX);
-        int terrainY = (int) (yFitsTimes*DISTANCE_PER_VERTEX);
+        int terrainZ = (int) (zFitsTimes*DISTANCE_PER_VERTEX);
 
         //Convert coordinate to use in 1D array
-        int terrainIndex = terrainY * terrainX;
+        int terrainIndex = terrainZ * terrainX;
 
         terrainTypes[terrainIndex] = type;
     }

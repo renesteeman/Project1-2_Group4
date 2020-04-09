@@ -285,11 +285,11 @@ public class MainGameLoop {
             } else if(objectType == 2){
                 if(!deleteObjectMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
 
                 } else if(deleteObjectMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
             }
         }
