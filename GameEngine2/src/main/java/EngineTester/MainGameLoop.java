@@ -50,7 +50,7 @@ public class MainGameLoop {
     static final float EDIT_SAND_DISTANCE = SCALE*2;
     static int oldLeftMouseButtonState = GLFW_RELEASE;
     static int oldRightMouseButtonState = GLFW_RELEASE;
-    static boolean deleteObjectMode = false;
+    static boolean deleteEditMode = false;
 
     static Loader loader = new Loader();
     static Trees trees = new Trees();
@@ -194,7 +194,7 @@ public class MainGameLoop {
             MouseHandler.handleMouseEvents();
             camera.move(terrain);
 
-            if(editMode){
+            if(editMode && objectType!=-1){
                 //Update mousePicker
                 mousePicker.update();
                 terrainPoint = mousePicker.getCurrentTerrainPoint();
@@ -202,17 +202,22 @@ public class MainGameLoop {
                 //Handle mouse click (prevents holding the button)
                 int newLeftMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
                 if (newLeftMouseButtonState == GLFW_RELEASE && oldLeftMouseButtonState == GLFW_PRESS) {
-                    deleteObjectMode = false;
-                    handleEditAction();
+                    deleteEditMode = false;
+                    handleEditClickAction();
                 }
                 oldLeftMouseButtonState = newLeftMouseButtonState;
 
                 int newRightMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_RIGHT);
                 if (newRightMouseButtonState == GLFW_RELEASE && oldRightMouseButtonState == GLFW_PRESS) {
-                    deleteObjectMode = true;
-                    handleEditAction();
+                    deleteEditMode = true;
+                    handleEditClickAction();
                 }
                 oldRightMouseButtonState = newRightMouseButtonState;
+
+                //Handle mouse drags
+                if (newLeftMouseButtonState == GLFW_PRESS || newRightMouseButtonState == GLFW_PRESS ) {
+                    handleEditDragAction();
+                }
             }
 
             //Render water part 1
@@ -260,16 +265,16 @@ public class MainGameLoop {
         loader.cleanUp();
     }
 
-    public static void handleEditAction(){
+    private static void handleEditClickAction(){
         if(terrainPoint!=null){
             if(objectType == 1){
-                if(!deleteObjectMode){
+                if(!deleteEditMode){
                     //Place mode
                     //terrainPoint is the point on the terrain that the user clicked on
                     Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
                     trees.add(treeToAdd);
                     entities.add(treeToAdd);
-                } else if(deleteObjectMode){
+                } else if(deleteEditMode){
                     //Remove trees within remove distance
                     System.out.println("BEFORE" + trees.size());
                     for(int i=0; i<trees.size(); i++){
@@ -283,12 +288,29 @@ public class MainGameLoop {
                     System.out.println("AFTER" + trees.size());
                 }
             } else if(objectType == 2){
-                if(!deleteObjectMode){
+                if(!deleteEditMode){
                     //Add sand
                     terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
 
-                } else if(deleteObjectMode){
+                } else if(deleteEditMode){
+                    //Remove sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                }
+            }
+        }
+    }
+
+    private static void handleEditDragAction() {
+        if (terrainPoint != null) {
+            System.out.println("DRAGGING");
+            if(objectType == 2){
+                //Sand
+                if(!deleteEditMode){
+                    //Add sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
+                } else if(deleteEditMode){
                     //Remove sand
                     terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
