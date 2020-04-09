@@ -244,6 +244,14 @@ public class Terrain {
         int centerX = (int) terrainCoordinates.x;
         int centerZ = (int) terrainCoordinates.y;
 
+        //Prevent going over the edge (and crashing)
+        if(leftX<0) leftX=0;
+        if(rightX<0) rightX=0;
+        if(topZ<0) topZ=0;
+        if(bottomZ<0) bottomZ=0;
+        if(centerX<0) centerX=0;
+        if(centerZ<0) centerZ=0;
+
         int updatedVertices = 0;
 
         for(int i=leftX; i<rightX; i++){
