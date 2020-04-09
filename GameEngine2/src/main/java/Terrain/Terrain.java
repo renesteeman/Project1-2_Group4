@@ -5,6 +5,7 @@ import RenderEngine.Loader;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import org.joml.Vector2f;
+import org.joml.Vector2i;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
@@ -227,5 +228,53 @@ public class Terrain {
         } else {
             return 0;
         }
+    }
+
+    public void setTerrainTypeWithinRadius(float x, float y, int type, float radius){
+        Vector2i terrainCoordinates = coordinateToTerrainCoordinates(x, y);
+
+        //Go trough the square that contains the 'edit circle'
+        int leftX = (int) (terrainCoordinates.x-radius/2);
+        int rightX = (int) (terrainCoordinates.x+radius/2);
+        int topY = (int) (terrainCoordinates.y-radius/2);
+        int bottomY = (int) (terrainCoordinates.y+radius/2);
+
+        for(int i=leftX; i<rightX; i++){
+            for(int j=topY; j<bottomY; j++){
+                if(distance(i, j, x, y) < radius){
+                    //Should be updated
+                    updateTerrainType2D(i, j, type);
+                }
+            }
+        }
+    }
+
+    private Vector2i coordinateToTerrainCoordinates(float x, float y){
+        Vector2i result = new Vector2i();
+        result.x = (int) (x-xStart);
+        result.y = (int) (y-zStart);
+
+        return result;
+    }
+
+    private float distance(int i, int j, float x, float y){
+        float dX = x-i;
+        float dY = y-j;
+
+        return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dY, 2));
+    }
+
+    private void updateTerrainType2D(int x, int y, int type){
+        //Convert coordinates to align with terrain vertices
+        int xFitsTimes = (int) (x/DISTANCE_PER_VERTEX);
+        int yFitsTimes = (int) (y/DISTANCE_PER_VERTEX);
+
+        int terrainX = (int) (xFitsTimes*DISTANCE_PER_VERTEX);
+        int terrainY = (int) (yFitsTimes*DISTANCE_PER_VERTEX);
+
+        //Convert coordinate to use in 1D array
+        int terrainIndex = terrainY * terrainX;
+
+        terrainTypes[terrainIndex] = type;
     }
 }

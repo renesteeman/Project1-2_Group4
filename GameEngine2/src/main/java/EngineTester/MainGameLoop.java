@@ -47,6 +47,7 @@ public class MainGameLoop {
     static int objectType = -1;
     static Vector3f terrainPoint;
     static final float REMOVE_DISTANCE = SCALE*2;
+    static final float EDIT_SAND_DISTANCE = SCALE*2;
     static int oldLeftMouseButtonState = GLFW_RELEASE;
     static int oldRightMouseButtonState = GLFW_RELEASE;
     static boolean deleteObjectMode = false;
@@ -55,6 +56,8 @@ public class MainGameLoop {
     static Trees trees = new Trees();
     static TexturedModel texturedTree;
     static List<Entity> entities = new ArrayList<Entity>();
+
+    static Terrain terrain;
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
@@ -72,7 +75,7 @@ public class MainGameLoop {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        Terrain terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
+        terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
 
         //Models and entities
         ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
@@ -259,7 +262,7 @@ public class MainGameLoop {
 
     public static void handleEditAction(){
         if(terrainPoint!=null){
-            if(objectType ==1){
+            if(objectType == 1){
                 if(!deleteObjectMode){
                     //Place mode
                     //terrainPoint is the point on the terrain that the user clicked on
@@ -278,6 +281,15 @@ public class MainGameLoop {
                         }
                     }
                     System.out.println("AFTER" + trees.size());
+                }
+            } else if(objectType == 2){
+                if(!deleteObjectMode){
+                    //Add sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, 1, EDIT_SAND_DISTANCE);
+
+                } else if(deleteObjectMode){
+                    //Remove sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, 0, EDIT_SAND_DISTANCE);
                 }
             }
         }
