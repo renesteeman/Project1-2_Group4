@@ -234,9 +234,10 @@ public class Terrain {
     }
 
     public void setTerrainTypeWithinRadius(float x, float y, float z, int type, float radius){
-        Vector2i terrainCoordinates = coordinateToTerrainCoordinates(x, z);
+        //TODO X and Z make sense
+        Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
 
-        //Go trough the square that contains the 'edit circle'
+        //Get the edges of the square within the terrain has to be updated (optimization)
         int leftX = (int) (terrainCoordinates.x-radius/2);
         int rightX = (int) (terrainCoordinates.x+radius/2);
         int topZ = (int) (terrainCoordinates.y-radius/2);
@@ -252,32 +253,30 @@ public class Terrain {
         if(centerX<0) centerX=0;
         if(centerZ<0) centerZ=0;
 
-        int updatedVertices = 0;
+        int leftXTerrainCoordinate = (int) (leftX/DISTANCE_PER_VERTEX);
+        int rightXTerrainCoordinate = (int) (rightX/DISTANCE_PER_VERTEX);
+        int topZTerrainCoordinate = (int) (topZ/DISTANCE_PER_VERTEX);
+        int bottomZTerrainCoordinate = (int) (bottomZ/DISTANCE_PER_VERTEX);
 
-        for(int i=leftX; i<rightX; i++){
-            for(int j=topZ; j<bottomZ; j++){
-//                float heightAtPosition = getHeight(i, j);
+        //Go trough the square and update
+        //TODO rewrite
+        for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
+            for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
+                //TODO enable circular brush
+                //Only update values within given radius (make the brush circular instead of square)
 //                if(distance(i, j, heightAtPosition, centerX, centerZ, y) < radius){
                     //Should be updated
                 updateTerrainType2D(i, j, type);
-                updatedVertices++;
 //                }
             }
         }
 
-        System.out.println(updatedVertices);
-
-        int sandCount = 0;
-        for(int cType : terrainTypes){
-            if(cType==1) sandCount++;
-        }
-        System.out.println(sandCount + " / " + terrainCoordinates.length());
     }
 
-    private Vector2i coordinateToTerrainCoordinates(float x, float z){
-        Vector2i result = new Vector2i();
-        result.x = (int) (x-xStart);
-        result.y = (int) (z-zStart);
+    private Vector2f coordinateToTerrainCoordinates(float x, float z){
+        Vector2f result = new Vector2f();
+        result.x = x-xStart;
+        result.y = z-zStart;
 
         return result;
     }
@@ -291,6 +290,7 @@ public class Terrain {
     }
 
     private void updateTerrainType2D(int x, int z, int type){
+        //TODO check if this is correct
         //Convert coordinates to align with terrain vertices
         int xFitsTimes = (int) (x/DISTANCE_PER_VERTEX);
         int zFitsTimes = (int) (z/DISTANCE_PER_VERTEX);
@@ -298,8 +298,10 @@ public class Terrain {
         int terrainX = (int) (xFitsTimes*DISTANCE_PER_VERTEX);
         int terrainZ = (int) (zFitsTimes*DISTANCE_PER_VERTEX);
 
+        int xRemainder = (int) ((x/DISTANCE_PER_VERTEX) - xFitsTimes);
+
         //Convert coordinate to use in 1D array
-        int terrainIndex = terrainZ * terrainX;
+        int terrainIndex = terrainZ * terrainX + xRemainder;
 
         terrainTypes[terrainIndex] = type;
     }

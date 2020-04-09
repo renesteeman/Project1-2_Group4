@@ -303,7 +303,6 @@ public class MainGameLoop {
 
     private static void handleEditDragAction() {
         if (terrainPoint != null) {
-            System.out.println("DRAGGING");
             if(objectType == 2){
                 //Sand
                 if(!deleteEditMode){
