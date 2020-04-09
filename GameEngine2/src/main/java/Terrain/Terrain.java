@@ -244,17 +244,23 @@ public class Terrain {
         int updatedVertices = 0;
 
         for(int i=leftX; i<rightX; i++){
-            for(int j=bottomZ; j<topZ; j++){
-                float heightAtPosition = getHeight(i, j);
-                if(distance(i, j, heightAtPosition, centerX, centerZ, y) < radius){
+            for(int j=topZ; j<bottomZ; j++){
+//                float heightAtPosition = getHeight(i, j);
+//                if(distance(i, j, heightAtPosition, centerX, centerZ, y) < radius){
                     //Should be updated
-                    updateTerrainType2D(i, j, type);
-                    updatedVertices++;
-                }
+                updateTerrainType2D(i, j, type);
+                updatedVertices++;
+//                }
             }
         }
 
         System.out.println(updatedVertices);
+
+        int sandCount = 0;
+        for(int cType : terrainTypes){
+            if(cType==1) sandCount++;
+        }
+        System.out.println(sandCount + " / " + terrainCoordinates.length());
     }
 
     private Vector2i coordinateToTerrainCoordinates(float x, float z){
