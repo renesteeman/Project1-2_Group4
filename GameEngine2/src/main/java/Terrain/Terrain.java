@@ -234,7 +234,7 @@ public class Terrain {
     }
 
     public void setTerrainTypeWithinRadius(float x, float y, float z, int type, float radius){
-        //TODO X and Z make sense
+        //Take the terrain starting points into account before determining any indexes
         Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
 
         //Get the edges of the square within the terrain has to be updated (optimization)
@@ -253,6 +253,7 @@ public class Terrain {
         if(centerX<0) centerX=0;
         if(centerZ<0) centerZ=0;
 
+        //Calculate relevant edges
         int leftXTerrainCoordinate = (int) (leftX/DISTANCE_PER_VERTEX);
         int rightXTerrainCoordinate = (int) (rightX/DISTANCE_PER_VERTEX);
         int topZTerrainCoordinate = (int) (topZ/DISTANCE_PER_VERTEX);
@@ -262,14 +263,11 @@ public class Terrain {
         //TODO rewrite
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
             for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
-                //TODO enable circular brush
                 //Only update values within given radius (make the brush circular instead of square)
                 float heightAtPosition = getHeight(i, j);
                 int xPos = (int) (i*DISTANCE_PER_VERTEX);
                 int yPos = (int) (j*DISTANCE_PER_VERTEX);
 
-                System.out.println("xPos = " + xPos + " yPos = " + yPos +  " height = " + heightAtPosition + " centerX = " + centerX + " centerZ = " + centerZ + " y = " + y);
-                System.out.println("Distance = " + distance(xPos, yPos, heightAtPosition, centerX, centerZ, y));
                 if(distance(xPos, yPos, heightAtPosition, centerX, centerZ, y) < radius){
                     //Should be updated
                     updateTerrainType2D(i, j, type);
@@ -296,12 +294,16 @@ public class Terrain {
     }
 
     private void updateTerrainType2D(int x, int z, int type){
-        //TODO check if this is correct
         //Convert 2D coordinates to array index
         //z*VERTEX_COUT = the amount of indices for the rows that are fully filled, x gives the amount of indices for the
         //last row that is partially filled
         int index = z*VERTEX_COUNT + x;
 
-        terrainTypes[index] = type;
+        if(index<terrainTypes.length){
+            terrainTypes[index] = type;
+        } else {
+            System.out.println("ERROR: The terrainType is updated for an index that doesn't exist.");
+        }
+
     }
 }

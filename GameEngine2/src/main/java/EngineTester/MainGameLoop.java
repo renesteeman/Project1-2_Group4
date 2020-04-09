@@ -216,6 +216,10 @@ public class MainGameLoop {
 
                 //Handle mouse drags
                 if (newLeftMouseButtonState == GLFW_PRESS || newRightMouseButtonState == GLFW_PRESS ) {
+                    //Update mode
+                    if(newLeftMouseButtonState==GLFW_PRESS) deleteEditMode = false;
+                    if(newRightMouseButtonState==GLFW_PRESS) deleteEditMode = true;
+
                     handleEditDragAction();
                 }
             }
