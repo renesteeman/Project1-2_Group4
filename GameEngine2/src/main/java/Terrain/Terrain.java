@@ -226,7 +226,7 @@ public class Terrain {
 
     //TODO load in actual values or set all to 0
     private int getTerrainType(float x, float z){
-        if(x+z>50 && x+z<100){
+        if((x+z>50 && x+z<100) || (x<50 && x <200)){
             return 1;
         } else {
             return 0;

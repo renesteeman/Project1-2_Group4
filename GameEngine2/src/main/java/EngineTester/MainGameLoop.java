@@ -313,6 +313,7 @@ public class MainGameLoop {
                 } else if(deleteEditMode){
                     //Remove sand
                     terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
                 }
             }
         }
