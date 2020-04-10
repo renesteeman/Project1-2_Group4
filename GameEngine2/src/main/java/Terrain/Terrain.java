@@ -7,6 +7,7 @@ import Toolbox.Maths;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Terrain {
@@ -319,23 +320,109 @@ public class Terrain {
 
     public String getTerrainInfoAsString(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("HEIGHTS:\n");
+        stringBuilder.append(":HEIGHTS:");
         stringBuilder.append(Arrays.deepToString(heights));
-        stringBuilder.append("NORMALS:\n");
+        stringBuilder.append(":NORMALS:");
         stringBuilder.append(Arrays.toString(normals));
-        stringBuilder.append("VERTICES:\n");
+        stringBuilder.append(":VERTICES:");
         stringBuilder.append(Arrays.toString(vertices));
-        stringBuilder.append("TEXTURE_COORDS:\n");
+        stringBuilder.append(":TEXTURE_COORDS:");
         stringBuilder.append(Arrays.toString(textureCoords));
-        stringBuilder.append("INDICES:\n");
+        stringBuilder.append(":INDICES:");
         stringBuilder.append(Arrays.toString(indices));
-        stringBuilder.append("TERRAIN_TYPES:\n");
+        stringBuilder.append(":TERRAIN_TYPES:");
         stringBuilder.append(Arrays.toString(terrainTypes));
 
         return stringBuilder.toString();
     }
 
     public void loadFromString(String terrainInfo){
+        String[] parts = terrainInfo.split(":");
+        String heights = parts[2];
+        String normals = parts[4];
+        String vertices = parts[6];
+        String textureCoords = parts[8];
+        String indices = parts[10];
+        String terrainTypes = parts[12];
 
+        //Load in the actual values
+//        this.heights = getHeightsArrayFromFileData(heights);
+        //this.normals = getNormalsArrayFromFileData(normals);
+
+    }
+
+//    private float[] getNormalsArrayFromFileData(String normals){
+//        ArrayList<Float> normalsList = new ArrayList<>();
+//        String[] Arrays = normals.split("\\[");
+//        for(String Array : Arrays){
+//            String[] values = Array.split(",");
+//            ArrayList<Float>  valuesFloatList = new ArrayList<Float>();
+//            for(String value : values){
+//                if(value.equals("")) continue;
+//
+//                try {
+//                    float toAdd = Float.parseFloat(value);
+//                    valuesFloatList.add(toAdd);
+//                } catch (NumberFormatException ex) {
+//                    // Not a float
+//                }
+//            }
+//        }
+//
+//        float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
+//
+//        for(int i=0; i<floatHeights.length; i++){
+//            ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
+//
+//            Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
+//            float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
+//
+//            for(int j=0; j<heightValuesFloatArray.length; j++){
+//                Object value = heightValuesObjectArray[i];
+//                heightValuesFloatArray[i] = (float) value;
+//            }
+//
+//            floatHeights[i] = heightValuesFloatArray;
+//        }
+//
+//        return floatHeights;
+//    }
+
+    private float[][] getHeightsArrayFromFileData(String heights){
+        ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();
+        String[] heightsArray = heights.split("\\[");
+        for(String heightArray : heightsArray){
+            String[] heightValues = heightArray.split(",");
+            ArrayList<Float>  heightValuesFloatList = new ArrayList<Float>();
+            for(String heightValue : heightValues){
+                if(heightValue.equals("")) continue;
+
+                try {
+                    float toAdd = Float.parseFloat(heightValue);
+                    heightValuesFloatList.add(toAdd);
+                } catch (NumberFormatException ex) {
+                    // Not a float
+                }
+            }
+            heightValuesFloatListList.add(heightValuesFloatList);
+        }
+
+        float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
+
+        for(int i=0; i<floatHeights.length; i++){
+            ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
+
+            Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
+            float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
+
+            for(int j=0; j<heightValuesFloatArray.length; j++){
+                Object value = heightValuesObjectArray[i];
+                heightValuesFloatArray[i] = (float) value;
+            }
+
+            floatHeights[i] = heightValuesFloatArray;
+        }
+
+        return floatHeights;
     }
 }

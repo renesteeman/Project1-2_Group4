@@ -14,9 +14,9 @@ public class GameSaver {
             FileWriter myWriter = new FileWriter("C:/Users/steem/Desktop/TMP/ProjectDebug/terrain.txt");
             myWriter.write(terrainInfo);
             myWriter.close();
-            System.out.println("Successfully wrote to the file.");
+            System.out.println("Saved");
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("Something went wrong with saving the file");
             e.printStackTrace();
         }
     }

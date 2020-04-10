@@ -117,7 +117,7 @@
       <workItem from="1586366973015" duration="97000" />
       <workItem from="1586430979223" duration="15939000" />
       <workItem from="1586450396728" duration="1485000" />
-      <workItem from="1586506220808" duration="2880000" />
+      <workItem from="1586506220808" duration="7959000" />
     </task>
     <servers />
   </component>
@@ -137,42 +137,46 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="495" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586506569341" />
-    <state width="1877" height="132" key="GridCell.Tab.0.bottom" timestamp="1586509555981">
+    <state width="1877" height="132" key="GridCell.Tab.0.bottom" timestamp="1586515294261">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509555981" />
-    <state width="1877" height="132" key="GridCell.Tab.0.center" timestamp="1586509555980">
+    <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515294261" />
+    <state width="1877" height="132" key="GridCell.Tab.0.center" timestamp="1586515294261">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509555980" />
-    <state width="1877" height="132" key="GridCell.Tab.0.left" timestamp="1586509555980">
+    <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515294261" />
+    <state width="1877" height="132" key="GridCell.Tab.0.left" timestamp="1586515294261">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509555980" />
-    <state width="1877" height="132" key="GridCell.Tab.0.right" timestamp="1586509555981">
+    <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515294261" />
+    <state width="1877" height="132" key="GridCell.Tab.0.right" timestamp="1586515294261">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509555981" />
-    <state width="1877" height="326" key="GridCell.Tab.1.bottom" timestamp="1586509396718">
+    <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515294261" />
+    <state width="1877" height="192" key="GridCell.Tab.1.bottom" timestamp="1586515156112">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="326" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509396718" />
-    <state width="1877" height="326" key="GridCell.Tab.1.center" timestamp="1586509396718">
+    <state width="1877" height="192" key="GridCell.Tab.1.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515156112" />
+    <state width="1877" height="192" key="GridCell.Tab.1.center" timestamp="1586515156112">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="326" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509396718" />
-    <state width="1877" height="326" key="GridCell.Tab.1.left" timestamp="1586509396718">
+    <state width="1877" height="192" key="GridCell.Tab.1.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515156112" />
+    <state width="1877" height="192" key="GridCell.Tab.1.left" timestamp="1586515156112">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="326" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509396718" />
-    <state width="1877" height="326" key="GridCell.Tab.1.right" timestamp="1586509396718">
+    <state width="1877" height="192" key="GridCell.Tab.1.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515156112" />
+    <state width="1877" height="192" key="GridCell.Tab.1.right" timestamp="1586515156112">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="326" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586509396718" />
+    <state width="1877" height="192" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586515156112" />
     <state x="105" y="94" width="1693" height="851" key="SettingsEditor" timestamp="1586450232101">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="105" y="94" width="1693" height="851" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586450232101" />
+    <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1586513825453">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="968" height="528" key="XDebugger.FullValuePopup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586513825453" />
     <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog" timestamp="1586365171678">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -185,10 +189,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="342" y="84" key="new project wizard/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586450258752" />
-    <state x="616" y="240" key="run.anything.popup" timestamp="1586363523397">
+    <state x="616" y="240" key="run.anything.popup" timestamp="1586514874837">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586363523397" />
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586514874837" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GameEngine2$NormalsGeneratorTest.ic" NAME="NormalsGeneratorTest Coverage Results" MODIFIED="1586365859361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
