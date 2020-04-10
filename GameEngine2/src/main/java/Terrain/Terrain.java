@@ -338,55 +338,78 @@ public class Terrain {
 
     public void loadFromString(String terrainInfo){
         String[] parts = terrainInfo.split(":");
-        String heights = parts[2];
-        String normals = parts[4];
-        String vertices = parts[6];
-        String textureCoords = parts[8];
-        String indices = parts[10];
-        String terrainTypes = parts[12];
+        String heightsString = parts[2];
+        String normalsString = parts[4];
+        String verticesString = parts[6];
+        String textureCoordsString = parts[8];
+        String indicesString = parts[10];
+        String terrainTypesString = parts[12];
 
         //Load in the actual values
-        this.heights = getHeightsArrayFromFileData(heights);
-        //this.normals = getNormalsArrayFromFileData(normals);
-
+//        this.heights = getHeightsArrayFromFileData(heightsString);
+//        this.normals = getFloatArrayFromFileData(normalsString);
+//        this.vertices = getFloatArrayFromFileData(verticesString);
+//        this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
+//        this.indices = getIntArrayFromFileData(indicesString);
+        this.terrainTypes = getIntArrayFromFileData(terrainTypesString);
     }
 
-//    private float[] getNormalsArrayFromFileData(String normals){
-//        ArrayList<Float> normalsList = new ArrayList<>();
-//        String[] Arrays = normals.split("\\[");
-//        for(String Array : Arrays){
-//            String[] values = Array.split(",");
-//            ArrayList<Float>  valuesFloatList = new ArrayList<Float>();
-//            for(String value : values){
-//                if(value.equals("")) continue;
-//
-//                try {
-//                    float toAdd = Float.parseFloat(value);
-//                    valuesFloatList.add(toAdd);
-//                } catch (NumberFormatException ex) {
-//                    // Not a float
-//                }
-//            }
-//        }
-//
-//        float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
-//
-//        for(int i=0; i<floatHeights.length; i++){
-//            ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
-//
-//            Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
-//            float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
-//
-//            for(int j=0; j<heightValuesFloatArray.length; j++){
-//                Object value = heightValuesObjectArray[i];
-//                heightValuesFloatArray[i] = (float) value;
-//            }
-//
-//            floatHeights[i] = heightValuesFloatArray;
-//        }
-//
-//        return floatHeights;
-//    }
+    private int[] getIntArrayFromFileData(String inputString){
+        ArrayList<Integer> valuesArrayList = new ArrayList<Integer>();
+
+        String[] valueArray = inputString.split(",");
+        //Remove [ sign for the first value
+        valueArray[0] = valueArray[0].substring(1);
+        //Remove ] sign for the last value
+        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
+        for(String value : valueArray){
+            try {
+                //Remove whitespace so it can actually be converted
+                value = value.replaceAll("\\s+","");
+                int toAdd = Integer.parseInt(value);
+                valuesArrayList.add(toAdd);
+            } catch (NumberFormatException ex) {
+                // Not an int
+            }
+        }
+
+        int[] intArray = new int[valuesArrayList.size()];
+
+        //Go from ArrayList to array
+        for(int i=0; i<valuesArrayList.size(); i++){
+            Integer FloatValue = valuesArrayList.get(i);
+            intArray[i] = (int) FloatValue;
+        }
+
+        return intArray;
+    }
+
+    private float[] getFloatArrayFromFileData(String inputString){
+        ArrayList<Float> valuesArrayList = new ArrayList<Float>();
+
+        String[] valueArray = inputString.split("\\[");
+        for(String value : valueArray){
+
+            if(value.equals("")) continue;
+
+            try {
+                float toAdd = Float.parseFloat(value);
+                valuesArrayList.add(toAdd);
+            } catch (NumberFormatException ex) {
+                // Not a float
+            }
+        }
+
+        float[] floatArray = new float[valuesArrayList.size()];
+
+        //Go from ArrayList to array
+        for(int i=0; i<floatArray.length; i++){
+            Float FloatValue = valuesArrayList.get(i);
+            floatArray[i] = (float) FloatValue;
+        }
+
+        return floatArray;
+    }
 
     private float[][] getHeightsArrayFromFileData(String heights){
         ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();

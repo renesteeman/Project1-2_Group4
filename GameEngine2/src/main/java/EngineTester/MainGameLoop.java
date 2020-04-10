@@ -182,6 +182,7 @@ public class MainGameLoop {
                 } else if (key == GLFW_KEY_F5){
                     //TODO use this action before the game starts to load a map
                     GameLoader.loadGameFile("");
+                    terrain.updateTerrain(loader);
                 } else if (key == GLFW_KEY_F10){
                     //TODO use this action after editing a map to save it
                     GameSaver.saveGameFile("");
