@@ -346,7 +346,7 @@ public class Terrain {
         String terrainTypesString = parts[12];
 
         //Load in the actual values
-//        this.heights = getHeightsArrayFromFileData(heightsString);
+        this.heights = getHeightsArrayFromFileData(heightsString);
         this.normals = getFloatArrayFromFileData(normalsString);
         this.vertices = getFloatArrayFromFileData(verticesString);
         this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
@@ -368,8 +368,7 @@ public class Terrain {
 
         //Convert from string to int
         for(String value : valueArray){
-            int toAdd = Integer.parseInt(value);
-            valuesArrayList.add(toAdd);
+            valuesArrayList.add(Integer.parseInt(value));
         }
 
         int[] intArray = new int[valuesArrayList.size()];
@@ -396,8 +395,7 @@ public class Terrain {
 
         //Convert from string to int
         for(String value : valueArray){
-            float toAdd = Float.parseFloat(value);
-            valuesArrayList.add(toAdd);
+            valuesArrayList.add(Float.parseFloat(value));
         }
 
         float[] floatArray = new float[valuesArrayList.size()];
@@ -413,21 +411,23 @@ public class Terrain {
     private float[][] getHeightsArrayFromFileData(String heights){
         ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();
 
+        //Remove whitespace
+        heights = heights.replaceAll("\\s+","");
+
         String[] heightsArray = heights.split("\\[");
+
         for(String heightArray : heightsArray){
+            //Skip the first two values which are empty
+            if(heightArray.length()==0) continue;
+
+            //Remove the last two signs, for non-end values this means ], and for the last one it means ]] gets removed
+            heightArray = heightArray.substring(0, heightArray.length()-2);
             String[] heightValues = heightArray.split(",");
 
             //Go from one big string to ArrayList<Float>
             ArrayList<Float> heightValuesFloatList = new ArrayList<Float>();
             for(String heightValue : heightValues){
-                if(heightValue.equals("")) continue;
-
-                try {
-                    float toAdd = Float.parseFloat(heightValue);
-                    heightValuesFloatList.add(toAdd);
-                } catch (NumberFormatException ex) {
-                    // Not a float
-                }
+                heightValuesFloatList.add(Float.parseFloat(heightValue));
             }
             heightValuesFloatListList.add(heightValuesFloatList);
         }
@@ -442,8 +442,7 @@ public class Terrain {
             float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
 
             for(int j=0; j<heightValuesObjectArray.length-1; j++){
-                Object value = heightValuesObjectArray[j];
-                heightValuesFloatArray[j] = (float) value;
+                heightValuesFloatArray[j] = (float) heightValuesObjectArray[j];
             }
 
             floatHeights[i] = heightValuesFloatArray;
