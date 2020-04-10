@@ -43,8 +43,8 @@ public class MainGameLoop {
 
     //TMP move into a separate directory
     static final boolean editMode = true;
-    //0 = place items, 1 = remove items
-    static int objectType = -1;
+    //0 = place items, 1 = remove items, 66 = debug, -1 is game mode
+    static int objectType = 66;
     static Vector3f terrainPoint;
     static final float REMOVE_DISTANCE = SCALE*2;
     static final float EDIT_SAND_DISTANCE = SCALE*2;
@@ -301,6 +301,9 @@ public class MainGameLoop {
                     //Remove sand
                     terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
+            } else if(objectType == 66){
+                //DEBUG MODE IS ON (order 66)
+                System.out.println(terrain.getTerrainTypeAtTerrainPoint(terrainPoint.x, terrainPoint.z));
             }
         }
     }

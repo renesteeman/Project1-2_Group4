@@ -214,7 +214,7 @@ public class Terrain {
             for (int j=0; j<VERTEX_COUNT; j++) {
                 float x = i * DISTANCE_PER_VERTEX;
                 float z = j * DISTANCE_PER_VERTEX;
-                int terrainType = getTerrainType(x, z);
+                int terrainType = getCreateTerrainType(x, z);
 
                 terrainTypes[vertexPointer] = terrainType;
                 vertexPointer++;
@@ -225,7 +225,7 @@ public class Terrain {
     }
 
     //TODO load in actual values or set all to 0
-    private int getTerrainType(float x, float z){
+    private int getCreateTerrainType(float x, float z){
         if((x+z>50 && x+z<100) || (x<50 && x <200)){
             return 1;
         } else {
@@ -260,7 +260,6 @@ public class Terrain {
         int bottomZTerrainCoordinate = (int) (bottomZ/DISTANCE_PER_VERTEX);
 
         //Go trough the square and update
-        //TODO rewrite
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
             for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
                 //Only update values within given radius (make the brush circular instead of square)
@@ -274,7 +273,6 @@ public class Terrain {
                 }
             }
         }
-
     }
 
     private Vector2f coordinateToTerrainCoordinates(float x, float z){
@@ -304,6 +302,22 @@ public class Terrain {
         } else {
             System.out.println("ERROR: The terrainType is updated for an index that doesn't exist.");
         }
-
     }
+
+    public int getTerrainTypeAtTerrainPoint(float x, float z) {
+        //Take the terrain starting points into account before determining the index
+        Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
+        int xCord = (int) terrainCoordinates.x;
+        int zCord = (int) terrainCoordinates.y;
+        if(xCord<0) xCord=0;
+        if(zCord<0) zCord=0;
+
+        int index = zCord*VERTEX_COUNT + xCord;
+
+        if(index>terrainTypes.length) return 0;
+
+        return terrainTypes[index];
+    }
+
+
 }
