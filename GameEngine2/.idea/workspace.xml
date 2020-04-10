@@ -117,7 +117,7 @@
       <workItem from="1586366973015" duration="97000" />
       <workItem from="1586430979223" duration="15939000" />
       <workItem from="1586450396728" duration="1485000" />
-      <workItem from="1586506220808" duration="12007000" />
+      <workItem from="1586506220808" duration="12650000" />
     </task>
     <servers />
   </component>
@@ -141,22 +141,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="397" height="634" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586520215460" />
-    <state width="1877" height="132" key="GridCell.Tab.0.bottom" timestamp="1586520575821">
+    <state width="1877" height="132" key="GridCell.Tab.0.bottom" timestamp="1586521084139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586520575821" />
-    <state width="1877" height="132" key="GridCell.Tab.0.center" timestamp="1586520575821">
+    <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586521084139" />
+    <state width="1877" height="132" key="GridCell.Tab.0.center" timestamp="1586521084139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586520575821" />
-    <state width="1877" height="132" key="GridCell.Tab.0.left" timestamp="1586520575820">
+    <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586521084139" />
+    <state width="1877" height="132" key="GridCell.Tab.0.left" timestamp="1586521084139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586520575820" />
-    <state width="1877" height="132" key="GridCell.Tab.0.right" timestamp="1586520575821">
+    <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586521084139" />
+    <state width="1877" height="132" key="GridCell.Tab.0.right" timestamp="1586521084139">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586520575821" />
+    <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586521084139" />
     <state width="1877" height="341" key="GridCell.Tab.1.bottom" timestamp="1586520543850">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -197,27 +197,6 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586514874837" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Terrain/Terrain.java</url>
-          <line>383</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Terrain/Terrain.java</url>
-          <line>378</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/Terrain/Terrain.java</url>
-          <line>375</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GameEngine2$NormalsGeneratorTest.ic" NAME="NormalsGeneratorTest Coverage Results" MODIFIED="1586365859361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

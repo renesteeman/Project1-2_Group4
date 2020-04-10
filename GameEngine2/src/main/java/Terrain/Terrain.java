@@ -347,38 +347,36 @@ public class Terrain {
 
         //Load in the actual values
 //        this.heights = getHeightsArrayFromFileData(heightsString);
-//        this.normals = getFloatArrayFromFileData(normalsString);
-//        this.vertices = getFloatArrayFromFileData(verticesString);
-//        this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
-//        this.indices = getIntArrayFromFileData(indicesString);
+        this.normals = getFloatArrayFromFileData(normalsString);
+        this.vertices = getFloatArrayFromFileData(verticesString);
+        this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
+        this.indices = getIntArrayFromFileData(indicesString);
         this.terrainTypes = getIntArrayFromFileData(terrainTypesString);
     }
 
     private int[] getIntArrayFromFileData(String inputString){
         ArrayList<Integer> valuesArrayList = new ArrayList<Integer>();
 
+        //Remove whitespace
+        inputString = inputString.replaceAll("\\s+","");
+
         String[] valueArray = inputString.split(",");
         //Remove [ sign for the first value
         valueArray[0] = valueArray[0].substring(1);
         //Remove ] sign for the last value
         valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
+
+        //Convert from string to int
         for(String value : valueArray){
-            try {
-                //Remove whitespace so it can actually be converted
-                value = value.replaceAll("\\s+","");
-                int toAdd = Integer.parseInt(value);
-                valuesArrayList.add(toAdd);
-            } catch (NumberFormatException ex) {
-                // Not an int
-            }
+            int toAdd = Integer.parseInt(value);
+            valuesArrayList.add(toAdd);
         }
 
         int[] intArray = new int[valuesArrayList.size()];
 
         //Go from ArrayList to array
         for(int i=0; i<valuesArrayList.size(); i++){
-            Integer FloatValue = valuesArrayList.get(i);
-            intArray[i] = (int) FloatValue;
+            intArray[i] = valuesArrayList.get(i);
         }
 
         return intArray;
@@ -387,25 +385,26 @@ public class Terrain {
     private float[] getFloatArrayFromFileData(String inputString){
         ArrayList<Float> valuesArrayList = new ArrayList<Float>();
 
-        String[] valueArray = inputString.split("\\[");
+        //Remove whitespace
+        inputString = inputString.replaceAll("\\s+","");
+
+        String[] valueArray = inputString.split(",");
+        //Remove [ sign for the first value
+        valueArray[0] = valueArray[0].substring(1);
+        //Remove ] sign for the last value
+        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
+
+        //Convert from string to int
         for(String value : valueArray){
-
-            if(value.equals("")) continue;
-
-            try {
-                float toAdd = Float.parseFloat(value);
-                valuesArrayList.add(toAdd);
-            } catch (NumberFormatException ex) {
-                // Not a float
-            }
+            float toAdd = Float.parseFloat(value);
+            valuesArrayList.add(toAdd);
         }
 
         float[] floatArray = new float[valuesArrayList.size()];
 
         //Go from ArrayList to array
-        for(int i=0; i<floatArray.length; i++){
-            Float FloatValue = valuesArrayList.get(i);
-            floatArray[i] = (float) FloatValue;
+        for(int i=0; i<valuesArrayList.size(); i++){
+            floatArray[i] = valuesArrayList.get(i);
         }
 
         return floatArray;
