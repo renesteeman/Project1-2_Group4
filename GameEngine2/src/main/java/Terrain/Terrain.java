@@ -5,7 +5,6 @@ import RenderEngine.Loader;
 import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import org.joml.Vector2f;
-import org.joml.Vector2i;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
@@ -28,7 +27,6 @@ public class Terrain {
     private float[] vertices;
     private float[] textureCoords;
     private int[] indices;
-
     private int[] terrainTypes;
 
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
@@ -65,13 +63,13 @@ public class Terrain {
     }
 
     private RawModel generateTerrain(Loader loader){
-        heights = getHeights();
+        heights = getHeightsGeneration();
         Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
         normals = normalsToFloatArray(normalVectors);
-        vertices = getVertices();
-        textureCoords = getTextureCoords();
-        indices = getIndices();
-        terrainTypes = getTerrainTypes();
+        vertices = getVerticesGeneration();
+        textureCoords = getTextureCoordsGeneration();
+        indices = getIndicesGeneration();
+        terrainTypes = getTerrainTypesGeneration();
 
         return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
     }
@@ -136,7 +134,7 @@ public class Terrain {
         return normals;
     }
 
-    private float[][] getHeights(){
+    private float[][] getHeightsGeneration(){
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
 
         for(int i=0; i<VERTEX_COUNT; i++) {
@@ -152,7 +150,7 @@ public class Terrain {
         return heights;
     }
 
-    private float[] getVertices(){
+    private float[] getVerticesGeneration(){
         int vertexPointer = 0;
         float[] vertices = new float[VERTEX_COUNT * VERTEX_COUNT * 3];
 
@@ -168,7 +166,7 @@ public class Terrain {
         return vertices;
     }
 
-    private float[] getTextureCoords(){
+    private float[] getTextureCoordsGeneration(){
         int vertexPointer = 0;
         float[] textureCoords = new float[VERTEX_COUNT * VERTEX_COUNT*2];
 
@@ -183,7 +181,7 @@ public class Terrain {
         return textureCoords;
     }
 
-    private int[] getIndices(){
+    private int[] getIndicesGeneration(){
         int vertexPointer = 0;
         int[] indices = new int[6*(VERTEX_COUNT-1)*(VERTEX_COUNT-1)];
 
@@ -206,7 +204,7 @@ public class Terrain {
         return indices;
     }
 
-    private int[] getTerrainTypes(){
+    private int[] getTerrainTypesGeneration(){
         int vertexPointer = 0;
         int[] terrainTypes = new int[VERTEX_COUNT*VERTEX_COUNT];
 
@@ -319,5 +317,25 @@ public class Terrain {
         return terrainTypes[index];
     }
 
+    public String getTerrainInfoAsString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("HEIGHTS:\n");
+        stringBuilder.append(Arrays.deepToString(heights));
+        stringBuilder.append("NORMALS:\n");
+        stringBuilder.append(Arrays.toString(normals));
+        stringBuilder.append("VERTICES:\n");
+        stringBuilder.append(Arrays.toString(vertices));
+        stringBuilder.append("TEXTURE_COORDS:\n");
+        stringBuilder.append(Arrays.toString(textureCoords));
+        stringBuilder.append("INDICES:\n");
+        stringBuilder.append(Arrays.toString(indices));
+        stringBuilder.append("TERRAIN_TYPES:\n");
+        stringBuilder.append(Arrays.toString(terrainTypes));
 
+        return stringBuilder.toString();
+    }
+
+    public void loadFromString(String terrainInfo){
+
+    }
 }

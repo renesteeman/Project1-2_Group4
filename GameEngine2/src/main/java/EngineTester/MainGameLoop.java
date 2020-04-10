@@ -3,6 +3,8 @@ package EngineTester;
 import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
+import InputOutputModule.GameLoader;
+import InputOutputModule.GameSaver;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
@@ -44,7 +46,7 @@ public class MainGameLoop {
     //TMP move into a separate directory
     static final boolean editMode = true;
     //0 = place items, 1 = remove items, 66 = debug, -1 is game mode
-    static int objectType = 66;
+    static int objectType = -1;
     static Vector3f terrainPoint;
     static final float REMOVE_DISTANCE = SCALE*2;
     static final float EDIT_SAND_DISTANCE = SCALE*2;
@@ -57,7 +59,7 @@ public class MainGameLoop {
     static TexturedModel texturedTree;
     static List<Entity> entities = new ArrayList<Entity>();
 
-    static Terrain terrain;
+    static public Terrain terrain;
 
     public static void main(String[] args){
         DisplayManager.createDisplay();
@@ -177,6 +179,12 @@ public class MainGameLoop {
                 } else if (key == GLFW_KEY_ESCAPE){
                     objectType = -1;
                     MouseHandler.enable();
+                } else if (key == GLFW_KEY_F5){
+                    //TODO use this action before the game starts to load a map
+                    GameLoader.loadGameFile("");
+                } else if (key == GLFW_KEY_F10){
+                    //TODO use this action after editing a map to save it
+                    GameSaver.saveGameFile("");
                 }
             });
         }
