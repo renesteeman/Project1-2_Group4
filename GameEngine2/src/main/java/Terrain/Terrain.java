@@ -346,7 +346,7 @@ public class Terrain {
         String terrainTypes = parts[12];
 
         //Load in the actual values
-//        this.heights = getHeightsArrayFromFileData(heights);
+        this.heights = getHeightsArrayFromFileData(heights);
         //this.normals = getNormalsArrayFromFileData(normals);
 
     }
@@ -390,10 +390,13 @@ public class Terrain {
 
     private float[][] getHeightsArrayFromFileData(String heights){
         ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();
+
         String[] heightsArray = heights.split("\\[");
         for(String heightArray : heightsArray){
             String[] heightValues = heightArray.split(",");
-            ArrayList<Float>  heightValuesFloatList = new ArrayList<Float>();
+
+            //Go from one big string to ArrayList<Float>
+            ArrayList<Float> heightValuesFloatList = new ArrayList<Float>();
             for(String heightValue : heightValues){
                 if(heightValue.equals("")) continue;
 
@@ -409,15 +412,16 @@ public class Terrain {
 
         float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
 
+        //Go from ArrayList to array
         for(int i=0; i<floatHeights.length; i++){
             ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
 
             Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
             float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
 
-            for(int j=0; j<heightValuesFloatArray.length; j++){
-                Object value = heightValuesObjectArray[i];
-                heightValuesFloatArray[i] = (float) value;
+            for(int j=0; j<heightValuesObjectArray.length-1; j++){
+                Object value = heightValuesObjectArray[j];
+                heightValuesFloatArray[j] = (float) value;
             }
 
             floatHeights[i] = heightValuesFloatArray;
