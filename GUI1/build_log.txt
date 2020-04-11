@@ -1,0 +1,18 @@
+Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/logging/log4j/LogManager
+	at org.liquidengine.legui.style.font.FontRegistry.<clinit>(FontRegistry.java:14)
+	at org.liquidengine.legui.theme.Themes.<clinit>(Themes.java:22)
+	at org.liquidengine.legui.component.Component.initialize(Component.java:197)
+	at org.liquidengine.legui.component.Component.<init>(Component.java:152)
+	at org.liquidengine.legui.component.Component.<init>(Component.java:140)
+	at org.liquidengine.legui.component.Component.<init>(Component.java:128)
+	at org.liquidengine.legui.component.LayerContainer.<init>(LayerContainer.java:18)
+	at org.liquidengine.legui.component.Layer.<init>(Layer.java:32)
+	at org.liquidengine.legui.component.TooltipLayer.<init>(TooltipLayer.java:6)
+	at org.liquidengine.legui.component.Frame.initialize(Frame.java:66)
+	at org.liquidengine.legui.component.Frame.<init>(Frame.java:40)
+	at Hello.main(Hello.java:5)
+Caused by: java.lang.ClassNotFoundException: org.apache.logging.log4j.LogManager
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:581)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:178)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:521)
+	... 12 more
