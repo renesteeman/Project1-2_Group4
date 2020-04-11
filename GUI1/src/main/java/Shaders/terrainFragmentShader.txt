@@ -1,0 +1,46 @@
+#version 400 core
+
+in vec2 pass_textureCoordinates;
+in vec3 surfaceNormal;
+in vec3 toLightVector;
+in vec3 toCameraVector;
+in float terrainTypeFragment;
+
+out vec4 out_Color;
+
+uniform sampler2D grassTexture;
+uniform sampler2D sandTexture;
+
+uniform sampler2D textureSampler;
+uniform vec3 lightColor;
+uniform float shineDamper;
+uniform float reflectivity;
+
+void main(void){
+    //To sand or not to sand
+    float grassTextureAmount = 1-terrainTypeFragment;
+    float sandTextureAmount = terrainTypeFragment;
+    vec2 tiledCoords = pass_textureCoordinates * 7;
+    vec4 grassTextureColor = texture(grassTexture, tiledCoords) * grassTextureAmount;
+    vec4 sandTextureColor = texture(sandTexture, tiledCoords) * sandTextureAmount;
+
+    vec4 totalColor = grassTextureColor + sandTextureColor;
+
+    vec3 unitNormalVector = normalize(surfaceNormal);
+    vec3 unitLightVector = normalize(toLightVector);
+    vec3 unitVectorToCamera = normalize(toCameraVector);
+
+    float normalDotLight = dot(unitNormalVector, unitLightVector);
+    float brightness = max(normalDotLight, 0.15);
+    vec3 diffuse = brightness * lightColor;
+
+    vec3 lightDirection = -unitLightVector;
+    vec3 reflectedLightDirection = reflect(lightDirection, unitNormalVector);
+
+    float specularFactor = dot(reflectedLightDirection, unitVectorToCamera);
+    specularFactor = max(specularFactor, 0.0);
+    float dampedFactor = pow(specularFactor, shineDamper);
+    vec3 finalSpecular = dampedFactor * reflectivity * lightColor;
+
+    out_Color = vec4(diffuse, 1.0) * totalColor + vec4(finalSpecular, 1.0);
+}
