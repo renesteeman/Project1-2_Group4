@@ -15,5 +15,7 @@ hs_err_pid*
 TMP/
 
 # inteliJ and Gradle files
-.idea/
-.gradle/
+/.idea/*
+/.gradle/*
+
+/build/
