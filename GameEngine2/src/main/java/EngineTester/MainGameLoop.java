@@ -6,6 +6,7 @@ import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
 import GUIElements.Textbox;
+import GUIElements.UIElement;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Models.TexturedModel;
@@ -149,9 +150,9 @@ public class MainGameLoop {
         }
 
         //GUI
-        List<GUITexture> GUIs = new ArrayList<GUITexture>();
-        GUITexture GUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        GUIs.add(GUI);
+        List<UIElement> GUIs = new ArrayList<UIElement>();
+//        GUITexture memeUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        GUIs.add(memeUI);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
@@ -218,6 +219,7 @@ public class MainGameLoop {
 
             }
         };
+        GUIs.add(testButton);
 
         //Game loop
         while(!DisplayManager.closed()){

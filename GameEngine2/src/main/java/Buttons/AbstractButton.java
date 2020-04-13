@@ -3,6 +3,7 @@ package Buttons;
 import EngineTester.MainGameLoop;
 import FontMeshCreator.GUIText;
 import GUI.GUITexture;
+import GUIElements.UIElement;
 import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
@@ -12,13 +13,12 @@ import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public abstract class AbstractButton implements InterfaceButton {
+public abstract class AbstractButton implements InterfaceButton, UIElement {
 
     private GUITexture guiTexture;
-
     private Vector2f originalScale;
-
-    private boolean isHidden = false, isHovering = false;
+    private boolean isHidden = false;
+    private boolean isHovering = false;
 
     public AbstractButton(Loader loader, String texture, Vector2f position, Vector2f scale){
         guiTexture = new GUITexture(loader.loadTexture(texture), position, scale);

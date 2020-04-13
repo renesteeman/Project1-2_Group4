@@ -63,6 +63,7 @@
       <list>
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -184,10 +185,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586508825857" />
-    <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586705457546">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="773" y="386" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586788570040">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.864@0.0.1536.864" timestamp="1586705457546" />
+    <state x="773" y="386" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586788570040" />
     <state x="566" y="292" width="403" height="287" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586778860523">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -249,11 +251,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586365171678" />
-    <state x="517" y="196" width="609" height="536" key="find.popup" timestamp="1586786762859">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1586788908324">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="517" y="196" width="609" height="536" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1586786762859" />
-    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586437719303" />
+    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586788908324" />
     <state x="342" y="84" key="new project wizard" timestamp="1586450258752">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
