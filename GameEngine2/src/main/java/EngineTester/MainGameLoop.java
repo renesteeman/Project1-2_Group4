@@ -1,8 +1,11 @@
 package EngineTester;
 
+import Buttons.AbstractButton;
+import Buttons.InterfaceButton;
 import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
+import GUIElements.Textbox;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Models.TexturedModel;
@@ -62,6 +65,8 @@ public class MainGameLoop {
     static public Terrain terrain;
 
     public static void main(String[] args){
+        Textbox.showFrame("Test", "Test1");
+
         DisplayManager.createDisplay();
         GL.createCapabilities();
         TextMaster.init(loader);
@@ -191,6 +196,29 @@ public class MainGameLoop {
             });
         }
 
+        //Button testing here
+        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                button.playHoverAnimation(0.092f);
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                button.resetScale();
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+
+            }
+        };
+
         //Game loop
         while(!DisplayManager.closed()){
             // This line is critical for LWJGL's interoperation with GLFW's
@@ -264,6 +292,10 @@ public class MainGameLoop {
 
             //2D Rendering / UI
             guiRenderer.render(GUIs);
+            testButton.show(GUIs);
+
+            //buttons update
+            testButton.update();
 
             TextMaster.render();
 

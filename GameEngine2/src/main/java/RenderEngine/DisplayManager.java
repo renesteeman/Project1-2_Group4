@@ -1,5 +1,7 @@
 package RenderEngine;
 
+import MouseHandler.MouseHandler;
+import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -75,5 +77,12 @@ public class DisplayManager {
 
     public static float getDeltaTime() {
         return delta;
+    }
+
+    public static Vector2f getNormalizedMouseCoordinates(){
+        float normalizedX = -1.0f + 2.0f * (float) MouseHandler.getCurrentX() / (float) DisplayManager.getWidth();
+        float normalizedY = 1.0f - 2.0f * (float) MouseHandler.getCurrentY() / (float) DisplayManager.getHeight();
+
+        return new Vector2f(normalizedX, normalizedY);
     }
 }

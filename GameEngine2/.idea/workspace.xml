@@ -1,7 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="" />
+    <list default="true" id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/GameEngine2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/textures/button.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/AbstractButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/InterfaceButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Character.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/FontType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/GUIText.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Line.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/MetaFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshCreator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Word.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontRenderer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontShader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/TextMaster.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/GUIElements/Textbox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterFrameBuffers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,10 +66,14 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
   <component name="ProjectId" id="1aGYHeY2qwbjztw19LnwEyoCbZh" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -41,6 +81,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
@@ -127,6 +168,10 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="485" y="91" key="#MainGameLoop" timestamp="1586705482019">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="485" y="91" key="#MainGameLoop/0.0.1536.864@0.0.1536.864" timestamp="1586705482019" />
     <state x="790" y="375" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1586521440055">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -139,6 +184,14 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586508825857" />
+    <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586705457546">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1536.864@0.0.1536.864" timestamp="1586705457546" />
+    <state x="566" y="292" width="403" height="287" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1586778860523">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="566" y="292" width="403" height="287" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1536.864@0.0.1536.864" timestamp="1586778860523" />
     <state x="495" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1586506569341">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -147,21 +200,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="457" height="634" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586615675524" />
-    <state width="1877" height="132" key="GridCell.Tab.0.bottom" timestamp="1586616305488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1586787013814">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1586787013814" />
     <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305488" />
-    <state width="1877" height="132" key="GridCell.Tab.0.center" timestamp="1586616305487">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1586787013813">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1586787013813" />
     <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
-    <state width="1877" height="132" key="GridCell.Tab.0.left" timestamp="1586616305487">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1586787013813">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1586787013813" />
     <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
-    <state width="1877" height="132" key="GridCell.Tab.0.right" timestamp="1586616305487">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1586787013814">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1586787013814" />
     <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
     <state width="1877" height="341" key="GridCell.Tab.1.bottom" timestamp="1586616144990">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -179,9 +236,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="341" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616144990" />
-    <state x="105" y="94" width="1693" height="851" key="SettingsEditor" timestamp="1586450232101">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="84" y="78" width="1693" height="851" key="SettingsEditor" timestamp="1586705547229">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="84" y="78" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1586705547229" />
     <state x="105" y="94" width="1693" height="851" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586450232101" />
     <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1586521573427">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -191,9 +249,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586365171678" />
-    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1586437719303">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="517" y="196" width="609" height="536" key="find.popup" timestamp="1586786762859">
+      <screen x="0" y="0" width="1536" height="864" />
     </state>
+    <state x="517" y="196" width="609" height="536" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1586786762859" />
     <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586437719303" />
     <state x="342" y="84" key="new project wizard" timestamp="1586450258752">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -203,6 +262,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="616" y="240" key="run.anything.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586514874837" />
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup" timestamp="1586785840954">
+      <screen x="0" y="0" width="1536" height="864" />
+    </state>
+    <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1586785840954" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
