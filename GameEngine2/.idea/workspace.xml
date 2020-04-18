@@ -2,41 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/GameEngine2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/textures/button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/AbstractButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/InterfaceButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Character.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/FontType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/GUIText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Line.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/MetaFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Word.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontRenderer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontShader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/TextMaster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUIElements/Textbox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterFrameBuffers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,25 +167,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="457" height="634" key="DebuggerActiveHint/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586615675524" />
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1586787013814">
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom" timestamp="1587215542628">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1586787013814" />
+    <state width="1493" height="223" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1587215542628" />
     <state width="1877" height="132" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305488" />
-    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1586787013813">
+    <state width="1493" height="223" key="GridCell.Tab.0.center" timestamp="1587215542628">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1586787013813" />
+    <state width="1493" height="223" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1587215542628" />
     <state width="1877" height="132" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
-    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1586787013813">
+    <state width="1493" height="223" key="GridCell.Tab.0.left" timestamp="1587215542627">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1586787013813" />
+    <state width="1493" height="223" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1587215542627" />
     <state width="1877" height="132" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
-    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1586787013814">
+    <state width="1493" height="223" key="GridCell.Tab.0.right" timestamp="1587215542628">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1586787013814" />
+    <state width="1493" height="223" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1587215542628" />
     <state width="1877" height="132" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616305487" />
     <state width="1877" height="341" key="GridCell.Tab.1.bottom" timestamp="1586616144990">
       <screen x="0" y="0" width="1920" height="1040" />

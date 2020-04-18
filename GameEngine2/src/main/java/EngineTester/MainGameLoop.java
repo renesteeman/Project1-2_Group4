@@ -5,6 +5,7 @@ import Buttons.InterfaceButton;
 import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
+import GUIElements.FileExplorer;
 import GUIElements.Textbox;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
@@ -66,6 +67,8 @@ public class MainGameLoop {
 
     public static void main(String[] args){
         Textbox.showFrame("Test", "Test1");
+
+        FileExplorer.showFileExplorer();
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
