@@ -1,6 +1,7 @@
 package legui;
 
 import org.joml.Vector2i;
+import org.joml.Vector4f;
 import org.liquidengine.legui.animation.AnimatorProvider;
 import org.liquidengine.legui.component.*;
 import org.liquidengine.legui.event.CursorEnterEvent;
@@ -10,6 +11,7 @@ import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.listener.processor.EventProcessorProvider;
 import org.liquidengine.legui.style.border.SimpleLineBorder;
 import org.liquidengine.legui.style.color.ColorConstants;
+import org.liquidengine.legui.style.color.ColorUtil;
 import org.liquidengine.legui.system.context.CallbackKeeper;
 import org.liquidengine.legui.system.context.Context;
 import org.liquidengine.legui.system.context.DefaultCallbackKeeper;
@@ -159,6 +161,14 @@ public class HelloLegui {
     }
 
     private static void createGuiElements(Frame frame) {
+        //frame.getContainer().getStyle().getBackground().setColor(ColorUtil.negativeColorRGB(new Vector4f(39, 39, 39, 0)));
+
+        //frame.getContainer().getStyle().getBackground().setColor(ColorUtil.negativeColorRGB(new Vector4f(0.f, 255.f, 0.f, 1.f)));
+
+        frame.getContainer().getStyle().getBackground().setColor(ColorUtil.fromInt(39, 39, 39, 1));
+
+        //frame.getContainer().getStyle().getBackground().setColor(ColorConstants.lightBlue());
+
         // Set background color for frame
         /*frame.getContainer().getStyle().getBackground().setColor(ColorConstants.lightBlue());
         frame.getContainer().setFocusable(false);
@@ -180,8 +190,6 @@ public class HelloLegui {
         button.getListenerMap().addListener(CursorEnterEvent.class, (CursorEnterEventListener) System.out::println);
 
         frame.getContainer().add(button);*/
-
-        
     }
 
     private static List<Component> generateOnFly() {
