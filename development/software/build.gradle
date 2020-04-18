@@ -131,6 +131,19 @@ dependencies {
 }
 
 // Define the main class for the application
-//mainClassName = 'game.CrazyPutting'
 mainClassName = 'software.Software'
 
+task(runSoftware, dependsOn: 'classes', type: JavaExec) {
+    main = 'software.Software'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(run2d, dependsOn: 'classes', type: JavaExec) {
+    main = 'game.CrazyPutting'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+task(helloLegui, dependsOn: 'classes', type: JavaExec) {
+    main = 'legui.HelloLegui'
+    classpath = sourceSets.main.runtimeClasspath
+}

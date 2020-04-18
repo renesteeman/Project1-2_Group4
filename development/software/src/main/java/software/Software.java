@@ -81,7 +81,6 @@ public class Software extends CrazyPutting {
 
         putting.course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         putting.course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
-        putting.course.setDefaultPositions();
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
         entities.add(putting.course.ball);
@@ -91,6 +90,10 @@ public class Software extends CrazyPutting {
         //entities.add(goal);
 
         entities.addAll(trees);
+    }
+
+    public void resetPositions() {
+        putting.course.setDefaultPositions();
     }
 
     public void addAxes() {
@@ -197,14 +200,15 @@ public class Software extends CrazyPutting {
     public static void main(String[] args) {
         Software obj = new Software();
         obj.addModels();
+        //obj.resetPositions();
         obj.addAxes();
         obj.addTerrain();
         obj.initLight();
         obj.initRender();
         obj.initCamera();
         obj.initControls();
-        //obj.runApp();
-        obj.runGame();
+        obj.runApp();
+        //obj.runGame();
         obj.cleanUp();
     }
 }
