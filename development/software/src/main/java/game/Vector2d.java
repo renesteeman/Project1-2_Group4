@@ -1,5 +1,6 @@
 package game;
 
+import org.joml.Vector3f;
 import java.lang.String;
 
 public class Vector2d {
@@ -18,6 +19,11 @@ public class Vector2d {
 	public Vector2d(String x, String y) {
 		this.x = Double.parseDouble(x);
 		this.y = Double.parseDouble(y);	
+	}
+
+	public Vector2d(Vector3f v) {
+		this.x = v.x;
+		this.y = v.y;
 	}
 
 	public Vector2d(Vector2d v) {

@@ -20,19 +20,19 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void setBallPosition2(Vector2d location) {
-		course.ball.setCoords2(location);
+		course.ball.setPosition(new Vector3d(location));
 	}
 
 	public Vector2d getBallPosition2() {
-		return course.ball.getCoords2();
+		return course.ball.getPosition2();
 	}
 
 	public void setBallPosition3(Vector3d location) {
-		course.ball.setCoords3(location);
+		course.ball.setPosition(location);
 	}
 
 	public Vector3d getBallPosition3() {
-		return course.ball.getCoords3();
+		return course.ball.getPosition3();
 	}
 
 	protected TreeSet<Double> sx = new TreeSet<>(), sy = new TreeSet<>();
@@ -48,11 +48,8 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
-		course.ball.setVelocity2(initialBallVelocity);
-		course.ball.setVelocity3(new Vector3d(initialBallVelocity, 0.));
+		course.ball.setVelocity(new Vector3d(initialBallVelocity, 0.));
 
-		Vector3d nullVector = new Vector3d();
-		
 		while (!stopCondition()) {
 			engine.process(DTIME);
 
@@ -63,7 +60,7 @@ public class PuttingSimulator extends JPanel {
 				sy.remove(lsy.remove());
 			}
 
-			Vector3d curCoords = course.ball.getCoords3();
+			Vector3d curCoords = course.ball.getPosition3();
 			lsx.add(curCoords.x);
 			lsy.add(curCoords.y);
 			sx.add(curCoords.x);
@@ -94,11 +91,11 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public boolean victoriousPosition2() {
-		return (victory || ((Vector2d.substract(course.ball.getCoords2(), course.goal.getCoords2())).len() <= course.getHoleRadius()));
+		return (victory || ((Vector2d.substract(course.ball.getPosition2(), course.goal.getPosition2())).len() <= course.getHoleRadius()));
 	}
 
 	public boolean victoriousPosition3() {
-		return (victory || ((Vector3d.substract(course.ball.getCoords3(), course.goal.getCoords3())).len() <= course.getHoleRadius()));
+		return (victory || ((Vector3d.substract(course.ball.getPosition3(), course.goal.getPosition3())).len() <= course.getHoleRadius()));
 	}
 
 	// TO BE OVERRIDDEN

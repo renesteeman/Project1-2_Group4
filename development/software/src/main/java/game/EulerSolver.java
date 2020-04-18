@@ -13,7 +13,7 @@ public class EulerSolver implements PhysicsEngine {
 
 	@Override 
 	public void process(double dtime) {
-		Vector2d p = course.ball.getCoords2();
+		Vector2d p = course.ball.getPosition2();
 		Vector2d v = course.ball.getVelocity2();
 
 		for (double timer = 0; timer < dtime; timer += step) {
@@ -30,10 +30,8 @@ public class EulerSolver implements PhysicsEngine {
 
 			//System.out.println(p + " " + v + " " + gradient);
 		}
-		course.ball.setCoords2(p);
-		course.ball.setVelocity2(v);
-		course.ball.setCoords3(new Vector3d(p, course.height.evaluate(p)));
-		course.ball.setVelocity3(new Vector3d(v, 0.));
+		course.ball.setPosition(new Vector3d(p, course.height.evaluate(p)));
+		course.ball.setVelocity(new Vector3d(v, 0.));
 	}
 
 	@Override

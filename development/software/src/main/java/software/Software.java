@@ -1,6 +1,6 @@
 package software;
 
-//import game.*;
+import game.CrazyPutting;
 import Entities.*;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
@@ -33,14 +33,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Software {
+public class Software extends CrazyPutting {
 
     //10 units in-engine = 1 meter
     static public final int SCALE = 10;
     static final int TERRAIN_SIZE = 800;
 
-    public Loader loader;
-    public List<Entity> entities;
+    public Loader loader = new Loader();
+    public List<Entity> entities = new ArrayList<>();
     public Light light;
     public Terrain terrain;
     public Camera camera;
@@ -48,16 +48,17 @@ public class Software {
     public MousePicker mousePicker;
 
     public Trees trees;
-    public Ball ball;
-    public Goal goal;
+
+    //public Ball ball;
+    //public Goal goal;
+
+    public CrazyPutting putting;
 
     public Software() {
+        putting = new CrazyPutting();
+
         DisplayManager.createDisplay();
         GL.createCapabilities();
-    }
-
-    public void initLoader() {
-        loader = new Loader();
     }
 
     public void addModels() {
@@ -73,16 +74,26 @@ public class Software {
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
-        entities = new ArrayList<Entity>();
         //Special arrayList just for trees
         trees = new Trees();
-        ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+        //ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        //goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+
+        putting.course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        putting.course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
-        entities.add(ball);
-        entities.add(goal);
+        entities.add(putting.course.ball);
+        entities.add(putting.course.goal);
+
+        //entities.add(ball);
+        //entities.add(goal);
+
         entities.addAll(trees);
+    }
+
+    public void resetPositions() {
+        putting.course.setDefaultPositions();
     }
 
     public void addAxes() {
@@ -107,7 +118,7 @@ public class Software {
         }
     }
 
-    public void addTerain() {
+    public void addTerrain() {
         //Terrain
         TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
         TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
@@ -115,6 +126,7 @@ public class Software {
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
         terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
+        //terrain = new Terrain(0, 0, loader, putting.course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
     public void initLight() {
@@ -123,7 +135,7 @@ public class Software {
 
     public void initCamera() {
         //Camera
-        camera = new Camera(ball);
+        camera = new Camera(putting.course.ball);
     }
 
     public void initRender() {
@@ -154,6 +166,32 @@ public class Software {
         }
     }
 
+    public void runGame() {
+        try {
+            putting.game();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+    }
+
+    @Override 
+    public void requestGraphicsUpdate() {
+        //Handle mouse events
+        MouseHandler.handleMouseEvents();
+        camera.move(terrain);
+
+        //Update mousePicker
+        mousePicker.update();
+        Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
+
+        //Render 3D elements
+        masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+        DisplayManager.updateDisplay();
+        DisplayManager.swapBuffers();
+    }
+
     public void cleanUp() {
         masterRenderer.cleanUp();
         loader.cleanUp();
@@ -161,15 +199,16 @@ public class Software {
 
     public static void main(String[] args) {
         Software obj = new Software();
-        obj.initLoader();
         obj.addModels();
+        //obj.resetPositions();
         obj.addAxes();
-        obj.addTerain();
+        obj.addTerrain();
         obj.initLight();
-        obj.initCamera();
         obj.initRender();
+        obj.initCamera();
         obj.initControls();
         obj.runApp();
+        //obj.runGame();
         obj.cleanUp();
     }
 }
