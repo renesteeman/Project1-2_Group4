@@ -1,5 +1,6 @@
 package game;
 
+import Entities.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,11 +41,12 @@ public class PuttingCourse {
         this.maxVelocity = maxVelocity;
 
         //TODO is the use of new Vector2d() for the ball's velocity correct?
-        ball = new Ball(startLocation2, new Vector2d());
-        goal = new Goal(goalLocation2);
 
-        ball.setCoords3(new Vector3d(startLocation2, height.evaluate(startLocation2)));
-        goal.setCoords3(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
+        ball = new Ball(new Vector3d(startLocation2), new Vector3d());
+        goal = new Goal(new Vector3d(goalLocation2));
+
+        ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
+        goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
     }
 
     //Loads course from file
@@ -92,16 +94,22 @@ public class PuttingCourse {
             this.goalRadius = Double.parseDouble(curarray[2]);
 
             //TODO is the use of new Vector2d() for the ball's velocity correct?
-            ball = new Ball(startLocation2, new Vector2d());
-            goal = new Goal(goalLocation2);
+            ball = new Ball(new Vector3d(startLocation2), new Vector3d());
+            goal = new Goal(new Vector3d(goalLocation2));
 
-            ball.setCoords3(new Vector3d(startLocation2, height.evaluate(startLocation2)));
-            goal.setCoords3(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
+            ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
+            goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    
+    public void setDefaultPositions() {
+        ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
+        goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
     }
 
     public void saveAsFile(String name){

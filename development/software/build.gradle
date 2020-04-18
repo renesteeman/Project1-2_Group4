@@ -131,4 +131,6 @@ dependencies {
 }
 
 // Define the main class for the application
+//mainClassName = 'game.CrazyPutting'
 mainClassName = 'software.Software'
+
