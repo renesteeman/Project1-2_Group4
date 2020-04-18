@@ -66,8 +66,6 @@ public class MainGameLoop {
     static public Terrain terrain;
 
     public static void main(String[] args){
-        Textbox.showFrame("Test", "Test1");
-
         DisplayManager.createDisplay();
         GL.createCapabilities();
         TextMaster.init(loader);
@@ -152,7 +150,7 @@ public class MainGameLoop {
         //GUI
         List<UIElement> GUIs = new ArrayList<UIElement>();
 //        GUITexture memeUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        GUIs.add(memeUI);
+//        GUIs.add(memeUI);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
@@ -293,8 +291,8 @@ public class MainGameLoop {
             waterRenderer.render(waters, camera, light);
 
             //2D Rendering / UI
-            guiRenderer.render(GUIs);
-            testButton.show(GUIs);
+//            guiRenderer.render(GUIs);
+//            testButton.show(GUIs);
 
             //buttons update
             testButton.update();

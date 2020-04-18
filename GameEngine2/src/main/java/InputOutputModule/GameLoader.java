@@ -12,6 +12,10 @@ public class GameLoader {
         StringBuilder fileContent = new StringBuilder();
 
         try {
+            /*
+            TODO make the file path relative, load the goal location, starting location, 'score radius', terrain width, terrain height (check project manual) and
+            set these values for the objects themselves (ie set location of items)
+            */
             File myObj = new File("C:/Users/steem/Desktop/TMP/ProjectDebug/terrain.txt");
             Scanner myReader = new Scanner(myObj);
             while (myReader.hasNextLine()) {
