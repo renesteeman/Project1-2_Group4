@@ -4,12 +4,16 @@ import org.joml.Vector2f;
 
 public class GUITexture {
 
-    private int texture;
-    private Vector2f position;
-    private Vector2f scale;
+    protected int originalTexture;
+    protected int texture;
+    protected int transparentTexture;
+    protected Vector2f position;
+    protected Vector2f scale;
 
-    public GUITexture(int texture, Vector2f position, Vector2f scale) {
+    public GUITexture(int texture, int transparentTexture, Vector2f position, Vector2f scale) {
         this.texture = texture;
+        this.originalTexture = texture;
+        this.transparentTexture = transparentTexture;
         this.position = position;
         this.scale = scale;
     }

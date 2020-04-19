@@ -11,10 +11,12 @@ public class FileExplorer {
 
     JFrame.setDefaultLookAndFeelDecorated(true);
     JDialog.setDefaultLookAndFeelDecorated(true);
+
     JFrame frame = new JFrame("File Explorer");
     frame.setLayout(new FlowLayout());
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JButton fs = new JButton("Select File...");
+
     fs.addActionListener(new ActionListener() {
 
         public void actionPerformed(ActionEvent ae) {
@@ -26,13 +28,12 @@ public class FileExplorer {
                 System.out.println(selectedFile.getName());
             }
         }
+
     });
+
     frame.setPreferredSize(new Dimension(300, 75));
     frame.add(fs);
     frame.pack();
     frame.setVisible(true);
-}
-
-
-
+    }
 }

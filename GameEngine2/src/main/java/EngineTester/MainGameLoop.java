@@ -153,7 +153,7 @@ public class MainGameLoop {
 
         //GUI
         List<GUITexture> GUIs = new ArrayList<GUITexture>();
-        GUITexture GUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
+        GUITexture GUI = new GUITexture(loader.loadTexture("textures/UI_meme"), loader.loadTexture("textures/transparent"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
         GUIs.add(GUI);
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
@@ -200,7 +200,7 @@ public class MainGameLoop {
         }
 
         //Button testing here
-        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+        AbstractButton testButton = new AbstractButton(loader.loadTexture("textures/button"), loader.loadTexture("textures/transparent"), new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
 
@@ -221,6 +221,7 @@ public class MainGameLoop {
 
             }
         };
+        GUIs.add(testButton);
 
         //Game loop
         while(!DisplayManager.closed()){

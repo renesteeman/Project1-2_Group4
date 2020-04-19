@@ -43,7 +43,6 @@
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -67,6 +66,9 @@
     </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\steem\Desktop\Study\Project 1-2\GameEngine2\res\textures" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MainGameLoop">
@@ -147,10 +149,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586448968681" />
-    <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser" timestamp="1586508825857">
+    <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser" timestamp="1587292765533">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586508825857" />
+    <state x="765" y="217" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587292765533" />
     <state x="618" y="321" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1586705457546">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
@@ -203,11 +205,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1877" height="341" key="GridCell.Tab.1.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586616144990" />
-    <state x="84" y="78" width="1693" height="851" key="SettingsEditor" timestamp="1586705547229">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state x="105" y="94" width="1693" height="851" key="SettingsEditor" timestamp="1587291511277">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="84" y="78" key="SettingsEditor/0.0.1536.864@0.0.1536.864" timestamp="1586705547229" />
-    <state x="105" y="94" width="1693" height="851" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586450232101" />
+    <state x="105" y="94" width="1693" height="851" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1587291511277" />
     <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1586521573427">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
