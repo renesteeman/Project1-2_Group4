@@ -62,6 +62,7 @@ public class MainGameLoop {
     public static Trees trees = new Trees();
     public static TexturedModel texturedTree;
     static List<Entity> entities = new ArrayList<Entity>();
+    public static IndicationArrow indicationArrow;
 
     static public Terrain terrain;
 
@@ -100,11 +101,16 @@ public class MainGameLoop {
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
+        ModelData arrowModelData = OBJFileLoader.loadOBJ("Arrow");
+        RawModel arrowModel = loader.loadToVAO(arrowModelData.getVertices(), arrowModelData.getTextureCoords(), arrowModelData.getNormals(), arrowModelData.getIndices());
+        TexturedModel texturedArrow = new TexturedModel(arrowModel, new ModelTexture(loader.loadTexture("models/ArrowTexture")));
+
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
         Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
+        indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(0,0,0), 0, 0, 0, 1, ball);
         trees.add(tree1);
         entities.add(dragonEntity);
         entities.add(ball);
