@@ -129,6 +129,10 @@ public class MasterRenderer {
     public Matrix4f getProjectionMatrix() {
         return projectionMatrix;
     }
+
+    public static float getNearPlane() {
+        return NEAR_PLANE;
+    }
 }
 
 

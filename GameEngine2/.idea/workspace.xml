@@ -38,6 +38,7 @@
       <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" afterDir="false" />
     </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -102,6 +103,18 @@
       <recent name="" />
     </key>
   </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
   <component name="RunManager" selected="Application.MainGameLoop">
     <configuration name="MainGameLoop" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="EngineTester.MainGameLoop" />
@@ -138,8 +151,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.NormalsGeneratorTest" />
         <item itemvalue="Application.MainGameLoop" />
+        <item itemvalue="Gradle.NormalsGeneratorTest" />
       </list>
     </recent_temporary>
   </component>
@@ -169,6 +182,19 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="485" y="91" key="#MainGameLoop" timestamp="1586705482019">

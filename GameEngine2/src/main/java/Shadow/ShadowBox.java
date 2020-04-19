@@ -1,12 +1,10 @@
-package com.mygdx.game;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import org.lwjgl.util.vector.Vector4f;
+package Shadow;
 
-import entities.Camera;
-import renderEngine.DisplayManager;
-import renderEngine.MasterRenderer;
+import Entities.Camera;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+import RenderEngine.MasterRenderer;
 
 /**
  * Represents the 3D cuboidal area of the world in which objects will cast
@@ -63,14 +61,16 @@ public class ShadowBox {
      */
     protected void update() {
         Matrix4f rotation = calculateCameraRotationMatrix();
-        Vector3f forwardVector = new Vector3f(Matrix4f.transform(rotation, FORWARD, null));
+        //TODO convert to lwjgl 3 (joml package)
+        Vector3f forwardVector = rotation.transform(FORWARD);
+        //Vector3f forwardVector = new Vector3f(Matrix4f.transform(rotation, FORWARD, null));
 
         Vector3f toFar = new Vector3f(forwardVector);
-        toFar.scale(SHADOW_DISTANCE);
+        toFar.mul(SHADOW_DISTANCE);
         Vector3f toNear = new Vector3f(forwardVector);
-        toNear.scale(MasterRenderer.NEAR_PLANE);
-        Vector3f centerNear = Vector3f.add(toNear, cam.getPosition(), null);
-        Vector3f centerFar = Vector3f.add(toFar, cam.getPosition(), null);
+        toNear.mul(MasterRenderer.getNearPlane());
+        Vector3f centerNear = toNear.add(cam.getPosition());
+        Vector3f centerFar = toFar.add(cam.getPosition());
 
         Vector4f[] points = calculateFrustumVertices(rotation, forwardVector, centerNear,
                 centerFar);
