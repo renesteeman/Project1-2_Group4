@@ -110,12 +110,14 @@ public class MainGameLoop {
         Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
-        indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(0,0,0), 0, 0, 0, 1, ball);
+        indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
         trees.add(tree1);
         entities.add(dragonEntity);
         entities.add(ball);
         entities.add(goal);
         entities.addAll(trees);
+        entities.add(indicationArrow);
+        indicationArrow.hide();
 
         //TODO remove
         //Show X-axis
