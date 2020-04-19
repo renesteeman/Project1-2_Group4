@@ -118,6 +118,11 @@ public class MainGameLoop {
         entities.addAll(trees);
         entities.add(indicationArrow);
         indicationArrow.hide();
+//        ball.setPosition(25*SCALE, 3*SCALE, 25*SCALE);
+//        indicationArrow.updateLocation();
+//        indicationArrow.setRotX(20);
+//        indicationArrow.setRotZ(90);
+//        indicationArrow.setRotY(60);
 
         //TODO remove
         //Show X-axis
@@ -226,6 +231,9 @@ public class MainGameLoop {
             }
         };
         GUIs.add(testButton);
+
+        //TODO start "Hello there" (and possilby "General Kenobi")
+        //Sound.playFile("obi-wan-hello-there.mp3")
 
         //Game loop
         while(!DisplayManager.closed()){
