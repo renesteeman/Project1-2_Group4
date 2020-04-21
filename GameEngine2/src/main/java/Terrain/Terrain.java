@@ -1,7 +1,7 @@
 package Terrain;
 
-import game.Function2d;
-import game.Vector2d;
+import Physics.Function2d;
+import Physics.Vector2d;
 import Models.RawModel;
 import RenderEngine.Loader;
 import Textures.TerrainTexturePack;

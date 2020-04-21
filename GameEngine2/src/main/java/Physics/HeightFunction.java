@@ -1,12 +1,11 @@
-package game;
+package Physics;
 
 import java.util.ArrayList;
 import java.util.Stack;
 import java.awt.Graphics;
 import java.awt.Color;
 
-//TODO rename
-public class Function extends Function2d {
+public class HeightFunction extends Function2d {
     private String infix;
     private String postfix;
     public final int DL = -400, DR = 400;
@@ -15,7 +14,7 @@ public class Function extends Function2d {
      * Constructor of function. Infix is parsed into such a way every couple of elements (i.e., numbers, operators and functions (e.g., sin)) has spaces in between them.
      * @param infix equation in string form.
      */
-    public Function(String infix) {
+    public HeightFunction(String infix) {
         this.infix = parseSpaces(infix);
         this.postfix = infixToPostfix(this.infix);
     } 
@@ -395,7 +394,7 @@ public class Function extends Function2d {
     public static void main(String[] args) {
         //String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
         String function = "cos(pi) + 2";
-        Function example = new Function(function);
+        HeightFunction example = new HeightFunction(function);
 
         System.out.printf("function:%s%n", function);
         System.out.printf("infix:   %s%n", example.getInfix());

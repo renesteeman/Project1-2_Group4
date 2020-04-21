@@ -1,6 +1,6 @@
 package Entities;
 
-import EngineTester.MainGameLoop;
+import MainGame.MainGameLoop;
 import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
 import Terrain.Terrain;
@@ -8,7 +8,6 @@ import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWScrollCallback;
 
-import static RenderEngine.DisplayManager.getDeltaTime;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {

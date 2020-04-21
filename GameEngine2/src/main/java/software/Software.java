@@ -1,9 +1,7 @@
 package software;
 
-import game.CrazyPutting;
+import Physics.CrazyPutting;
 import Entities.*;
-import GUI.GUIRenderer;
-import GUI.GUITexture;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
@@ -14,22 +12,11 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
-import FontMeshCreator.FontType;
-import FontMeshCreator.GUIText;
-import FontRendering.TextMaster;
 import Toolbox.MousePicker;
-import Water.WaterTile;
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL30;
-import RenderEngine.WaterRenderer;
-import Shaders.WaterShader;
-import Water.WaterFrameBuffers;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 

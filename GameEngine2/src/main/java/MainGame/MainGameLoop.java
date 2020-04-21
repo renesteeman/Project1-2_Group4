@@ -1,4 +1,4 @@
-package EngineTester;
+package MainGame;
 
 import Buttons.AbstractButton;
 import Buttons.InterfaceButton;
@@ -36,6 +36,7 @@ import Shaders.WaterShader;
 import Water.WaterFrameBuffers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,12 +68,16 @@ public class MainGameLoop {
 
     static public Terrain terrain;
 
+    //For safe system
+    public static Ball ball;
+    public static Goal goal;
+
     public static void main(String[] args){
         DisplayManager.createDisplay();
         GL.createCapabilities();
         TextMaster.init(loader);
 
-        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
+        FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("./res/font/tahoma.fnt"));
         GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
@@ -109,8 +114,8 @@ public class MainGameLoop {
 
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
-        Ball ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        Goal goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+        ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1); //good one
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
         indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
@@ -141,12 +146,12 @@ public class MainGameLoop {
             entities.add(testDragonEntity);
         }
 
-        float tmpY = terrain.getHeight(200, 200);
-//        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
-        Entity specificTestEntity = new Entity(texturedGoal, new Vector3f(200, tmpY, 20), 0, 0, 0, 1);
-        entities.add(specificTestEntity);
-        Entity specificTestEntity2 = new Entity(texturedGoal, new Vector3f(200, 0, 20), 0, 0, 0, 1);
-        entities.add(specificTestEntity2);
+//        float tmpY = terrain.getHeight(200, 200);
+////        System.out.println("HEIGHT " + tmpY + " SHOULD EQUAL -4.73");
+//        Entity specificTestEntity = new Entity(texturedGoal, new Vector3f(200, tmpY, 20), 0, 0, 0, 1);
+//        entities.add(specificTestEntity);
+//        Entity specificTestEntity2 = new Entity(texturedGoal, new Vector3f(200, 0, 20), 0, 0, 0, 1);
+//        entities.add(specificTestEntity2);
 
         TexturedModel XtexturedDragonMEME = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/UI_meme")));
         for(int i=0; i<10; i++){

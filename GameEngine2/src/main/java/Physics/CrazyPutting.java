@@ -1,26 +1,12 @@
-package game;
+package Physics;
 
 import java.util.*;
 import java.lang.*;
 import java.io.*;
-import java.util.concurrent.*;
 
-import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.plaf.basic.*;
 
 public class CrazyPutting extends PuttingSimulator {
 	protected String shotsFilename = "./res/shots/shots.txt";
@@ -30,7 +16,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	public CrazyPutting() {
 		this.course = new PuttingCourse("./res/courses/course0.txt");
-		this.engine = PhysicsEngineDeterminator.getEngine(course);
+		this.engine = DetermineSolver.getEngine(course);
 	}
 
 	@Override 

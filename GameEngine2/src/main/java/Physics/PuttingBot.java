@@ -1,4 +1,4 @@
-package game;
+package Physics;
 
 interface PuttingBot {
 	//TODO why 2D?

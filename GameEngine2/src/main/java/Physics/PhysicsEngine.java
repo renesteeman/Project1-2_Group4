@@ -1,4 +1,4 @@
-package game;
+package Physics;
 
 interface PhysicsEngine {
 	void process(double dtime);

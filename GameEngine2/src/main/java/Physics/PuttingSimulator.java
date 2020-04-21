@@ -1,4 +1,4 @@
-package game;
+package Physics;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
@@ -12,6 +12,7 @@ public class PuttingSimulator extends JPanel {
 	protected double DTIME = 1e-2; // 100 FPS
 	protected boolean victory = false;
 
+	//TODO why do we have an empty constructor if we always need a course and engine?
 	public PuttingSimulator() {}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
@@ -19,22 +20,7 @@ public class PuttingSimulator extends JPanel {
 		this.engine = engine;
 	}
 
-	public void setBallPosition2(Vector2d location) {
-		course.ball.setPosition(new Vector3d(location.x, 0, location.y));
-	}
-
-	public Vector2d getBallPosition2() {
-		return course.ball.getPosition2();
-	}
-
-	public void setBallPosition3(Vector3d location) {
-		course.ball.setPosition(location);
-	}
-
-	public Vector3d getBallPosition3() {
-		return course.ball.getPosition3();
-	}
-
+	//TODO rename
 	protected TreeSet<Double> sx = new TreeSet<>(), sz = new TreeSet<>();
 	protected LinkedList<Double> lsx = new LinkedList<>(), lsz = new LinkedList<>();
 
@@ -44,7 +30,7 @@ public class PuttingSimulator extends JPanel {
 		double lx = sx.first(), rx = sx.last();
 		double lz = sz.first(), rz = sz.last();
 		//System.out.println(lx + " " + rx + " " + ly + " " + ry);
-		return Math.abs(rx - lx) <= Vector2d.EPS && Math.abs(rz - lz) <= Vector2d.EPS;
+		return Math.abs(rx - lx) <= Vector2d.MAX_DIFFERENCE && Math.abs(rz - lz) <= Vector2d.MAX_DIFFERENCE;
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
@@ -85,11 +71,6 @@ public class PuttingSimulator extends JPanel {
 		//	victory = true;
 	}
 
-	@Override
-	public void paintComponent(Graphics g) {
-
-	}
-
 	public boolean victoriousPosition2() {
 		return (victory || ((Vector2d.substract(course.ball.getPosition2(), course.goal.getPosition2())).len() <= course.getHoleRadius()));
 	}
@@ -98,8 +79,32 @@ public class PuttingSimulator extends JPanel {
 		return (victory || ((Vector3d.substract(course.ball.getPosition3(), course.goal.getPosition3())).len() <= course.getHoleRadius()));
 	}
 
+
+
+
+	@Override
+	public void paintComponent(Graphics g) {
+
+	}
+
 	// TO BE OVERRIDDEN
 	public void requestGraphicsUpdate() {
 
+	}
+
+	public void setBallPosition2(Vector2d location) {
+		course.ball.setPosition(new Vector3d(location.x, 0, location.y));
+	}
+
+	public Vector2d getBallPosition2() {
+		return course.ball.getPosition2();
+	}
+
+	public void setBallPosition3(Vector3d location) {
+		course.ball.setPosition(location);
+	}
+
+	public Vector3d getBallPosition3() {
+		return course.ball.getPosition3();
 	}
 }

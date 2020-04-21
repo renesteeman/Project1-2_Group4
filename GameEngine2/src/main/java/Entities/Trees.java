@@ -1,6 +1,6 @@
 package Entities;
 
-import EngineTester.MainGameLoop;
+import MainGame.MainGameLoop;
 import org.joml.Vector3f;
 
 import java.util.*;

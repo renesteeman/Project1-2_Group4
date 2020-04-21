@@ -1,7 +1,7 @@
 package Entities;
 
-import game.Vector2d;
-import game.Vector3d;
+import Physics.Vector2d;
+import Physics.Vector3d;
 import java.awt.Graphics;
 import Models.TexturedModel;
 import org.joml.Vector3f;

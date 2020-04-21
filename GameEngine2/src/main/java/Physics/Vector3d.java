@@ -1,11 +1,11 @@
-package game;
+package Physics;
 
 import java.lang.String;
 import org.joml.Vector3f;
 
 public class Vector3d {
 	public double x = 0.0, y = 0.0, z = 0.0;
-	public static final double EPS = 1e-1; // NEED TO PLAY WITH THIS ONE
+	public static final double MAX_DIFFERENCE = 1e-1; // NEED TO PLAY WITH THIS ONE
 
 	public Vector3d(){
 
@@ -70,6 +70,6 @@ public class Vector3d {
 		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
 		Vector3d v = (Vector3d)obj;
-		return (Math.abs(v.x - x) <= EPS && Math.abs(v.y - y) <= EPS && Math.abs(v.z - z) <= EPS);
+		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE && Math.abs(v.z - z) <= MAX_DIFFERENCE);
 	}
 }

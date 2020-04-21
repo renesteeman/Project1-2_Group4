@@ -1,11 +1,10 @@
-package game;
+package Physics;
 
-import org.joml.Vector3f;
 import java.lang.String;
 
 public class Vector2d {
 	public double x = 0.0, y = 0.0;
-	public static final double EPS = 1e-1; // NEED TO PLAY WITH THIS ONE
+	public static final double MAX_DIFFERENCE = 1e-1; // NEED TO PLAY WITH THIS ONE
 
 	public Vector2d(){
 
@@ -67,6 +66,6 @@ public class Vector2d {
 		if ((obj == null) || (obj.getClass() != this.getClass()))
 			return false;
 		Vector2d v = (Vector2d)obj;
-		return (Math.abs(v.x - x) <= EPS && Math.abs(v.y - y) <= EPS);
+		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE);
 	}
 }
