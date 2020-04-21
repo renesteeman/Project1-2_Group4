@@ -1,6 +1,6 @@
 To run the current software:
 
-go to development/software 
+go to GameEngine2 
 
 open the project with your IDE or type the following commands in your terminal/cmd
 
