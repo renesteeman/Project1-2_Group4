@@ -1,4 +1,4 @@
-package Buttons;
+package GUIElements.Buttons;
 
 import GUI.GUITexture;
 

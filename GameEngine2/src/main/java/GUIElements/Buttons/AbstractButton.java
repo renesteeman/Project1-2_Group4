@@ -1,5 +1,6 @@
-package Buttons;
+package GUIElements.Buttons;
 
+import FontMeshCreator.GUIText;
 import GUI.GUITexture;
 import GUIElements.UIElement;
 import RenderEngine.DisplayManager;
@@ -11,8 +12,7 @@ import java.util.List;
 import static org.lwjgl.glfw.GLFW.*;
 
 public abstract class AbstractButton implements InterfaceButton, UIElement {
-
-    private GUITexture guiTexture;
+    protected GUITexture guiTexture;
     private Vector2f originalScale;
     private boolean isHidden = false;
     private boolean isHovering = false;
@@ -70,6 +70,10 @@ public abstract class AbstractButton implements InterfaceButton, UIElement {
 
     public void playHoverAnimation(float scaleFactor){
         guiTexture.setScale(new Vector2f(originalScale.x + scaleFactor, originalScale.y + scaleFactor));
+    }
+
+    public GUITexture getGUITexture() {
+        return this.guiTexture;
     }
 
 }

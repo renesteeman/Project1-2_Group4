@@ -1,11 +1,11 @@
 package MainGame;
 
-import Buttons.AbstractButton;
-import Buttons.InterfaceButton;
+import GUI.GUITexture;
+import GUIElements.Buttons.AbstractButton;
+import GUIElements.Buttons.InterfaceButton;
 import Entities.*;
 import GUI.GUIRenderer;
-import GUI.GUITexture;
-import GUIElements.Textbox;
+import GUIElements.Image;
 import GUIElements.UIElement;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
@@ -36,7 +36,6 @@ import Shaders.WaterShader;
 import Water.WaterFrameBuffers;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -220,9 +219,9 @@ public class MainGameLoop {
 
         //Button testing here
         AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+
             @Override
             public void onClick(InterfaceButton button) {
-
             }
 
             @Override
@@ -241,6 +240,9 @@ public class MainGameLoop {
             }
         };
         GUIs.add(testButton);
+
+        Image testImage = new Image(loader, "textures/UI_meme", new Vector2f(0,0), new Vector2f(0.2f, 0.2f));
+        GUIs.add(testImage);
 
         //TODO start "Hello there" (and possilby "General Kenobi")
         //Sound.playFile("obi-wan-hello-there.mp3")
@@ -317,8 +319,7 @@ public class MainGameLoop {
             waterRenderer.render(waters, camera, light);
 
             //2D Rendering / UI
-//            guiRenderer.render(GUIs);
-//            testButton.show(GUIs);
+            guiRenderer.render(GUIs);
 
             //buttons update
             testButton.update();

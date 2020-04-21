@@ -1,5 +1,7 @@
 package GUIElements;
 
-public interface UIElement {
+import GUI.GUITexture;
 
+public interface UIElement {
+    GUITexture getGUITexture();
 }
