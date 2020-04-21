@@ -30,8 +30,8 @@ public class EulerSolver implements PhysicsEngine {
 
 			//System.out.println(p + " " + v + " " + gradient);
 		}
-		course.ball.setPosition(new Vector3d(p, course.height.evaluate(p)));
-		course.ball.setVelocity(new Vector3d(v, 0.));
+		course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
+		course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
 	}
 
 	@Override

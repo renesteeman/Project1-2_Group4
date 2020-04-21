@@ -23,7 +23,7 @@ public class Ball extends Entity {
     @Override
     public void render(Graphics g) {
         g.setColor(Color.RED);
-        g.fillOval(400 + (int)position.x - 10, 600 - (int)position.z - 10, 20, 20);
+        g.fillOval(400 + (int)position.x - 10, 600 - (int)position.y - 10, 20, 20);
     }
 
     public void setPosition(int x, int y, int z){
@@ -43,10 +43,10 @@ public class Ball extends Entity {
     }
 
     public Vector3d getVelocity3() {
-        return new Vector3d(velocity);
+        return new Vector3d(velocity.x, velocity.y, velocity.z);
     }
 
     public Vector2d getVelocity2() {
-        return new Vector2d(velocity);
+        return new Vector2d(velocity.x, velocity.z);
     }
 }

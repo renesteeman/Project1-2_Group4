@@ -21,21 +21,6 @@ public class Vector2d {
 		this.y = Double.parseDouble(y);	
 	}
 
-	public Vector2d(Vector3f v) {
-		this.x = v.x;
-		this.y = v.y;
-	}
-
-	public Vector2d(Vector2d v) {
-		this.x = v.x;
-		this.y = v.y;
-	}
-
-	public Vector2d(Vector3d v) {
-		this.x = v.x;
-		this.y = v.y;
-	}
-
 	public double get_x() { return x; }
 	public double get_y() { return y; }
 

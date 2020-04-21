@@ -55,11 +55,11 @@ public class Entity {
     }
 
     public Vector3d getPosition3() {
-        return new Vector3d(position);
+        return new Vector3d(position.x, position.y, position.z);
     }
 
     public Vector2d getPosition2() {
-        return new Vector2d(position);
+        return new Vector2d(position.x, position.z);
     }
 
     public void setPosition(Vector3f position) {

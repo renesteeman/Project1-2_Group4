@@ -23,32 +23,8 @@ public class Vector3d {
 		this.z = Double.parseDouble(z);
 	}
 
-	public Vector3d(Vector3f v) {
-		this.x = v.x;
-		this.y = v.y;
-		this.z = v.z;
-	}
-
-	public Vector3d(Vector3d v) {
-		this.x = v.x;
-		this.y = v.y;
-		this.z = v.z;
-	}
-
 	public static Vector3f convertF(Vector3d v) {
 		return new Vector3f((float)v.x, (float)v.y, (float)v.z);
-	}
-
-	public Vector3d(Vector2d v) {
-		this.x = v.x;
-		this.y = v.y;
-		this.z = 0.0;
-	}
-
-	public Vector3d(Vector2d v, double z) {
-		this.x = v.x;
-		this.y = v.y;
-		this.z = z;
 	}
 
 	public double get_x() { return x; }

@@ -42,11 +42,8 @@ public class PuttingCourse {
 
         //TODO is the use of new Vector2d() for the ball's velocity correct?
 
-        ball = new Ball(new Vector3d(startLocation2), new Vector3d());
-        goal = new Goal(new Vector3d(goalLocation2));
-
-        ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
-        goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
+        ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
+        goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
     }
 
     //Loads course from file
@@ -94,11 +91,8 @@ public class PuttingCourse {
             this.goalRadius = Double.parseDouble(curarray[2]);
 
             //TODO is the use of new Vector2d() for the ball's velocity correct?
-            ball = new Ball(new Vector3d(startLocation2), new Vector3d());
-            goal = new Goal(new Vector3d(goalLocation2));
-
-            ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
-            goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
+            ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
+            goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -108,8 +102,8 @@ public class PuttingCourse {
 
     
     public void setDefaultPositions() {
-        ball.setPosition(new Vector3d(startLocation2, height.evaluate(startLocation2)));
-        goal.setPosition(new Vector3d(goalLocation2, height.evaluate(goalLocation2))); 
+        ball.setPosition(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y));
+        goal.setPosition(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y)); 
     }
 
     public void saveAsFile(String name){

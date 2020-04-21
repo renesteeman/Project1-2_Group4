@@ -20,7 +20,7 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void setBallPosition2(Vector2d location) {
-		course.ball.setPosition(new Vector3d(location));
+		course.ball.setPosition(new Vector3d(location.x, 0, location.y));
 	}
 
 	public Vector2d getBallPosition2() {
@@ -35,20 +35,20 @@ public class PuttingSimulator extends JPanel {
 		return course.ball.getPosition3();
 	}
 
-	protected TreeSet<Double> sx = new TreeSet<>(), sy = new TreeSet<>();
-	protected LinkedList<Double> lsx = new LinkedList<>(), lsy = new LinkedList<>();
+	protected TreeSet<Double> sx = new TreeSet<>(), sz = new TreeSet<>();
+	protected LinkedList<Double> lsx = new LinkedList<>(), lsz = new LinkedList<>();
 
 	protected boolean stopCondition() {
 		if (sx.size() < 300)
 			return false;
 		double lx = sx.first(), rx = sx.last();
-		double ly = sy.first(), ry = sy.last();
+		double lz = sz.first(), rz = sz.last();
 		//System.out.println(lx + " " + rx + " " + ly + " " + ry);
-		return Math.abs(rx - lx) <= Vector2d.EPS && Math.abs(ry - ly) <= Vector2d.EPS;
+		return Math.abs(rx - lx) <= Vector2d.EPS && Math.abs(rz - lz) <= Vector2d.EPS;
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
-		course.ball.setVelocity(new Vector3d(initialBallVelocity, 0.));
+		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0., initialBallVelocity.y));
 
 		while (!stopCondition()) {
 			engine.process(DTIME);
@@ -57,14 +57,14 @@ public class PuttingSimulator extends JPanel {
 
 			if (sx.size() == 300) {
 				sx.remove(lsx.remove());
-				sy.remove(lsy.remove());
+				sz.remove(lsz.remove());
 			}
 
 			Vector3d curCoords = course.ball.getPosition3();
 			lsx.add(curCoords.x);
-			lsy.add(curCoords.y);
+			lsz.add(curCoords.z);
 			sx.add(curCoords.x);
-			sy.add(curCoords.y);
+			sz.add(curCoords.z);
 
 			//System.out.println(course.ball.getCoords3());
 			//System.out.println(course.ball.getVelocity3());

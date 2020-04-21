@@ -23,6 +23,6 @@ public class Goal extends Entity{
     @Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillOval(400 + (int)position.x - 15, 600 - (int)position.z - 15, 30, 30);
+		g.fillOval(400 + (int)position.x - 15, 600 - (int)position.y - 15, 30, 30);
 	}
 }

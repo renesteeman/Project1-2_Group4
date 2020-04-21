@@ -125,8 +125,8 @@ public class Software extends CrazyPutting {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
-        //terrain = new Terrain(0, 0, loader, putting.course.height, terrainTexturePack, TERRAIN_SIZE);
+        //terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
+        terrain = new Terrain(0, 0, loader, putting.course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
     public void initLight() {
@@ -178,7 +178,7 @@ public class Software extends CrazyPutting {
     @Override 
     public void requestGraphicsUpdate() {
         //Handle mouse events
-        MouseHandler.handleMouseEvents();
+        /*MouseHandler.handleMouseEvents();
         camera.move(terrain);
 
         //Update mousePicker
@@ -190,7 +190,7 @@ public class Software extends CrazyPutting {
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
-    }
+    */}
 
     public void cleanUp() {
         masterRenderer.cleanUp();
@@ -200,15 +200,16 @@ public class Software extends CrazyPutting {
     public static void main(String[] args) {
         Software obj = new Software();
         obj.addModels();
-        //obj.resetPositions();
+        obj.resetPositions();
         obj.addAxes();
         obj.addTerrain();
         obj.initLight();
         obj.initRender();
         obj.initCamera();
         obj.initControls();
-        obj.runApp();
-        //obj.runGame();
+        //obj.runApp();
+        obj.runGame();
+        //obj.requestGraphicsUpdate();
         obj.cleanUp();
     }
 }
