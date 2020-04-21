@@ -1,6 +1,6 @@
 package software;
 
-import Physics.CrazyPutting;
+import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
@@ -39,10 +39,9 @@ public class Software extends CrazyPutting {
     //public Ball ball;
     //public Goal goal;
 
-    public CrazyPutting putting;
-
     public Software() {
-        putting = new CrazyPutting();
+        this.course = new PuttingCourse("./res/courses/course0.txt");
+        this.engine = DetermineSolver.getEngine(course);
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
@@ -66,12 +65,12 @@ public class Software extends CrazyPutting {
         //ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         //goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
-        putting.course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        putting.course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+        course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
-        entities.add(putting.course.ball);
-        entities.add(putting.course.goal);
+        entities.add(course.ball);
+        entities.add(course.goal);
 
         //entities.add(ball);
         //entities.add(goal);
@@ -80,7 +79,7 @@ public class Software extends CrazyPutting {
     }
 
     public void resetPositions() {
-        putting.course.setDefaultPositions();
+        course.setDefaultPositions();
     }
 
     public void addAxes() {
@@ -113,7 +112,7 @@ public class Software extends CrazyPutting {
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
         //terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
-        terrain = new Terrain(0, 0, loader, putting.course.height, terrainTexturePack, TERRAIN_SIZE);
+        terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
     public void initLight() {
@@ -122,7 +121,7 @@ public class Software extends CrazyPutting {
 
     public void initCamera() {
         //Camera
-        camera = new Camera(putting.course.ball);
+        camera = new Camera(course.ball);
     }
 
     public void initRender() {
@@ -153,19 +152,10 @@ public class Software extends CrazyPutting {
         }
     }
 
-    public void runGame() {
-        try {
-            putting.game();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(0);
-        }
-    }
-
     @Override 
     public void requestGraphicsUpdate() {
         //Handle mouse events
-        /*MouseHandler.handleMouseEvents();
+        MouseHandler.handleMouseEvents();
         camera.move(terrain);
 
         //Update mousePicker
@@ -177,7 +167,7 @@ public class Software extends CrazyPutting {
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
-    */}
+    }
 
     public void cleanUp() {
         masterRenderer.cleanUp();
@@ -195,7 +185,29 @@ public class Software extends CrazyPutting {
         obj.initCamera();
         obj.initControls();
         //obj.runApp();
-        obj.runGame();
+        
+        /*for (int i = 0; i < 1e5; i++) {
+            for (int j = 0; j < 1e5; j++) {
+                System.out.println(i*1e5 + j);
+            }
+        }*/
+
+        try
+        {
+            Thread.sleep(5000);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+
+        try {
+            obj.game();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }
+
         //obj.requestGraphicsUpdate();
         obj.cleanUp();
     }

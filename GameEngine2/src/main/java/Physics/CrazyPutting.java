@@ -15,8 +15,8 @@ public class CrazyPutting extends PuttingSimulator {
 	protected Vector2d shotInput;
 
 	public CrazyPutting() {
-		this.course = new PuttingCourse("./res/courses/course0.txt");
-		this.engine = DetermineSolver.getEngine(course);
+		course = new PuttingCourse("./res/courses/course0.txt");
+		engine = DetermineSolver.getEngine(course);
 	}
 
 	@Override 

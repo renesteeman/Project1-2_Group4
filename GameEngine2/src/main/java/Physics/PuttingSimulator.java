@@ -12,7 +12,6 @@ public class PuttingSimulator extends JPanel {
 	protected double DTIME = 1e-2; // 100 FPS
 	protected boolean victory = false;
 
-	//TODO why do we have an empty constructor if we always need a course and engine?
 	public PuttingSimulator() {}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
@@ -78,9 +77,6 @@ public class PuttingSimulator extends JPanel {
 	public boolean victoriousPosition3() {
 		return (victory || ((Vector3d.substract(course.ball.getPosition3(), course.goal.getPosition3())).len() <= course.getHoleRadius()));
 	}
-
-
-
 
 	@Override
 	public void paintComponent(Graphics g) {
