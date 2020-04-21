@@ -239,10 +239,10 @@ public class MainGameLoop {
 
             }
         };
-        GUIs.add(testButton);
+//        GUIs.add(testButton);
 
         Image testImage = new Image(loader, "textures/UI_meme", new Vector2f(0,0), new Vector2f(0.2f, 0.2f));
-        GUIs.add(testImage);
+//        GUIs.add(testImage);
 
         //TODO start "Hello there" (and possilby "General Kenobi")
         //Sound.playFile("obi-wan-hello-there.mp3")
