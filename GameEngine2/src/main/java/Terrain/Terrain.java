@@ -1,5 +1,7 @@
 package Terrain;
 
+import game.Function2d;
+import game.Vector2d;
 import Models.RawModel;
 import RenderEngine.Loader;
 import Textures.TerrainTexturePack;
@@ -39,6 +41,15 @@ public class Terrain {
         this.model = generateTerrain(loader);
     }
 
+    public Terrain(int gridX, int gridZ, Loader loader, Function2d function, TerrainTexturePack texturePack, int size){
+        this.texturePack = texturePack;
+        this.SIZE = size;
+        this.DISTANCE_PER_VERTEX = (float) SIZE/ (float) VERTEX_COUNT;
+        this.xStart = gridX * SIZE;
+        this.zStart = gridZ * SIZE;
+        this.model = generateTerrainFunctionBased(loader, function);
+    }
+
     public float getSIZE() {
         return SIZE;
     }
@@ -73,6 +84,18 @@ public class Terrain {
         terrainTypes = getTerrainTypesGeneration();
 
         return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
+    }
+
+    private RawModel generateTerrainFunctionBased(Loader loader, Function2d function) {
+        heights = getHeightsGenerationFunctionBased(function);
+        Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
+        normals = normalsToFloatArray(normalVectors);
+        vertices = getVerticesGeneration();
+        textureCoords = getTextureCoordsGeneration();
+        indices = getIndicesGeneration();
+        terrainTypes = getTerrainTypesGeneration();
+
+        return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);   
     }
 
     public void updateTerrain(Loader loader){
@@ -135,7 +158,7 @@ public class Terrain {
         return normals;
     }
 
-    private float[][] getHeightsGeneration(){
+    private float[][] getHeightsGeneration() {
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
 
         for(int i=0; i<VERTEX_COUNT; i++) {
@@ -145,6 +168,22 @@ public class Terrain {
                 float height = getHeight(x, z);
 
                 heights[j][i] = height;
+            }
+        }
+
+        return heights;
+    }
+
+    private float[][] getHeightsGenerationFunctionBased(Function2d function) {
+        float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
+        
+        for (int i = 0; i < VERTEX_COUNT; i++) {
+            for (int j = 0; j < VERTEX_COUNT; j++) {
+                float x = j * DISTANCE_PER_VERTEX;
+                float z = i * DISTANCE_PER_VERTEX;
+                double height = function.evaluate(new Vector2d(x, z));
+                
+                heights[j][i] = (float)height;
             }
         }
 

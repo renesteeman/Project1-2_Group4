@@ -7,7 +7,7 @@ import org.joml.Vector3f;
 public class FontShader extends ShaderProgram {
 
 	private static final String VERTEX_FILE = "./src/main/java/Shaders/fontVertex.txt";
-	private static final String FRAGMENT_FILE = "src/main/java/Shaders/fontFragment.txt";
+	private static final String FRAGMENT_FILE = "./src/main/java/Shaders/fontFragment.txt";
 	
 	private int location_color;
 	private int location_translation;
