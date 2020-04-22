@@ -9,6 +9,7 @@ import Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Goal extends Entity{
+    float radius;
 
     public Goal(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
@@ -22,22 +23,12 @@ public class Goal extends Entity{
         this.setPosition(new Vector3f(x, y, z));
     }
 
-    public String getGoalInfoAsString(){
-
-        Vector3f pos = this.getPosition();
-        String info = "("+pos.x+" "+pos.y+" "+pos.z+")";
-
-        return info.toString();
+    public float getRadius() {
+        return radius;
     }
 
-    public void loadFromString(String ballInfo){
-
-        String[] goalCoordinates = ballInfo.split(" ");
-        float xPos = Float.parseFloat(goalCoordinates[0]);
-        float yPos = Float.parseFloat(goalCoordinates[1]);
-        float zPos = Float.parseFloat(goalCoordinates[2]);
-
-        MainGameLoop.goal.setPosition(new Vector3f(xPos, yPos, zPos));
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 
     //TODO remove after testing

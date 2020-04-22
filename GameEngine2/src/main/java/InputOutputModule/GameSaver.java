@@ -14,7 +14,7 @@ public class GameSaver {
 //        String terrainInfo = MainGameLoop.terrain.getTerrainInfoAsString();
 //        String treeInfo = MainGameLoop.trees.getTreeInfoAsString();
 
-        //TODO link to physics
+        //TODO link to input
         String gravitationalConstant = "g = 9.81;   // Gravitational acceleration [m/s^2]";
         String massOfBall = "m = 45.93;  // Mass of ball [g]";
         String frictionCoefficient = "mu = 0.131; // Coefficient of friction (rolling ball)\n             // Typical 0.065<=mu<=0.196 ";

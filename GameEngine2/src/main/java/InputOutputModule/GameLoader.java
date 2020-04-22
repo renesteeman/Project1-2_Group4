@@ -57,12 +57,14 @@ public class GameLoader {
             }
             myReader.close();
 
-            //TODO link to physics
+            //TODO link to physics and game objects
             System.out.println(gravitationalConstant);
             System.out.println(massOfBall);
+            MainGameLoop.ball.setMassOfBall(Float.parseFloat(massOfBall));
             System.out.println(frictionCoefficient);
             System.out.println(vMax);
             System.out.println(goalRadius);
+            MainGameLoop.goal.setRadius(Float.parseFloat(goalRadius));
             System.out.println(startCoordinates2D);
             System.out.println(goalCoordinates2D);
             System.out.println(heightFunction);

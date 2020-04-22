@@ -11,6 +11,7 @@ import java.awt.*;
 public class Ball extends Entity {
 
 	Vector3f velocity;
+	float massOfBall;
 
     public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
@@ -32,28 +33,6 @@ public class Ball extends Entity {
         this.setPosition(new Vector3f(x, y, z));
     }
 
-    public String getBallInfoAsString(){
-
-        Vector3f pos = this.getPosition();
-        String info = "("+pos.x+" "+pos.y+" "+pos.z+")";
-
-        return info.toString();
-    }
-
-    public void loadFromString(String ballInfo) {
-
-        String[] ballCoordinates = ballInfo.split(" ");
-        float xPos = Float.parseFloat(ballCoordinates[0]);
-        float yPos = Float.parseFloat(ballCoordinates[1]);
-        float zPos = Float.parseFloat(ballCoordinates[2]);
-
-        MainGameLoop.ball.setPosition(new Vector3f(xPos, yPos, zPos));
-    }
-
-    public void setVelocity(Vector3f velocity) {
-    	this.velocity = velocity;
-    }
-
     public Vector3f getVelocity() {
     	return velocity;
     }
@@ -62,11 +41,19 @@ public class Ball extends Entity {
         this.velocity = Vector3d.convertF(velocity);
     }
 
-    public Vector3d getVelocity3() {
+    public Vector3d getVelocity3D() {
         return new Vector3d(velocity.x, velocity.y, velocity.z);
     }
 
-    public Vector2d getVelocity2() {
+    public Vector2d getVelocity2D() {
         return new Vector2d(velocity.x, velocity.z);
+    }
+
+    public float getMassOfBall() {
+        return massOfBall;
+    }
+
+    public void setMassOfBall(float massOfBall) {
+        this.massOfBall = massOfBall;
     }
 }
