@@ -11,22 +11,39 @@ public class GameSaver {
    set these values for the objects themselves (ie set location of items)
     */
     public static void saveGameFile(String fullPath){
-        String terrainInfo = MainGameLoop.terrain.getTerrainInfoAsString();
-        String treeInfo = MainGameLoop.trees.getTreeInfoAsString();
-        String ballInfo = MainGameLoop.ball.getBallInfoAsString();
-        String goalInfo = MainGameLoop.goal.getGoalInfoAsString();
+//        String terrainInfo = MainGameLoop.terrain.getTerrainInfoAsString();
+//        String treeInfo = MainGameLoop.trees.getTreeInfoAsString();
+
+        //TODO link to physics
+        String gravitationalConstant = "g = 9.81;   // Gravitational acceleration [m/s^2]";
+        String massOfBall = "m = 45.93;  // Mass of ball [g]";
+        String frictionCoefficient = "mu = 0.131; // Coefficient of friction (rolling ball)\n             // Typical 0.065<=mu<=0.196 ";
+        String vMax = "vmax = 3;   // Maximum initial ball speed [m/s] ";
+        String goalRadius = "tol = 0.02; // Distance from hole for a successful putt [m] ";
+        String startCoordinates2D = "start = (0.0, 0.0); ";
+        String goalCoordinates2D = "goal = (0.0, 10.0); ";
+        String heightFunction = "height = -0.01*x + 0.003*x^2 + 0.04 * y; ";
 
         try {
-            String separationSign = "|";
             FileWriter writer = new FileWriter("terrainSaveFile.txt");
 
-            writer.write(ballInfo);
-            writer.write(separationSign);
-            writer.write(goalInfo);
-            writer.write(separationSign);
-            writer.write(terrainInfo);
-            writer.write(separationSign);
-            writer.write(treeInfo);
+            writer.write(gravitationalConstant);
+            writer.write("\n");
+            writer.write(massOfBall);
+            writer.write("\n");
+            writer.write(frictionCoefficient);
+            writer.write("\n");
+            writer.write(vMax);
+            writer.write("\n");
+            writer.write(goalRadius);
+            writer.write("\n");
+            writer.write("\n");
+            writer.write(startCoordinates2D);
+            writer.write("\n");
+            writer.write(goalCoordinates2D);
+            writer.write("\n");
+            writer.write("\n");
+            writer.write(heightFunction);
 
             writer.close();
             System.out.println("Saved");
@@ -36,12 +53,3 @@ public class GameSaver {
         }
     }
 }
-
-/**
- * To paste in the file:
- *
- * Starting point of the ball (location of the ball):	|
- * Location of the goal:	|
- * Radius of a 'goal': 	|
- *
- */
