@@ -71,11 +71,11 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public boolean victoriousPosition2() {
-		return (victory || ((Vector2d.substract(course.ball.getPosition2(), course.goal.getPosition2())).len() <= course.getHoleRadius()));
+		return (victory || ((Vector2d.subtract(course.ball.getPosition2(), course.goal.getPosition2())).length() <= course.getHoleRadius()));
 	}
 
 	public boolean victoriousPosition3() {
-		return (victory || ((Vector3d.substract(course.ball.getPosition3(), course.goal.getPosition3())).len() <= course.getHoleRadius()));
+		return (victory || ((Vector3d.subtract(course.ball.getPosition3(), course.goal.getPosition3())).length() <= course.getHoleRadius()));
 	}
 
 	@Override

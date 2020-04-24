@@ -14,19 +14,19 @@ public class EulerSolver implements PhysicsEngine {
 	@Override 
 	public void process(double dtime) {
 		Vector2d p = course.ball.getPosition2();
-		Vector2d v = course.ball.getVelocity2();
+		Vector2d v = course.ball.getVelocity2D();
 
 		for (double timer = 0; timer < dtime; timer += step) {
-			double pnextx = p.x + step * v.x;
-			double pnexty = p.y + step * v.y;
+			double pNextX = p.x + step * v.x;
+			double pNextY = p.y + step * v.y;
 
 			Vector2d gradient = course.height.gradient(p);
 
-			double vnextx = v.x - step * __G * (gradient.x + course.getFriction() * v.x / v.len());
-			double vnexty = v.y - step * __G * (gradient.y + course.getFriction() * v.y / v.len());
+			double vNextX = v.x - step * __G * (gradient.x + course.getFriction() * v.x / v.length());
+			double vNextY = v.y - step * __G * (gradient.y + course.getFriction() * v.y / v.length());
 
-			p = new Vector2d(pnextx, pnexty);
-			v = new Vector2d(vnextx, vnexty);
+			p = new Vector2d(pNextX, pNextY);
+			v = new Vector2d(vNextX, vNextY);
 
 			//System.out.println(p + " " + v + " " + gradient);
 		}
