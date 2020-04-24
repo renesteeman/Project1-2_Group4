@@ -2,13 +2,12 @@ package Physics;
 
 import java.lang.String;
 
+
 public class Vector2d {
 	public double x = 0.0, y = 0.0;
 	public static final double MAX_DIFFERENCE = 1e-1; // NEED TO PLAY WITH THIS ONE
 
-	public Vector2d(){
-
-	}
+	public Vector2d(){ }
 
 	public Vector2d(double x, double y) {
 		this.x = x;
@@ -23,38 +22,49 @@ public class Vector2d {
 	public double get_x() { return x; }
 	public double get_y() { return y; }
 
+
+	public Vector2d add(Vector2d l){
+		return new Vector2d(this.x + l.x, this.y + l.y);
+	}
+
+	public Vector2d subtract(Vector2d l){
+		return new Vector2d(this.x - l.x, this.y - l.y);
+	}
+
+	public Vector2d multiply(double constant){
+		return new Vector2d(this.x * constant, this.y * constant);
+	}
+
+	public Vector2d divide(double constant){
+		return new Vector2d(this.x / constant, this.y / constant);
+	}
+
+	public double length() {
+		return Math.sqrt(x * x + y * y);
+	}
+
+	public Vector2d getNormalized() {
+		double l = this.length();
+		return new Vector2d(x / l, y / l);
+	}
+
+
 	public static Vector2d add(Vector2d l, Vector2d r) {
 		return new Vector2d(l.x + r.x, l.y + r.y);
 	}
 
-	public static Vector2d substract(Vector2d l, Vector2d r) {
+	public static Vector2d subtract(Vector2d l, Vector2d r) {
 		return new Vector2d(l.x - r.x, l.y - r.y);
 	}
 
-	public static Vector2d mul(Vector2d v, double constant) {
-		return new Vector2d(v.x * constant, v.y * constant);
-	}
-
-	public static Vector2d div(Vector2d v, double constant) {
+	public static Vector2d divide(Vector2d v, double constant) {
 		return new Vector2d(v.x / constant, v.y / constant);
 	}
 
-	public static double scalar(Vector2d l, Vector2d r) {
-		return l.x * r.x + l.y * r.y;
+	public static Vector2d multiply(Vector2d v, double constant) {
+		return new Vector2d(v.x * constant, v.y * constant);
 	}
 
-	public static double pseudoScalar(Vector2d l, Vector2d r) {
-		return l.x * r.y - l.y * r.x;
-	}
-
-	public double len() {
-		return Math.sqrt(x * x + y * y);
-	} 
-
-	public Vector2d getNormalized() {
-		double l = len();
-		return new Vector2d(x / l, y / l);
-	}
 
 	@Override
 	public String toString() {
@@ -67,5 +77,17 @@ public class Vector2d {
 			return false;
 		Vector2d v = (Vector2d)obj;
 		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE);
+	}
+
+
+	//TODO remove this test
+	public static void main(String[] args){
+		double step = 1.0;
+		Vector2d k1 = new Vector2d(1,1);
+		Vector2d k2 = new Vector2d(1,1);
+		Vector2d k3 = new Vector2d(1,1);
+		Vector2d k4 = new Vector2d(1,1);
+		Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
+		System.out.println(k);
 	}
 }

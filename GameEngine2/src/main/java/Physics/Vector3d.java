@@ -3,13 +3,12 @@ package Physics;
 import java.lang.String;
 import org.joml.Vector3f;
 
+
 public class Vector3d {
 	public double x = 0.0, y = 0.0, z = 0.0;
 	public static final double MAX_DIFFERENCE = 1e-1; // NEED TO PLAY WITH THIS ONE
 
-	public Vector3d(){
-
-	}
+	public Vector3d(){ }
 
 	public Vector3d(double x, double y, double z) {
 		this.x = x;
@@ -31,19 +30,46 @@ public class Vector3d {
 	public double get_y() { return y; }
 	public double get_z() { return z; }
 
+
+	public Vector3d add(Vector3d l) {
+		return new Vector3d(this.x + l.x, this.y + l.y, this.z +l.z);
+	}
+
+	public Vector3d subtract(Vector3d l) {
+		return new Vector3d(this.x + l.x, this.y + l.y, this.z + l.z);
+	}
+
+	public Vector3d multiply(double constant) {
+		return new Vector3d(this.x * constant, this.y * constant, this.z * constant);
+	}
+
+	public Vector3d divide(double constant) {
+		return new Vector3d(this.x / constant, this.y / constant, this.z / constant);
+	}
+
+	public double length() {
+		return Math.sqrt(x * x + y * y + z * z);
+	}
+
+	public Vector3d getNormalized() {
+		double l = length();
+		return new Vector3d(x / l, y / l, z / l);
+	}
+
+
 	public static Vector3d add(Vector3d l, Vector3d r) {
 		return new Vector3d(l.x + r.x, l.y + r.y, l.z + r.z);
 	}
 
-	public static Vector3d substract(Vector3d l, Vector3d r) {
+	public static Vector3d subtract(Vector3d l, Vector3d r) {
 		return new Vector3d(l.x - r.x, l.y - r.y, l.z - r.z);
 	}
 
-	public static Vector3d mul(Vector3d v, double constant) {
+	public static Vector3d multiply(Vector3d v, double constant) {
 		return new Vector3d(v.x * constant, v.y * constant, v.z * constant);
 	}
 
-	public static Vector3d div(Vector3d v, double constant) {
+	public static Vector3d divide(Vector3d v, double constant) {
 		return new Vector3d(v.x / constant, v.y / constant, v.z / constant);
 	}
 
@@ -51,14 +77,6 @@ public class Vector3d {
 		return l.x * r.x + l.y * r.y + l.z * r.z;
 	}
 
-	public double len() {
-		return Math.sqrt(x * x + y * y + z * z);
-	} 
-
-	public Vector3d getNormalized() {
-		double l = len();
-		return new Vector3d(x / l, y / l, z / l);
-	}
 
 	@Override
 	public String toString() {
