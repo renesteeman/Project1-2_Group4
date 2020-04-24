@@ -5,6 +5,7 @@ import java.util.Stack;
 import java.awt.Graphics;
 import java.awt.Color;
 
+//TODO Add class documentation
 public class HeightFunction extends Function2d {
     private String infix;
     private String postfix;
@@ -19,6 +20,7 @@ public class HeightFunction extends Function2d {
         this.postfix = infixToPostfix(this.infix);
     } 
 
+    //TODO add documentation
     @Override
     public void render(Graphics g) {
         g.setColor(Color.GREEN);
@@ -179,7 +181,15 @@ public class HeightFunction extends Function2d {
         return str.equals("+") || str.equals("-") || str.equals("*") || str.equals("/") || str.equals("^");
     }
 
-
+    //TODO Remove test-prints in the parseSpaces() method
+    /**
+     * Parses spaces in the formula on specific places:
+     *      e.g. "2+x^2" becomes "2 + x ^ 2"
+     * Also adds multiplication sign on specific places:
+     *      e.g. "2x" becomes "2 * x"
+     * @param s the infix formula
+     * @return infix formula with parsed spaces
+     */
     private String parseSpaces(String s) {
         ArrayList<Character> cur = new ArrayList<>();
         ArrayList<String> spl = new ArrayList<>();
@@ -372,9 +382,14 @@ public class HeightFunction extends Function2d {
         return sol;
     }
 
-    public final double DELTA_VALUE = 1e-9; // NEED TO PLAY WITH THIS VALUE
+    public final double DELTA_VALUE = 1e-9; //TODO NEED TO PLAY WITH THIS VALUE
     public final double REVERSE_DELTA_VALUE = 1e9;
 
+    /**
+     * Calculate the gradient at position p in both the x- and y-direction
+     * @param p the position vector
+     * @return gradient vector
+     */
     @Override
     public Vector2d gradient(Vector2d p) {
         double val1 = evaluate(new Vector2d(p.x + DELTA_VALUE, p.y));
@@ -386,11 +401,15 @@ public class HeightFunction extends Function2d {
         return new Vector2d(p1, p2);
     }
 
+    /**
+     * @return infix notation of function
+     */
     @Override
     public String toString() {
         return infix;
     }
 
+    //TODO Remove main
     public static void main(String[] args) {
         //String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
         String function = "cos(pi) + 2";
