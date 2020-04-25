@@ -49,6 +49,7 @@ public class MainGameLoop {
 
     //TMP move into a separate directory
     static final boolean editMode = true;
+    static final boolean godMode = true;
     //0 = place items, 1 = remove items, 66 = debug, -1 is game mode
     static int objectType = -1;
     static Vector3f terrainPoint;
@@ -213,6 +214,25 @@ public class MainGameLoop {
                 } else if (key == GLFW_KEY_F10){
                     //TODO use this action after editing a map to save it
                     GameSaver.saveGameFile("");
+                }
+            });
+        }
+
+        if(godMode){
+            //Handle events related to god mode (moving with keyboard)
+            GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
+                if (key == GLFW_KEY_W) {
+                    ball.setPosition(ball.getPosition().add(1, 0, 0));
+                } else if (key == GLFW_KEY_S) {
+                    ball.setPosition(ball.getPosition().add(-1, 0, 0));
+                } else if (key == GLFW_KEY_D) {
+                    ball.setPosition(ball.getPosition().add(0, 0, 1));
+                } else if (key == GLFW_KEY_A) {
+                    ball.setPosition(ball.getPosition().add(0, 0, -1));
+                } else if (key == GLFW_KEY_LEFT_SHIFT) {
+                    ball.setPosition(ball.getPosition().add(0, 1, 0));
+                } else if (key == GLFW_KEY_LEFT_CONTROL) {
+                    ball.setPosition(ball.getPosition().add(0, -1, 0));
                 }
             });
         }

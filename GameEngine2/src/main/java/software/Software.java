@@ -91,15 +91,15 @@ public class Software extends CrazyPutting {
         //TODO remove
         //Show X-axis
         for(int i=0; i<10; i++){
-            TexturedModel XtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
-            Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(i*5*SCALE, 5*SCALE, 0), 0, 0, 0, 1);
+            TexturedModel XTexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
+            Entity testDragonEntity = new Entity(XTexturedDragon, new Vector3f(i*5*SCALE, 5*SCALE, 0), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
 
         //Show Z-axis
         for(int i=0; i<10; i++){
-            TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
-            Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
+            TexturedModel ZTexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
+            Entity testDragonEntity = new Entity(ZTexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
             entities.add(testDragonEntity);
         }
     }

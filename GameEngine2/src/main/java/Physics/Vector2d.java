@@ -22,7 +22,6 @@ public class Vector2d {
 	public double get_x() { return x; }
 	public double get_y() { return y; }
 
-
 	public Vector2d add(Vector2d l){
 		return new Vector2d(this.x + l.x, this.y + l.y);
 	}
@@ -47,7 +46,6 @@ public class Vector2d {
 		double l = this.length();
 		return new Vector2d(x / l, y / l);
 	}
-
 
 	public static Vector2d add(Vector2d l, Vector2d r) {
 		return new Vector2d(l.x + r.x, l.y + r.y);
@@ -77,17 +75,5 @@ public class Vector2d {
 			return false;
 		Vector2d v = (Vector2d)obj;
 		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE);
-	}
-
-
-	//TODO remove this test
-	public static void main(String[] args){
-		double step = 1.0;
-		Vector2d k1 = new Vector2d(1,1);
-		Vector2d k2 = new Vector2d(1,1);
-		Vector2d k3 = new Vector2d(1,1);
-		Vector2d k4 = new Vector2d(1,1);
-		Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
-		System.out.println(k);
 	}
 }
