@@ -242,6 +242,7 @@ public class MainGameLoop {
 
             @Override
             public void onClick(InterfaceButton button) {
+                
             }
 
             @Override
@@ -259,7 +260,7 @@ public class MainGameLoop {
 
             }
         };
-//        GUIs.add(testButton);
+        GUIs.add(testButton);
 
         Image testImage = new Image(loader, "textures/UI_meme", new Vector2f(0,0), new Vector2f(0.2f, 0.2f));
 //        GUIs.add(testImage);
