@@ -1,6 +1,8 @@
 package MouseHandler;
 
 import RenderEngine.DisplayManager;
+import org.joml.Vector2d;
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 
 import java.nio.DoubleBuffer;
@@ -65,5 +67,9 @@ public class MouseHandler {
 
     public static void disable() {
         MouseHandler.enabled = false;
+    }
+
+    public static Vector2f getCurrentPosition() {
+        return new Vector2f((float) currentX, (float) currentY);
     }
 }

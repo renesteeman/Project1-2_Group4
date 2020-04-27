@@ -28,3 +28,4 @@ GameEngine2/.gradle/5.4.1/javaCompile/javaCompile.lock
 GameEngine2/.gradle/5.4.1/javaCompile/taskHistory.bin
 *.bin
 *.lock
+*.xml
