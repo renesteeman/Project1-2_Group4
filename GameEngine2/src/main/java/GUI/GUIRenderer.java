@@ -1,5 +1,6 @@
 package GUI;
 
+import GUIElements.UIElement;
 import Models.RawModel;
 import RenderEngine.Loader;
 import Toolbox.Maths;
@@ -22,7 +23,7 @@ public class GUIRenderer {
         shader = new GUIShader();
     }
 
-    public void render(List<GUITexture> GUIs){
+    public void render(List<UIElement> GUIs){
         shader.start();
 
         GL30.glBindVertexArray(quad.getVaoID());
@@ -36,7 +37,8 @@ public class GUIRenderer {
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
         //Render
-        for(GUITexture GUI : GUIs){
+        for(UIElement uiElement : GUIs){
+            GUITexture GUI = uiElement.getGUITexture();
             GL13.glActiveTexture(GL13.GL_TEXTURE0);
             GL11.glBindTexture(GL11.GL_TEXTURE_2D, GUI.getTexture());
             Matrix4f transformationMatrix = Maths.createTransformationMatrix(GUI.getPosition(), GUI.getScale());

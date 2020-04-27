@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Build-Timestamp: 2020-04-08T22:08:17.590+0200
-Build-Revision: 
-Created-By: Gradle 5.4.1
-Build-Jdk: 11.0.6 (Ubuntu 11.0.6+10-post-Ubuntu-1ubuntu119.10.1)
-Build-OS: Linux amd64 5.3.0-46-generic
-Full-Version: 2.2.2
-

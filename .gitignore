@@ -19,13 +19,7 @@ TMP/
 /.gradle/*
 
 /build/
-GameEngine2/.gradle/5.4.1/executionHistory/executionHistory.bin
-GameEngine2/.gradle/5.4.1/executionHistory/executionHistory.lock
-GameEngine2/.gradle/5.4.1/fileHashes/fileHashes.bin
-GameEngine2/.gradle/5.4.1/fileHashes/fileHashes.lock
-GameEngine2/.gradle/5.4.1/javaCompile/classAnalysis.bin
-GameEngine2/.gradle/5.4.1/javaCompile/javaCompile.lock
-GameEngine2/.gradle/5.4.1/javaCompile/taskHistory.bin
+
 *.bin
 *.lock
 *.xml
