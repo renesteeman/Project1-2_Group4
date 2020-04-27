@@ -24,12 +24,12 @@ public class RungeKutta4Solver implements PhysicsEngine{
      *      v = velocity;   l is the derivative of v
      *
      * Source used: https://cg.informatik.uni-freiburg.de/course_notes/sim_02_particles.pdf (page/slide 29)
-     * @param dtime TODO add description
+     * @param dtime
      */
     @Override
-    public void process(double dtime) {
-        Vector2d p = this.course.ball.getPosition2();
-        Vector2d v = this.course.ball.getVelocity2D();
+    public void process(double dtime) { //TODO what is dtime?
+        Vector2d p = course.ball.getPosition2();
+        Vector2d v = course.ball.getVelocity2D();
 
 
         //TODO make code shorter, e.g. k1 = new Vector2d(v.x,v.y)
@@ -91,11 +91,11 @@ public class RungeKutta4Solver implements PhysicsEngine{
 
             double l4x = -__G * (gradient4.x + course.getFriction() * k4.x / k4.length());
             double l4y = -__G * (gradient4.y + course.getFriction() * k4.y / k4.length());
-            Vector2d l4 = new Vector2d(l4x, l4y);
+            Vector2d l4 = new Vector2d(l4x, l4y); //velocity vector l2
 
 
             //CALCULATING THE NEXT POSITION AND VELOCITY
-            //       k = (k1 +      2 * k2         +      2 * k3         +  k4)    *    (step/6.0);
+            //       k =(k1  +       2*k2          +       2*k3          +  k4)    *    (step/6.0);
             Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
             Vector2d l = l1.add(l2.multiply(2.0)).add(l3.multiply(2.0)).add(l4).multiply(step/6.0);
             p = p.add(k);
@@ -103,18 +103,23 @@ public class RungeKutta4Solver implements PhysicsEngine{
         }
 
         //UPDATE POSITION ON THE COURSE
-        this.course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
-        this.course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+        course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
+        course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
     }
+
 
 
     @Override
     public void setStepSize(double h) {
-        this.step = h;
+        step = h;
     }
 
     @Override
     public double getStepSize() {
-        return this.step;
+        return step;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

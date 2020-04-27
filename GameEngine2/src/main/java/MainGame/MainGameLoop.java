@@ -5,14 +5,8 @@ import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
 import Entities.*;
 import GUI.GUIRenderer;
-<<<<<<< HEAD:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
-import GUI.GUITexture;
-import GUIElements.FileExplorer;
-import GUIElements.Textbox;
-=======
 import GUIElements.Image;
 import GUIElements.UIElement;
->>>>>>> master:GameEngine2/src/main/java/MainGame/MainGameLoop.java
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Models.TexturedModel;
@@ -30,7 +24,6 @@ import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
 import Toolbox.MousePicker;
 import Water.WaterTile;
-import org.joml.Vector2d;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -43,7 +36,6 @@ import Shaders.WaterShader;
 import Water.WaterFrameBuffers;
 
 import java.io.File;
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,12 +72,7 @@ public class MainGameLoop {
     public static Ball ball;
     public static Goal goal;
 
-<<<<<<< HEAD:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
-        FileExplorer.showFileExplorer();
-
-=======
     public static void main(String[] args){
->>>>>>> master:GameEngine2/src/main/java/MainGame/MainGameLoop.java
         DisplayManager.createDisplay();
         GL.createCapabilities();
         TextMaster.init(loader);
@@ -184,15 +171,9 @@ public class MainGameLoop {
         }
 
         //GUI
-<<<<<<< HEAD:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
-        List<GUITexture> GUIs = new ArrayList<GUITexture>();
-        GUITexture GUI = new GUITexture(loader.loadTexture("textures/UI_meme"), loader.loadTexture("textures/transparent"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
-        GUIs.add(GUI);
-=======
         List<UIElement> GUIs = new ArrayList<UIElement>();
 //        GUITexture memeUI = new GUITexture(loader.loadTexture("textures/UI_meme"), new Vector2f(0.5f, 0.5f), new Vector2f(0.25f, 0.25f));
 //        GUIs.add(memeUI);
->>>>>>> master:GameEngine2/src/main/java/MainGame/MainGameLoop.java
 
         GUIRenderer guiRenderer = new GUIRenderer(loader);
 
@@ -257,27 +238,11 @@ public class MainGameLoop {
         }
 
         //Button testing here
-<<<<<<< HEAD:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
-        AbstractButton testButton = new AbstractButton(loader.loadTexture("textures/button"), loader.loadTexture("textures/transparent"), new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
-            @Override
-            public void onClick(InterfaceButton button) {
-
-        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0.2f,0), new Vector2f(0.2f, 0.2f)) {
-
-            @Override
-            public void onClick(InterfaceButton button) {
-                System.out.println("click");
-
-                Vector2f mouseCoordinates = MouseHandler.getCurrentPosition();
-                guiTexture.setPosition(mouseCoordinates);
-
-=======
         AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
 
             @Override
             public void onClick(InterfaceButton button) {
                 
->>>>>>> master:GameEngine2/src/main/java/MainGame/MainGameLoop.java
             }
 
             @Override

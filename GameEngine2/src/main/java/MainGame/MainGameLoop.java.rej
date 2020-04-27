@@ -1,9 +1,0 @@
-diff a/GameEngine2/src/main/java/MainGame/MainGameLoop.java b/GameEngine2/src/main/java/MainGame/MainGameLoop.java	(rejected hunks)
-@@ -0,6 +0,7 @@
- import GUI.GUITexture;
- import GUIElements.FileExplorer;
- import GUIElements.Textbox;
-+=======
- import GUIElements.Image;
- import GUIElements.UIElement;
- >>>>>>> master:GameEngine2/src/main/java/MainGame/MainGameLoop.java
