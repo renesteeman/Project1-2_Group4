@@ -23,3 +23,5 @@ TMP/
 *.bin
 *.lock
 *.xml
+GameEngine2/.idea/modules/GameEngine2.main.iml
+GameEngine2/.idea/modules/GameEngine2.test.iml
