@@ -202,11 +202,10 @@ public class MainGameLoop {
         }
 
         //Button testing here
-<<<<<<< Updated upstream:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
         AbstractButton testButton = new AbstractButton(loader.loadTexture("textures/button"), loader.loadTexture("textures/transparent"), new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
-=======
+
         AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0.2f,0), new Vector2f(0.2f, 0.2f)) {
 
             @Override
@@ -215,7 +214,6 @@ public class MainGameLoop {
 
                 Vector2f mouseCoordinates = MouseHandler.getCurrentPosition();
                 guiTexture.setPosition(mouseCoordinates);
->>>>>>> Stashed changes:GameEngine2/src/main/java/MainGame/MainGameLoop.java
 
             }
 
@@ -235,15 +233,12 @@ public class MainGameLoop {
             }
         };
         GUIs.add(testButton);
-<<<<<<< Updated upstream:GameEngine2/src/main/java/EngineTester/MainGameLoop.java
-=======
 
         Image testImage = new Image(loader, "textures/UI_meme", new Vector2f(0,0), new Vector2f(0.2f, 0.2f));
 //        GUIs.add(testImage);
 
         //TODO start "Hello there" (and possilby "General Kenobi")
         //Sound.playFile("obi-wan-hello-there.mp3")
->>>>>>> Stashed changes:GameEngine2/src/main/java/MainGame/MainGameLoop.java
 
         //Game loop
         while(!DisplayManager.closed()){
