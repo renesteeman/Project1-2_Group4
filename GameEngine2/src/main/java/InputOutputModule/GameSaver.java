@@ -1,6 +1,5 @@
 package InputOutputModule;
 
-import MainGame.MainGameLoop;
 import java.io.FileWriter;
 import java.io.IOException;
 

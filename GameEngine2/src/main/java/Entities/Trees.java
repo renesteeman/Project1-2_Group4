@@ -1,6 +1,6 @@
 package Entities;
 
-import MainGame.MainGameLoop;
+import MainGame.GameStaticData;
 import org.joml.Vector3f;
 
 import java.util.*;

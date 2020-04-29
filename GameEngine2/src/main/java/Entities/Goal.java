@@ -1,6 +1,5 @@
 package Entities;
 
-import MainGame.MainGameLoop;
 import Physics.Vector2d;
 import Physics.Vector3d;
 import java.awt.Graphics;
