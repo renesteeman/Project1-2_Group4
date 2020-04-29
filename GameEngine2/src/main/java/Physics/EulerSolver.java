@@ -28,6 +28,18 @@ public class EulerSolver implements PhysicsEngine {
 			p = new Vector2d(pNextX, pNextY);
 			v = new Vector2d(vNextX, vNextY);
 
+			if (v.length() > course.getMaxVelocity()) {
+				v = Vector2d.divide(v, v.length());
+				v = Vector2d.multiply(v, course.getMaxVelocity());
+			}
+
+			if (p.x < 0) p.x = 0;
+			if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
+			if (p.y < 0) p.y = 0;
+			if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
+
+			//System.out.println(v.length());
+
 			//System.out.println(p + " " + v + " " + gradient);
 		}
 		course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));

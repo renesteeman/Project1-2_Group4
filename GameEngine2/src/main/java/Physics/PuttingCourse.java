@@ -27,6 +27,8 @@ public class PuttingCourse {
     public Goal goal;
     public ArrayList<Tree> trees = new ArrayList<>();
 
+    public final int TERRAIN_SIZE = 800;
+
     public static void main(String[] args) {
         PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
         System.out.println(course);

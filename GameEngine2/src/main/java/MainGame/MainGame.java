@@ -26,8 +26,8 @@ import java.util.List;
 public class MainGame extends CrazyPutting {
 
     //10 units in-engine = 1 meter
-    static public final int SCALE = GameStaticData.SCALE;
-    static final int TERRAIN_SIZE = 800;
+    public final int SCALE = GameStaticData.SCALE;
+    public final int TERRAIN_SIZE = course.TERRAIN_SIZE; // 800
 
     public Loader loader = new Loader();
     public List<Entity> entities = new ArrayList<>();
@@ -43,7 +43,7 @@ public class MainGame extends CrazyPutting {
     //public Goal goal;
 
     public MainGame() {
-        this.course = new PuttingCourse("./res/courses/course0.txt");
+        this.course = new PuttingCourse("./res/courses/course1.txt");
         this.engine = DetermineSolver.getEngine(course);
 
         DisplayManager.createDisplay();
@@ -206,7 +206,7 @@ public class MainGame extends CrazyPutting {
         obj.initRender();
         obj.initCamera();
         obj.initControls();
-        obj.setInteractiveMod(true);
+        obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
         //obj.runApp();
         
