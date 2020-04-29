@@ -4,7 +4,7 @@ package AI;
 // So be careful, this is pretty demanding 
 
 public class BruteForce {
-    public PuttingSimulator simulator;
+    /*public PuttingSimulator simulator;
     public int maxMovesForSolution = 20; // usually for such an expanding
     public double angleStep, speedStep;
 
@@ -57,5 +57,5 @@ public class BruteForce {
 
     private double adjacent(double power, double angle){
         return (Math.cos(Math.toRadians(angle))*power);
-    }
+    }*/
 }
