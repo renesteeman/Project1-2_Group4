@@ -21,8 +21,8 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	//TODO rename
-	protected TreeMultiset<Double> sx = TreeMultiset.create(), sz = TreeMultiset.create();
-	protected LinkedList<Double> lsx = new LinkedList<>(), lsz = new LinkedList<>();
+	protected TreeMultiset<Double> sx, sz;
+	protected LinkedList<Double> lsx, lsz;
 
 	protected boolean stopCondition() {
 		if (sx.size() < 300)
@@ -34,6 +34,10 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
+		sx = TreeMultiset.create();
+		sz = TreeMultiset.create();
+		lsx = new LinkedList();
+		lsz = new LinkedList();
 		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0., initialBallVelocity.y));
 
 		while (!stopCondition()) {
