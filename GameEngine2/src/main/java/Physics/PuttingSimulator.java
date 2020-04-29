@@ -71,8 +71,8 @@ public class PuttingSimulator extends JPanel {
 			//}
 		}
 
-		//if (victoriousPosition3())
-		//	victory = true;
+		if (victoriousPosition3())
+			victory = true;
 	}
 
 	public boolean victoriousPosition2() {
