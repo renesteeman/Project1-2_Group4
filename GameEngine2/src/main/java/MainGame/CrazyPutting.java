@@ -1,4 +1,6 @@
-package Physics;
+package MainGame;
+
+import Physics.*;
 
 import java.util.*;
 import java.lang.*;
