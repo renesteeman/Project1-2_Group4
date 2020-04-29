@@ -149,14 +149,17 @@ mainClassName = 'MainGame.MainGameLoop'
 task(runSoftware, dependsOn: 'classes', type: JavaExec) {
     main = 'software.Software'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
 
 task(run2d, dependsOn: 'classes', type: JavaExec) {
     main = 'game.CrazyPutting'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
 
 task(helloLegui, dependsOn: 'classes', type: JavaExec) {
     main = 'legui.HelloLegui'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
