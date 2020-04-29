@@ -32,6 +32,9 @@ project.ext.lwjglNatives = "natives-linux"
 def legui_version = '2.2.2'
 
 dependencies {
+	// https://mvnrepository.com/artifact/slick-util/slick-util
+	compile group: 'slick-util', name: 'slick-util', version: '1.0.0'
+
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'
 

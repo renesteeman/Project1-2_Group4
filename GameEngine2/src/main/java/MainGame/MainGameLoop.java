@@ -242,22 +242,24 @@ public class MainGameLoop {
 
             @Override
             public void onClick(InterfaceButton button) {
-                
+                System.out.println("Hello there");
             }
 
             @Override
             public void onStartHover(InterfaceButton button) {
                 button.playHoverAnimation(0.092f);
+                System.out.println("I am the Senate!");
             }
 
             @Override
             public void onStopHover(InterfaceButton button) {
                 button.resetScale();
+                System.out.println("General Kenobi");
             }
 
             @Override
             public void whileHovering(InterfaceButton button) {
-
+                System.out.println("A suprise but I welcome one");
             }
         };
         GUIs.add(testButton);
