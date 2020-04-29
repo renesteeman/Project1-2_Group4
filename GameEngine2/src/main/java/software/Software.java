@@ -40,7 +40,7 @@ public class Software extends CrazyPutting {
     //public Goal goal;
 
     public Software() {
-        this.course = new PuttingCourse("./res/courses/course1.txt");
+        this.course = new PuttingCourse("./res/courses/course0.txt");
         this.engine = DetermineSolver.getEngine(course);
 
         DisplayManager.createDisplay();
