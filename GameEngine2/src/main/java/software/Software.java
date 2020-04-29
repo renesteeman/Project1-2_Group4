@@ -17,6 +17,9 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -174,6 +177,25 @@ public class Software extends CrazyPutting {
         loader.cleanUp();
     }
 
+    @Override 
+    protected boolean collectShotData() {
+        System.out.println("enter your shot data(the velocity vector):");
+        Scanner shotScanner = new Scanner(System.in);
+        String[] arguments = shotScanner.nextLine().split(" ");
+        System.out.println("your shot is read");
+        if (arguments.length == 1 && arguments[0].equals("stop")) {
+            System.out.println("stop condition is recognized");
+            return false;
+        }
+        if (arguments.length == 2 && StringUtils.isNumeric(arguments[0]) && StringUtils.isNumeric(arguments[1])) {
+            shotInput = new Vector2d(arguments[0], arguments[1]);
+            System.out.println("input is recognized as valid");
+            return true;
+        }
+        System.out.println("invalid shot input, try again");
+        return collectShotData();
+    }
+
     public static void main(String[] args) {
         Software obj = new Software();
         obj.addModels();
@@ -184,6 +206,8 @@ public class Software extends CrazyPutting {
         obj.initRender();
         obj.initCamera();
         obj.initControls();
+        obj.setInteractiveMod(true);
+        obj.requestGraphicsUpdate();
         //obj.runApp();
         
         /*for (int i = 0; i < 1e5; i++) {
@@ -192,14 +216,14 @@ public class Software extends CrazyPutting {
             }
         }*/
 
-        /*try
+        try
         {
             Thread.sleep(5000);
         }
         catch(InterruptedException ex)
         {
             Thread.currentThread().interrupt();
-        }*/
+        }
 
         try {
             obj.game();
