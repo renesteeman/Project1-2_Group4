@@ -1,4 +1,4 @@
-package software;
+package MainGame;
 
 import Physics.*;
 import Entities.*;
@@ -23,10 +23,10 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Software extends CrazyPutting {
+public class MainGame extends CrazyPutting {
 
     //10 units in-engine = 1 meter
-    static public final int SCALE = 10;
+    static public final int SCALE = GameStaticData.SCALE;
     static final int TERRAIN_SIZE = 800;
 
     public Loader loader = new Loader();
@@ -42,7 +42,7 @@ public class Software extends CrazyPutting {
     //public Ball ball;
     //public Goal goal;
 
-    public Software() {
+    public MainGame() {
         this.course = new PuttingCourse("./res/courses/course0.txt");
         this.engine = DetermineSolver.getEngine(course);
 
@@ -197,7 +197,7 @@ public class Software extends CrazyPutting {
     }
 
     public static void main(String[] args) {
-        Software obj = new Software();
+        MainGame obj = new MainGame();
         obj.addModels();
         obj.resetPositions();
         obj.addAxes();

@@ -1,7 +1,6 @@
 package Physics;
 
 import Entities.*;
-import MainGame.MainGameLoop;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,7 +42,8 @@ public class PuttingCourse {
         this.goalRadius = goalRadius;
         this.maxVelocity = maxVelocity;
 
-        //TODO is the use of new Vector2d() for the ball's velocity correct?
+        //TODO is the use of new Vector2d() for the ball's velocity correct? 
+        //YES, because initial velocity is always zero
 
         ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
         goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));

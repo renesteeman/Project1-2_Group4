@@ -1,5 +1,6 @@
-package MainGame;
+package FeatureTester;
 
+import MainGame.GameStaticData;
 import GUI.GUITexture;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
@@ -41,10 +42,10 @@ import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class MainGameLoop {
+public class FeatureTester {
 
     //10 units in-engine = 1 meter
-    static public final int SCALE = 10;
+    static final int SCALE = GameStaticData.SCALE;
     static final int TERRAIN_SIZE = 80*SCALE;
 
     //TMP move into a separate directory
@@ -95,22 +96,22 @@ public class MainGameLoop {
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
-        ModelData ballModelData = OBJFileLoader.loadOBJ("Ball");
+        ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
         TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
 
-        ModelData goalModelData = OBJFileLoader.loadOBJ("Goal");
+        ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
 
-        ModelData treeModelData = OBJFileLoader.loadOBJ("Tree");
+        ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
 
-        ModelData arrowModelData = OBJFileLoader.loadOBJ("Arrow");
+        ModelData arrowModelData = OBJFileLoader.loadOBJ("arrow");
         RawModel arrowModel = loader.loadToVAO(arrowModelData.getVertices(), arrowModelData.getTextureCoords(), arrowModelData.getNormals(), arrowModelData.getIndices());
-        TexturedModel texturedArrow = new TexturedModel(arrowModel, new ModelTexture(loader.loadTexture("models/ArrowTexture")));
+        TexturedModel texturedArrow = new TexturedModel(arrowModel, new ModelTexture(loader.loadTexture("models/arrowTexture")));
 
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
