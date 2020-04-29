@@ -1,6 +1,6 @@
-height = x ^ 2
-flag = (0.000000, 0.000000)
-start = (-10000.000000, 0.000000)
-friction = 0.000000
-vmax = 20.000000
-tol = 1.000000
+height = (x)
+flag = (0, 0)
+start = (50, 0)
+friction = 0.5
+vmax = 20.0
+tol = 1.0

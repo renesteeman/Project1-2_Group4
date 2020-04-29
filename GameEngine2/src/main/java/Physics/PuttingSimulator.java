@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.util.TreeSet;
 import java.util.LinkedList;
+import com.google.common.collect.TreeMultiset;
 
 public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
@@ -20,14 +21,14 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	//TODO rename
-	protected TreeSet<Double> sx = new TreeSet<>(), sz = new TreeSet<>();
+	protected TreeMultiset<Double> sx = TreeMultiset.create(), sz = TreeMultiset.create();
 	protected LinkedList<Double> lsx = new LinkedList<>(), lsz = new LinkedList<>();
 
 	protected boolean stopCondition() {
 		if (sx.size() < 300)
 			return false;
-		double lx = sx.first(), rx = sx.last();
-		double lz = sz.first(), rz = sz.last();
+		double lx = sx.firstEntry().getElement(), rx = sx.lastEntry().getElement();
+		double lz = sz.firstEntry().getElement(), rz = sz.lastEntry().getElement();
 		//System.out.println(lx + " " + rx + " " + ly + " " + ry);
 		return Math.abs(rx - lx) <= Vector2d.MAX_DIFFERENCE && Math.abs(rz - lz) <= Vector2d.MAX_DIFFERENCE;
 	}

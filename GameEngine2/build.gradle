@@ -144,7 +144,7 @@ test {
 }
 
 // Define the main class for the application
-mainClassName = 'software.Software'
+mainClassName = 'MainGame.MainGameLoop'
 
 task(runSoftware, dependsOn: 'classes', type: JavaExec) {
     main = 'software.Software'
