@@ -7,7 +7,7 @@ import java.util.Vector;
 
 public class NaiveBot {
 
-    PuttingSimulator simulator;
+/*    PuttingSimulator simulator;
     Vector2d shot;
     List<Vector2d> goodAnglesShots = new ArrayList<Vector2d>();
     List<Vector2d> goodSpeed = new ArrayList();
@@ -55,7 +55,7 @@ public class NaiveBot {
         }
         System.out.println("There is nbo hole in one possible with this algorithm.");
         return null;
-    }
+    }*/
 
     /**
      * Call the method take shot from the PuttingSimulator class, update the position afterwards as the new initial position
