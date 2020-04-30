@@ -136,8 +136,13 @@ public class MainGame extends CrazyPutting {
         mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
     }
 
+    public void addUI(){
+        
+    }
+
     public void runApp() {
         //Game loop
+        //TODO WHY IS THIS HERE?!?!?
         while(!DisplayManager.closed()){
             //Handle mouse events
             MouseHandler.handleMouseEvents();
@@ -155,7 +160,8 @@ public class MainGame extends CrazyPutting {
         }
     }
 
-    @Override 
+    @Override
+    //TODO WHY IS THIS HERE?!?!?
     public void requestGraphicsUpdate() {
         //Handle mouse events
         MouseHandler.handleMouseEvents();
@@ -208,6 +214,7 @@ public class MainGame extends CrazyPutting {
         obj.initControls();
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
+        obj.addUI();
         //obj.runApp();
         
         /*for (int i = 0; i < 1e5; i++) {

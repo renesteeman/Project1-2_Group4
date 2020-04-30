@@ -1,7 +1,6 @@
 package FeatureTester;
 
 import MainGame.GameStaticData;
-import GUI.GUITexture;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
 import Entities.*;
@@ -341,7 +340,7 @@ public class FeatureTester {
             waterRenderer.render(waters, camera, light);
 
             //2D Rendering / UI
-            guiRenderer.render(GUIs);
+            //guiRenderer.render(GUIs);
 
             //buttons update
             testButton.update();

@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import javax.swing.JFrame;
 
 public class CrazyPutting extends PuttingSimulator {
-	protected boolean interactiveMod = false;
+	protected boolean interactiveMod = true;
 
 	protected String shotsFilename = "./res/shots/shots.txt";
 	protected Scanner shotScn;
