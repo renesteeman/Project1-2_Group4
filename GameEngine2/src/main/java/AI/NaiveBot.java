@@ -13,10 +13,15 @@ public class NaiveBot {
     public double velocityMax;
     List<Vector2d> goodAnglesShots = new ArrayList<Vector2d>();
     List<Vector2d> goodSpeed = new ArrayList();
-    public double distance = obj.getFlag().get_x() - obj.getStart().get_x();
+    public double distance;
 
     public NaiveBot(PuttingSimulator simulator){
         this.simulator = simulator;
+    }
+
+    public double getDistance() {
+        distance = Math.sqrt(((obj.getFlag().get_x() - obj.getStart().get_x()) * (obj.getFlag().get_x() - obj.getStart().get_x())) + ((obj.getFlag().get_y() - obj.getStart().get_y()) * (obj.getFlag().get_y() - obj.getStart().get_y())));
+        return distance;
     }
 
     private double oppositeSide (double power, double angle){
@@ -28,11 +33,11 @@ public class NaiveBot {
     }
 
     private Vector2d getPositionForFlag(Vector2d flag, Vector2d ball, double distance){
-        return new Vector2d( ((flag.get_x() - ball.get_x()) / (distance)) * velocityMax, ((flag.get_y() - ball.get_y()) / (distance)) * velocityMax);
+        return new Vector2d( ((flag.get_x() - ball.get_x()) / (getDistance())) * velocityMax, ((flag.get_y() - ball.get_y()) / (getDistance())) * velocityMax);
     }
 
     public void goodAngles(){
-        Vector2d interval = getPositionForFlag(obj.getFlag(), obj.getStart(), distance);
+        Vector2d interval = getPositionForFlag(obj.getFlag(), obj.getStart(), getDistance());
         double angle = Math.toDegrees(Math.asin(velocityMax/interval.get_y()));
         for(double i = angle - 30; i<angle+30; i = i+0.25){
             shot = new Vector2d(adjacent(velocityMax, i),oppositeSide(velocityMax, i)); //Shot is the hypotenuse composed of the x and y vectors which correspond to the opposite and the adjacent sides
