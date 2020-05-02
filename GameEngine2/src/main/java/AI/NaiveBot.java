@@ -1,16 +1,19 @@
 package AI;
 
-import javax.management.ValueExp;
+import Physics.PuttingCourse;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 public class NaiveBot {
-
-/*    PuttingSimulator simulator;
+    PuttingSimulator simulator;
+    PuttingCourse obj;
     Vector2d shot;
+    public double velocityMax;
     List<Vector2d> goodAnglesShots = new ArrayList<Vector2d>();
     List<Vector2d> goodSpeed = new ArrayList();
+    public double distance = obj.getFlag().get_x() - obj.getStart().get_x();
 
     public NaiveBot(PuttingSimulator simulator){
         this.simulator = simulator;
@@ -29,12 +32,12 @@ public class NaiveBot {
     }
 
     public void goodAngles(){
-        Vector2d interval = getPositionForFlag();
-        double angle = Math.toDegrees(Math.sin(Math.asin(velocityMax/interval.get_y())));
+        Vector2d interval = getPositionForFlag(obj.getFlag(), obj.getStart(), distance);
+        double angle = Math.toDegrees(Math.asin(velocityMax/interval.get_y()));
         for(double i = angle - 30; i<angle+30; i = i+0.25){
             shot = new Vector2d(adjacent(velocityMax, i),oppositeSide(velocityMax, i)); //Shot is the hypotenuse composed of the x and y vectors which correspond to the opposite and the adjacent sides
             simulator.takeShot(shot);
-            if(simulator.passedFlag) {
+            if(simulator.victoriousPosition3()) { //is supposed to check if the ball had pass the flag, we still have to create that method
                 goodAnglesShots.add(shot);
             }
         }
@@ -46,7 +49,7 @@ public class NaiveBot {
             for(int j = 0; j<velocityMax ; j++){
                 Vector2d vect = (Vector2d) goodAnglesShots.get(i);
                 double angle = Math.asin(velocityMax/vect.get_y()); //is in radian
-                shot = new Vector2d(adjacent(j, Math.toDegrees(angle)),oppositeSide(j, Math.toDegrees(angle));
+                shot = new Vector2d(adjacent(j, Math.toDegrees(angle)),oppositeSide(j, Math.toDegrees(angle)));
                 if(simulator.victoriousPosition3()){
                     //goodSpeed.add(shot); //In case we want to see if there are more than one
                     return shot;
@@ -55,7 +58,7 @@ public class NaiveBot {
         }
         System.out.println("There is nbo hole in one possible with this algorithm.");
         return null;
-    }*/
+    }
 
     /**
      * Call the method take shot from the PuttingSimulator class, update the position afterwards as the new initial position
