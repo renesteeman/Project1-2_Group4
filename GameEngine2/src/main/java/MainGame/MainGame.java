@@ -1,5 +1,8 @@
 package MainGame;
 
+import GUI.Menu.MainMenu;
+import GUIElements.Buttons.AbstractButton;
+import GUIElements.Buttons.InterfaceButton;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -13,12 +16,15 @@ import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.MousePicker;
+import com.sun.tools.javac.Main;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.management.ManagementFactory;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
@@ -137,7 +143,30 @@ public class MainGame extends CrazyPutting {
     }
 
     public void addUI(){
-        
+        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+
+            @Override
+            public void onClick(InterfaceButton button) {
+                System.out.println("Hello there");
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                button.playHoverAnimation(0.092f);
+                System.out.println("I am the Senate!");
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                button.resetScale();
+                System.out.println("General Kenobi");
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+                System.out.println("A suprise but I welcome one");
+            }
+        };
     }
 
     public void runApp() {
@@ -215,6 +244,7 @@ public class MainGame extends CrazyPutting {
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
         obj.addUI();
+        MainMenu.createMenu();
         //obj.runApp();
         
         /*for (int i = 0; i < 1e5; i++) {
