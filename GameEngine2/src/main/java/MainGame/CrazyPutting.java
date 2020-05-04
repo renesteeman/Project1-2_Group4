@@ -48,7 +48,7 @@ public class CrazyPutting extends PuttingSimulator {
 			takeShot(shotInput);
 			System.out.println("shot ended");
 			
-			if (victory) {
+			if (course.victoriousPosition3()) {
 				System.out.println("You won gg wp");
 				break;
 			}
@@ -75,7 +75,7 @@ public class CrazyPutting extends PuttingSimulator {
 			takeShot(shotInput);
 			System.out.println("shot ended");
 			
-			if (victory) {
+			if (course.victoriousPosition3()) {
 				System.out.println("You won gg wp");
 				break;
 			}

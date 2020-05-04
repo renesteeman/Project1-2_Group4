@@ -17,6 +17,10 @@ public class RungeKutta4Solver implements PhysicsEngine{
         this.course = course;
     }
 
+    @Override
+    public boolean passedFlag() {
+        return false;
+    }
 
     /**
      * Processes the shot of a ball over time using the Classical 4th-order Runge-Kutta method

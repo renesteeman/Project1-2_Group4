@@ -11,8 +11,17 @@ public class EulerSolver implements PhysicsEngine {
 		this.course = course;
 	}
 
+	private boolean passedFlag = false;
+
+	@Override
+	public boolean passedFlag() {
+		return passedFlag;
+	}
+
 	@Override 
 	public void process(double dtime) {
+		passedFlag = false;
+
 		Vector2d p = course.ball.getPosition2();
 		Vector2d v = course.ball.getVelocity2D();
 
@@ -37,6 +46,9 @@ public class EulerSolver implements PhysicsEngine {
 			if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
 			if (p.y < 0) p.y = 0;
 			if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
+
+			if (course.victoriousPosition3())
+				passedFlag = true;
 
 			//System.out.println(v.length());
 

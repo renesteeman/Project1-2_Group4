@@ -157,7 +157,7 @@ public class Camera {
     }
 
     public Vector3f getPosition() {
-        return position;
+        return new Vector3f(position);
     }
 
     public float getPitch() {
