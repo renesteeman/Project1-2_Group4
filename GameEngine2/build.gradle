@@ -153,7 +153,7 @@ task(runSoftware, dependsOn: 'classes', type: JavaExec) {
 }
 
 task(run2d, dependsOn: 'classes', type: JavaExec) {
-    main = 'game.CrazyPutting'
+    main = 'MainGame.CrazyPutting'
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }

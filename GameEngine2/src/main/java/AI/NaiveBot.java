@@ -1,68 +1,91 @@
 package AI;
 
-import Physics.PuttingCourse;
-import Physics.PuttingSimulator;
-import Physics.Vector2d;
+import Physics.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NaiveBot {
-    PuttingSimulator simulator;
-    PuttingCourse obj;
-    Vector2d shot;
-    public double velocityMax;
-    List<Vector2d> goodAnglesShots = new ArrayList<Vector2d>();
-    List<Vector2d> goodSpeed = new ArrayList();
-    public double distance;
+    public PuttingSimulator simulator;
 
-    public NaiveBot(PuttingSimulator simulator){
+    public Vector2d shot;
+    public double angleStep, angleRange, velocityStep;
+    public List<Vector2d> goodAnglesShots = new ArrayList<Vector2d>();
+    public List<Vector2d> goodSpeed = new ArrayList();
+
+    public NaiveBot(PuttingSimulator simulator, double angleStep, double angleRange, double velocityStep) {
         this.simulator = simulator;
+        this.angleStep = angleStep;
+        this.angleRange = angleRange;
+        this.velocityStep = velocityStep;
     }
 
-    public double getDistance() {
-        distance = Math.sqrt(((obj.getFlag().get_x() - obj.getStart().get_x()) * (obj.getFlag().get_x() - obj.getStart().get_x())) + ((obj.getFlag().get_y() - obj.getStart().get_y()) * (obj.getFlag().get_y() - obj.getStart().get_y())));
-        return distance;
+    public double getAngle(Vector2d v) {
+        v = v.getNormalized();
+        if (v.y < 0) 
+            return Math.toDegrees(Math.acos(v.x));
+        else 
+            return 360 - Math.toDegrees(Math.acos(v.x));
     }
 
-    private double oppositeSide (double power, double angle){
-        return (Math.sin(Math.toRadians(angle))*power);
+    public Vector2d rotatedVector(double angle, double length) {
+        Vector2d res = new Vector2d(Math.cos(Math.toRadians(angle)), Math.sin(Math.toRadians(angle)));
+        return res.multiply(length);
     }
 
-    private double adjacent(double power, double angle){
-        return (Math.cos(Math.toRadians(angle))*power);
+    public Vector2d getStraightVelocity() {
+        Vector2d velocity = Vector2d.subtract(simulator.course.getFlag(), simulator.getBallPosition2());
+        velocity = velocity.getNormalized();
+        velocity = velocity.multiply(simulator.course.getMaxVelocity());
+        return velocity;
     }
 
-    private Vector2d getPositionForFlag(Vector2d flag, Vector2d ball, double distance){
-        return new Vector2d( ((flag.get_x() - ball.get_x()) / (getDistance())) * velocityMax, ((flag.get_y() - ball.get_y()) / (getDistance())) * velocityMax);
-    }
+    public void findGoodAngles() {
+        Vector2d straightVelocity = getStraightVelocity();
+        
+        double angle = getAngle(straightVelocity);
 
-    public void goodAngles(){
-        Vector2d interval = getPositionForFlag(obj.getFlag(), obj.getStart(), getDistance());
-        double angle = Math.toDegrees(Math.asin(velocityMax/interval.get_y()));
-        for(double i = angle - 30; i<angle+30; i = i+0.25){
-            shot = new Vector2d(adjacent(velocityMax, i),oppositeSide(velocityMax, i)); //Shot is the hypotenuse composed of the x and y vectors which correspond to the opposite and the adjacent sides
+        Vector3d currentBallPosition = simulator.getBallPosition3();
+        for (double currentAngle = angle - angleRange / 2; currentAngle < angle + angleRange / 2; currentAngle += angleStep) {
+            Vector2d shot = rotatedVector(currentAngle, straightVelocity.length()); 
+            
             simulator.takeShot(shot);
-            if(simulator.victoriousPosition3()) { //is supposed to check if the ball had pass the flag, we still have to create that method
+
+            if (simulator.passedFlag()) { //is supposed to check if the ball had pass the flag, we still have to create that method
                 goodAnglesShots.add(shot);
             }
+
+            simulator.setBallPosition3(currentBallPosition);
         }
     }
 
-    public Vector2d rightSpeed(){ //find the right speed to use to have a hole in one
-        goodAngles();
-        for(int i = 0; i<goodAnglesShots.size(); i++) { //go through all elements in the list and test all the speeds for each
-            for(int j = 0; j<velocityMax ; j++){
-                Vector2d vect = (Vector2d) goodAnglesShots.get(i);
-                double angle = Math.asin(velocityMax/vect.get_y()); //is in radian
-                shot = new Vector2d(adjacent(j, Math.toDegrees(angle)),oppositeSide(j, Math.toDegrees(angle)));
-                if(simulator.victoriousPosition3()){
+    public Vector2d getRightSpeed() { //find the right speed to use to have a hole in one
+        findGoodAngles();
+
+        Vector3d currentBallPosition = simulator.getBallPosition3();
+        double velocityMax = simulator.course.getMaxVelocity();
+        for (int i = 0; i < goodAnglesShots.size(); i++) { //go through all elements in the list and test all the speeds for each
+            for (int currentVelocity = 0; currentVelocity < velocityMax; currentVelocity += velocityStep) {
+                Vector2d velocity = goodAnglesShots.get(i);
+                velocity = velocity.getNormalized();
+                velocity = velocity.multiply(currentVelocity);
+
+                simulator.takeShot(velocity);
+
+                if (simulator.course.victoriousPosition3()) {
                     //goodSpeed.add(shot); //In case we want to see if there are more than one
                     return shot;
                 }
+
+                simulator.setBallPosition3(currentBallPosition);
             }
         }
-        System.out.println("There is nbo hole in one possible with this algorithm.");
+        //System.out.println("No one-shot solution found");
         return null;
+    }
+
+    @Override
+    public void solve() {
+
     }
 
     /**

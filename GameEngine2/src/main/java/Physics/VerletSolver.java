@@ -6,11 +6,14 @@ public class VerletSolver implements PhysicsEngine {
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-
-    public VerletSolver(PuttingCourse course){
+    public VerletSolver(PuttingCourse course) {
         this.course = course;
     }
 
+    @Override
+    public boolean passedFlag() {
+        return false;
+    }
 
     /**
      * Processes the shot using the Verlet Method.
@@ -66,7 +69,6 @@ public class VerletSolver implements PhysicsEngine {
         double accelerationY =  -__G * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
     }
-
 
     @Override
     public void setStepSize(double h) {

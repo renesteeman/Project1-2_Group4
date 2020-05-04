@@ -243,8 +243,8 @@ public class MainGame extends CrazyPutting {
         obj.initControls();
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
-        obj.addUI();
-        MainMenu.createMenu();
+        //obj.addUI();
+        //MainMenu.createMenu();
         //obj.runApp();
         
         /*for (int i = 0; i < 1e5; i++) {
@@ -253,14 +253,14 @@ public class MainGame extends CrazyPutting {
             }
         }*/
 
-        try
+        /*try
         {
             Thread.sleep(5000);
         }
         catch(InterruptedException ex)
         {
             Thread.currentThread().interrupt();
-        }
+        }*/
 
         try {
             obj.game();
@@ -268,6 +268,8 @@ public class MainGame extends CrazyPutting {
             e.printStackTrace();
             System.exit(0);
         }
+
+        System.out.println(obj.passedFlag());
 
         //obj.requestGraphicsUpdate();
         obj.cleanUp();

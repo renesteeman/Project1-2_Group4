@@ -11,7 +11,7 @@ public class PuttingSimulator extends JPanel {
 	public PhysicsEngine engine;
 	
 	protected double DTIME = 1e-2; // 100 FPS
-	public boolean victory = false;
+	public boolean passedFlag = false;
 
 	public PuttingSimulator() {
 		course = new PuttingCourse("./res/courses/course0.txt");
@@ -43,8 +43,10 @@ public class PuttingSimulator extends JPanel {
 		lsz = new LinkedList();
 		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0., initialBallVelocity.y));
 
+		passedFlag = false;
 		while (!stopCondition()) {
 			engine.process(DTIME);
+			passedFlag |= engine.passedFlag();
 
 			//System.out.println(sx.size());
 
@@ -73,22 +75,15 @@ public class PuttingSimulator extends JPanel {
 			//	break;
 			//}
 		}
-
-		if (victoriousPosition3())
-			victory = true;
-	}
-
-	public boolean victoriousPosition2() {
-		return (victory || ((Vector2d.subtract(course.ball.getPosition2(), course.goal.getPosition2())).length() <= course.getHoleRadius()));
-	}
-
-	public boolean victoriousPosition3() {
-		return (victory || ((Vector3d.subtract(course.ball.getPosition3(), course.goal.getPosition3())).length() <= course.getHoleRadius()));
 	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 
+	}
+
+	public boolean passedFlag() {
+		return passedFlag;
 	}
 
 	// TO BE OVERRIDDEN
@@ -97,7 +92,7 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void setBallPosition2(Vector2d location) {
-		course.ball.setPosition(new Vector3d(location.x, 0, location.y));
+		course.ball.setPosition(new Vector3d(location.x, course.height.evaluate(location), location.y));
 	}
 
 	public Vector2d getBallPosition2() {

@@ -142,6 +142,14 @@ public class PuttingCourse {
             Files.createDirectory(path);
     }
 
+    public boolean victoriousPosition2() {
+        return ((Vector2d.subtract(ball.getPosition2(), goal.getPosition2())).length() <= getHoleRadius());
+    }
+
+    public boolean victoriousPosition3() {
+        return ((Vector3d.subtract(ball.getPosition3(), goal.getPosition3())).length() <= getHoleRadius());
+    }
+
     //Functions required by the API that we don't actually care about
     public void setHeight(Function2d height) {
         this.height = height;

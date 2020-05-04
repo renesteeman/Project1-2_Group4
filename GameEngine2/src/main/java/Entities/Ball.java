@@ -33,7 +33,7 @@ public class Ball extends Entity {
     }
 
     public Vector3f getVelocity() {
-    	return velocity;
+    	return new Vector3f(velocity);
     }
 
     public void setVelocity(Vector3d velocity) {

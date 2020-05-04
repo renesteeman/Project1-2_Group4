@@ -6,11 +6,13 @@ public class VelocityVerletSolver implements PhysicsEngine{
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-
     public VelocityVerletSolver(PuttingCourse course){
         this.course = course;
     }
 
+    public boolean passedFlag() {
+        return false;
+    }
 
     /**
      * Processes the shot using the Velocity Verlet Method.
@@ -45,7 +47,6 @@ public class VelocityVerletSolver implements PhysicsEngine{
         this.course.ball.setVelocity(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
     }
 
-
     /**
      * Calculates the current acceleration given the position and velocity
      * @param position the current position of the ball
@@ -58,8 +59,6 @@ public class VelocityVerletSolver implements PhysicsEngine{
         double accelerationY =  -__G * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
     }
-
-
 
     @Override
     public void setStepSize(double h) {
