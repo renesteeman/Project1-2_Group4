@@ -13,7 +13,8 @@ public class BruteForce {
     public int maxMovesForSolution = 20; // usually for such an expanding
     public double angleStep, speedStep;
 
-    public ArrayList<Vector2d> solution;
+    public ArrayList<Vector2d> solution = new ArrayList<>(),
+                               current = new ArrayList<>();
     public boolean solution_found = false;
 
     public BruteForce(PuttingSimulator simulator, int maxMovesForSolution, double angleStep, double speedStep) {
@@ -21,11 +22,12 @@ public class BruteForce {
 		this.maxMovesForSolution = maxMovesForSolution;
 		this.angleStep = angleStep;
 		this.speedStep = speedStep;
+
 	}
 
-    public void runRecursion(int counter, ArrayList<Vector2d> current) {
+    public void runRecursion(int counter) {
         if (simulator.course.victoriousPosition3()) {
-        	solution = current;
+        	solution = (ArrayList<Vector2d>)current.clone();
         	solution_found = true;
         	return; 
         }
@@ -41,7 +43,7 @@ public class BruteForce {
             		Vector2d currentShot = new Vector2d(adjacent(initialSpeedModulo, initialAngle), oppositeSide(initialSpeedModulo, initialAngle));
             		current.add(currentShot);
             		simulator.takeShot(currentShot);
-            		runRecursion(counter + 1, current);
+            		runRecursion(counter + 1);
 
             		if (solution_found) 
             			break;
@@ -56,7 +58,7 @@ public class BruteForce {
         }
     }
 
-    @Override
+    //@Override
     public void solve() {
         
     }

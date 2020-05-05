@@ -2,9 +2,10 @@ threads
 menu GUI
 in-game UI
 physics upgrade
-Aaron's 
-FS bot 
 Mastermind
+Runge-Kutta 
+Verlet solver
+Verlet velocity solver
 ball does not fall through the texture 
-textures update 
-comment everything and check one more time entities and physics structure
+comment everything 
+textures upgrade

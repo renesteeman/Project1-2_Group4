@@ -28,6 +28,8 @@ public class PuttingCourse {
     public ArrayList<Tree> trees = new ArrayList<>();
 
     public final int TERRAIN_SIZE = 800;
+    public final int DOMAIN_X = 800;
+    public final int DOMAIN_Y = 800;
 
     public static void main(String[] args) {
         PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
