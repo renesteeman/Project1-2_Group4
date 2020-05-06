@@ -13,12 +13,12 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public abstract class AbstractButton implements InterfaceButton, UIElement {
     protected GUITexture guiTexture;
-    private Vector2f originalScale;
+    private final Vector2f originalScale;
     private boolean isHidden = false;
     private boolean isHovering = false;
 
     public AbstractButton(Loader loader, String texture, Vector2f position, Vector2f scale){
-        guiTexture = new GUITexture(loader.loadTexture(texture), position, scale);
+        this.guiTexture = new GUITexture(loader.loadTexture(texture), position, scale);
         originalScale = scale;
     }
 
@@ -76,4 +76,7 @@ public abstract class AbstractButton implements InterfaceButton, UIElement {
         return this.guiTexture;
     }
 
+    public void setGuiTexture(GUITexture guiTexture) {
+        this.guiTexture = guiTexture;
+    }
 }

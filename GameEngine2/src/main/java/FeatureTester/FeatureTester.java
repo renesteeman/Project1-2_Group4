@@ -342,7 +342,7 @@ public class FeatureTester {
             waterRenderer.render(waters, camera, light);
 
             //2D Rendering / UI
-            //guiRenderer.render(GUIs);
+            guiRenderer.render(GUIs);
 
             //buttons update
             testButton.update();

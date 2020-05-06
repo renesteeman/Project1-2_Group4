@@ -188,6 +188,9 @@ public class MainGame extends CrazyPutting {
 
         //Render 2D elements
         guiRenderer.render(GUIs);
+        for(UIElement element : GUIs){
+            element.update();
+        }
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
