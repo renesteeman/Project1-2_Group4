@@ -5,6 +5,7 @@ import GUIElements.Buttons.InterfaceButton;
 import RenderEngine.Loader;
 import org.joml.Vector2f;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Image implements InterfaceButton, UIElement {
@@ -69,8 +70,10 @@ public class Image implements InterfaceButton, UIElement {
 
     }
 
-    @Override
-    public GUITexture getGUITexture() {
-        return guiTexture;
+    public ArrayList<GUITexture> getGUITextures(){
+        ArrayList<GUITexture> textures = new ArrayList<>();
+        textures.add(guiTexture);
+
+        return textures;
     }
 }

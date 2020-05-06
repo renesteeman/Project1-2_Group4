@@ -1,9 +1,11 @@
 package MainGame;
 
 import GUI.GUIRenderer;
+import GUI.GUITexture;
 import GUI.Menu.MainMenu;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
+import GUIElements.Slider;
 import GUIElements.UIElement;
 import Physics.*;
 import Entities.*;
@@ -169,7 +171,32 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        GUIs.add(testButton);
+        Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+                System.out.println("Hello there");
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                button.playHoverAnimation(0.092f);
+                System.out.println("I am the Senate!");
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                button.resetScale();
+                System.out.println("General Kenobi");
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+                System.out.println("A suprise but I welcome one");
+            }
+        };
+
+        //GUIs.add(testButton);
+        GUIs.add(testSlider);
     }
 
     @Override

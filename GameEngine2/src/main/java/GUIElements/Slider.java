@@ -1,11 +1,13 @@
 package GUIElements;
 
+import FontMeshCreator.GUIText;
 import GUI.GUITexture;
 import GUIElements.Buttons.InterfaceButton;
 import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
 import org.joml.Vector2f;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -91,5 +93,14 @@ public abstract class Slider implements InterfaceButton, UIElement {
 
     public void setSliderTexture(GUITexture sliderTexture) {
         this.sliderTexture = sliderTexture;
+    }
+
+    public ArrayList<GUITexture> getGUITextures(){
+        ArrayList<GUITexture> textures = new ArrayList<>();
+
+        textures.add(backgroundTexture);
+        textures.add(sliderTexture);
+
+        return textures;
     }
 }

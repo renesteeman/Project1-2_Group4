@@ -2,7 +2,9 @@ package GUIElements;
 
 import GUI.GUITexture;
 
+import java.util.ArrayList;
+
 public interface UIElement {
-    GUITexture getGUITexture();
+    ArrayList<GUITexture> getGUITextures();
     void update();
 }

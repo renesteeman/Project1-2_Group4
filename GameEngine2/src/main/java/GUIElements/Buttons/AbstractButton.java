@@ -7,6 +7,7 @@ import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
 import org.joml.Vector2f;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -74,6 +75,13 @@ public abstract class AbstractButton implements InterfaceButton, UIElement {
 
     public GUITexture getGUITexture() {
         return this.guiTexture;
+    }
+
+    public ArrayList<GUITexture> getGUITextures(){
+        ArrayList<GUITexture> textures = new ArrayList<>();
+        textures.add(guiTexture);
+
+        return textures;
     }
 
     public void setGuiTexture(GUITexture guiTexture) {

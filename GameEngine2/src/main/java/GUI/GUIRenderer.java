@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GUIRenderer {
@@ -24,6 +25,7 @@ public class GUIRenderer {
     }
 
     public void render(List<UIElement> GUIs){
+
         shader.start();
 
         GL30.glBindVertexArray(quad.getVaoID());
@@ -36,14 +38,18 @@ public class GUIRenderer {
         //Disable depth test / prevent UI from overlapping with transparent parts
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-        //Render
+        //Render actual images
         for(UIElement uiElement : GUIs){
-            GUITexture GUI = uiElement.getGUITexture();
-            GL13.glActiveTexture(GL13.GL_TEXTURE0);
-            GL11.glBindTexture(GL11.GL_TEXTURE_2D, GUI.getTexture());
-            Matrix4f transformationMatrix = Maths.createTransformationMatrix(GUI.getPosition(), GUI.getScale());
-            shader.loadTransformation(transformationMatrix);
-            GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            ArrayList<GUITexture> textures = uiElement.getGUITextures();
+
+            for(GUITexture texture : textures) {
+
+                GL13.glActiveTexture(GL13.GL_TEXTURE0);
+                GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture.getTexture());
+                Matrix4f transformationMatrix = Maths.createTransformationMatrix(texture.getPosition(), texture.getScale());
+                shader.loadTransformation(transformationMatrix);
+                GL11.glDrawArrays(GL11.GL_TRIANGLE_STRIP, 0, quad.getVertexCount());
+            }
         }
 
         //Disable transparency
