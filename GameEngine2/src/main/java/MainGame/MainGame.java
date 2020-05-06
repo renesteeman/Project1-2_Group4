@@ -1,8 +1,10 @@
 package MainGame;
 
+import GUI.GUIRenderer;
 import GUI.Menu.MainMenu;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
+import GUIElements.UIElement;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -37,10 +39,13 @@ public class MainGame extends CrazyPutting {
 
     public Loader loader = new Loader();
     public List<Entity> entities = new ArrayList<>();
+    public List<UIElement> GUIs = new ArrayList<>();
+
     public Light light;
     public Terrain terrain;
     public Camera camera;
     public MasterRenderer masterRenderer;
+    public GUIRenderer guiRenderer;
     public MousePicker mousePicker;
 
     public Trees trees;
@@ -97,7 +102,6 @@ public class MainGame extends CrazyPutting {
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
-        //TODO remove
         //Show X-axis
         for(int i=0; i<10; i++){
             TexturedModel XTexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
@@ -133,8 +137,9 @@ public class MainGame extends CrazyPutting {
         camera = new Camera(course.ball);
     }
 
-    public void initRender() {
+    public void initRenders() {
         masterRenderer = new MasterRenderer(loader);
+        guiRenderer = new GUIRenderer(loader);
     }
 
     public void initControls() {
@@ -167,11 +172,13 @@ public class MainGame extends CrazyPutting {
                 System.out.println("A suprise but I welcome one");
             }
         };
+
+        GUIs.add(testButton);
     }
 
     public void runApp() {
         //Game loop
-        //TODO WHY IS THIS HERE?!?!?
+        //TODO WHY IS THIS HERE?
         while(!DisplayManager.closed()){
             //Handle mouse events
             MouseHandler.handleMouseEvents();
@@ -183,6 +190,9 @@ public class MainGame extends CrazyPutting {
 
             //Render 3D elements
             masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+            //Render UI
+            guiRenderer.render(GUIs);
 
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
@@ -202,6 +212,9 @@ public class MainGame extends CrazyPutting {
 
         //Render 3D elements
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+        //Render 2D elements
+        guiRenderer.render(GUIs);
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
@@ -238,12 +251,12 @@ public class MainGame extends CrazyPutting {
         obj.addAxes();
         obj.addTerrain();
         obj.initLight();
-        obj.initRender();
+        obj.initRenders();
         obj.initCamera();
         obj.initControls();
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
-        //obj.addUI();
+        obj.addUI();
         //MainMenu.createMenu();
         //obj.runApp();
         

@@ -34,7 +34,12 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand />
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -88,13 +93,26 @@
       <recent name="C:\Users\steem\Desktop\Study\Project 1-2\GameEngine2\src\main\java\Entities" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.FeatureTester">
+  <component name="RunManager" selected="Application.MainGame">
     <configuration name="FeatureTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="FeatureTester.FeatureTester" />
       <module name="GameEngine2.main" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="FeatureTester.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MainGame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="MainGame.MainGame" />
+      <module name="GameEngine2.main" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="MainGame.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -150,6 +168,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.MainGame" />
         <item itemvalue="Application.FeatureTester" />
         <item itemvalue="Application.MainGameLoop" />
         <item itemvalue="Application.Software" />
@@ -192,6 +211,9 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="485" y="91" key="#MainGameLoop" timestamp="1586705482019">
@@ -246,29 +268,29 @@
     <state x="592" y="228" key="FileChooserDialogImpl/0.0.1536.864@0.0.1536.864" timestamp="1588331647743" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588251026325" />
     <state x="2660" y="275" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587659142401" />
-    <state width="1493" height="209" key="GridCell.Tab.0.bottom" timestamp="1588441979226">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="312" key="GridCell.Tab.0.bottom" timestamp="1588748429361">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="209" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1588441979226" />
-    <state width="1877" height="146" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588158585351" />
+    <state width="1877" height="312" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588748429361" />
     <state width="1877" height="146" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587837653766" />
-    <state width="1493" height="209" key="GridCell.Tab.0.center" timestamp="1588441979226">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="312" key="GridCell.Tab.0.center" timestamp="1588748429361">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="209" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1588441979226" />
-    <state width="1877" height="146" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588158585350" />
+    <state width="1877" height="312" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588748429361" />
     <state width="1877" height="146" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587837653765" />
-    <state width="1493" height="209" key="GridCell.Tab.0.left" timestamp="1588441979226">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="312" key="GridCell.Tab.0.left" timestamp="1588748429361">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="209" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1588441979226" />
-    <state width="1877" height="146" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588158585349" />
+    <state width="1877" height="312" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588748429361" />
     <state width="1877" height="146" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587837653765" />
-    <state width="1493" height="209" key="GridCell.Tab.0.right" timestamp="1588441979226">
-      <screen x="0" y="0" width="1536" height="864" />
+    <state width="1877" height="312" key="GridCell.Tab.0.right" timestamp="1588748429361">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1493" height="209" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1588441979226" />
-    <state width="1877" height="146" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588158585351" />
+    <state width="1877" height="312" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588748429361" />
     <state width="1877" height="146" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587837653766" />
     <state width="1877" height="355" key="GridCell.Tab.1.bottom" timestamp="1587545175280">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -299,11 +321,11 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="731" y="196" key="com.intellij.testIntegration.createTest.CreateTestDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586365171678" />
-    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1588147891645">
+    <state x="646" y="236" width="627" height="568" key="find.popup" timestamp="1588748342975">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="517" y="196" width="609" height="536" key="find.popup/0.0.1536.864@0.0.1536.864" timestamp="1586786762859" />
-    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588147891645" />
+    <state x="646" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1588748342975" />
     <state x="2566" y="236" width="627" height="568" key="find.popup/0.0.1920.1040/1920.0.1920.1040@1920.0.1920.1040" timestamp="1587300897009" />
     <state x="342" y="84" key="new project wizard" timestamp="1586450258752">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -317,22 +339,6 @@
       <screen x="0" y="0" width="1536" height="864" />
     </state>
     <state x="431" y="181" width="672" height="678" key="search.everywhere.popup/0.0.1536.864@0.0.1536.864" timestamp="1586785840954" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/InputOutputModule/GameLoader.java</url>
-          <line>105</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/InputOutputModule/GameLoader.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GameEngine2$NormalsGeneratorTest.ic" NAME="NormalsGeneratorTest Coverage Results" MODIFIED="1586365859361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
