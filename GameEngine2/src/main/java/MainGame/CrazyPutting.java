@@ -36,10 +36,11 @@ public class CrazyPutting extends PuttingSimulator {
 	}
 
 	public void game() throws FileNotFoundException, InputMismatchException {
-		if (interactiveMod) 
+		if (interactiveMod) {
 			gameInteractiveMod();
-		else
+		} else {
 			gameTextMod();
+		}
 	}
 
 	public void gameInteractiveMod() {
@@ -67,9 +68,9 @@ public class CrazyPutting extends PuttingSimulator {
 
 		while (shotScn.hasNextLine()) {
 			System.out.println("reading line");
-			String[] curarray = shotScn.nextLine().split(" ");
-			System.out.println(curarray[0] + " " + curarray[1]);
-			shotInput = new Vector2d(curarray[0], curarray[1]);
+			String[] cArray = shotScn.nextLine().split(" ");
+			System.out.println(cArray[0] + " " + cArray[1]);
+			shotInput = new Vector2d(cArray[0], cArray[1]);
 			
 			System.out.println("shot started");
 			takeShot(shotInput);

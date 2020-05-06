@@ -26,7 +26,6 @@ public class GameLoader {
         String heightFunction = "";
 
         try {
-
             File myObj = new File("terrainSaveFile.txt");
             Scanner myReader = new Scanner(myObj);
             int i=0;

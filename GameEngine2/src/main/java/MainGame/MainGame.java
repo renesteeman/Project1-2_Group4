@@ -1,8 +1,10 @@
 package MainGame;
 
+import GUI.GUIRenderer;
 import GUI.Menu.MainMenu;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
+import GUIElements.UIElement;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -37,16 +39,16 @@ public class MainGame extends CrazyPutting {
 
     public Loader loader = new Loader();
     public List<Entity> entities = new ArrayList<>();
+    public List<UIElement> GUIs = new ArrayList<>();
+
     public Light light;
     public Terrain terrain;
     public Camera camera;
     public MasterRenderer masterRenderer;
+    public GUIRenderer guiRenderer;
     public MousePicker mousePicker;
 
     public Trees trees;
-
-    //public Ball ball;
-    //public Goal goal;
 
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
@@ -56,7 +58,7 @@ public class MainGame extends CrazyPutting {
         GL.createCapabilities();
     }
 
-    public void addModels() {
+    public void setUpModels() {
         ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
@@ -65,24 +67,14 @@ public class MainGame extends CrazyPutting {
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
 
-        ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
-        RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
-        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
-
-        //Special arrayList just for trees
+        //Special arrayList just for trees (still declared here since it shouldn't be null)
         trees = new Trees();
-        //ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        //goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
         course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
-        Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
-        trees.add(tree1);
+
         entities.add(course.ball);
         entities.add(course.goal);
-
-        //entities.add(ball);
-        //entities.add(goal);
 
         entities.addAll(trees);
     }
@@ -97,7 +89,6 @@ public class MainGame extends CrazyPutting {
         RawModel dragonModel = loader.loadToVAO(dragonModelData.getVertices(), dragonModelData.getTextureCoords(), dragonModelData.getNormals(), dragonModelData.getIndices());
         TexturedModel texturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/brick")));
 
-        //TODO remove
         //Show X-axis
         for(int i=0; i<10; i++){
             TexturedModel XTexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_sand")));
@@ -124,6 +115,15 @@ public class MainGame extends CrazyPutting {
         terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
+    public void addTrees(){
+        ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
+        RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
+        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+
+        Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
+        trees.add(tree1);
+    }
+
     public void initLight() {
         light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
     }
@@ -133,8 +133,9 @@ public class MainGame extends CrazyPutting {
         camera = new Camera(course.ball);
     }
 
-    public void initRender() {
+    public void initRenders() {
         masterRenderer = new MasterRenderer(loader);
+        guiRenderer = new GUIRenderer(loader);
     }
 
     public void initControls() {
@@ -167,30 +168,12 @@ public class MainGame extends CrazyPutting {
                 System.out.println("A suprise but I welcome one");
             }
         };
-    }
 
-    public void runApp() {
-        //Game loop
-        //TODO WHY IS THIS HERE?!?!?
-        while(!DisplayManager.closed()){
-            //Handle mouse events
-            MouseHandler.handleMouseEvents();
-            camera.move(terrain);
-
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
-
-            //Render 3D elements
-            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
-
-            DisplayManager.updateDisplay();
-            DisplayManager.swapBuffers();
-        }
+        GUIs.add(testButton);
     }
 
     @Override
-    //TODO WHY IS THIS HERE?!?!?
+    //Update screen
     public void requestGraphicsUpdate() {
         //Handle mouse events
         MouseHandler.handleMouseEvents();
@@ -202,6 +185,9 @@ public class MainGame extends CrazyPutting {
 
         //Render 3D elements
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+        //Render 2D elements
+        guiRenderer.render(GUIs);
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
@@ -233,17 +219,17 @@ public class MainGame extends CrazyPutting {
 
     public static void main(String[] args) {
         MainGame obj = new MainGame();
-        obj.addModels();
+        obj.setUpModels();
         obj.resetPositions();
         obj.addAxes();
         obj.addTerrain();
         obj.initLight();
-        obj.initRender();
+        obj.initRenders();
         obj.initCamera();
         obj.initControls();
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
-        //obj.addUI();
+        obj.addUI();
         //MainMenu.createMenu();
         //obj.runApp();
         
@@ -262,6 +248,7 @@ public class MainGame extends CrazyPutting {
             Thread.currentThread().interrupt();
         }*/
 
+        //TODO add comments
         try {
             obj.game();
         } catch (Exception e) {
