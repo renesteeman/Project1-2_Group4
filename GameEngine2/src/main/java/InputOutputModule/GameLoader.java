@@ -1,6 +1,5 @@
 package InputOutputModule;
 
-import MainGame.MainGameLoop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
