@@ -11,8 +11,17 @@ public class EulerSolver implements PhysicsEngine {
 		this.course = course;
 	}
 
+	private boolean passedFlag = false;
+
+	@Override
+	public boolean passedFlag() {
+		return passedFlag;
+	}
+
 	@Override 
 	public void process(double dtime) {
+		passedFlag = false;
+
 		Vector2d p = course.ball.getPosition2();
 		Vector2d v = course.ball.getVelocity2D();
 
@@ -27,6 +36,21 @@ public class EulerSolver implements PhysicsEngine {
 
 			p = new Vector2d(pNextX, pNextY);
 			v = new Vector2d(vNextX, vNextY);
+
+			if (v.length() > course.getMaxVelocity()) {
+				v = Vector2d.divide(v, v.length());
+				v = Vector2d.multiply(v, course.getMaxVelocity());
+			}
+
+			if (p.x < 0) p.x = 0;
+			if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
+			if (p.y < 0) p.y = 0;
+			if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
+
+			if (course.victoriousPosition3())
+				passedFlag = true;
+
+			//System.out.println(v.length());
 
 			//System.out.println(p + " " + v + " " + gradient);
 		}

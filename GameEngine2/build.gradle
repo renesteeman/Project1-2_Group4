@@ -147,19 +147,22 @@ test {
 }
 
 // Define the main class for the application
-mainClassName = 'software.Software'
+mainClassName = 'FeatureTester.FeatureTester'
 
 task(runSoftware, dependsOn: 'classes', type: JavaExec) {
-    main = 'software.Software'
+    main = 'MainGame.MainGame'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
 
 task(run2d, dependsOn: 'classes', type: JavaExec) {
-    main = 'game.CrazyPutting'
+    main = 'MainGame.CrazyPutting'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }
 
 task(helloLegui, dependsOn: 'classes', type: JavaExec) {
     main = 'legui.HelloLegui'
     classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
 }

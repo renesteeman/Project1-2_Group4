@@ -1,8 +1,16 @@
 package InputOutputModule;
 
+import FeatureTester.FeatureTester;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
+// QUESTION is this file supposed to just extract the basic course data? Like, read the file that was sampled in the manual? If yes, than it is already
+// implemented inside the puttingcourse and this file can be deleted.
+
+// TODO rewrite for the MainGame 
+// The easiest way to do so is not drag the Ball from PuttingCourse cause it'll likely break a lot of stuff but to provide MainGame class
+// (or whatever GameLoader is logically supposed to interact with) with methods that are gonna send data to the puttingcourse's object.
 
 public class GameLoader {
     //TODO load the game info when this function is called (goal location, ball location, terrain, etc)
@@ -18,7 +26,6 @@ public class GameLoader {
         String heightFunction = "";
 
         try {
-
             File myObj = new File("terrainSaveFile.txt");
             Scanner myReader = new Scanner(myObj);
             int i=0;
@@ -59,11 +66,11 @@ public class GameLoader {
             //TODO link to physics and game objects
             System.out.println(gravitationalConstant);
             System.out.println(massOfBall);
-            MainGameLoop.ball.setMassOfBall(Float.parseFloat(massOfBall));
+            FeatureTester.ball.setMassOfBall(Float.parseFloat(massOfBall));
             System.out.println(frictionCoefficient);
             System.out.println(vMax);
             System.out.println(goalRadius);
-            MainGameLoop.goal.setRadius(Float.parseFloat(goalRadius));
+            FeatureTester.goal.setRadius(Float.parseFloat(goalRadius));
             System.out.println(startCoordinates2D);
             System.out.println(goalCoordinates2D);
             System.out.println(heightFunction);

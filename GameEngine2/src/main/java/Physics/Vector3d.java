@@ -10,6 +10,18 @@ public class Vector3d {
 
 	public Vector3d(){ }
 
+	public Vector3d(Vector3d another) {
+		x = another.x;
+		y = another.y;
+		z = another.z;
+	}
+
+	public Vector3d(Vector3f another) {
+		x = another.x;
+		y = another.y;
+		z = another.z;
+	}
+
 	public Vector3d(double x, double y, double z) {
 		this.x = x;
 		this.y = y;

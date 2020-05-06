@@ -1,5 +1,8 @@
-package software;
+package MainGame;
 
+import GUI.Menu.MainMenu;
+import GUIElements.Buttons.AbstractButton;
+import GUIElements.Buttons.InterfaceButton;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -13,18 +16,24 @@ import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.MousePicker;
+import com.sun.tools.javac.Main;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.lang.management.ManagementFactory;
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Software extends CrazyPutting {
+public class MainGame extends CrazyPutting {
 
     //10 units in-engine = 1 meter
-    static public final int SCALE = 10;
-    static final int TERRAIN_SIZE = 800;
+    public final int SCALE = GameStaticData.SCALE;
+    public final int TERRAIN_SIZE = course.TERRAIN_SIZE; // 800
 
     public Loader loader = new Loader();
     public List<Entity> entities = new ArrayList<>();
@@ -39,8 +48,8 @@ public class Software extends CrazyPutting {
     //public Ball ball;
     //public Goal goal;
 
-    public Software() {
-        this.course = new PuttingCourse("./res/courses/course0.txt");
+    public MainGame() {
+        this.course = new PuttingCourse("./res/courses/course1.txt");
         this.engine = DetermineSolver.getEngine(course);
 
         DisplayManager.createDisplay();
@@ -133,8 +142,36 @@ public class Software extends CrazyPutting {
         mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
     }
 
+    public void addUI(){
+        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+
+            @Override
+            public void onClick(InterfaceButton button) {
+                System.out.println("Hello there");
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                button.playHoverAnimation(0.092f);
+                System.out.println("I am the Senate!");
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                button.resetScale();
+                System.out.println("General Kenobi");
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+                System.out.println("A suprise but I welcome one");
+            }
+        };
+    }
+
     public void runApp() {
         //Game loop
+        //TODO WHY IS THIS HERE?!?!?
         while(!DisplayManager.closed()){
             //Handle mouse events
             MouseHandler.handleMouseEvents();
@@ -152,7 +189,8 @@ public class Software extends CrazyPutting {
         }
     }
 
-    @Override 
+    @Override
+    //TODO WHY IS THIS HERE?!?!?
     public void requestGraphicsUpdate() {
         //Handle mouse events
         MouseHandler.handleMouseEvents();
@@ -174,8 +212,27 @@ public class Software extends CrazyPutting {
         loader.cleanUp();
     }
 
+    @Override 
+    protected boolean collectShotData() {
+        System.out.println("enter your shot data(the velocity vector):");
+        Scanner shotScanner = new Scanner(System.in);
+        String[] arguments = shotScanner.nextLine().split(" ");
+        System.out.println("your shot is read");
+        if (arguments.length == 1 && arguments[0].equals("stop")) {
+            System.out.println("stop condition is recognized");
+            return false;
+        }
+        if (arguments.length == 2 && StringUtils.isNumeric(arguments[0]) && StringUtils.isNumeric(arguments[1])) {
+            shotInput = new Vector2d(arguments[0], arguments[1]);
+            System.out.println("input is recognized as valid");
+            return true;
+        }
+        System.out.println("invalid shot input, try again");
+        return collectShotData();
+    }
+
     public static void main(String[] args) {
-        Software obj = new Software();
+        MainGame obj = new MainGame();
         obj.addModels();
         obj.resetPositions();
         obj.addAxes();
@@ -184,6 +241,10 @@ public class Software extends CrazyPutting {
         obj.initRender();
         obj.initCamera();
         obj.initControls();
+        obj.setInteractiveMod(false);
+        obj.requestGraphicsUpdate();
+        //obj.addUI();
+        //MainMenu.createMenu();
         //obj.runApp();
         
         /*for (int i = 0; i < 1e5; i++) {
@@ -192,14 +253,14 @@ public class Software extends CrazyPutting {
             }
         }*/
 
-        try
+        /*try
         {
             Thread.sleep(5000);
         }
         catch(InterruptedException ex)
         {
             Thread.currentThread().interrupt();
-        }
+        }*/
 
         try {
             obj.game();
@@ -207,6 +268,8 @@ public class Software extends CrazyPutting {
             e.printStackTrace();
             System.exit(0);
         }
+
+        System.out.println(obj.passedFlag());
 
         //obj.requestGraphicsUpdate();
         obj.cleanUp();

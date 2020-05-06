@@ -1,6 +1,6 @@
 package Entities;
 
-import MainGame.MainGameLoop;
+import MainGame.GameStaticData;
 import MouseHandler.MouseHandler;
 import RenderEngine.DisplayManager;
 import Terrain.Terrain;
@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class Camera {
 
-    private float distanceFromBall = 5*MainGameLoop.SCALE;
+    private float distanceFromBall = 5*GameStaticData.SCALE;
     private float angleAroundBall = 0;
 
     private Vector3f position;
@@ -157,7 +157,7 @@ public class Camera {
     }
 
     public Vector3f getPosition() {
-        return position;
+        return new Vector3f(position);
     }
 
     public float getPitch() {

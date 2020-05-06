@@ -1,7 +1,6 @@
 package Physics;
 
 import Entities.*;
-import MainGame.MainGameLoop;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -28,6 +27,10 @@ public class PuttingCourse {
     public Goal goal;
     public ArrayList<Tree> trees = new ArrayList<>();
 
+    public final int TERRAIN_SIZE = 800;
+    public final int DOMAIN_X = 800;
+    public final int DOMAIN_Y = 800;
+
     public static void main(String[] args) {
         PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
         System.out.println(course);
@@ -43,7 +46,8 @@ public class PuttingCourse {
         this.goalRadius = goalRadius;
         this.maxVelocity = maxVelocity;
 
-        //TODO is the use of new Vector2d() for the ball's velocity correct?
+        //TODO is the use of new Vector2d() for the ball's velocity correct? 
+        //YES, because initial velocity is always zero
 
         ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
         goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
@@ -138,6 +142,14 @@ public class PuttingCourse {
         Path path = Paths.get("courses");
         if (!Files.exists(path))
             Files.createDirectory(path);
+    }
+
+    public boolean victoriousPosition2() {
+        return ((Vector2d.subtract(ball.getPosition2(), goal.getPosition2())).length() <= getHoleRadius());
+    }
+
+    public boolean victoriousPosition3() {
+        return ((Vector3d.subtract(ball.getPosition3(), goal.getPosition3())).length() <= getHoleRadius());
     }
 
     //Functions required by the API that we don't actually care about

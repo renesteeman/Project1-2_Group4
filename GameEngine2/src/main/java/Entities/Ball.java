@@ -1,6 +1,5 @@
 package Entities;
 
-import MainGame.MainGameLoop;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 import Physics.Vector2d;
@@ -34,7 +33,7 @@ public class Ball extends Entity {
     }
 
     public Vector3f getVelocity() {
-    	return velocity;
+    	return new Vector3f(velocity);
     }
 
     public void setVelocity(Vector3d velocity) {
