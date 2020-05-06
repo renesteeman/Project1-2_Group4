@@ -50,9 +50,6 @@ public class MainGame extends CrazyPutting {
 
     public Trees trees;
 
-    //public Ball ball;
-    //public Goal goal;
-
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
         this.engine = DetermineSolver.getEngine(course);
@@ -251,6 +248,7 @@ public class MainGame extends CrazyPutting {
             Thread.currentThread().interrupt();
         }*/
 
+        //TODO add comments
         try {
             obj.game();
         } catch (Exception e) {
