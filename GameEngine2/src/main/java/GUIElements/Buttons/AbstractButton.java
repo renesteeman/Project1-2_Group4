@@ -51,18 +51,14 @@ public abstract class AbstractButton implements InterfaceButton, UIElement {
         }
     }
 
-    public void show(List<GUITexture> guiTextureList){
-        if(isHidden){
-            guiTextureList.add(guiTexture);
-            isHidden = false;
-        }
+    public void show(){
+        isHidden = false;
+        guiTexture.setScale(originalScale);
     }
 
-    public void hide(List<GUITexture> guiTextureList){
-        if(!isHidden){
-            guiTextureList.remove(guiTexture);
-            isHidden = true;
-        }
+    public void hide(){
+        isHidden = true;
+        guiTexture.setScale(new Vector2f(0, 0));
     }
 
     public void resetScale(){
