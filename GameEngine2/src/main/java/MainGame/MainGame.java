@@ -24,14 +24,19 @@ import com.sun.tools.javac.Main;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+import org.liquidengine.legui.input.Mouse;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
 
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.management.ManagementFactory;
+import java.nio.DoubleBuffer;
 import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 
 public class MainGame extends CrazyPutting {
 
@@ -146,15 +151,17 @@ public class MainGame extends CrazyPutting {
     }
 
     public void addUI(){
-        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0.5f), new Vector2f(0.2f, 0.2f)) {
 
             @Override
             public void onClick(InterfaceButton button) {
+                MouseHandler.disable();
                 System.out.println("Hello there");
             }
 
             @Override
             public void onStartHover(InterfaceButton button) {
+                MouseHandler.disable();
                 button.playHoverAnimation(0.092f);
                 System.out.println("I am the Senate!");
             }
@@ -163,6 +170,7 @@ public class MainGame extends CrazyPutting {
             public void onStopHover(InterfaceButton button) {
                 button.resetScale();
                 System.out.println("General Kenobi");
+                MouseHandler.enable();
             }
 
             @Override
@@ -174,28 +182,33 @@ public class MainGame extends CrazyPutting {
         Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
-                System.out.println("Hello there");
+                MouseHandler.disable();
+                getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
+
+                //System.out.println("Hello there");
             }
 
             @Override
             public void onStartHover(InterfaceButton button) {
-                button.playHoverAnimation(0.092f);
-                System.out.println("I am the Senate!");
+                MouseHandler.disable();
+                //button.playHoverAnimation(0.092f);
+                //System.out.println("I am the Senate!");
             }
 
             @Override
             public void onStopHover(InterfaceButton button) {
-                button.resetScale();
-                System.out.println("General Kenobi");
+                MouseHandler.enable();
+                //button.resetScale();
+                //System.out.println("General Kenobi");
             }
 
             @Override
             public void whileHovering(InterfaceButton button) {
-                System.out.println("A suprise but I welcome one");
+                //System.out.println("A suprise but I welcome one");
             }
         };
 
-        //GUIs.add(testButton);
+        GUIs.add(testButton);
         GUIs.add(testSlider);
     }
 

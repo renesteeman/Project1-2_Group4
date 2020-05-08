@@ -16,7 +16,7 @@ public class DisplayManager {
 
     public static void createDisplay(){
         if (!GLFW.glfwInit()) {
-            System.err.println("Couln't initialize GLFW");
+            System.err.println("Couldn't initialize GLFW");
             System.exit(-1);
         }
 

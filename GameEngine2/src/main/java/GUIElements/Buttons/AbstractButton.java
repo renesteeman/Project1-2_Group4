@@ -30,8 +30,8 @@ public abstract class AbstractButton implements InterfaceButton, UIElement {
 
             Vector2f mouseCoordinates = DisplayManager.getNormalizedMouseCoordinates();
 
-            if(location.y + scale.y > -mouseCoordinates.y &&
-                location.y - scale.y < -mouseCoordinates.y &&
+            if(location.y + scale.y > mouseCoordinates.y &&
+                location.y - scale.y < mouseCoordinates.y &&
                 location.x + scale.x > mouseCoordinates.x &&
                 location.x - scale.x < mouseCoordinates.x) {
                 whileHovering(this);
