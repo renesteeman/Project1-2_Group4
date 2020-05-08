@@ -40,19 +40,15 @@ public class Image implements InterfaceButton, UIElement {
     }
 
     @Override
-    public void show(List<GUITexture> guiTextureList){
-        if(isHidden){
-            guiTextureList.add(guiTexture);
-            isHidden = false;
-        }
+    public void show(){
+        guiTexture.setScale(originalScale);
+        isHidden = false;
     }
 
     @Override
-    public void hide(List<GUITexture> guiTextureList){
-        if(!isHidden){
-            guiTextureList.remove(guiTexture);
-            isHidden = true;
-        }
+    public void hide(){
+        guiTexture.setScale(new Vector2f(0, 0));
+        isHidden = false;
     }
 
     @Override

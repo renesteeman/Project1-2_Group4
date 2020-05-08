@@ -210,6 +210,8 @@ public class MainGame extends CrazyPutting {
 
         GUIs.add(testButton);
         GUIs.add(testSlider);
+//        testSlider.hide();
+//        testSlider.show();
     }
 
     @Override

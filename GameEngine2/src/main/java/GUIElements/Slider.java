@@ -53,20 +53,16 @@ public abstract class Slider implements InterfaceButton, UIElement {
         }
     }
 
-    public void show(List<GUITexture> guiTextureList){
-        if(isHidden){
-            guiTextureList.add(backgroundTexture);
-            guiTextureList.add(sliderTexture);
-            isHidden = false;
-        }
+    public void show(){
+        isHidden = false;
+        backgroundTexture.setScale(originalScale);
+        sliderTexture.setScale(originalScale);
     }
 
-    public void hide(List<GUITexture> guiTextureList){
-        if(!isHidden){
-            guiTextureList.remove(backgroundTexture);
-            guiTextureList.remove(sliderTexture);
-            isHidden = true;
-        }
+    public void hide(){
+        isHidden = false;
+        backgroundTexture.setScale(new Vector2f(0, 0));
+        sliderTexture.setScale(new Vector2f(0, 0));
     }
 
     public void resetScale(){
