@@ -8,6 +8,8 @@ import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
 import GUIElements.Slider;
 import GUIElements.UIElement;
+import InputOutputModule.GameLoader;
+import InputOutputModule.GameSaver;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -30,6 +32,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.liquidengine.legui.input.Mouse;
 import org.lwjgl.BufferUtils;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
 import org.apache.commons.lang3.StringUtils;
@@ -42,13 +45,25 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
+import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGame extends CrazyPutting {
+    //Settings
+    static final boolean editMode = true;
 
     //10 units in-engine = 1 meter
     private final int SCALE = GameStaticData.SCALE;
-    private final int TERRAIN_SIZE = course.TERRAIN_SIZE; // 800
+    private final int TERRAIN_SIZE = course.TERRAIN_SIZE;
+
+    //Edit variables
+    //0 = place items, 1 = remove items, 66 = debug, -1 is game mode
+    int objectType = -1;
+    Vector3f terrainPoint;
+    final float REMOVE_DISTANCE = SCALE*2;
+    final float EDIT_SAND_DISTANCE = SCALE*2;
+    int oldLeftMouseButtonState = GLFW_RELEASE;
+    int oldRightMouseButtonState = GLFW_RELEASE;
+    boolean deleteEditMode = false;
 
     private Loader loader = new Loader();
     private List<Entity> entities = new ArrayList<>();
@@ -170,6 +185,30 @@ public class MainGame extends CrazyPutting {
         mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
     }
 
+    public void setupEditMode(){
+        //Handle events related to editing
+        GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
+            if (key == GLFW_KEY_1) {
+                objectType = 1;
+                MouseHandler.disable();
+            } else if (key == GLFW_KEY_2){
+                objectType = 2;
+                MouseHandler.disable();
+            } else if (key == GLFW_KEY_ESCAPE){
+                objectType = -1;
+                MouseHandler.enable();
+            } else if (key == GLFW_KEY_F5){
+                //Optional TODO use this action before the game starts to load a map (requires API change)
+                //GameLoader.loadGameFile("");
+                entities.addAll(trees);
+                terrain.updateTerrain(loader);
+            } else if (key == GLFW_KEY_F10){
+                //Optional TODO use this action after editing a map to save it (requires API change)
+                //GameSaver.saveGameFile("");
+            }
+        });
+    }
+
     public void addUI(){
         AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0.5f), new Vector2f(0.2f, 0.2f)) {
 
@@ -242,6 +281,36 @@ public class MainGame extends CrazyPutting {
         //Handle mouse events
         MouseHandler.handleMouseEvents();
         camera.move(terrain);
+
+        if(editMode && objectType!=-1){
+            //Update mousePicker
+            mousePicker.update();
+            terrainPoint = mousePicker.getCurrentTerrainPoint();
+
+            //Handle mouse click (prevents holding the button)
+            int newLeftMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_LEFT);
+            if (newLeftMouseButtonState == GLFW_RELEASE && oldLeftMouseButtonState == GLFW_PRESS) {
+                deleteEditMode = false;
+                handleEditClickAction();
+            }
+            oldLeftMouseButtonState = newLeftMouseButtonState;
+
+            int newRightMouseButtonState = glfwGetMouseButton(DisplayManager.getWindow(), GLFW_MOUSE_BUTTON_RIGHT);
+            if (newRightMouseButtonState == GLFW_RELEASE && oldRightMouseButtonState == GLFW_PRESS) {
+                deleteEditMode = true;
+                handleEditClickAction();
+            }
+            oldRightMouseButtonState = newRightMouseButtonState;
+
+            //Handle mouse drags
+            if (newLeftMouseButtonState == GLFW_PRESS || newRightMouseButtonState == GLFW_PRESS ) {
+                //Update mode
+                if(newLeftMouseButtonState==GLFW_PRESS) deleteEditMode = false;
+                if(newRightMouseButtonState==GLFW_PRESS) deleteEditMode = true;
+
+                handleEditDragAction();
+            }
+        }
 
         //Update mousePicker
         mousePicker.update();
@@ -325,6 +394,8 @@ public class MainGame extends CrazyPutting {
         obj.initCamera();
         obj.initControls();
         obj.setInteractiveMod(false);
+        //only call setupEditMode if edit mode should be available
+        obj.setupEditMode();
         obj.addUI();
         obj.requestGraphicsUpdate();
 
@@ -356,7 +427,65 @@ public class MainGame extends CrazyPutting {
 
         System.out.println(obj.passedFlag());
 
-        //obj.requestGraphicsUpdate();
         obj.cleanUp();
+    }
+
+    private void handleEditClickAction(){
+        if(terrainPoint!=null){
+            if(objectType == 1){
+                if(!deleteEditMode){
+                    //Place mode
+                    //terrainPoint is the point on the terrain that the user clicked on
+                    ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
+                    RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
+                    TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+                    Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                    trees.add(treeToAdd);
+                    entities.add(treeToAdd);
+                } else if(deleteEditMode){
+                    //Remove trees within remove distance
+                    System.out.println("BEFORE" + trees.size());
+                    for(int i=0; i<trees.size(); i++){
+                        Entity currentTree = trees.get(i);
+
+                        if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
+                            trees.remove(currentTree);
+                            entities.remove(currentTree);
+                        }
+                    }
+                    System.out.println("AFTER" + trees.size());
+                }
+            } else if(objectType == 2){
+                if(!deleteEditMode){
+                    //Add sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
+
+                } else if(deleteEditMode){
+                    //Remove sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                }
+            } else if(objectType == 66){
+                //DEBUG MODE IS ON (order 66)
+                System.out.println(terrain.getTerrainTypeAtTerrainPoint(terrainPoint.x, terrainPoint.z));
+            }
+        }
+    }
+
+    private void handleEditDragAction() {
+        if (terrainPoint != null) {
+            if(objectType == 2){
+                //Sand
+                if(!deleteEditMode){
+                    //Add sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
+                } else if(deleteEditMode){
+                    //Remove sand
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.updateTerrain(loader);
+                }
+            }
+        }
     }
 }
