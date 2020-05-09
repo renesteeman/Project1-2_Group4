@@ -1,5 +1,6 @@
 package MainGame;
 
+import FontRendering.TextMaster;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
 import GUI.Menu.MainMenu;
@@ -15,11 +16,14 @@ import OBJConverter.ModelData;
 import OBJConverter.OBJFileLoader;
 import RenderEngine.*;
 import Models.RawModel;
+import Shaders.WaterShader;
 import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
 import Toolbox.MousePicker;
+import Water.WaterFrameBuffers;
+import Water.WaterTile;
 import com.sun.tools.javac.Main;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -27,6 +31,8 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL;
 
 import org.apache.commons.lang3.StringUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL30;
 
 import java.lang.management.ManagementFactory;
 import java.util.Scanner;
@@ -42,13 +48,19 @@ public class MainGame extends CrazyPutting {
     public Loader loader = new Loader();
     public List<Entity> entities = new ArrayList<>();
     public List<UIElement> GUIs = new ArrayList<>();
+    public List<WaterTile> waters = new ArrayList<WaterTile>();
 
     public Light light;
     public Terrain terrain;
     public Camera camera;
     public MasterRenderer masterRenderer;
+    public WaterFrameBuffers waterFrameBuffers;
     public GUIRenderer guiRenderer;
     public MousePicker mousePicker;
+    public WaterTile mainWaterTile;
+
+    public WaterShader waterShader;
+    public WaterRenderer waterRenderer;
 
     public Trees trees;
 
@@ -117,6 +129,13 @@ public class MainGame extends CrazyPutting {
         terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
+    public void addWater(){
+        waterFrameBuffers = new WaterFrameBuffers();
+        waterShader = new WaterShader();
+        mainWaterTile = new WaterTile((float) (TERRAIN_SIZE/2.0), (float) (TERRAIN_SIZE/2.0), 0, TERRAIN_SIZE);
+        waters.add(mainWaterTile);
+    }
+
     public void addTrees(){
         ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
@@ -138,6 +157,7 @@ public class MainGame extends CrazyPutting {
     public void initRenders() {
         masterRenderer = new MasterRenderer(loader);
         guiRenderer = new GUIRenderer(loader);
+        waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
     }
 
     public void initControls() {
@@ -196,7 +216,7 @@ public class MainGame extends CrazyPutting {
         };
 
         //GUIs.add(testButton);
-        GUIs.add(testSlider);
+//        GUIs.add(testSlider);
 //        testSlider.hide();
 //        testSlider.show();
     }
@@ -212,8 +232,33 @@ public class MainGame extends CrazyPutting {
         mousePicker.update();
         Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
+        //Render water part 1
+        GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+
+        //water reflection
+        waterFrameBuffers.bindReflectionFrameBuffer();
+        float distance = 2*(camera.getPosition().y - mainWaterTile.getHeight());
+        camera.setPreventTerrainClipping(false);
+        camera.getPosition().y -= distance;
+        camera.invertPitch();
+
+        masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()+0.2f));
+
+        camera.getPosition().y += distance;
+        camera.invertPitch();
+        camera.setPreventTerrainClipping(true);
+        waterFrameBuffers.unbindCurrentFrameBuffer();
+
+        //water refraction
+        waterFrameBuffers.bindRefractionFrameBuffer();
+        masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()+0.2f));
+        waterFrameBuffers.unbindCurrentFrameBuffer();
+
         //Render 3D elements
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
+
+        //Render water part 2
+        waterRenderer.render(waters, camera, light);
 
         //Render 2D elements
         guiRenderer.render(GUIs);
@@ -226,6 +271,10 @@ public class MainGame extends CrazyPutting {
     }
 
     public void cleanUp() {
+        waterFrameBuffers.cleanUp();
+        waterShader.cleanUp();
+        TextMaster.cleanUp();
+        guiRenderer.cleanUp();
         masterRenderer.cleanUp();
         loader.cleanUp();
     }
@@ -256,12 +305,14 @@ public class MainGame extends CrazyPutting {
         obj.addAxes();
         obj.addTerrain();
         obj.initLight();
+        obj.addWater();
         obj.initRenders();
         obj.initCamera();
         obj.initControls();
         obj.setInteractiveMod(false);
-        obj.requestGraphicsUpdate();
         obj.addUI();
+        obj.requestGraphicsUpdate();
+
         //MainMenu.createMenu();
         //obj.runApp();
         

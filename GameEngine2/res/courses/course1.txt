@@ -1,4 +1,4 @@
-height = (x)
+height = (sin(x)+cos(x)-2)
 flag = (20, 0)
 start = (50, 0)
 friction = 0.5
