@@ -47,27 +47,27 @@ import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 public class MainGame extends CrazyPutting {
 
     //10 units in-engine = 1 meter
-    public final int SCALE = GameStaticData.SCALE;
-    public final int TERRAIN_SIZE = course.TERRAIN_SIZE; // 800
+    private final int SCALE = GameStaticData.SCALE;
+    private final int TERRAIN_SIZE = course.TERRAIN_SIZE; // 800
 
-    public Loader loader = new Loader();
-    public List<Entity> entities = new ArrayList<>();
-    public List<UIElement> GUIs = new ArrayList<>();
-    public List<WaterTile> waters = new ArrayList<WaterTile>();
+    private Loader loader = new Loader();
+    private List<Entity> entities = new ArrayList<>();
+    private List<UIElement> GUIs = new ArrayList<>();
+    private List<WaterTile> waters = new ArrayList<WaterTile>();
 
-    public Light light;
-    public Terrain terrain;
-    public Camera camera;
-    public MasterRenderer masterRenderer;
-    public WaterFrameBuffers waterFrameBuffers;
-    public GUIRenderer guiRenderer;
-    public MousePicker mousePicker;
-    public WaterTile mainWaterTile;
+    private Light light;
+    private Terrain terrain;
+    private Camera camera;
+    private MasterRenderer masterRenderer;
+    private WaterFrameBuffers waterFrameBuffers;
+    private GUIRenderer guiRenderer;
+    private MousePicker mousePicker;
+    private WaterTile mainWaterTile;
 
-    public WaterShader waterShader;
-    public WaterRenderer waterRenderer;
+    private WaterShader waterShader;
+    private WaterRenderer waterRenderer;
 
-    public Trees trees;
+    private Trees trees;
 
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
