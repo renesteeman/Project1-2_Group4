@@ -50,7 +50,9 @@ public class TextMaster {
 	}
 	
 	public static void cleanUp(){
-		renderer.cleanUp();
+		if(renderer!=null){
+			renderer.cleanUp();
+		}
 	}
 
 }

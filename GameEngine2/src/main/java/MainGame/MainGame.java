@@ -178,6 +178,7 @@ public class MainGame extends CrazyPutting {
         masterRenderer = new MasterRenderer(loader);
         guiRenderer = new GUIRenderer(loader);
         waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
+        TextMaster.init(loader);
     }
 
     public void initControls() {
