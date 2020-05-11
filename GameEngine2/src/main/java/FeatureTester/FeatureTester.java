@@ -78,7 +78,7 @@ public class FeatureTester {
         TextMaster.init(loader);
 
         FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("./res/font/tahoma.fnt"));
-        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
+        GUIText text = new GUIText("", 1, font, new Vector2f(0, 0), 1f, true);
 
         Light light = new Light(new Vector3f(20000,20000,2000), new Vector3f(1, 1, 1));
 
@@ -114,16 +114,16 @@ public class FeatureTester {
 
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
-        ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1); //good one
+        ball = new Ball(texturedBall, new Vector3f(20*SCALE, 1, 30*SCALE), 0, 0, 0, 1);
+        goal = new Goal(texturedGoal, new Vector3f(40*SCALE, 0, 30*SCALE), 0, 0, 0, 1); //good one
         Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
         indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
-        entities.add(dragonEntity);
+        //entities.add(dragonEntity);
         entities.add(ball);
         entities.add(goal);
-        entities.addAll(trees);
+        //entities.addAll(trees);
         entities.add(indicationArrow);
         entities.add(indicationBall);
         indicationArrow.hide();
@@ -143,7 +143,7 @@ public class FeatureTester {
             float y = 5*SCALE;
 
             Entity testDragonEntity = new Entity(XtexturedDragon, new Vector3f(x, y, z), 0, 0, 0, 1);
-            entities.add(testDragonEntity);
+            //entities.add(testDragonEntity);
         }
 
 //        float tmpY = terrain.getHeight(200, 200);
@@ -160,14 +160,14 @@ public class FeatureTester {
             float y = terrain.getHeight(x, z);
 
             Entity testDragonEntity = new Entity(XtexturedDragonMEME, new Vector3f(x, y, z), 0, 0, 0, 1);
-            entities.add(testDragonEntity);
+            //entities.add(testDragonEntity);
         }
 
         //Show Z-axis
         TexturedModel ZtexturedDragon = new TexturedModel(dragonModel, new ModelTexture(loader.loadTexture("textures/nice_grass")));
         for(int i=0; i<10; i++){
             Entity testDragonEntity = new Entity(ZtexturedDragon, new Vector3f(0, 5*SCALE, 5*SCALE*i), 0, 0, 0, 1);
-            entities.add(testDragonEntity);
+            //entities.add(testDragonEntity);
         }
 
         //GUI
@@ -262,7 +262,7 @@ public class FeatureTester {
                 System.out.println("A suprise but I welcome one");
             }
         };
-        GUIs.add(testButton);
+        //GUIs.add(testButton);
 
         Image testImage = new Image(loader, "textures/UI_meme", new Vector2f(0,0), new Vector2f(0.2f, 0.2f));
 //        GUIs.add(testImage);
