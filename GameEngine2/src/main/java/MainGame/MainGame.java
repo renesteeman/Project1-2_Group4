@@ -172,20 +172,8 @@ public class MainGame extends CrazyPutting {
     public void runApp() {
         //Game loop
         //TODO WHY IS THIS HERE?!?!?
-        while(!DisplayManager.closed()){
-            //Handle mouse events
-            MouseHandler.handleMouseEvents();
-            camera.move(terrain);
-
-            //Update mousePicker
-            mousePicker.update();
-            Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
-
-            //Render 3D elements
-            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
-
-            DisplayManager.updateDisplay();
-            DisplayManager.swapBuffers();
+        while(!DisplayManager.closed()) {
+            requestGraphicsUpdate();
         }
     }
 
@@ -243,6 +231,7 @@ public class MainGame extends CrazyPutting {
         obj.initControls();
         obj.setInteractiveMod(false);
         obj.requestGraphicsUpdate();
+        obj.putDelay(10);
         //obj.addUI();
         //MainMenu.createMenu();
         //obj.runApp();

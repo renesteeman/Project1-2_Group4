@@ -16,7 +16,7 @@ public class Terrain {
 
     //Every terrain uses the same SIZE and VERTEX_COUNT (SIZE is final in MainGameLoop)
     private final int SIZE;
-    private final int VERTEX_COUNT = 512;
+    private final int VERTEX_COUNT = 800;
     private final float DISTANCE_PER_VERTEX;
     private static final float MAX_PIXEL_COLOR = 256 * 256 * 256;
 

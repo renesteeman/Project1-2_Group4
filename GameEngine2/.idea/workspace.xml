@@ -8,12 +8,16 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/classAnalysis.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/courses/course1.txt" beforeDir="false" afterPath="$PROJECT_DIR$/res/courses/course1.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AI/BruteForce.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AI/BruteForce.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/AI/Mastermind.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/AI/Mastermind.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/MainGame/MainGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/MainGame/MainGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Physics/PhysicsEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Physics/PhysicsEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Physics/PuttingSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Physics/PuttingSimulator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Terrain/Terrain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Terrain/Terrain.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +64,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />

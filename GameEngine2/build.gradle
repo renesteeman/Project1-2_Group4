@@ -152,6 +152,12 @@ task(runSoftware, dependsOn: 'classes', type: JavaExec) {
     standardInput = System.in
 }
 
+task(runMastermind, dependsOn: 'classes', type: JavaExec) {
+    main = 'AI.Mastermind'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
+
 task(run2d, dependsOn: 'classes', type: JavaExec) {
     main = 'MainGame.CrazyPutting'
     classpath = sourceSets.main.runtimeClasspath

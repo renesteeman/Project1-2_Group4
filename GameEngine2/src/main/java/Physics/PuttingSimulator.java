@@ -14,7 +14,7 @@ public class PuttingSimulator extends JPanel {
 	public boolean passedFlag = false;
 
 	public PuttingSimulator() {
-		course = new PuttingCourse("./res/courses/course0.txt");
+		course = new PuttingCourse("./res/courses/course1.txt");
 		engine = DetermineSolver.getEngine(course);
 	}
 
@@ -27,6 +27,11 @@ public class PuttingSimulator extends JPanel {
 	protected TreeMultiset<Double> sx, sz;
 	protected LinkedList<Double> lsx, lsz;
 
+	private long delay = 0;
+	public void putDelay(long delay) {
+		this.delay = delay;
+	}
+
 	protected boolean stopCondition() {
 		if (sx.size() < 300)
 			return false;
@@ -37,6 +42,9 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
+		if (initialBallVelocity.equals(new Vector2d())) 
+			return;
+
 		sx = TreeMultiset.create();
 		sz = TreeMultiset.create();
 		lsx = new LinkedList();
@@ -64,11 +72,13 @@ public class PuttingSimulator extends JPanel {
 			//System.out.println(course.ball.getCoords3());
 			//System.out.println(course.ball.getVelocity3());
 			requestGraphicsUpdate();
-			try {
-			    Thread.sleep(10); /// 1000 * DTIME
-			}
-			catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
+			if (delay != 0) {
+				try {
+				    Thread.sleep(delay); /// 1000 * DTIME
+				}
+				catch(InterruptedException ex) {
+				    Thread.currentThread().interrupt();
+				}
 			}
 			//if (height.evaluate(ball.getLocation()) < 0) {
 			//	requestBallRepositioning();
@@ -88,7 +98,7 @@ public class PuttingSimulator extends JPanel {
 
 	// TO BE OVERRIDDEN
 	public void requestGraphicsUpdate() {
-
+		
 	}
 
 	public void setBallPosition2(Vector2d location) {
