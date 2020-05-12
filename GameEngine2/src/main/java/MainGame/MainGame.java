@@ -242,6 +242,8 @@ public class MainGame extends CrazyPutting {
         Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
+                double velocity = ((getSliderTexture().getXPosition() - getBackgroundTexture().getXPosition()) * 6.2);
+                System.out.println(velocity);
                 MouseHandler.disable();
                 getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
 
@@ -269,9 +271,8 @@ public class MainGame extends CrazyPutting {
         };
 
         //GUIs.add(testButton);
-//        GUIs.add(testSlider);
-        GUIs.add(testButton);
-        GUIs.add(testSlider);
+       GUIs.add(testSlider);
+
 //        testSlider.hide();
 //        testSlider.show();
     }
