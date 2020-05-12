@@ -245,10 +245,12 @@ public class MainGame extends CrazyPutting {
             public void onClick(InterfaceButton button) {
                 MouseHandler.disable();
                 getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
-                double velocity = (Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()) - Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()))/800;
-                //System.out.println("Slider position: " + getSliderTexture().getXPosition());
-                //System.out.println("Background position: " + getBackgroundTexture().getXPosition());
+                //getBackgroundTexture().getXPosition() returns the middle coordinate of the bar in screen coordinates ([-1, 1]), similarly for the button
+                double velocity = (1+(Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()) - Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()))/(800*getBackgroundTexture().getScale().x()))/2;
+                System.out.println("Slider position: " + Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()));
+                System.out.println("Background position: " + Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()));
                 System.out.println("Velocity: " + velocity);
+                System.out.println(DisplayManager.getWidth());
                 //System.out.println("Hello there");
             }
 
