@@ -138,7 +138,7 @@ public class Terrain {
 //            add = (float) (-5);
 //        }
 
-        return (float) (2*Math.sin(x) + 2*Math.sin(z) + add);
+        return (float) (.5*Math.sin(x) + 1*Math.cos(z) + 1 + Math.sin(z/16)*3);
     }
 
     private float[] normalsToFloatArray(Vector3f[][] normalVectors){
