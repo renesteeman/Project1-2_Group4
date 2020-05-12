@@ -9,9 +9,9 @@ package Physics;
 public class RungeKutta4Solver implements PhysicsEngine{
     private double step = 1e-4; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
+    private boolean passedFlag = false;
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
-
 
     public RungeKutta4Solver(PuttingCourse course){
         this.course = course;
@@ -31,13 +31,13 @@ public class RungeKutta4Solver implements PhysicsEngine{
      * @param dtime
      */
     @Override
-    public void process(double dtime) { //TODO what is dtime?
+    public void process(double dtime) {
+        passedFlag = false;
+
         Vector2d p = course.ball.getPosition2();
         Vector2d v = course.ball.getVelocity2D();
 
 
-        //TODO make code shorter, e.g. k1 = new Vector2d(v.x,v.y)
-        //TODO Maybe update for loop to while loop, using the hole or e.g. v<0.1 as stopping condition?
         //Formulas: lx = x" = -g * h,x(x,y) - mu * g * x'/sqrt(x'^2 + y'^2) = -g * (h,x(x,y) + mu * x'/sqrt(x'^2 + y'^2)
         //          ly = y" = -g * h,y(x,y) - mu * g * y'/sqrt(x'^2 + y'^2) = -g * (h,y(x,y) + mu * y'/sqrt(x'^2 + y'^2)
         for(double timer = 0; timer < dtime; timer += step){
@@ -103,7 +103,17 @@ public class RungeKutta4Solver implements PhysicsEngine{
             Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
             Vector2d l = l1.add(l2.multiply(2.0)).add(l3.multiply(2.0)).add(l4).multiply(step/6.0);
             p = p.add(k);
-            v = v.add(l);
+            v = limitVelocity(v.add(l));
+
+
+            //TODO find better place to place this piece of code
+            if (p.x < 0) p.x = 0;
+            if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
+            if (p.y < 0) p.y = 0;
+            if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
+
+            if (course.victoriousPosition3())
+                passedFlag = true;
         }
 
         //UPDATE POSITION ON THE COURSE
@@ -111,7 +121,18 @@ public class RungeKutta4Solver implements PhysicsEngine{
         course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
     }
 
-
+    /**
+     * Scale the velocity down to the maximum velocity if it is bigger than the maximum
+     * @param velocity the velocity vector
+     * @return the (scaled) velocity vector
+     */
+    private Vector2d limitVelocity(Vector2d velocity) {
+        if (velocity.length() > course.maxVelocity) {
+            double scalingFactor = course.maxVelocity / velocity.length();
+            velocity = velocity.multiply(scalingFactor);
+        }
+        return velocity;
+    }
 
     @Override
     public void setStepSize(double h) {
@@ -121,9 +142,5 @@ public class RungeKutta4Solver implements PhysicsEngine{
     @Override
     public double getStepSize() {
         return step;
-    }
-
-    public static void main(String[] args) {
-
     }
 }

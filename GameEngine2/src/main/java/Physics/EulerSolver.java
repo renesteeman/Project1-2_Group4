@@ -3,6 +3,7 @@ package Physics;
 public class EulerSolver implements PhysicsEngine {
 	private double step = 1e-4; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
 	private PuttingCourse course;
+	private boolean passedFlag = false;
 
 	//TODO allow people to enter their prefered G value
 	public final double __G = 9.81;
@@ -10,8 +11,6 @@ public class EulerSolver implements PhysicsEngine {
 	public EulerSolver(PuttingCourse course) {
 		this.course = course;
 	}
-
-	private boolean passedFlag = false;
 
 	@Override
 	public boolean passedFlag() {
@@ -35,13 +34,9 @@ public class EulerSolver implements PhysicsEngine {
 			double vNextY = v.y - step * __G * (gradient.y + course.getFriction() * v.y / v.length());
 
 			p = new Vector2d(pNextX, pNextY);
-			v = new Vector2d(vNextX, vNextY);
+			v = limitVelocity(new Vector2d(vNextX, vNextY));
 
-			if (v.length() > course.getMaxVelocity()) {
-				v = Vector2d.divide(v, v.length());
-				v = Vector2d.multiply(v, course.getMaxVelocity());
-			}
-
+			//TODO find better place to place this piece of code
 			if (p.x < 0) p.x = 0;
 			if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
 			if (p.y < 0) p.y = 0;
@@ -58,6 +53,19 @@ public class EulerSolver implements PhysicsEngine {
 		course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
 	}
 
+	/**
+	 * Scale the velocity down to the maximum velocity if it is bigger than the maximum
+	 * @param velocity the velocity vector
+	 * @return the (scaled) velocity vector
+	 */
+	private Vector2d limitVelocity(Vector2d velocity) {
+		if (velocity.length() > course.maxVelocity) {
+			double scalingFactor = course.maxVelocity / velocity.length();
+			velocity = velocity.multiply(scalingFactor);
+		}
+		return velocity;
+	}
+
 	@Override
 	public void setStepSize(double h) {
 		step = h;
@@ -66,9 +74,5 @@ public class EulerSolver implements PhysicsEngine {
 	@Override
 	public double getStepSize() {
 		return step;
-	}
-
-	public static void main(String args[]) {
-		
 	}
 }
