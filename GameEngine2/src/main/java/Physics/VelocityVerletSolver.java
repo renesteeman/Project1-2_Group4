@@ -3,6 +3,7 @@ package Physics;
 public class VelocityVerletSolver implements PhysicsEngine{
     private double step = 1e-4; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
+    private boolean passedFlag = false;
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
@@ -28,6 +29,8 @@ public class VelocityVerletSolver implements PhysicsEngine{
      */
     @Override
     public void process(double dtime) {
+        passedFlag = false;
+
         Vector2d currentPosition = this.course.ball.getPosition2();
         Vector2d currentVelocity = this.course.ball.getVelocity2D();
 
@@ -35,16 +38,38 @@ public class VelocityVerletSolver implements PhysicsEngine{
             Vector2d currentAcceleration = acceleration(currentPosition,currentVelocity);
             Vector2d nextPosition = currentPosition.add(currentVelocity.multiply(step)).add(currentAcceleration.multiply(step * step / 2.0));
 
-            Vector2d intermediateVelocity = currentVelocity.add(currentAcceleration.multiply(step / 2.0));
+            Vector2d intermediateVelocity = limitVelocity(currentVelocity.add(currentAcceleration.multiply(step / 2.0)));
             Vector2d nextAcceleration = acceleration(nextPosition,intermediateVelocity);
             Vector2d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0));
 
             currentPosition = nextPosition;
-            currentVelocity = nextVelocity;
+            currentVelocity = limitVelocity(nextVelocity);
+
+            //TODO find better place to place this piece of code
+            if (currentPosition.x < 0) currentPosition.x = 0;
+            if (currentPosition.x > course.TERRAIN_SIZE) currentPosition.x = course.TERRAIN_SIZE;
+            if (currentPosition.y < 0) currentPosition.y = 0;
+            if (currentPosition.y > course.TERRAIN_SIZE) currentPosition.y = course.TERRAIN_SIZE;
+
+            if (course.victoriousPosition3())
+                passedFlag = true;
         }
 
         this.course.ball.setPosition(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
         this.course.ball.setVelocity(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+    }
+
+    /**
+     * Scale the velocity down to the maximum velocity if it is bigger than the maximum
+     * @param velocity the velocity vector
+     * @return the (scaled) velocity vector
+     */
+    private Vector2d limitVelocity(Vector2d velocity) {
+        if (velocity.length() > course.maxVelocity) {
+            double scalingFactor = course.maxVelocity / velocity.length();
+            velocity = velocity.multiply(scalingFactor);
+        }
+        return velocity;
     }
 
     /**
