@@ -28,8 +28,7 @@ public class GUITexture {
     }
 
     public double getXPosition(){
-        double xPosition = position.x;
-        return xPosition;
+        return position.x;
     }
 
     public Vector2f getScale() {

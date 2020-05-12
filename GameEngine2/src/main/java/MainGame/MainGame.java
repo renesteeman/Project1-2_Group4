@@ -23,6 +23,7 @@ import Terrain.Terrain;
 import Textures.ModelTexture;
 import Textures.TerrainTexture;
 import Textures.TerrainTexturePack;
+import Toolbox.Maths;
 import Toolbox.MousePicker;
 import Water.WaterFrameBuffers;
 import Water.WaterTile;
@@ -242,11 +243,12 @@ public class MainGame extends CrazyPutting {
         Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
-                double velocity = ((getSliderTexture().getXPosition() - getBackgroundTexture().getXPosition()) * 6.2);
-                System.out.println(velocity);
                 MouseHandler.disable();
                 getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
-
+                double velocity = (Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()) - Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()))/800;
+                //System.out.println("Slider position: " + getSliderTexture().getXPosition());
+                //System.out.println("Background position: " + getBackgroundTexture().getXPosition());
+                System.out.println("Velocity: " + velocity);
                 //System.out.println("Hello there");
             }
 

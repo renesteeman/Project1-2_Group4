@@ -1,6 +1,7 @@
 package Toolbox;
 
 import Entities.Camera;
+import RenderEngine.DisplayManager;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -45,5 +46,9 @@ public class Maths {
         transformationMatrix.scale(new Vector3f(scale.x, scale.y, 1f));
 
         return transformationMatrix;
+    }
+
+    public static double screenCoordinateToPixelX(double screenCoordinate){
+        return ((screenCoordinate+1)/2)*(DisplayManager.getWidth());
     }
 }
