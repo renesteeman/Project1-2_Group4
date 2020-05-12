@@ -259,6 +259,13 @@ public class MainGame extends CrazyPutting {
                 System.out.println("value: " + value);
                 //System.out.println(DisplayManager.getWidth());
                 //System.out.println("Hello there");
+
+
+                //Setting the velocity of the ball
+                double velocity = value * course.maxVelocity;
+                double angle = camera.getYaw() * Math.PI / 180.0; //Angle in radians
+                //Make velocity vector by splitting the velocity into its x- and y-components
+                course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
             }
 
             @Override
