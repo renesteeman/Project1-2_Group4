@@ -49,7 +49,7 @@ public class FeatureTester {
 
     //TMP move into a separate directory
     static final boolean editMode = true;
-    static final boolean godMode = true;
+    static final boolean godMode = false;
     //0 = place items, 1 = remove items, 66 = debug, -1 is game mode
     static int objectType = -1;
     static Vector3f terrainPoint;
