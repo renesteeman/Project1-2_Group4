@@ -240,17 +240,24 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0,0), new Vector2f(0.2f, 0.2f)) {
+        Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(.4f,0), new Vector2f(0.3f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
                 MouseHandler.disable();
                 getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
                 //getBackgroundTexture().getXPosition() returns the middle coordinate of the bar in screen coordinates ([-1, 1]), similarly for the button
-                double velocity = (1+(Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()) - Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()))/(800*getBackgroundTexture().getScale().x()))/2;
-                System.out.println("Slider position: " + Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition()));
-                System.out.println("Background position: " + Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition()));
-                System.out.println("Velocity: " + velocity);
-                System.out.println(DisplayManager.getWidth());
+                double barCenterPos = Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition());
+                double knobCenterPos = Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition());
+                //600 is a random number that works, don't question the gods
+                double barWidth = 600*getBackgroundTexture().getScale().x;
+                //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
+                double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0), 1);
+
+                //System.out.println("barCenterPos " + barCenterPos);
+                //System.out.println("knobCenterPos " + knobCenterPos);
+                //System.out.println("barWidth " + barWidth);
+                System.out.println("value: " + value);
+                //System.out.println(DisplayManager.getWidth());
                 //System.out.println("Hello there");
             }
 
