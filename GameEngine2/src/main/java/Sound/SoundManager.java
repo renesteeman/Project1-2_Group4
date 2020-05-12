@@ -19,24 +19,28 @@ public class SoundManager {
     private long device;
     private long context;
     private SoundListener listener;
-    private final List<SoundBuffer> soundBufferList;
+    //private final List<SoundBuffer> soundBufferList;
     private final Map<String, SoundSource> soundSourceMap;
     private final Matrix4f cameraMatrix;
+
     public SoundManager() {
-        soundBufferList = new ArrayList<>();
+        //soundBufferList = new ArrayList();
         soundSourceMap = new HashMap<>();
         cameraMatrix = new Matrix4f();
     }
+
     public void init() throws Exception {
         this.device = alcOpenDevice((ByteBuffer) null);
         if (device == NULL) {
             throw new IllegalStateException("Failed to open the default OpenAL device." );
         }
+
         ALCCapabilities deviceCaps = ALC.createCapabilities(device);
         this.context = alcCreateContext(device, (IntBuffer) null);
         if (context == NULL) {
             throw new IllegalStateException("Failed to create OpenAL context.");
         }
+
         alcMakeContextCurrent(context);
         AL.createCapabilities(deviceCaps);
     }
