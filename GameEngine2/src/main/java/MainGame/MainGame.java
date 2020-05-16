@@ -290,6 +290,7 @@ public class MainGame extends CrazyPutting {
         UIGroup shootGroup = new UIGroup();
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
+        GUIgroups.add(shootGroup);
 
     }
 
