@@ -288,8 +288,31 @@ public class MainGame extends CrazyPutting {
             }
         };
 
+        AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.5f,0.5f), new Vector2f(0.1f, 0.1f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+
+            }
+        };
+
         //GUIs.add(testButton);
        GUIs.add(testSlider);
+       GUIs.add(shootingButton);
 
 //        testSlider.hide();
 //        testSlider.show();
