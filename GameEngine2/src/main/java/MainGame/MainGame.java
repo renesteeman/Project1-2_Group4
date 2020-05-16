@@ -91,6 +91,9 @@ public class MainGame extends CrazyPutting {
 
     private Trees trees;
 
+    //TODO try to put it in a better place with better structure
+    UIGroup shootGroup = new UIGroup();
+
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
         this.engine = DetermineSolver.getEngine(course);
@@ -263,7 +266,14 @@ public class MainGame extends CrazyPutting {
                 double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
                 //Make velocity vector by splitting the velocity into its x- and y-components
-                course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
+                //TODO
+                System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
+                //Set direction
+                Vector2d shot = new Vector2d(Math.cos(angle),Math.sin(angle));
+                //Set velocity
+                shot.multiply(velocity);
+                takeShot(shot);
+                //course.ball.setVelocity();
             }
 
             @Override
@@ -284,11 +294,13 @@ public class MainGame extends CrazyPutting {
             }
         };
 
+
+
         FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
         GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         //GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
-        UIGroup shootGroup = new UIGroup();
+
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
         GUIgroups.add(shootGroup);
@@ -402,8 +414,10 @@ public class MainGame extends CrazyPutting {
         Scanner shotScanner = new Scanner(System.in);
         String[] arguments = shotScanner.nextLine().split(" ");
         System.out.println("your shot is read");
+        shootGroup.hide();
         if (arguments.length == 1 && arguments[0].equals("stop")) {
             System.out.println("stop condition is recognized");
+            shootGroup.show();
             return false;
         }
         if (arguments.length == 2 && StringUtils.isNumeric(arguments[0]) && StringUtils.isNumeric(arguments[1])) {
@@ -450,7 +464,6 @@ public class MainGame extends CrazyPutting {
             Thread.currentThread().interrupt();
         }*/
 
-        //TODO add comments
         try {
             obj.game();
         } catch (Exception e) {
@@ -521,4 +534,5 @@ public class MainGame extends CrazyPutting {
             }
         }
     }
+
 }

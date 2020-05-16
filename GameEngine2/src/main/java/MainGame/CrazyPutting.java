@@ -57,7 +57,7 @@ public class CrazyPutting extends PuttingSimulator {
 		System.out.println("the end");
 	}
 
-	// TO BE OVERRIDDEN
+	//To be overridden in mainGame
 	protected boolean collectShotData() {
 		return true;
 	}

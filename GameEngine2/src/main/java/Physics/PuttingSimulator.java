@@ -41,7 +41,7 @@ public class PuttingSimulator extends JPanel {
 		sz = TreeMultiset.create();
 		lsx = new LinkedList();
 		lsz = new LinkedList();
-		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0., initialBallVelocity.y));
+		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
 
 		passedFlag = false;
 		while (!stopCondition()) {
@@ -63,13 +63,15 @@ public class PuttingSimulator extends JPanel {
 
 			//System.out.println(course.ball.getCoords3());
 			//System.out.println(course.ball.getVelocity3());
+
 			requestGraphicsUpdate();
-			try {
-			    Thread.sleep(10); /// 1000 * DTIME
-			}
-			catch(InterruptedException ex) {
-			    Thread.currentThread().interrupt();
-			}
+
+//			try {
+//			    Thread.sleep(10); /// 1000 * DTIME
+//			}
+//			catch(InterruptedException ex) {
+//			    Thread.currentThread().interrupt();
+//			}
 			//if (height.evaluate(ball.getLocation()) < 0) {
 			//	requestBallRepositioning();
 			//	break;
