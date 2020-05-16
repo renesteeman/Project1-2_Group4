@@ -6,7 +6,6 @@ import java.util.List;
 
 public class NaiveBot {
     public PuttingSimulator simulator;
-    public PuttingSimulator wide;
 
     public Vector2d shot;
     public double angleStep, angleRange, velocityStep;
@@ -54,18 +53,6 @@ public class NaiveBot {
             if (simulator.passedFlag()) { //is supposed to check if the ball had pass the flag, we still have to create that method
                 goodAnglesShots.add(shot);
             }
-            else{
-                /**
-                 * If the different angles we tried could not be one of our solution we assume that there might be an obstacle that will make those angles impossible
-                 * then we decide to take wider angles to check if it can maybe be some other one, we so take the suqre of each of them.
-                 */
-                double currentAngleSquare = currentAngle*currentAngle;
-                Vector2d shotWide = rotatedVector(currentAngleSquare, straightVelocity.length());
-                wide.takeShot(shotWide);
-                if(wide.passedFlag()){
-                    goodAnglesShots.add(shotWide);
-                }
-            }
 
             simulator.setBallPosition3(currentBallPosition);
         }
@@ -97,8 +84,10 @@ public class NaiveBot {
     }
 
     //@Override
-    public void solve() {
-
+    public Vector2d solve() {
+        findGoodAngles();
+        Vector2d ans = getRightSpeed();
+        return ans;
     }
 
     /**

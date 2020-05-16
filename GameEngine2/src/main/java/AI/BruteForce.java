@@ -13,54 +13,80 @@ public class BruteForce {
     public int maxMovesForSolution = 20; // usually for such an expanding
     public double angleStep, speedStep;
 
-    public ArrayList<Vector2d> solution = new ArrayList<>(),
+    public ArrayList<Vector2d> solution = null,
                                current = new ArrayList<>();
     public boolean solution_found = false;
 
     public BruteForce(PuttingSimulator simulator, int maxMovesForSolution, double angleStep, double speedStep) {
-		this.simulator = simulator;
-		this.maxMovesForSolution = maxMovesForSolution;
-		this.angleStep = angleStep;
-		this.speedStep = speedStep;
+        this.simulator = simulator;
+        this.maxMovesForSolution = maxMovesForSolution;
+        this.angleStep = angleStep;
+        this.speedStep = speedStep;
+    }
 
-	}
+    public void solve() {
+        solution_found = false;
+        solution = null;
+        current = new ArrayList<>();
+        runRecursion(0);
+    }
 
     public void runRecursion(int counter) {
         if (simulator.course.victoriousPosition3()) {
-        	solution = (ArrayList<Vector2d>)current.clone();
-        	solution_found = true;
-        	return; 
+            solution = (ArrayList<Vector2d>)current.clone();
+            solution_found = true;
+            System.out.println("solution found");
+            return; 
         }
 
-        if (counter > maxMovesForSolution) {
+        if (counter >= maxMovesForSolution) {
             return;
         } else {
-        	Vector3d currentBallPosition = simulator.getBallPosition3();
+            //System.out.printf("enter counter: %f\n", counter);
+
+            Vector3d currentBallPosition = simulator.getBallPosition3();
 
             for (double initialAngle = 0.0; initialAngle < 360.0; initialAngle += angleStep) {
-            	for (double initialSpeedModulo = 0.0; initialSpeedModulo < simulator.course.getMaxVelocity(); initialSpeedModulo += speedStep) {
 
-            		Vector2d currentShot = new Vector2d(adjacent(initialSpeedModulo, initialAngle), oppositeSide(initialSpeedModulo, initialAngle));
-            		current.add(currentShot);
-            		simulator.takeShot(currentShot);
-            		runRecursion(counter + 1);
+                //System.out.printf("current angle: %f out of 360\n", initialAngle);
 
-            		if (solution_found) 
-            			break;
+                for (double initialSpeedModulo = 0.0; initialSpeedModulo < simulator.course.getMaxVelocity(); initialSpeedModulo += speedStep) {
 
-            		current.remove(current.size() - 1);
-            		simulator.setBallPosition3(currentBallPosition);
-            	}
+                    //System.out.printf("current speed: %f out of %f\n", initialSpeedModulo, simulator.course.getMaxVelocity());
 
-            	if (solution_found)
-            		break;
+                    Vector2d currentShot = new Vector2d(adjacent(initialSpeedModulo, initialAngle), oppositeSide(initialSpeedModulo, initialAngle));
+                    current.add(currentShot);
+
+                    //System.out.println("shot started");
+                    //System.out.println(currentShot);
+
+                    simulator.takeShot(currentShot);
+
+                    //System.out.println("shot finished");
+
+                    runRecursion(counter + 1);
+
+                    //System.out.printf("\033[F");
+                    //System.out.printf("\033[F");
+                    //System.out.printf("\033[F");
+
+                    if (solution_found) 
+                        break;
+
+                    current.remove(current.size() - 1);
+                    simulator.setBallPosition3(currentBallPosition);
+
+                    //System.out.printf("\033[F");
+                }
+
+                if (solution_found)
+                    break;
+
+                //System.out.printf("\033[F");
             }
-        }
-    }
 
-    //@Override
-    public void solve() {
-        
+            //System.out.printf("\033[F");
+        }
     }
 
     private double oppositeSide (double power, double angle){
