@@ -91,8 +91,6 @@ public class MainGame extends CrazyPutting {
 
     private Trees trees;
 
-    //private final FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("font/tahoma.fnt"));
-
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
         this.engine = DetermineSolver.getEngine(course);
@@ -285,6 +283,9 @@ public class MainGame extends CrazyPutting {
 
             }
         };
+
+        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
+        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
 
         //GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
         UIGroup shootGroup = new UIGroup();
