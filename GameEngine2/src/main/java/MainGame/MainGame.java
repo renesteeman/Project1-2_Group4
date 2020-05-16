@@ -240,34 +240,20 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        Slider testSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(.4f,0), new Vector2f(0.3f, 0.2f)) {
+        Slider powerSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(.4f,0), new Vector2f(0.3f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
                 MouseHandler.disable();
                 getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
+
+                //Calculate value of the slider between 0 and 1 (but not including 0)
                 //getBackgroundTexture().getXPosition() returns the middle coordinate of the bar in screen coordinates ([-1, 1]), similarly for the button
                 double barCenterPos = Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition());
                 double knobCenterPos = Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition());
                 //600 is a random number that works, don't question the gods
                 double barWidth = 600*getBackgroundTexture().getScale().x;
                 //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
-                double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1);
-
-                //System.out.println("barCenterPos " + barCenterPos);
-                //System.out.println("knobCenterPos " + knobCenterPos);
-                //System.out.println("barWidth " + barWidth);
-                System.out.println("value: " + value);
-                //System.out.println(DisplayManager.getWidth());
-                //System.out.println("Hello there");
-
-
-                //Setting the velocity of the ball
-                double velocity = value * course.maxVelocity;
-                //TODO instead of using -90 fix the bug that caused every object in the game to be turned 90 degrees to the left.
-                double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
-
-                //Make velocity vector by splitting the velocity into its x- and y-components
-                course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
+                setValue(Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1));
             }
 
             @Override
@@ -293,7 +279,13 @@ public class MainGame extends CrazyPutting {
         AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.5f,0.5f), new Vector2f(0.1f, 0.1f)) {
             @Override
             public void onClick(InterfaceButton button) {
+                //Setting the velocity of the ball
+                double velocity = powerSlider.getValue() * course.maxVelocity;
+                //-90 to fix it being rotated compared to the left side instead of ahead
+                double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
+                //Make velocity vector by splitting the velocity into its x- and y-components
+                course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
             }
 
             @Override
@@ -313,7 +305,7 @@ public class MainGame extends CrazyPutting {
         };
 
         //GUIs.add(testButton);
-       GUIs.add(testSlider);
+       GUIs.add(powerSlider);
        GUIs.add(shootingButton);
 
 //        testSlider.hide();
