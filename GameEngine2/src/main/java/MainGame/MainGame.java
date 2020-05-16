@@ -71,9 +71,10 @@ public class MainGame extends CrazyPutting {
     int oldRightMouseButtonState = GLFW_RELEASE;
     boolean deleteEditMode = false;
 
-    private Loader loader = new Loader();
+    private final Loader loader = new Loader();
     private List<Entity> entities = new ArrayList<>();
-    private List<UIElement> GUIs = new ArrayList<>();
+    private List<UIElement> GUIelements = new ArrayList<>();
+    private List<UIGroup> GUIgroups = new ArrayList<>();
     private List<WaterTile> waters = new ArrayList<WaterTile>();
 
     private Light light;
@@ -90,7 +91,7 @@ public class MainGame extends CrazyPutting {
 
     private Trees trees;
 
-    private FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("font/tahoma.fnt"));
+    //private final FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("font/tahoma.fnt"));
 
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
@@ -285,13 +286,11 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
-
+        //GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
         UIGroup shootGroup = new UIGroup();
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
 
-        GUIs.add(powerText);
     }
 
     @Override
@@ -364,10 +363,23 @@ public class MainGame extends CrazyPutting {
         waterRenderer.render(waters, camera, light);
 
         //Render 2D elements
-        guiRenderer.render(GUIs);
-        for(UIElement element : GUIs){
+        //Render groups
+        for(UIGroup group : GUIgroups){
+            List<UIElement> groupElements = group.getElements();
+            guiRenderer.render(groupElements);
+            for(UIElement element : groupElements){
+                element.update();
+            }
+        }
+
+        //Render lonely elements :(
+        guiRenderer.render(GUIelements);
+        for(UIElement element : GUIelements){
             element.update();
         }
+
+        //Render text
+        TextMaster.render();
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();

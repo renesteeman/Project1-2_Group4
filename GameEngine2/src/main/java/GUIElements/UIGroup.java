@@ -1,6 +1,7 @@
 package GUIElements;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UIGroup {
     ArrayList<UIElement> elements;
@@ -31,6 +32,10 @@ public class UIGroup {
         for(UIElement element : elements){
             element.hide();
         }
+    }
+
+    public List<UIElement> getElements(){
+        return elements;
     }
 
     public int getSize(){
