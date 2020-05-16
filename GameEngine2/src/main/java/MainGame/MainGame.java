@@ -251,7 +251,7 @@ public class MainGame extends CrazyPutting {
                 //600 is a random number that works, don't question the gods
                 double barWidth = 600*getBackgroundTexture().getScale().x;
                 //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
-                double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0), 1);
+                double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1);
 
                 //System.out.println("barCenterPos " + barCenterPos);
                 //System.out.println("knobCenterPos " + knobCenterPos);
@@ -263,7 +263,9 @@ public class MainGame extends CrazyPutting {
 
                 //Setting the velocity of the ball
                 double velocity = value * course.maxVelocity;
-                double angle = camera.getYaw() * Math.PI / 180.0; //Angle in radians
+                //TODO instead of using -90 fix the bug that caused every object in the game to be turned 90 degrees to the left.
+                double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
+
                 //Make velocity vector by splitting the velocity into its x- and y-components
                 course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
             }
