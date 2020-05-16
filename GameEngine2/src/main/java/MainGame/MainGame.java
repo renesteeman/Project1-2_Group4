@@ -1,5 +1,7 @@
 package MainGame;
 
+import FontMeshCreator.FontType;
+import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
 import GUI.GUIRenderer;
 import GUI.GUITexture;
@@ -8,6 +10,7 @@ import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
 import GUIElements.Slider;
 import GUIElements.UIElement;
+import GUIElements.UIGroup;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Physics.*;
@@ -40,6 +43,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
+import java.awt.*;
+import java.io.File;
 import java.lang.management.ManagementFactory;
 import java.nio.DoubleBuffer;
 import java.util.Scanner;
@@ -84,6 +89,8 @@ public class MainGame extends CrazyPutting {
     private WaterRenderer waterRenderer;
 
     private Trees trees;
+
+    private FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("font/tahoma.fnt"));
 
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
@@ -212,35 +219,7 @@ public class MainGame extends CrazyPutting {
     }
 
     public void addUI(){
-        AbstractButton testButton = new AbstractButton(loader, "textures/button", new Vector2f(0,0.5f), new Vector2f(0.2f, 0.2f)) {
-
-            @Override
-            public void onClick(InterfaceButton button) {
-                MouseHandler.disable();
-                System.out.println("Hello there");
-            }
-
-            @Override
-            public void onStartHover(InterfaceButton button) {
-                MouseHandler.disable();
-                button.playHoverAnimation(0.092f);
-                System.out.println("I am the Senate!");
-            }
-
-            @Override
-            public void onStopHover(InterfaceButton button) {
-                button.resetScale();
-                System.out.println("General Kenobi");
-                MouseHandler.enable();
-            }
-
-            @Override
-            public void whileHovering(InterfaceButton button) {
-                System.out.println("A suprise but I welcome one");
-            }
-        };
-
-        Slider powerSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(.4f,0), new Vector2f(0.3f, 0.2f)) {
+        Slider powerSlider = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0.6f,-0.4f), new Vector2f(0.3f, 0.2f)) {
             @Override
             public void onClick(InterfaceButton button) {
                 MouseHandler.disable();
@@ -276,7 +255,7 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.5f,0.5f), new Vector2f(0.1f, 0.1f)) {
+        AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
                 //Setting the velocity of the ball
@@ -290,12 +269,14 @@ public class MainGame extends CrazyPutting {
 
             @Override
             public void onStartHover(InterfaceButton button) {
-
+                MouseHandler.disable();
+                button.playHoverAnimation(0.05f);
             }
 
             @Override
             public void onStopHover(InterfaceButton button) {
-
+                MouseHandler.enable();
+                button.resetScale();
             }
 
             @Override
@@ -304,12 +285,13 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        //GUIs.add(testButton);
-       GUIs.add(powerSlider);
-       GUIs.add(shootingButton);
+        GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
 
-//        testSlider.hide();
-//        testSlider.show();
+        UIGroup shootGroup = new UIGroup();
+        shootGroup.addElement(powerSlider);
+        shootGroup.addElement(shootingButton);
+
+        GUIs.add(powerText);
     }
 
     @Override
