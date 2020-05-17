@@ -71,9 +71,10 @@ public class MainGame extends CrazyPutting {
     int oldRightMouseButtonState = GLFW_RELEASE;
     boolean deleteEditMode = false;
 
-    private Loader loader = new Loader();
+    private final Loader loader = new Loader();
     private List<Entity> entities = new ArrayList<>();
-    private List<UIElement> GUIs = new ArrayList<>();
+    private List<UIElement> GUIelements = new ArrayList<>();
+    private List<UIGroup> GUIgroups = new ArrayList<>();
     private List<WaterTile> waters = new ArrayList<WaterTile>();
 
     private Light light;
@@ -90,7 +91,8 @@ public class MainGame extends CrazyPutting {
 
     private Trees trees;
 
-    private FontType font = new FontType(loader.loadTexture("font/tahoma"), new File("font/tahoma.fnt"));
+    //TODO try to put it in a better place with better structure
+    UIGroup shootGroup = new UIGroup();
 
     public MainGame() {
         this.course = new PuttingCourse("./res/courses/course1.txt");
@@ -264,7 +266,14 @@ public class MainGame extends CrazyPutting {
                 double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
                 //Make velocity vector by splitting the velocity into its x- and y-components
-                course.ball.setVelocity((new Vector3d(Math.cos(angle),0,Math.sin(angle))).multiply(velocity));
+                //TODO
+                System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
+                //Set direction
+                Vector2d shot = new Vector2d(Math.cos(angle),Math.sin(angle));
+                //Set velocity
+                shot.multiply(velocity);
+                takeShot(shot);
+                //course.ball.setVelocity();
             }
 
             @Override
@@ -285,13 +294,21 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
 
-        UIGroup shootGroup = new UIGroup();
+
+        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
+        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
+
+        //GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
+
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
+        GUIgroups.add(shootGroup);
 
+<<<<<<< HEAD
         //GUIs.add(powerText);
+=======
+>>>>>>> 8930e27a9ef6b2d59088e7c2d190082fd4703e5d
     }
 
     @Override
@@ -364,10 +381,23 @@ public class MainGame extends CrazyPutting {
         waterRenderer.render(waters, camera, light);
 
         //Render 2D elements
-        guiRenderer.render(GUIs);
-        for(UIElement element : GUIs){
+        //Render groups
+        for(UIGroup group : GUIgroups){
+            List<UIElement> groupElements = group.getElements();
+            guiRenderer.render(groupElements);
+            for(UIElement element : groupElements){
+                element.update();
+            }
+        }
+
+        //Render lonely elements :(
+        guiRenderer.render(GUIelements);
+        for(UIElement element : GUIelements){
             element.update();
         }
+
+        //Render text
+        TextMaster.render();
 
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
@@ -388,8 +418,10 @@ public class MainGame extends CrazyPutting {
         Scanner shotScanner = new Scanner(System.in);
         String[] arguments = shotScanner.nextLine().split(" ");
         System.out.println("your shot is read");
+        shootGroup.hide();
         if (arguments.length == 1 && arguments[0].equals("stop")) {
             System.out.println("stop condition is recognized");
+            shootGroup.show();
             return false;
         }
         if (arguments.length == 2 && StringUtils.isNumeric(arguments[0]) && StringUtils.isNumeric(arguments[1])) {
@@ -436,7 +468,6 @@ public class MainGame extends CrazyPutting {
             Thread.currentThread().interrupt();
         }*/
 
-        //TODO add comments
         try {
             obj.game();
         } catch (Exception e) {
@@ -507,4 +538,5 @@ public class MainGame extends CrazyPutting {
             }
         }
     }
+
 }

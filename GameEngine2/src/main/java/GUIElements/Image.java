@@ -26,12 +26,12 @@ public class Image implements InterfaceButton, UIElement {
 
     @Override
     public void onStartHover(InterfaceButton button) {
-
+        isHovering = true;
     }
 
     @Override
     public void onStopHover(InterfaceButton button) {
-
+        isHovering = false;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class Image implements InterfaceButton, UIElement {
     @Override
     public void hide(){
         guiTexture.setScale(new Vector2f(0, 0));
-        isHidden = false;
+        isHidden = true;
     }
 
     @Override

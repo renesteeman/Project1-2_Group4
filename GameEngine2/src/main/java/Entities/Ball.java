@@ -1,5 +1,6 @@
 package Entities;
 
+import MainGame.MainGame;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 import Physics.Vector2d;
