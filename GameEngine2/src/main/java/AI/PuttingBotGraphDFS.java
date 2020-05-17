@@ -38,8 +38,8 @@ public class PuttingBotGraphDFS {
 
 	//@Override
 	public void solve() {
-		//Vector2d start = simulator.course.getStart();
-		//dfs(getNode(start), start);
+		Vector2d start = simulator.course.getStart();
+		dfs(getNode(start), start);
 	}
 
 	public void dfs(Vector2d v, Vector2d absPos) {

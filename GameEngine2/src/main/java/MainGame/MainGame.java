@@ -305,6 +305,10 @@ public class MainGame extends CrazyPutting {
         shootGroup.addElement(shootingButton);
         GUIgroups.add(shootGroup);
 
+<<<<<<< HEAD
+        //GUIs.add(powerText);
+=======
+>>>>>>> 8930e27a9ef6b2d59088e7c2d190082fd4703e5d
     }
 
     @Override

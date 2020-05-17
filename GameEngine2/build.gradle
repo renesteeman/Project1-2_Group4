@@ -166,3 +166,9 @@ task(helloLegui, dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
 }
+
+task(runMastermind, dependsOn: 'classes', type: JavaExec) {
+    main = 'AI.Mastermind'
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+}
