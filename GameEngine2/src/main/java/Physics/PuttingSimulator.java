@@ -10,7 +10,7 @@ public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
 	
-	protected double DTIME = 1e-2; // 100 FPS
+	protected double DTIME = 1e-1; // 100 FPS
 	public boolean passedFlag = false;
 
 	public PuttingSimulator() {
@@ -29,7 +29,7 @@ public class PuttingSimulator extends JPanel {
 	public boolean currentShotInProcess = false;
 
 	protected boolean stopCondition() {
-		if (sx.size() < 300)
+		if (sx.size() < 20)
 			return false;
 		double lx = sx.firstEntry().getElement(), rx = sx.lastEntry().getElement();
 		double lz = sz.firstEntry().getElement(), rz = sz.lastEntry().getElement();
@@ -52,7 +52,7 @@ public class PuttingSimulator extends JPanel {
 
 			//System.out.println(sx.size());
 
-			if (sx.size() == 300) {
+			if (sx.size() == 20) {
 				sx.remove(lsx.remove());
 				sz.remove(lsz.remove());
 			}

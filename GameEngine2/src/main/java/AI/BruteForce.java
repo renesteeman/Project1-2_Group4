@@ -60,6 +60,7 @@ public class BruteForce {
                     //System.out.println("shot started");
                     //System.out.println(currentShot);
 
+                    System.out.println("shot");
                     simulator.takeShot(currentShot);
 
                     //System.out.println("shot finished");

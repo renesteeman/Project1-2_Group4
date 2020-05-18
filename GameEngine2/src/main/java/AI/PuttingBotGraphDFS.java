@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class PuttingBotGraphDFS {
 	public PuttingSimulator simulator; 
 
-	public Vector2d error;//
+	public Vector2d error;
 
 	public boolean[][] used;
 
@@ -29,6 +29,11 @@ public class PuttingBotGraphDFS {
 
 	public void init() {
 		used = new boolean[(int)(simulator.course.DOMAIN_X / error.x)][(int)(simulator.course.DOMAIN_Y / error.y)];
+		for (int i = 0; i < used.length; i++) {
+			for (int j = 0; j < used[i].length; j++) {
+				used[i][j] = false;
+			}
+		}
 	}
 
 	public Vector2d getNode(Vector2d coords) {
@@ -38,13 +43,17 @@ public class PuttingBotGraphDFS {
 
 	//@Override
 	public void solve() {
+		System.out.println("dfs started");
 		Vector2d start = simulator.course.getStart();
 		dfs(getNode(start), start);
 	}
 
 	public void dfs(Vector2d v, Vector2d absPos) {
-		if (!inBounds(v) || !used[(int)v.x][(int)v.y])
+		if (!inBounds(v) || used[(int)v.x][(int)v.y])
 			return;
+
+		System.out.println(v.x + " " + v.y);
+		used[(int)v.x][(int)v.y] = true;
 
 		if (simulator.course.victoriousPosition3()) {
 			solved = true;
@@ -52,7 +61,7 @@ public class PuttingBotGraphDFS {
 			return;
 		}
 
-		for (int angle = 0; angle < 360 && !solved; angle += stepDegree) {
+		for (int angle = -180; angle < 180 && !solved; angle += stepDegree) {
 			double x = Math.cos(Math.toRadians(angle));
 			double y = Math.sin(Math.toRadians(angle));
 
