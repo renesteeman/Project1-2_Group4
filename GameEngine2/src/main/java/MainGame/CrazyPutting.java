@@ -1,6 +1,8 @@
 package MainGame;
 
+import FontMeshCreator.GUIText;
 import Physics.*;
+import org.joml.Vector2f;
 
 import java.util.*;
 import java.lang.*;
@@ -51,6 +53,7 @@ public class CrazyPutting extends PuttingSimulator {
 			
 			if (course.victoriousPosition3()) {
 				System.out.println("You won gg wp");
+				showWinText();
 				break;
 			}
 		}
@@ -108,5 +111,10 @@ public class CrazyPutting extends PuttingSimulator {
 			e.printStackTrace();
 			System.exit(0);
 		}
+	}
+
+	//To overwrite
+	public void showWinText(){
+
 	}
 }

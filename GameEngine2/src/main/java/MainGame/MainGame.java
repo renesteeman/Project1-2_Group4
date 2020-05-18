@@ -308,21 +308,11 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-
-
-        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
-        GUIText text = new GUIText("This is a test text!", 1, font, new Vector2f(0, 0), 1f, true);
-
-        //GUIText powerText = new GUIText("Power", 20, font, new Vector2f(0.4f,-0.5f), 20, true);
-
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
         GUIgroups.add(shootGroup);
 
-//<<<<<<< HEAD
         //GUIs.add(powerText);
-//=======
-//>>>>>>> 8930e27a9ef6b2d59088e7c2d190082fd4703e5d
     }
 
     @Override
@@ -559,5 +549,12 @@ public class MainGame extends CrazyPutting {
                 }
             }
         }
+    }
+
+    @Override
+    //TODO fix
+    public void showWinText(){
+        FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
+        GUIText winText = new GUIText("You won!", 1, font, new Vector2f(0, 0), 1f, true);
     }
 }
