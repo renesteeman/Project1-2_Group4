@@ -26,6 +26,7 @@ public class PuttingSimulator extends JPanel {
 	//TODO rename
 	protected TreeMultiset<Double> sx, sz;
 	protected LinkedList<Double> lsx, lsz;
+	public boolean currentShotInProcess = false;
 
 	protected boolean stopCondition() {
 		if (sx.size() < 300)
@@ -37,6 +38,7 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
+		currentShotInProcess = true;
 		sx = TreeMultiset.create();
 		sz = TreeMultiset.create();
 		lsx = new LinkedList();
@@ -77,6 +79,7 @@ public class PuttingSimulator extends JPanel {
 			//	break;
 			//}
 		}
+		currentShotInProcess = false;
 	}
 
 	@Override

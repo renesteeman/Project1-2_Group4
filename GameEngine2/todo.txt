@@ -1,11 +1,8 @@
 threads
 menu GUI
-in-game UI
 physics upgrade
 Mastermind
-Runge-Kutta 
-Verlet solver
-Verlet velocity solver
+solvers integrated
 ball does not fall through the texture 
 comment everything 
 textures upgrade
