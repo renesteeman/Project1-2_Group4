@@ -11,7 +11,7 @@ public class Mastermind {
 
 	public Mastermind(boolean animated) {
 		if (animated) {
-			MainGame obj = new MainGame();
+			MainGame obj = new MainGame("./res/courses/course1.txt");
 			obj.setUpModels();
 			obj.resetPositions();
 	        obj.addAxes();
