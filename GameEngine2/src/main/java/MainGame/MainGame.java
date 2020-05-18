@@ -91,6 +91,9 @@ public class MainGame extends CrazyPutting {
 
     private Trees trees;
 
+    private boolean inputFlag = false;
+    private Vector2d neededInput = new Vector2d();
+
     //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
 
@@ -232,7 +235,7 @@ public class MainGame extends CrazyPutting {
                 double barCenterPos = Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition());
                 double knobCenterPos = Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition());
                 //600 is a random number that works, don't question the gods
-                double barWidth = 600*getBackgroundTexture().getScale().x;
+                double barWidth = TERRAIN_SIZE*getBackgroundTexture().getScale().x;
                 //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
                 setValue(Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1));
             }
@@ -260,20 +263,31 @@ public class MainGame extends CrazyPutting {
         AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
+                if (currentShotInProcess)
+                    return;
+                currentShotInProcess = true;
                 //Setting the velocity of the ball
                 double velocity = powerSlider.getValue() * course.maxVelocity;
+
+                System.out.println("velocity as double: " + velocity);
+
                 //-90 to fix it being rotated compared to the left side instead of ahead
                 double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
                 //Make velocity vector by splitting the velocity into its x- and y-components
                 //TODO
-                System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
+                //System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
                 //Set direction
                 Vector2d shot = new Vector2d(Math.cos(angle),Math.sin(angle));
                 //Set velocity
-                shot.multiply(velocity);
-                takeShot(shot);
+                shot = shot.multiply(velocity);
+                inputFlag = true;
+                shotInput = shot;
+
+                //takeShot(shot);
                 //course.ball.setVelocity();
+
+                System.out.println("current shot input: " + shotInput);
             }
 
             @Override
@@ -305,10 +319,10 @@ public class MainGame extends CrazyPutting {
         shootGroup.addElement(shootingButton);
         GUIgroups.add(shootGroup);
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
         //GUIs.add(powerText);
-=======
->>>>>>> 8930e27a9ef6b2d59088e7c2d190082fd4703e5d
+//=======
+//>>>>>>> 8930e27a9ef6b2d59088e7c2d190082fd4703e5d
     }
 
     @Override
@@ -414,12 +428,29 @@ public class MainGame extends CrazyPutting {
 
     @Override 
     protected boolean collectShotData() {
-        System.out.println("enter your shot data(the velocity vector):");
-        Scanner shotScanner = new Scanner(System.in);
-        String[] arguments = shotScanner.nextLine().split(" ");
-        System.out.println("your shot is read");
+        //System.out.println("enter your shot data(the velocity vector):");
+        //Scanner shotScanner = new Scanner(System.in);
+        //String[] arguments = shotScanner.nextLine().split(" ");
+        //System.out.println("your shot is read");
+
+        shootGroup.show();
+        currentShotInProcess = false;
+        inputFlag = false;
+
+        while (!inputFlag) {
+            requestGraphicsUpdate();
+            try {
+                Thread.sleep(10);
+            } catch(InterruptedException ex) {
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        System.out.println("current shot input: " + shotInput);
+
         shootGroup.hide();
-        if (arguments.length == 1 && arguments[0].equals("stop")) {
+        return true;
+        /*if (arguments.length == 1 && arguments[0].equals("stop")) {
             System.out.println("stop condition is recognized");
             shootGroup.show();
             return false;
@@ -430,7 +461,9 @@ public class MainGame extends CrazyPutting {
             return true;
         }
         System.out.println("invalid shot input, try again");
-        return collectShotData();
+        */
+
+        //return collectShotData();
     }
 
     public static void main(String[] args) {
@@ -444,9 +477,9 @@ public class MainGame extends CrazyPutting {
         obj.initRenders();
         obj.initCamera();
         obj.initControls();
-        obj.setInteractiveMod(false);
+        obj.setInteractiveMod(true);
         //only call setupEditMode if edit mode should be available
-        obj.setupEditMode();
+        //obj.setupEditMode();
         obj.addUI();
         obj.requestGraphicsUpdate();
 
@@ -474,8 +507,6 @@ public class MainGame extends CrazyPutting {
             e.printStackTrace();
             System.exit(0);
         }
-
-        System.out.println(obj.passedFlag());
 
         obj.cleanUp();
     }
@@ -538,5 +569,4 @@ public class MainGame extends CrazyPutting {
             }
         }
     }
-
 }
