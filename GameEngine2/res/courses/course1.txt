@@ -3,4 +3,4 @@ flag = (20, 0)
 start = (50, 0)
 friction = 0.5
 vmax = 20.0
-tol = 1.0
+tol = 5.0
