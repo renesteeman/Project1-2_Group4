@@ -9,9 +9,9 @@ public class Mastermind {
 	PuttingSimulator simulator;
 	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null;
 
-	public Mastermind(boolean animated) {
+	public Mastermind(boolean animated, String courseFileName) {
 		if (animated) {
-			MainGame obj = new MainGame("./res/courses/course1.txt");
+			MainGame obj = new MainGame(courseFileName);
 			obj.setUpModels();
 			obj.resetPositions();
 	        obj.addAxes();
@@ -21,12 +21,22 @@ public class Mastermind {
 	        obj.initRenders();
 	        obj.initCamera();
 	        obj.initControls();
+	        obj.setInteractiveMod(false);
+
+	        obj.requestGraphicsUpdate();
+
+	        /*try {
+	            obj.game();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            System.exit(0);
+	        }*/
 
 	        //obj.runApp();
 
 	        simulator = obj;
 	    } else {
-	    	PuttingCourse course = new PuttingCourse("./res/courses/course1.txt");
+	    	PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
 			EulerSolver engine = (EulerSolver)DetermineSolver.getEngine(course);
 			simulator = new PuttingSimulator(course, engine);
 	    }
@@ -68,8 +78,14 @@ public class Mastermind {
 	}
 
 	public boolean runDFS() {
-		//PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), 90, 1, 20, );
-		return false;
+		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), 90, 5, 4);
+		System.out.println("DFS bot initialized");
+		System.out.println("starting search");
+
+		bot.solve();
+		if (bot.solved)
+			solutionDFS = bot.solution;
+		return (solutionDFS != null);
 	}
 
 	public ArrayList<Vector2d> getSolution() {
@@ -82,23 +98,21 @@ public class Mastermind {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		Mastermind obj = new Mastermind(true);
-		
+	public void start() {
 		//obj.simulator.putDelay(10);
 
 		System.out.println("object of mastermind created");
 
 		System.out.println("starting search...");
 
-		boolean result = obj.findSolution(true, false, false);
+		boolean result = findSolution(false, false, true);
 
 		System.out.println("search ended");
 
 		if (!result) {
 			System.out.println("no solution found");
 		} else {
-			System.out.println(obj.getSolution());
+			System.out.println(getSolution());
 		}
 	}
 }

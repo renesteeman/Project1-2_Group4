@@ -5,6 +5,7 @@
  */
 package MainGame;
 
+import AI.*;
 import javax.swing.*;
 import java.awt.event.*;
 import org.netbeans.lib.awtextra.*;
@@ -83,6 +84,37 @@ public class MainMenu extends javax.swing.JFrame {
                 System.out.printf("course = %s, shots = %s\n", currentCourse, currentShots);
                 MainGame obj = new MainGame(currentCourse);
                 obj.playGame(interactiveInput, currentShots);  
+            }
+        });
+
+        startBotButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    PrintWriter newCourse = new PrintWriter("./res/courses/default.txt", "UTF-8");
+
+                    newCourse.printf("height = %s\n", jTextField1.getText());
+                    newCourse.printf("flag = (%s, %s)\n", jTextField7.getText(), jTextField8.getText());
+                    newCourse.printf("start = (%s, %s)\n", jTextField9.getText(), jTextField10.getText());
+                    newCourse.printf("friction = %s\n", jTextField4.getText());
+                    newCourse.printf("vmax = %s\n", jTextField5.getText());
+                    newCourse.printf("tol = %s\n", jTextField6.getText());
+
+                    newCourse.close();
+                } catch (Exception exc) {
+                    exc.printStackTrace();
+                    System.exit(0);
+                }
+
+                String currentCourse = "./res/courses/default.txt";
+
+                if (courseFileCheck.isSelected()) 
+                    currentCourse = "./res/courses/" + jTextField11.getText();
+
+                System.out.println(currentCourse);
+
+                setVisible(false);
+                Mastermind obj = new Mastermind(true, currentCourse);
+                obj.start();
             }
         });
 

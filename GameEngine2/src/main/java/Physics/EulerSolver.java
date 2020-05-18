@@ -25,6 +25,12 @@ public class EulerSolver implements PhysicsEngine {
 		Vector2d v = course.ball.getVelocity2D();
 
 		for (double timer = 0; timer < dtime; timer += step) {
+
+			if (v.length() == 0) {
+				v.x += 1e-20;
+				v.y += 1e-20;
+			}
+
 			double pNextX = p.x + step * v.x;
 			double pNextY = p.y + step * v.y;
 

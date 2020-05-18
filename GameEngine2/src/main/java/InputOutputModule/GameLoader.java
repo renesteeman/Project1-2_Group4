@@ -75,8 +75,6 @@ public class GameLoader {
             System.out.println(goalCoordinates2D);
             System.out.println(heightFunction);
 
-
-
 //            String ballInfo = infoCategories[0];
 //            String goalInfo = infoCategories[1];
 //            String terrainInfo = infoCategories[0];
