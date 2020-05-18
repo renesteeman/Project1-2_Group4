@@ -1,4 +1,4 @@
-height = (.5*Math.sin(x) + 1*Math.cos(y) + 1 + Math.sin(y/16)*3))
+height = (1/2*sin(x) + 1*cos(y) + 1 + sin(y/16)*3))
 flag = (400, 300)
 start = (50, 0)
 friction = 0.5
