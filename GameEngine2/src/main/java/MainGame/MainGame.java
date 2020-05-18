@@ -97,8 +97,8 @@ public class MainGame extends CrazyPutting {
     //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
 
-    public MainGame() {
-        this.course = new PuttingCourse("./res/courses/course1.txt");
+    public MainGame(String courseFileName) {
+        this.course = new PuttingCourse(courseFileName);
         this.engine = DetermineSolver.getEngine(course);
 
         DisplayManager.createDisplay();
@@ -466,49 +466,40 @@ public class MainGame extends CrazyPutting {
         //return collectShotData();
     }
 
-    public static void main(String[] args) {
-        MainGame obj = new MainGame();
-        obj.setUpModels();
-        obj.resetPositions();
-        obj.addAxes();
-        obj.addTerrain();
-        obj.initLight();
-        obj.addWater();
-        obj.initRenders();
-        obj.initCamera();
-        obj.initControls();
-        obj.setInteractiveMod(true);
+    public void playGame(boolean fileShotsFlag, String shotsFileName) {
+        System.out.println(fileShotsFlag);
+
+        setUpModels();
+        resetPositions();
+        addAxes();
+        addTerrain();
+        initLight();
+        addWater();
+        initRenders();
+        initCamera();
+        initControls();
+        
+        setInteractiveMod(!fileShotsFlag);
+        
         //only call setupEditMode if edit mode should be available
         //obj.setupEditMode();
-        obj.addUI();
-        obj.requestGraphicsUpdate();
-
-        //MainMenu.createMenu();
-        //obj.runApp();
-        
-        /*for (int i = 0; i < 1e5; i++) {
-            for (int j = 0; j < 1e5; j++) {
-                System.out.println(i*1e5 + j);
-            }
-        }*/
-
-        /*try
-        {
-            Thread.sleep(5000);
-        }
-        catch(InterruptedException ex)
-        {
-            Thread.currentThread().interrupt();
-        }*/
+        if (!fileShotsFlag)
+            addUI();
+        requestGraphicsUpdate();
 
         try {
-            obj.game();
+            game();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
 
-        obj.cleanUp();
+        cleanUp();
+    }
+
+    public static void main(String[] args) {
+        MainGame obj = new MainGame("./res/courses/course0.txt");
+        obj.playGame(true, "./res/shots/shots.txt");
     }
 
     private void handleEditClickAction(){

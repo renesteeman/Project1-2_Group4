@@ -63,6 +63,8 @@ public class CrazyPutting extends PuttingSimulator {
 	}
 
 	public void gameTextMod() throws FileNotFoundException, InputMismatchException {
+		System.out.println("entered text mod");
+
 		File f = new File(shotsFilename);
 		shotScn = new Scanner(f);
 
