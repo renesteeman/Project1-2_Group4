@@ -76,7 +76,7 @@ public class Mastermind {
 	}
 
 	public boolean runDFS(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
-		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
+		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(Vector2d.MAX_DIFFERENCE, Vector2d.MAX_DIFFERENCE), stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
 		System.out.println("DFS bot initialized");
 		System.out.println("starting search");
 
