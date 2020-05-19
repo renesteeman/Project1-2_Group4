@@ -97,12 +97,17 @@ public class MainGame extends CrazyPutting {
     //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
 
-    public MainGame(String courseFileName) {
+    public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
-        //this.engine = DetermineSolver.getEulerSolver(course);
-        //this.engine = DetermineSolver.getVerletSolver(course);
-        //this.engine = DetermineSolver.getVelocityVerletSolver(course);
-        this.engine = DetermineSolver.getRungeKutta4Solver(course);
+
+        DTIME = graphicsRate;
+
+        if (solverFlag == 0)
+            this.engine = DetermineSolver.getEulerSolver(course, physicsStep);
+        else if (solverFlag == 1) 
+            this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
+        else 
+            this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep);
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
@@ -491,7 +496,7 @@ public class MainGame extends CrazyPutting {
     }
 
     public static void main(String[] args) {
-        MainGame obj = new MainGame("./res/courses/course0.txt");
+        MainGame obj = new MainGame("./res/courses/course0.txt", 2, 1e-1, 1e-2);    
         obj.playGame(true, "./res/shots/shots.txt");
     }
 

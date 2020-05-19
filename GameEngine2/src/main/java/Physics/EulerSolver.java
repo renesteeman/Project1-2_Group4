@@ -8,8 +8,9 @@ public class EulerSolver implements PhysicsEngine {
 	//TODO allow people to enter their prefered G value
 	public final double __G = 9.81;
 
-	public EulerSolver(PuttingCourse course) {
+	public EulerSolver(PuttingCourse course, double step) {
 		this.course = course;
+		this.step = step;
 	}
 
 	@Override

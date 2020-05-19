@@ -9,9 +9,9 @@ public class Mastermind {
 	PuttingSimulator simulator;
 	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null;
 
-	public Mastermind(boolean animated, String courseFileName) {
+	public Mastermind(boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
 		if (animated) {
-			MainGame obj = new MainGame(courseFileName);
+			MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
 			obj.setUpModels();
 			obj.resetPositions();
 	        obj.addAxes();
@@ -36,9 +36,7 @@ public class Mastermind {
 
 	        simulator = obj;
 	    } else {
-	    	PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
-			PhysicsEngine engine = (EulerSolver)DetermineSolver.getEulerSolver(course);
-			simulator = new PuttingSimulator(course, engine);
+	    	// not supported yet
 	    }
 	}
 
@@ -121,7 +119,7 @@ public class Mastermind {
 
 		System.out.println("starting search...");
 
-		Mastermind obj = new Mastermind(true, "./res/courses/course1.txt");
+		Mastermind obj = new Mastermind(true, "./res/courses/course1.txt", 2, 1e-1, 1e-2);
 		boolean result = obj.findSolution(false, false, true);
 
 		System.out.println("search ended");

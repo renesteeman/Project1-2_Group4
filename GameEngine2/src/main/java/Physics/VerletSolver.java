@@ -7,8 +7,9 @@ public class VerletSolver implements PhysicsEngine {
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-    public VerletSolver(PuttingCourse course) {
+    public VerletSolver(PuttingCourse course, double step) {
         this.course = course;
+        this.step = step;
     }
 
     @Override

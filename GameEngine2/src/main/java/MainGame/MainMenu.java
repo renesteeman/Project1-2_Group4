@@ -82,7 +82,17 @@ public class MainMenu extends javax.swing.JFrame {
 
                 setVisible(false);
                 System.out.printf("course = %s, shots = %s\n", currentCourse, currentShots);
-                MainGame obj = new MainGame(currentCourse);
+
+                int solverFlag = 0;
+                if (buttonVerletSolver.isSelected())
+                    solverFlag = 1;
+                if (buttonRungeKutta.isSelected())
+                    solverFlag = 2;
+
+                Double graphicsRate = Double.parseDouble(updateRateField.getText());
+                Double physicsStep = Double.parseDouble(jTextField12.getText());
+
+                MainGame obj = new MainGame(currentCourse, solverFlag, graphicsRate, physicsStep);
                 obj.playGame(interactiveInput, currentShots);  
             }
         });
@@ -113,8 +123,24 @@ public class MainMenu extends javax.swing.JFrame {
                 System.out.println(currentCourse);
 
                 setVisible(false);
-                Mastermind obj = new Mastermind(true, currentCourse);
+
+                int solverFlag = 0;
+                if (buttonVerletSolver.isSelected())
+                    solverFlag = 1;
+                if (buttonRungeKutta.isSelected())
+                    solverFlag = 2;
+
+                Double graphicsRate = Double.parseDouble(updateRateField.getText());
+                Double physicsStep = Double.parseDouble(jTextField12.getText());
+
+                Mastermind obj = new Mastermind(true, currentCourse, solverFlag, graphicsRate, physicsStep);
                 obj.start();
+            }
+        });
+
+        helpButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                enterPhysics();
             }
         });
 
@@ -126,7 +152,8 @@ public class MainMenu extends javax.swing.JFrame {
         playPanel.setVisible(true);
         botPanel.setVisible(false);
         coursePanel.setVisible(false);
-        shotsPanel.setVisible(false);    
+        shotsPanel.setVisible(false);  
+        physicsPanel.setVisible(false);  
     }
     
     public void enterBots() {
@@ -134,6 +161,7 @@ public class MainMenu extends javax.swing.JFrame {
         botPanel.setVisible(true);
         coursePanel.setVisible(false);
         shotsPanel.setVisible(false);
+        physicsPanel.setVisible(false);
     }
     
     public void enterCourse() {
@@ -141,6 +169,7 @@ public class MainMenu extends javax.swing.JFrame {
         botPanel.setVisible(false);
         coursePanel.setVisible(true);
         shotsPanel.setVisible(false);
+        physicsPanel.setVisible(false);
     }
     
     public void enterShots() {
@@ -148,8 +177,17 @@ public class MainMenu extends javax.swing.JFrame {
         botPanel.setVisible(false);
         coursePanel.setVisible(false);
         shotsPanel.setVisible(true);
+        physicsPanel.setVisible(false);
     }
     
+    public void enterPhysics() {
+        playPanel.setVisible(false);
+        botPanel.setVisible(false);
+        coursePanel.setVisible(false);
+        shotsPanel.setVisible(false);
+        physicsPanel.setVisible(true);   
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -160,13 +198,14 @@ public class MainMenu extends javax.swing.JFrame {
     private void initComponents() {
 
         shotButtonGroup = new javax.swing.ButtonGroup();
+        solverButtonGroup = new javax.swing.ButtonGroup();
         sideMenu = new javax.swing.JPanel();
         emptySideMenuPanel = new javax.swing.JPanel();
         playButton = new javax.swing.JButton();
         botButton = new javax.swing.JButton();
         courseButton = new javax.swing.JButton();
         shotsButton = new javax.swing.JButton();
-        //helpButton = new javax.swing.JButton();
+        helpButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
         playPanel = new javax.swing.JPanel();
         startGameButton = new javax.swing.JButton();
@@ -197,6 +236,14 @@ public class MainMenu extends javax.swing.JFrame {
         fileInputField = new javax.swing.JTextField();
         shotRadioButton1 = new javax.swing.JRadioButton();
         shotRadioButton2 = new javax.swing.JRadioButton();
+        physicsPanel = new javax.swing.JPanel();
+        buttonEulerSolver = new javax.swing.JRadioButton();
+        buttonVerletSolver = new javax.swing.JRadioButton();
+        buttonRungeKutta = new javax.swing.JRadioButton();
+        jTextField12 = new javax.swing.JTextField();
+        updateRateField = new javax.swing.JTextField();
+        simulatorStepLabel = new javax.swing.JLabel();
+        physicsStepLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CrazyPutting Launcher");
@@ -268,16 +315,16 @@ public class MainMenu extends javax.swing.JFrame {
         shotsButton.setSelectedIcon(new javax.swing.ImageIcon("./res/image/selected.png")); // NOI18N
         sideMenu.add(shotsButton);
 
-        /*helpButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        helpButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         helpButton.setIcon(new javax.swing.ImageIcon("./res/image/default.png")); // NOI18N
-        helpButton.setText("Help");
+        helpButton.setText("Physics");
         helpButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         helpButton.setMaximumSize(new java.awt.Dimension(290, 50));
         helpButton.setPreferredSize(new java.awt.Dimension(290, 75));
         helpButton.setRolloverIcon(new javax.swing.ImageIcon("./res/image/hover.png")); // NOI18N
         helpButton.setSelectedIcon(new javax.swing.ImageIcon("./res/image/selected.png")); // NOI18N
         sideMenu.add(helpButton);
-        */
+        
         exitButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         exitButton.setIcon(new javax.swing.ImageIcon("./res/image/default.png")); // NOI18N
         exitButton.setText("Exit");
@@ -484,6 +531,44 @@ public class MainMenu extends javax.swing.JFrame {
 
         getContentPane().add(shotsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, -1, -1));
 
+        physicsPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        physicsPanel.setPreferredSize(new java.awt.Dimension(710, 750));
+        physicsPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        solverButtonGroup.add(buttonEulerSolver);
+        buttonEulerSolver.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonEulerSolver.setText("Euler Solver");
+        physicsPanel.add(buttonEulerSolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
+
+        solverButtonGroup.add(buttonVerletSolver);
+        buttonVerletSolver.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonVerletSolver.setText("Verlet Solver");
+        physicsPanel.add(buttonVerletSolver, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
+
+        solverButtonGroup.add(buttonRungeKutta);
+        buttonRungeKutta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        buttonRungeKutta.setText("Runge-Kutta solver");
+        
+        physicsPanel.add(buttonRungeKutta, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
+
+        jTextField12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField12.setText("1e-2");
+        physicsPanel.add(jTextField12, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, 80, -1));
+
+        updateRateField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        updateRateField.setText("1e-1");
+        physicsPanel.add(updateRateField, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 350, 80, -1));
+
+        simulatorStepLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        simulatorStepLabel.setText("Position update rate");
+        physicsPanel.add(simulatorStepLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 350, 220, -1));
+
+        physicsStepLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        physicsStepLabel.setText("Physics simulation step");
+        physicsPanel.add(physicsStepLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, 220, -1));
+
+        getContentPane().add(physicsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -566,12 +651,16 @@ public class MainMenu extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botButton;
     private javax.swing.JPanel botPanel;
+    private javax.swing.JRadioButton buttonEulerSolver;
+    private javax.swing.JRadioButton buttonRungeKutta;
+    private javax.swing.JRadioButton buttonVerletSolver;
     private javax.swing.JButton courseButton;
+    private javax.swing.JCheckBox courseFileCheck;
     private javax.swing.JPanel coursePanel;
     private javax.swing.JPanel emptySideMenuPanel;
     private javax.swing.JButton exitButton;
     private javax.swing.JTextField fileInputField;
-    //private javax.swing.JButton helpButton;
+    private javax.swing.JButton helpButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -583,6 +672,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
+    private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -591,6 +681,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JPanel physicsPanel;
+    private javax.swing.JLabel physicsStepLabel;
     private javax.swing.JButton playButton;
     private javax.swing.JPanel playPanel;
     private javax.swing.ButtonGroup shotButtonGroup;
@@ -599,9 +691,11 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton shotsButton;
     private javax.swing.JPanel shotsPanel;
     private javax.swing.JPanel sideMenu;
+    private javax.swing.JLabel simulatorStepLabel;
+    private javax.swing.ButtonGroup solverButtonGroup;
     private javax.swing.JButton startBotButton;
-    private javax.swing.JButton startGameButton;    
-    private javax.swing.JCheckBox courseFileCheck;
+    private javax.swing.JButton startGameButton;
+    private javax.swing.JTextField updateRateField;
 
     // End of variables declaration//GEN-END:variables
 }

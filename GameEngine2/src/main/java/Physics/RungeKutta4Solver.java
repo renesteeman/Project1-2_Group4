@@ -13,8 +13,9 @@ public class RungeKutta4Solver implements PhysicsEngine{
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-    public RungeKutta4Solver(PuttingCourse course){
+    public RungeKutta4Solver(PuttingCourse course, double step){
         this.course = course;
+        this.step = step;
     }
 
     @Override
