@@ -5,6 +5,7 @@
  */
 package MainGame;
 
+import Physics.*;
 import AI.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -89,6 +90,8 @@ public class MainMenu extends javax.swing.JFrame {
                 setVisible(false);
                 System.out.printf("course = %s, shots = %s\n", currentCourse, currentShots);
 
+                Vector2d.MAX_DIFFERENCE = Double.parseDouble(jTextField13.getText());
+
                 int solverFlag = 0;
                 if (buttonVerletSolver.isSelected())
                     solverFlag = 1;
@@ -141,6 +144,10 @@ public class MainMenu extends javax.swing.JFrame {
                 Double physicsStep = Double.parseDouble(jTextField12.getText());
 
                 Boolean botFlag = naiveBotButton.isSelected();
+
+                System.out.println(jTextField13.getText());
+
+                Vector2d.MAX_DIFFERENCE = Double.parseDouble(jTextField13.getText());
 
                 Mastermind obj = new Mastermind(true, currentCourse, solverFlag, graphicsRate, physicsStep);
                 
