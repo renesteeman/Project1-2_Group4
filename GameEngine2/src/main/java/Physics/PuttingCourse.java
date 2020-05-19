@@ -52,8 +52,8 @@ public class PuttingCourse {
 
     //Loads course from file
     //TODO add support for trees and sand
-    public PuttingCourse(String path){
-
+    public PuttingCourse(String path) {
+        
         try {
             File file = new File(path);
             Scanner inp = new Scanner(file);

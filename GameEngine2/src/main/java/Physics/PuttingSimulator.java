@@ -15,7 +15,7 @@ public class PuttingSimulator extends JPanel {
 
 	public PuttingSimulator() {
 		course = new PuttingCourse("./res/courses/course0.txt");
-		engine = DetermineSolver.getEulerSolver(course);
+		engine = DetermineSolver.getEulerSolver(course, 1e-2);
 	}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {

@@ -22,7 +22,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	public CrazyPutting() {
 		course = new PuttingCourse("./res/courses/course0.txt");
-		engine = DetermineSolver.getEulerSolver(course);
+		engine = DetermineSolver.getEulerSolver(course, 1e-2);
 	}
 
 	public void setInteractiveMod(boolean newMod) {

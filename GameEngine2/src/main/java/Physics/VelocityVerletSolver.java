@@ -7,8 +7,9 @@ public class VelocityVerletSolver implements PhysicsEngine{
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-    public VelocityVerletSolver(PuttingCourse course){
+    public VelocityVerletSolver(PuttingCourse course, double step){
         this.course = course;
+        this.step = step;
     }
 
     public boolean passedFlag() {
