@@ -59,7 +59,6 @@ public class NaiveBot {
     }
 
     public Vector2d getRightSpeed() { //find the right speed to use to have a hole in one
-        findGoodAngles();
 
         Vector3d currentBallPosition = simulator.getBallPosition3();
         double velocityMax = simulator.course.getMaxVelocity();
@@ -79,7 +78,8 @@ public class NaiveBot {
                 simulator.setBallPosition3(currentBallPosition);
             }
         }
-        //System.out.println("No one-shot solution found");
+
+        System.out.println("No one-shot solution found");
         return null;
     }
 

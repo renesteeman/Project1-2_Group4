@@ -8,13 +8,13 @@
 10
 0
 0
-course1.txt
+course2.txt
 1e-2
 
 1e-1
+false
+false
 true
-false
-false
 false
 true
 true
