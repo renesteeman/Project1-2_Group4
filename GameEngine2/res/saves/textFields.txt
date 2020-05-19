@@ -1,0 +1,20 @@
+-0.01*x + 0.003*x^2 + 0.04 * y
+9.81
+45.93
+0.131
+3
+0.02
+0
+10
+0
+0
+course1.txt
+1e-1
+
+1
+false
+false
+true
+false
+true
+true

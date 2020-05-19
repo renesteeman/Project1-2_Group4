@@ -76,7 +76,7 @@ public class Mastermind {
 	}
 
 	public boolean runDFS() {
-		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), 90, 5, 4);
+		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), 10, 5, 4);
 		System.out.println("DFS bot initialized");
 		System.out.println("starting search");
 

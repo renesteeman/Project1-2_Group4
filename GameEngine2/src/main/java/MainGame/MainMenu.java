@@ -10,18 +10,22 @@ import javax.swing.*;
 import java.awt.event.*;
 import org.netbeans.lib.awtextra.*;
 import java.io.*;
+import java.util.Scanner;
 
 /**
  *
  * @author ivanp
  */
 public class MainMenu extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form MainMenu
      */
     public MainMenu() {
         initComponents();
+
+        loadTextFields();
+
         enterPlay();
         
         playButton.addActionListener(new ActionListener() {
@@ -50,6 +54,7 @@ public class MainMenu extends javax.swing.JFrame {
         
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                saveTextFields();
                 System.exit(0);
             }
         });
@@ -80,6 +85,7 @@ public class MainMenu extends javax.swing.JFrame {
                 String currentShots = "./res/shots/" + fileInputField.getText();
                 boolean interactiveInput = !shotRadioButton2.isSelected();
 
+                saveTextFields();
                 setVisible(false);
                 System.out.printf("course = %s, shots = %s\n", currentCourse, currentShots);
 
@@ -122,6 +128,7 @@ public class MainMenu extends javax.swing.JFrame {
 
                 System.out.println(currentCourse);
 
+                saveTextFields();
                 setVisible(false);
 
                 int solverFlag = 0;
@@ -186,6 +193,84 @@ public class MainMenu extends javax.swing.JFrame {
         coursePanel.setVisible(false);
         shotsPanel.setVisible(false);
         physicsPanel.setVisible(true);   
+    }
+
+    public void saveTextFields() {
+        try {
+            PrintWriter writer = new PrintWriter("./res/saves/textFields.txt", "UTF-8");
+
+            writer.printf("%s\n", jTextField1.getText());
+            writer.printf("%s\n", jTextField2.getText());
+            writer.printf("%s\n", jTextField3.getText());
+            writer.printf("%s\n", jTextField4.getText());
+            writer.printf("%s\n", jTextField5.getText());
+            writer.printf("%s\n", jTextField6.getText());
+            writer.printf("%s\n", jTextField7.getText());
+            writer.printf("%s\n", jTextField8.getText());
+            writer.printf("%s\n", jTextField9.getText());
+            writer.printf("%s\n", jTextField10.getText());
+            writer.printf("%s\n", jTextField11.getText());
+            writer.printf("%s\n", jTextField12.getText());
+
+            writer.printf("%s\n", fileInputField.getText());
+            writer.printf("%s\n", updateRateField.getText());
+            
+            writer.printf("%b\n", buttonEulerSolver.isSelected());
+            writer.printf("%b\n", buttonVerletSolver.isSelected());
+            writer.printf("%b\n", buttonRungeKutta.isSelected());
+
+            writer.printf("%b\n", shotRadioButton1.isSelected());
+            writer.printf("%b\n", shotRadioButton2.isSelected());
+
+            writer.printf("%b\n", courseFileCheck.isSelected());
+
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTextFields() {
+        try {
+            File f = new File("./res/saves/textFields.txt");
+            Scanner inp = new Scanner(f);
+            
+            jTextField1.setText(inp.nextLine());
+            jTextField2.setText(inp.nextLine());
+            jTextField3.setText(inp.nextLine());
+            jTextField4.setText(inp.nextLine());
+            jTextField5.setText(inp.nextLine());
+            jTextField6.setText(inp.nextLine());
+            jTextField7.setText(inp.nextLine());
+            jTextField8.setText(inp.nextLine());
+            jTextField9.setText(inp.nextLine());
+            jTextField10.setText(inp.nextLine());
+            jTextField11.setText(inp.nextLine());
+            jTextField12.setText(inp.nextLine());
+
+            fileInputField.setText(inp.nextLine());
+            updateRateField.setText(inp.nextLine());
+
+            Boolean val = Boolean.parseBoolean(inp.nextLine());
+            buttonEulerSolver.setSelected(val);
+            val = Boolean.parseBoolean(inp.nextLine());
+            buttonVerletSolver.setSelected(val);
+            val = Boolean.parseBoolean(inp.nextLine());
+            buttonRungeKutta.setSelected(val);
+
+            val = Boolean.parseBoolean(inp.nextLine());
+            shotRadioButton1.setSelected(val);
+
+            val = Boolean.parseBoolean(inp.nextLine());
+            shotRadioButton2.setSelected(val);
+
+            val = Boolean.parseBoolean(inp.nextLine());
+            courseFileCheck.setSelected(val);
+
+            inp.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
