@@ -140,7 +140,9 @@ public class MainMenu extends javax.swing.JFrame {
                 Double graphicsRate = Double.parseDouble(updateRateField.getText());
                 Double physicsStep = Double.parseDouble(jTextField12.getText());
 
-                Mastermind obj = new Mastermind(true, currentCourse, solverFlag, graphicsRate, physicsStep);
+                Boolean botFlag = naiveBotButton.isSelected();
+
+                Mastermind obj = new Mastermind(botFlag, true, currentCourse, solverFlag, graphicsRate, physicsStep);
                 obj.start();
             }
         });
@@ -224,6 +226,9 @@ public class MainMenu extends javax.swing.JFrame {
 
             writer.printf("%b\n", courseFileCheck.isSelected());
 
+            writer.printf("%b\n", naiveBotButton.isSelected());
+            writer.printf("%b\n", BFSbotButton.isSelected());
+
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -267,6 +272,12 @@ public class MainMenu extends javax.swing.JFrame {
             val = Boolean.parseBoolean(inp.nextLine());
             courseFileCheck.setSelected(val);
 
+            val = Boolean.parseBoolean(inp.nextLine());
+            naiveBotButton.setSelected(val);
+
+            val = Boolean.parseBoolean(inp.nextLine());
+            BFSbotButton.setSelected(val);            
+
             inp.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -284,6 +295,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         shotButtonGroup = new javax.swing.ButtonGroup();
         solverButtonGroup = new javax.swing.ButtonGroup();
+        botButtonGroup = new javax.swing.ButtonGroup();
         sideMenu = new javax.swing.JPanel();
         emptySideMenuPanel = new javax.swing.JPanel();
         playButton = new javax.swing.JButton();
@@ -296,6 +308,8 @@ public class MainMenu extends javax.swing.JFrame {
         startGameButton = new javax.swing.JButton();
         botPanel = new javax.swing.JPanel();
         startBotButton = new javax.swing.JButton();
+        naiveBotButton = new javax.swing.JRadioButton();
+        BFSbotButton = new javax.swing.JRadioButton();
         coursePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -443,7 +457,7 @@ public class MainMenu extends javax.swing.JFrame {
 
         botPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         botPanel.setPreferredSize(new java.awt.Dimension(710, 750));
-        botPanel.setLayout(new java.awt.GridBagLayout());
+        botPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         startBotButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         startBotButton.setIcon(new javax.swing.ImageIcon("./res/image/defaultStart.png")); // NOI18N
@@ -455,9 +469,20 @@ public class MainMenu extends javax.swing.JFrame {
         startBotButton.setPreferredSize(new java.awt.Dimension(300, 150));
         startBotButton.setRolloverIcon(new javax.swing.ImageIcon("./res/image/hoverStart.png")); // NOI18N
         startBotButton.setSelectedIcon(new javax.swing.ImageIcon("./res/image/selectedStart.png")); // NOI18N
-        botPanel.add(startBotButton, new java.awt.GridBagConstraints());
+        botPanel.add(startBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 300, -1, -1));
+
+        botButtonGroup.add(naiveBotButton);
+        naiveBotButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        naiveBotButton.setText("One-shot bot");
+        botPanel.add(naiveBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
+
+        botButtonGroup.add(BFSbotButton);
+        BFSbotButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        BFSbotButton.setText("BFS bot");
+        botPanel.add(BFSbotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, -1, -1));
 
         getContentPane().add(botPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, -1, -1));
+
 
         coursePanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         coursePanel.setPreferredSize(new java.awt.Dimension(710, 750));
@@ -734,7 +759,9 @@ public class MainMenu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButton BFSbotButton;
     private javax.swing.JButton botButton;
+    private javax.swing.ButtonGroup botButtonGroup;
     private javax.swing.JPanel botPanel;
     private javax.swing.JRadioButton buttonEulerSolver;
     private javax.swing.JRadioButton buttonRungeKutta;
@@ -766,6 +793,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
+    private javax.swing.JRadioButton naiveBotButton;
     private javax.swing.JPanel physicsPanel;
     private javax.swing.JLabel physicsStepLabel;
     private javax.swing.JButton playButton;
@@ -781,6 +809,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JButton startBotButton;
     private javax.swing.JButton startGameButton;
     private javax.swing.JTextField updateRateField;
+
 
     // End of variables declaration//GEN-END:variables
 }

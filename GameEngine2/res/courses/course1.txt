@@ -1,6 +1,6 @@
-height = (sin(x)+cos(x)-2)
+height = (sin(x)+cos(y)-2)
 flag = (20, 0)
 start = (50, 0)
 friction = 0.5
-vmax = 20.0
+vmax = 30
 tol = 5.0

@@ -9,7 +9,9 @@ public class Mastermind {
 	PuttingSimulator simulator;
 	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null;
 
-	public Mastermind(boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
+	boolean botFlag = false;
+
+	public Mastermind(boolean botFlag, boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
 		if (animated) {
 			MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
 			obj.setUpModels();
@@ -24,6 +26,8 @@ public class Mastermind {
 	        obj.setInteractiveMod(false);
 
 	        obj.requestGraphicsUpdate();
+
+	        this.botFlag = botFlag;
 
 	        /*try {
 	            obj.game();
@@ -64,7 +68,7 @@ public class Mastermind {
 	}
 
 	public boolean runNaive() {
-		NaiveBot bot = new NaiveBot(simulator, 10, 360, 1);
+		NaiveBot bot = new NaiveBot(simulator, 10, 360, 10);
 
 		System.out.println("NaiveBot initialized");
 		System.out.println("starting search");
@@ -103,7 +107,11 @@ public class Mastermind {
 
 		System.out.println("starting search...");
 
-		boolean result = findSolution(false, false, true);
+		boolean result = false;
+		if (botFlag)
+			result = findSolution(false, true, false);
+		else
+			result = findSolution(false, false, true);
 
 		System.out.println("search ended");
 
@@ -119,7 +127,7 @@ public class Mastermind {
 
 		System.out.println("starting search...");
 
-		Mastermind obj = new Mastermind(true, "./res/courses/course1.txt", 2, 1e-1, 1e-2);
+		Mastermind obj = new Mastermind(false, true, "./res/courses/course1.txt", 2, 1e-1, 1e-2);
 		boolean result = obj.findSolution(false, false, true);
 
 		System.out.println("search ended");

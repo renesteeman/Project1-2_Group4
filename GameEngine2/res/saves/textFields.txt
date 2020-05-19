@@ -9,12 +9,14 @@
 0
 0
 course1.txt
-1e-1
+1e-2
 
-1
+1e-1
+true
+false
 false
 false
 true
+true
+true
 false
-true
-true
