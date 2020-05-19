@@ -1,7 +1,7 @@
 package Physics;
 
 public class VerletSolver implements PhysicsEngine {
-    private double step = 1e-4; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+    private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
     private boolean passedFlag = false;
 
@@ -13,7 +13,7 @@ public class VerletSolver implements PhysicsEngine {
 
     @Override
     public boolean passedFlag() {
-        return false;
+        return passedFlag;
     }
 
     /**

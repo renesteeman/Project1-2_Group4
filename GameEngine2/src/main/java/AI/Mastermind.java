@@ -37,7 +37,7 @@ public class Mastermind {
 	        simulator = obj;
 	    } else {
 	    	PuttingCourse course = new PuttingCourse("./res/courses/course0.txt");
-			EulerSolver engine = (EulerSolver)DetermineSolver.getEngine(course);
+			PhysicsEngine engine = (EulerSolver)DetermineSolver.getEulerSolver(course);
 			simulator = new PuttingSimulator(course, engine);
 	    }
 	}

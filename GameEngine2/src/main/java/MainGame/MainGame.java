@@ -99,7 +99,10 @@ public class MainGame extends CrazyPutting {
 
     public MainGame(String courseFileName) {
         this.course = new PuttingCourse(courseFileName);
-        this.engine = DetermineSolver.getEngine(course);
+        //this.engine = DetermineSolver.getEulerSolver(course);
+        //this.engine = DetermineSolver.getVerletSolver(course);
+        //this.engine = DetermineSolver.getVelocityVerletSolver(course);
+        this.engine = DetermineSolver.getRungeKutta4Solver(course);
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
