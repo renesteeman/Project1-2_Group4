@@ -115,4 +115,21 @@ public class Mastermind {
 			System.out.println(getSolution());
 		}
 	}
+
+	public static void main(String[] args) {
+		System.out.println("object of mastermind created");
+
+		System.out.println("starting search...");
+
+		Mastermind obj = new Mastermind(true, "./res/courses/course1.txt");
+		boolean result = obj.findSolution(false, false, true);
+
+		System.out.println("search ended");
+
+		if (!result) {
+			System.out.println("no solution found");
+		} else {
+			System.out.println(obj.getSolution());
+		}	
+	}
 }
