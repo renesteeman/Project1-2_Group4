@@ -5,6 +5,7 @@
  */
 package MainGame;
 
+import Physics.*;
 import AI.*;
 import javax.swing.*;
 import java.awt.event.*;
@@ -89,6 +90,8 @@ public class MainMenu extends javax.swing.JFrame {
                 setVisible(false);
                 System.out.printf("course = %s, shots = %s\n", currentCourse, currentShots);
 
+                Vector2d.MAX_DIFFERENCE = Double.parseDouble(jTextField13.getText());
+
                 int solverFlag = 0;
                 if (buttonVerletSolver.isSelected())
                     solverFlag = 1;
@@ -142,8 +145,25 @@ public class MainMenu extends javax.swing.JFrame {
 
                 Boolean botFlag = naiveBotButton.isSelected();
 
-                Mastermind obj = new Mastermind(botFlag, true, currentCourse, solverFlag, graphicsRate, physicsStep);
-                obj.start();
+                System.out.println(jTextField13.getText());
+
+                Vector2d.MAX_DIFFERENCE = Double.parseDouble(jTextField13.getText());
+
+                Mastermind obj = new Mastermind(true, currentCourse, solverFlag, graphicsRate, physicsStep);
+                
+                if (botFlag) {
+                    Double param1 = Double.parseDouble(angleStepField1.getText());
+                    Double param2 = Double.parseDouble(angleRangeField1.getText());
+                    Double param3 = Double.parseDouble(velocityStepField1.getText());
+                    System.out.println("naive bot: " + param1 + " " + param2 + " " + param3);
+                    obj.startNaiveBot(param1, param2, param3);
+                } else {
+                    Double param1 = Double.parseDouble(angleStepField2.getText());
+                    Double param2 = Double.parseDouble(velocityStepField2.getText());
+                    Double param3 = Double.parseDouble(numberOfStepsField.getText());
+                    System.out.println("bfs bot: " + param1 + " " + param2 + " " + param3);
+                    obj.startBFSBot(param1, param2, param3);
+                }
             }
         });
 
@@ -213,6 +233,7 @@ public class MainMenu extends javax.swing.JFrame {
             writer.printf("%s\n", jTextField10.getText());
             writer.printf("%s\n", jTextField11.getText());
             writer.printf("%s\n", jTextField12.getText());
+            writer.printf("%s\n", jTextField13.getText());
 
             writer.printf("%s\n", fileInputField.getText());
             writer.printf("%s\n", updateRateField.getText());
@@ -228,6 +249,13 @@ public class MainMenu extends javax.swing.JFrame {
 
             writer.printf("%b\n", naiveBotButton.isSelected());
             writer.printf("%b\n", BFSbotButton.isSelected());
+
+            writer.printf("%s\n", angleRangeField1.getText());
+            writer.printf("%s\n", angleStepField1.getText());
+            writer.printf("%s\n", angleStepField2.getText());
+            writer.printf("%s\n", numberOfStepsField.getText());
+            writer.printf("%s\n", velocityStepField1.getText());
+            writer.printf("%s\n", velocityStepField2.getText());
 
             writer.close();
         } catch (Exception e) {
@@ -252,6 +280,7 @@ public class MainMenu extends javax.swing.JFrame {
             jTextField10.setText(inp.nextLine());
             jTextField11.setText(inp.nextLine());
             jTextField12.setText(inp.nextLine());
+            jTextField13.setText(inp.nextLine());
 
             fileInputField.setText(inp.nextLine());
             updateRateField.setText(inp.nextLine());
@@ -277,6 +306,13 @@ public class MainMenu extends javax.swing.JFrame {
 
             val = Boolean.parseBoolean(inp.nextLine());
             BFSbotButton.setSelected(val);            
+
+            angleRangeField1.setText(inp.nextLine());
+            angleStepField1.setText(inp.nextLine());
+            angleStepField2.setText(inp.nextLine());
+            numberOfStepsField.setText(inp.nextLine());
+            velocityStepField1.setText(inp.nextLine());
+            velocityStepField2.setText(inp.nextLine());
 
             inp.close();
         } catch (Exception e) {
@@ -310,6 +346,18 @@ public class MainMenu extends javax.swing.JFrame {
         startBotButton = new javax.swing.JButton();
         naiveBotButton = new javax.swing.JRadioButton();
         BFSbotButton = new javax.swing.JRadioButton();
+        numberOfStepsLabel = new javax.swing.JLabel();
+        angleStepLabel1 = new javax.swing.JLabel();
+        angleRangeLabel1 = new javax.swing.JLabel();
+        velocityStepLabel1 = new javax.swing.JLabel();
+        angleStepLabel2 = new javax.swing.JLabel();
+        velocityStepLabel2 = new javax.swing.JLabel();
+        numberOfStepsField = new javax.swing.JTextField();
+        angleStepField1 = new javax.swing.JTextField();
+        angleRangeField1 = new javax.swing.JTextField();
+        velocityStepField1 = new javax.swing.JTextField();
+        angleStepField2 = new javax.swing.JTextField();
+        velocityStepField2 = new javax.swing.JTextField();
         coursePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -343,6 +391,8 @@ public class MainMenu extends javax.swing.JFrame {
         updateRateField = new javax.swing.JTextField();
         simulatorStepLabel = new javax.swing.JLabel();
         physicsStepLabel = new javax.swing.JLabel();
+        stopErrorLabel = new javax.swing.JLabel();
+        jTextField13 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CrazyPutting Launcher");
@@ -469,21 +519,68 @@ public class MainMenu extends javax.swing.JFrame {
         startBotButton.setPreferredSize(new java.awt.Dimension(300, 150));
         startBotButton.setRolloverIcon(new javax.swing.ImageIcon("./res/image/hoverStart.png")); // NOI18N
         startBotButton.setSelectedIcon(new javax.swing.ImageIcon("./res/image/selectedStart.png")); // NOI18N
-        botPanel.add(startBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(205, 300, -1, -1));
+        botPanel.add(startBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, -1, -1));
 
         botButtonGroup.add(naiveBotButton);
         naiveBotButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         naiveBotButton.setText("One-shot bot");
-        botPanel.add(naiveBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 190, -1, -1));
+        botPanel.add(naiveBotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 160, -1, -1));
 
         botButtonGroup.add(BFSbotButton);
         BFSbotButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         BFSbotButton.setText("BFS bot");
-        botPanel.add(BFSbotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 190, -1, -1));
+        botPanel.add(BFSbotButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 310, -1, -1));
+
+        numberOfStepsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        numberOfStepsLabel.setText("number of velocity steps");
+        botPanel.add(numberOfStepsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 390, -1, -1));
+
+        angleStepLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleStepLabel1.setText("angle step");
+        botPanel.add(angleStepLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 160, -1, -1));
+
+        angleRangeLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleRangeLabel1.setText("angle range");
+        botPanel.add(angleRangeLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 200, -1, -1));
+
+        velocityStepLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        velocityStepLabel1.setText("velocity step");
+        botPanel.add(velocityStepLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 240, -1, -1));
+
+        angleStepLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleStepLabel2.setText("angle step");
+        botPanel.add(angleStepLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 310, -1, -1));
+
+        velocityStepLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        velocityStepLabel2.setText("velocity step");
+        botPanel.add(velocityStepLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 350, -1, -1));
+
+        numberOfStepsField.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        numberOfStepsField.setText("4");
+        botPanel.add(numberOfStepsField, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 380, 110, -1));
+
+        angleStepField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleStepField1.setText("10");
+        botPanel.add(angleStepField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, 110, -1));
+
+        angleRangeField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleRangeField1.setText("360");
+        botPanel.add(angleRangeField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 190, 110, -1));
+
+        velocityStepField1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        velocityStepField1.setText("1");
+        botPanel.add(velocityStepField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 230, 110, -1));
+
+        angleStepField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        angleStepField2.setText("10");
+        botPanel.add(angleStepField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 300, 110, -1));
+
+        velocityStepField2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        velocityStepField2.setText("5");
+        botPanel.add(velocityStepField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 340, 110, -1));
 
         getContentPane().add(botPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, -1, -1));
-
-
+        
         coursePanel.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         coursePanel.setPreferredSize(new java.awt.Dimension(710, 750));
         coursePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -658,7 +755,6 @@ public class MainMenu extends javax.swing.JFrame {
         solverButtonGroup.add(buttonRungeKutta);
         buttonRungeKutta.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         buttonRungeKutta.setText("Runge-Kutta solver");
-        
         physicsPanel.add(buttonRungeKutta, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, -1, -1));
 
         jTextField12.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -676,6 +772,14 @@ public class MainMenu extends javax.swing.JFrame {
         physicsStepLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         physicsStepLabel.setText("Physics simulation step");
         physicsPanel.add(physicsStepLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 440, 220, -1));
+
+        stopErrorLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        stopErrorLabel.setText("Stop condition error");
+        physicsPanel.add(stopErrorLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 520, -1, -1));
+
+        jTextField13.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jTextField13.setText("1e-1");
+        physicsPanel.add(jTextField13, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 520, 80, -1));
 
         getContentPane().add(physicsPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(291, 0, -1, -1));
 
@@ -760,6 +864,12 @@ public class MainMenu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton BFSbotButton;
+    private javax.swing.JTextField angleRangeField1;
+    private javax.swing.JLabel angleRangeLabel1;
+    private javax.swing.JTextField angleStepField1;
+    private javax.swing.JTextField angleStepField2;
+    private javax.swing.JLabel angleStepLabel1;
+    private javax.swing.JLabel angleStepLabel2;
     private javax.swing.JButton botButton;
     private javax.swing.ButtonGroup botButtonGroup;
     private javax.swing.JPanel botPanel;
@@ -785,6 +895,7 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField11;
     private javax.swing.JTextField jTextField12;
+    private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
@@ -794,6 +905,8 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField8;
     private javax.swing.JTextField jTextField9;
     private javax.swing.JRadioButton naiveBotButton;
+    private javax.swing.JTextField numberOfStepsField;
+    private javax.swing.JLabel numberOfStepsLabel;
     private javax.swing.JPanel physicsPanel;
     private javax.swing.JLabel physicsStepLabel;
     private javax.swing.JButton playButton;
@@ -808,8 +921,12 @@ public class MainMenu extends javax.swing.JFrame {
     private javax.swing.ButtonGroup solverButtonGroup;
     private javax.swing.JButton startBotButton;
     private javax.swing.JButton startGameButton;
+    private javax.swing.JLabel stopErrorLabel;
     private javax.swing.JTextField updateRateField;
-
+    private javax.swing.JTextField velocityStepField1;
+    private javax.swing.JTextField velocityStepField2;
+    private javax.swing.JLabel velocityStepLabel1;
+    private javax.swing.JLabel velocityStepLabel2;
 
     // End of variables declaration//GEN-END:variables
 }

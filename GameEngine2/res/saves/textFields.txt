@@ -10,6 +10,7 @@
 0
 course2.txt
 1e-2
+1e-3
 
 1e-1
 false
@@ -18,5 +19,11 @@ true
 false
 true
 true
-true
 false
+true
+360
+10
+10
+4
+1
+5

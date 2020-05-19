@@ -9,9 +9,7 @@ public class Mastermind {
 	PuttingSimulator simulator;
 	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null;
 
-	boolean botFlag = false;
-
-	public Mastermind(boolean botFlag, boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
+	public Mastermind(boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
 		if (animated) {
 			MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
 			obj.setUpModels();
@@ -26,8 +24,6 @@ public class Mastermind {
 	        obj.setInteractiveMod(false);
 
 	        obj.requestGraphicsUpdate();
-
-	        this.botFlag = botFlag;
 
 	        /*try {
 	            obj.game();
@@ -46,13 +42,13 @@ public class Mastermind {
 
 	public boolean findSolution(boolean flag1, boolean flag2, boolean flag3) {
 		boolean result = false;
-		if (flag1)
+		/*if (flag1)
 			result |= runBruteForce(); 
 		if (flag2) 
 			result |= runNaive();
 		if (flag3)
 			result |= runDFS();
-		return result;
+		*/return result;
 	}
 
 	public boolean runBruteForce() {
@@ -67,8 +63,8 @@ public class Mastermind {
 		return (solutionBruteForce != null);
 	}
 
-	public boolean runNaive() {
-		NaiveBot bot = new NaiveBot(simulator, 10, 360, 10);
+	public boolean runNaive(double angleStep, double angleRange, double velocityStep) {
+		NaiveBot bot = new NaiveBot(simulator, angleStep, angleRange, velocityStep);
 
 		System.out.println("NaiveBot initialized");
 		System.out.println("starting search");
@@ -79,8 +75,8 @@ public class Mastermind {
 		return (solutionNaive != null);
 	}
 
-	public boolean runDFS() {
-		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), 10, 5, 4);
+	public boolean runDFS(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
+		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(1.0, 1.0), stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
 		System.out.println("DFS bot initialized");
 		System.out.println("starting search");
 
@@ -100,34 +96,44 @@ public class Mastermind {
 		return null;
 	}
 
-	public void start() {
-		//obj.simulator.putDelay(10);
-
+	public void startNaiveBot(double angleStep, double angleRange, double velocityStep) {
 		System.out.println("object of mastermind created");
 
 		System.out.println("starting search...");
 
-		boolean result = false;
-		if (botFlag)
-			result = findSolution(false, true, false);
-		else
-			result = findSolution(false, false, true);
-
+		boolean result = runNaive(angleStep, angleRange, velocityStep);
+		
 		System.out.println("search ended");
 
 		if (!result) {
 			System.out.println("no solution found");
 		} else {
 			System.out.println(getSolution());
-		}
+		}	
 	}
+
+	public void startBFSBot(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
+		System.out.println("object of mastermind created");
+
+		System.out.println("starting search...");
+
+		boolean result = runDFS(stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
+		
+		System.out.println("search ended");
+
+		if (!result) {
+			System.out.println("no solution found");
+		} else {
+			System.out.println(getSolution());
+		}	
+	}	
 
 	public static void main(String[] args) {
 		System.out.println("object of mastermind created");
 
 		System.out.println("starting search...");
 
-		Mastermind obj = new Mastermind(false, true, "./res/courses/course1.txt", 2, 1e-1, 1e-2);
+		Mastermind obj = new Mastermind(true, "./res/courses/course1.txt", 2, 1e-1, 1e-2);
 		boolean result = obj.findSolution(false, false, true);
 
 		System.out.println("search ended");
