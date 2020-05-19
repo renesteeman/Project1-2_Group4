@@ -10,12 +10,12 @@ public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
 	
-	protected double DTIME = 5;
+	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;
 
 	public PuttingSimulator() {
 		course = new PuttingCourse("./res/courses/course0.txt");
-		engine = DetermineSolver.getEngine(course);
+		engine = DetermineSolver.getEulerSolver(course);
 	}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {

@@ -7,7 +7,7 @@ package Physics;
  * This is done by the Classical Fourth-Order Runge-Kutta method in a second-order system.
  */
 public class RungeKutta4Solver implements PhysicsEngine{
-    private double step = 1e-4; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+    private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
     private boolean passedFlag = false;
 
