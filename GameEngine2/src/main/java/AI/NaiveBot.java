@@ -72,6 +72,7 @@ public class NaiveBot {
 
                 if (simulator.course.victoriousPosition3()) {
                     //goodSpeed.add(shot); //In case we want to see if there are more than one
+                    System.out.println("WON");
                     return shot;
                 }
 
