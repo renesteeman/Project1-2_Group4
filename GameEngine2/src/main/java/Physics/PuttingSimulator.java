@@ -10,7 +10,7 @@ public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
 	
-	protected double DTIME = 1e-1; // 100 FPS
+	protected double DTIME = 5;
 	public boolean passedFlag = false;
 
 	public PuttingSimulator() {
@@ -38,6 +38,7 @@ public class PuttingSimulator extends JPanel {
 	}
 
 	public void takeShot(Vector2d initialBallVelocity) {
+		System.out.println("shot taken");
 		currentShotInProcess = true;
 		sx = TreeMultiset.create();
 		sz = TreeMultiset.create();
@@ -47,8 +48,11 @@ public class PuttingSimulator extends JPanel {
 
 		passedFlag = false;
 		while (!stopCondition()) {
+			//System.out.println("hasnt stopped");
 			engine.process(DTIME);
 			passedFlag |= engine.passedFlag();
+
+			//System.out.println("processed");
 
 			//System.out.println(sx.size());
 
@@ -66,7 +70,9 @@ public class PuttingSimulator extends JPanel {
 			//System.out.println(course.ball.getCoords3());
 			//System.out.println(course.ball.getVelocity3());
 
+			//System.out.println("requesting graphics update");
 			requestGraphicsUpdate();
+			//System.out.println("graphics updated");
 
 //			try {
 //			    Thread.sleep(10); /// 1000 * DTIME
