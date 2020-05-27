@@ -2,47 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="795dc95d-98ed-4fb4-abe3-5ec466ac0c48" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/GameEngine2.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/textures/button.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/AbstractButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Buttons/InterfaceButton.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Character.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/FontType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/GUIText.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Line.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/MetaFile.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshCreator.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/TextMeshData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontMeshCreator/Word.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontRenderer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/FontShader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/FontRendering/TextMaster.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/GUIElements/Textbox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterFrameBuffers.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Water/WaterTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/fileHashes/fileHashes.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/classAnalysis.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/javaCompile.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.2.1/javaCompile/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/EngineTester/MainGameLoop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/GUI/GUITexture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Buttons/AbstractButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Buttons/AbstractButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/DisplayManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shaders/waterFragment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/RenderEngine/MasterRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/RenderEngine/MasterRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Shadow/ShadowFrameBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Shadow/ShadowFrameBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ShadowBox.java" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
   </component>
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
@@ -63,8 +41,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JUnit5 Test Class" />
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -88,11 +66,12 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="create.test.in.the.same.root" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.32210526" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="show.unlinked.gradle.project.popup" value="true" />
   </component>
   <component name="RecentsManager">
@@ -314,6 +293,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/Entities/Trees.java</url>
           <line>124</line>
           <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/Shadow/ShadowBox.java</url>
+          <line>241</line>
+          <option name="timeStamp" value="12" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

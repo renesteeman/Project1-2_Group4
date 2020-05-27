@@ -3,8 +3,6 @@ package RenderEngine;
 import MouseHandler.MouseHandler;
 import org.joml.Vector2f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
 
 public class DisplayManager {
     private static final int WIDTH = 1280;

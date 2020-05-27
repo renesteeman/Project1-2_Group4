@@ -51,10 +51,10 @@ public class MasterRenderer {
             processEntity(entity);
         }
 
-        render(light, camera, clipPlane);
+        render(light, camera, clipPlane );
     }
 
-    public void render(Light sun, Camera camera, Vector4f clipPlane){
+    public void render(Light sun, Camera camera, Vector4f clipPlane ){
         prepare();
 
         //Render entities

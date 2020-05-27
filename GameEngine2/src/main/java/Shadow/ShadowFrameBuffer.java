@@ -1,13 +1,9 @@
 package Shadow;
 
-import java.nio.ByteBuffer;
-
 import RenderEngine.DisplayManager;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL14;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.opengl.GL32;
+import org.lwjgl.opengl.*;
+
+import java.nio.ByteBuffer;
 
 /**
  * The frame buffer for the shadow pass. This class sets up the depth texture
@@ -130,4 +126,5 @@ public class ShadowFrameBuffer {
         GL32.glFramebufferTexture(GL30.GL_FRAMEBUFFER, GL30.GL_DEPTH_ATTACHMENT, texture, 0);
         return texture;
     }
+
 }

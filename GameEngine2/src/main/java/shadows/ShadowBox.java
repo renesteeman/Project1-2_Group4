@@ -148,7 +148,7 @@ public class ShadowBox {
 	/**
 	 * Calculates the position of the vertex at each corner of the view frustum
 	 * in light space (8 vertices in total, so this returns 8 positions).
-	 * 
+	 *
 	 * @param rotation
 	 *            - camera's rotation.
 	 * @param forwardVector
@@ -190,7 +190,7 @@ public class ShadowBox {
 	/**
 	 * Calculates one of the corner vertices of the view frustum in world space
 	 * and converts it to light space.
-	 * 
+	 *
 	 * @param startPoint
 	 *            - the starting center point on the view frustum.
 	 * @param direction
