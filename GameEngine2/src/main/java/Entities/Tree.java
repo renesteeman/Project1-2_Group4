@@ -1,11 +1,12 @@
 package Entities;
 
+import Models.CollisionModel;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Tree extends CollisionEntity {
 
-    public Tree(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Tree(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         //CollisionRadius is pre-calculated
         super(model, position, rotX, rotY, rotZ, scale, 0);
     }

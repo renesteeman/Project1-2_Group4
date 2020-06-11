@@ -1,13 +1,16 @@
 package Entities;
 
+import Models.CollisionModel;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class CollisionEntity extends Entity{
     private double collisionRadius;
+    private CollisionModel collisionModel;
 
-    public CollisionEntity(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, double collisionRadius) {
-        super(model, position, rotX, rotY, rotZ, scale);
+    public CollisionEntity(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale, double collisionRadius) {
+        super(model.getTexturedModel(), position, rotX, rotY, rotZ, scale);
+        this.collisionModel = model;
         this.collisionRadius = collisionRadius;
     }
 
@@ -20,5 +23,9 @@ public class CollisionEntity extends Entity{
 
     public void setCollisionRadius(double collisionRadius) {
         this.collisionRadius = collisionRadius;
+    }
+
+    public CollisionModel getCollisionModel() {
+        return collisionModel;
     }
 }

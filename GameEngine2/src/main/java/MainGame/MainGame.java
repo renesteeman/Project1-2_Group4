@@ -128,7 +128,7 @@ public class MainGame extends CrazyPutting {
         trees = new Trees();
 
         course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
-        course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
+        course.goal = new Goal(collisionGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
         entities.add(course.ball);
         entities.add(course.goal);
@@ -183,8 +183,9 @@ public class MainGame extends CrazyPutting {
         ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
 
-        Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
+        Tree tree1 = new Tree(collisionTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
     }
 
@@ -511,7 +512,8 @@ public class MainGame extends CrazyPutting {
                     ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
                     RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
                     TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
-                    Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                    CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
+                    Tree treeToAdd = new Tree(collisionTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
                     trees.add(treeToAdd);
                     entities.add(treeToAdd);
                 } else if(deleteEditMode){

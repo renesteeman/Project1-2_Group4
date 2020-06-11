@@ -1,5 +1,6 @@
 package Entities;
 
+import Models.CollisionModel;
 import Physics.Vector2d;
 import Physics.Vector3d;
 import java.awt.Graphics;
@@ -10,7 +11,7 @@ import org.joml.Vector3f;
 public class Goal extends CollisionEntity{
     float radius;
 
-    public Goal(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Goal(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         //CollisionRadius is pre-calculated
         super(model, position, rotX, rotY, rotZ, scale, 0);
     }
