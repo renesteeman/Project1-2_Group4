@@ -1,5 +1,6 @@
 package Entities;
 
+import Models.RawModel;
 import Physics.Vector2d;
 import Physics.Vector3d;
 import java.awt.Graphics;
@@ -7,7 +8,6 @@ import Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Entity {
-
     protected TexturedModel model;
     protected Vector3f position;
     protected float rotX, rotY, rotZ;
@@ -22,13 +22,11 @@ public class Entity {
         this.scale = scale;
     }
 
-    public Entity() {
+    //Option to create blank entity (for testing)
+    public Entity() { }
 
-    }
-
-    public void render(Graphics g) {
-
-    }
+    //Overridden in extensions
+    public void render(Graphics g) { }
 
     public void increasePosition(float dx, float dy, float dz){
         this.position.x += dx;

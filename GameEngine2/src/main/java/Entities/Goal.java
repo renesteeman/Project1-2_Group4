@@ -7,11 +7,12 @@ import java.awt.Color;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 
-public class Goal extends Entity{
+public class Goal extends CollisionEntity{
     float radius;
 
     public Goal(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        super(model, position, rotX, rotY, rotZ, scale);
+        //CollisionRadius is pre-calculated
+        super(model, position, rotX, rotY, rotZ, scale, 0);
     }
 
     public Goal(Vector3d position) {
@@ -30,7 +31,7 @@ public class Goal extends Entity{
         this.radius = radius;
     }
 
-    //TODO remove after testing
+    //Testing only
     @Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLUE);

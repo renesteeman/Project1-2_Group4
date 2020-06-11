@@ -51,4 +51,9 @@ public class Maths {
     public static double screenCoordinateToPixelX(double screenCoordinate){
         return ((screenCoordinate+1)/2)*(DisplayManager.getWidth());
     }
+
+    public static double getDistance(Vector3f pointOne, Vector3f pointTwo){
+        return pointOne.distance(pointTwo);
+    }
+
 }

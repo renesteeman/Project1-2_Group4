@@ -13,6 +13,7 @@ import GUIElements.UIElement;
 import GUIElements.UIGroup;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
+import Models.CollisionModel;
 import Physics.*;
 import Entities.*;
 import Models.TexturedModel;
@@ -121,6 +122,7 @@ public class MainGame extends CrazyPutting {
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
+        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals());
 
         //Special arrayList just for trees (still declared here since it shouldn't be null)
         trees = new Trees();
