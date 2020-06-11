@@ -12,8 +12,7 @@ public class Goal extends CollisionEntity{
     float radius;
 
     public Goal(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
-        //CollisionRadius is pre-calculated
-        super(model, position, rotX, rotY, rotZ, scale, 0);
+        super(model, position, rotX, rotY, rotZ, scale);
     }
 
     public Goal(Vector3d position) {
