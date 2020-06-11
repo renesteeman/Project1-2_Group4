@@ -124,6 +124,51 @@ public class MainGame extends CrazyPutting {
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
         CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals());
 
+        /*
+
+            TESTING
+
+
+         */
+
+        ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
+        RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
+        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
+
+        Vector3f[] goalVertices = collisionGoal.getVertices();
+        double maxDistanceGoal = 0;
+        for(Vector3f vertexOne : goalVertices){
+            for(Vector3f vertexTwo : goalVertices){
+                double distance = Maths.getDistance(vertexOne, vertexTwo);
+                if(distance>maxDistanceGoal){
+                    maxDistanceGoal = distance;
+                }
+            }
+        }
+
+        System.out.println("GOAL" + maxDistanceGoal);
+
+        Vector3f[] treeVertices = collisionTree.getVertices();
+        double maxDistanceTree = 0;
+        for(Vector3f vertexOne : treeVertices){
+            for(Vector3f vertexTwo : treeVertices){
+                double distance = Maths.getDistance(vertexOne, vertexTwo);
+                if(distance>maxDistanceTree){
+                    maxDistanceTree = distance;
+                }
+            }
+        }
+
+        System.out.println("TREE" + maxDistanceTree);
+
+        /*
+
+         */
+
+
+
+
         //Special arrayList just for trees (still declared here since it shouldn't be null)
         trees = new Trees();
 

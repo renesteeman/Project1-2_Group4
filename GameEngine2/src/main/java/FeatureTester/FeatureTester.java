@@ -9,6 +9,7 @@ import GUIElements.Image;
 import GUIElements.UIElement;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
+import Models.CollisionModel;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
@@ -61,7 +62,7 @@ public class FeatureTester {
 
     static Loader loader = new Loader();
     public static Trees trees = new Trees();
-    public static TexturedModel texturedTree;
+    public static CollisionModel collisionTree;
     static List<Entity> entities = new ArrayList<Entity>();
     public static IndicationArrow indicationArrow;
     public static IndicationBall indicationBall;
@@ -103,10 +104,12 @@ public class FeatureTester {
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
+        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals());
 
         ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
-        texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
 
         ModelData arrowModelData = OBJFileLoader.loadOBJ("arrow");
         RawModel arrowModel = loader.loadToVAO(arrowModelData.getVertices(), arrowModelData.getTextureCoords(), arrowModelData.getNormals(), arrowModelData.getIndices());
@@ -115,8 +118,8 @@ public class FeatureTester {
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
         ball = new Ball(texturedBall, new Vector3f(20*SCALE, 1, 30*SCALE), 0, 0, 0, 1);
-        goal = new Goal(texturedGoal, new Vector3f(40*SCALE, 0, 30*SCALE), 0, 0, 0, 1); //good one
-        Tree tree1 = new Tree(texturedTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
+        goal = new Goal(collisionGoal, new Vector3f(40*SCALE, 0, 30*SCALE), 0, 0, 0, 1); //good one
+        Tree tree1 = new Tree(collisionTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
         indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
@@ -367,7 +370,7 @@ public class FeatureTester {
                 if(!deleteEditMode){
                     //Place mode
                     //terrainPoint is the point on the terrain that the user clicked on
-                    Tree treeToAdd = new Tree(texturedTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
+                    Tree treeToAdd = new Tree(collisionTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
                     trees.add(treeToAdd);
                     entities.add(treeToAdd);
                 } else if(deleteEditMode){
