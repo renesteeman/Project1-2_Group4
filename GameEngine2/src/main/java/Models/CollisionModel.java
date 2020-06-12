@@ -26,9 +26,6 @@ public class CollisionModel {
             float vertZ = vertexArray[i+2];
 
             points[i/3] = new Vector3f(vertX, vertY, vertZ);
-
-            Vector3f center = new Vector3f(0, 0, 0);
-            center.div
         }
 
         return points;
