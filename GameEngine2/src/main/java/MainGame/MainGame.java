@@ -481,8 +481,9 @@ public class MainGame extends CrazyPutting {
         
         //only call setupEditMode if edit mode should be available
         //obj.setupEditMode();
-        if (!fileShotsFlag)
+        if (!fileShotsFlag) {
             addUI();
+        }
         requestGraphicsUpdate();
 
         try {
