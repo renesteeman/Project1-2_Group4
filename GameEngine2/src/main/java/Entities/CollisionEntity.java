@@ -1,71 +1,51 @@
 package Entities;
 
+import Collision.CollisionBox;
 import Models.CollisionModel;
-import Toolbox.Maths;
 import org.joml.Vector3f;
 
 public class CollisionEntity extends Entity{
-    private double collisionRadiusFullScale;
-    private Vector3f centerPointModel;
     private CollisionModel collisionModel;
+    private CollisionBox collisionBox;
 
     public CollisionEntity(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model.getTexturedModel(), position, rotX, rotY, rotZ, scale);
         this.collisionModel = model;
-        calculateCollisionRadius();
-        calculateObjectCenter();
+        calculateCollisionBox();
     }
 
     //Option to create blank entity (for testing)
     public CollisionEntity() { }
 
-    private void calculateCollisionRadius(){
+    //Calculate the points that would make up the smallest possible box that can still contain the whole object and then get the middle of this box
+    private void calculateCollisionBox(){
         Vector3f[] vertices = collisionModel.getVertices();
-        double maxVertexDistance = 0;
-        for(Vector3f vertexOne : vertices){
-            for(Vector3f vertexTwo : vertices){
-                double distance = Maths.getDistance(vertexOne, vertexTwo);
-                if(distance>maxVertexDistance){
-                    maxVertexDistance = distance;
-                }
-            }
-        }
 
-        this.collisionRadiusFullScale = maxVertexDistance;
-    }
-
-    private void calculateObjectCenter(){
-        Vector3f[] vertices = collisionModel.getVertices();
-        Vector3f center = new Vector3f(0,0,0);
+        float left = 0;
+        float front = 0;
+        float back = 0;
+        float right = 0;
+        float bottom = 0;
+        float top = 0;
 
         //Add all vertices to the center vector
         for(Vector3f vertex : vertices){
-            center = center.add(vertex);
+            if(vertex.x < left) left = vertex.x;
+            if(vertex.x > right) right = vertex.x;
+            if(vertex.z < bottom) bottom = vertex.z;
+            if(vertex.z > top) top = vertex.z;
+            if(vertex.y < front) front = vertex.y;
+            if(vertex.y > back) back = vertex.y;
         }
 
-        //Divide by the amount of vertices you added to get the average
-        center = center.div(vertices.length);
-
-        this.centerPointModel = center;
-    }
-
-    public double getCollisionRadius() {
-        return collisionRadiusFullScale*scale;
+        this.collisionBox = new CollisionBox(left, front, back, right, bottom, top);
     }
 
     public CollisionModel getCollisionModel() {
         return collisionModel;
     }
 
-    public double getCollisionRadiusFullScale() {
-        return collisionRadiusFullScale;
-    }
-
-    public Vector3f getCenterPointModel() {
-        return centerPointModel;
-    }
-
-    public Vector3f getCenterPoint(){
-        return centerPointModel.add(position);
+    public CollisionBox getCollisionBox() {
+        return collisionBox;
     }
 }
