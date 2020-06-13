@@ -1,5 +1,7 @@
 package Collision;
 
+import org.joml.Vector3f;
+
 public class CollisionBox {
     private float left;
     private float front;
@@ -15,6 +17,22 @@ public class CollisionBox {
         this.right = right;
         this.bottom = bottom;
         this.top = top;
+    }
+
+    //TODO make sure this works
+    public boolean overlapsWithPointGivenMargin(Vector3f collisionBoxTranslation, Vector3f point, float margin){
+        float leftTranslated = left + collisionBoxTranslation.x - margin;
+        float rightTranslated = right + collisionBoxTranslation.x + margin;
+        float backTranslated = back + collisionBoxTranslation.y - margin;
+        float frontTranslated = front + collisionBoxTranslation.y + margin;
+        float bottomTranslated = bottom + collisionBoxTranslation.z - margin;
+        float topTranslated = top + collisionBoxTranslation.z + margin;
+
+        if(point.x > leftTranslated && point.x < rightTranslated && point.z < topTranslated && point.z > bottomTranslated && point.y < backTranslated && point.y > frontTranslated){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public float getLeft() {

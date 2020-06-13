@@ -6,6 +6,7 @@ import org.joml.Vector3f;
 
 public class CollisionEntity extends Entity{
     private CollisionModel collisionModel;
+    //Note that the collisionBox doesn't take the position of the entity into account
     private CollisionBox collisionBox;
 
     public CollisionEntity(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
@@ -17,7 +18,7 @@ public class CollisionEntity extends Entity{
     //Option to create blank entity (for testing)
     public CollisionEntity() { }
 
-    //Calculate the points that would make up the smallest possible box that can still contain the whole object and then get the middle of this box
+    //Calculate the points that would make up the smallest possible box that can still contain the whole object
     private void calculateCollisionBox(){
         Vector3f[] vertices = collisionModel.getVertices();
 
@@ -28,7 +29,7 @@ public class CollisionEntity extends Entity{
         float bottom = 0;
         float top = 0;
 
-        //Add all vertices to the center vector
+        //For every vertex, check if it fits in the collision box, if not, extend the box.
         for(Vector3f vertex : vertices){
             if(vertex.x < left) left = vertex.x;
             if(vertex.x > right) right = vertex.x;
