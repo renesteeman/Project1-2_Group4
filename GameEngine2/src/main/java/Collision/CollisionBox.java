@@ -83,88 +83,92 @@ public class CollisionBox {
         this.top = top;
     }
 
-    //TODO edit the method so it returns a boolean telling you if the face is overlapping (or really close) and use Face instead of sideA, B, C
+    //TODO edit the method so it returns a boolean telling you if the face is overlapping
+    // (or really close) and use Face instead of sideA, B, C
     // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
-    public Vector3f closestPtPointTriangle(Vector3f ball, Vector3f sideA, Vector3f sideB, Vector3f sideC) {
+    public boolean closestPtPointTriangle(Vector3f ball, Face face) {
 
         //Subtraction of different vectors
         //TODO change to right syntax
-        Vector3f sideBMinusSideA = sideB.sub(sideA);
-        Vector3f sideCMinusSideA = Vector3f.subtract(sideC, sideA);
-        Vector3f ballMinusSideA = Vector3f.subtract(ball, sideA);
+        Vector3f secondMinusFirst = face.getSecondVertex().sub(face.getFirstVertex());
+        Vector3f thirdMinusFirst = face.getThirdVertex().sub(face.getFirstVertex());
+        Vector3f ballMinusFirst = ball.sub(face.getFirstVertex());
 
         //Multiplication of different vectors
-        float sideBMinusSideATimesBallMinusSideA = Vector3f.Dot(sideBMinusSideA, ballMinusSideA);
-        float sideCMinusSideATimesBallMinusSideA = Vector3f.Dot(sideCMinusSideA, ballMinusSideA);
+        float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.Dot(ballMinusFirst);
+        float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.Dot(ballMinusFirst);
 
-        if (sideBMinusSideATimesBallMinusSideA <= 0.0f && sideCMinusSideATimesBallMinusSideA <= 0.0f) {
-            return sideA;
+        if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
+            //return face.getFirstVertex();
+            return true;
         }
 
         //Subtraction of vectors
-        Vector3f ballMinusSideB = Vector3f.subtract(ball, sideB);
+        Vector3f ballMinusSideB = ball.sub(face.getSecondVertex());
 
         //Multiplication of vectors
-        float sideBMinusSideATimesBallMinusSideB = Vector3f.Dot(sideBMinusSideA, ballMinusSideB);
-        float sideCMinusSideATimesBallMinusSideB = Vector3f.Dot(sideCMinusSideA, ballMinusSideB);
+        float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.Dot(ballMinusSideB);
+        float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.Dot(ballMinusSideB);
 
-        if (sideBMinusSideATimesBallMinusSideB >= 0.0f && sideCMinusSideATimesBallMinusSideB <= sideBMinusSideATimesBallMinusSideB) {
-            return sideB;
+        if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
+            //return face.getSecondVertex();
+            return true;
         }
 
         //Result of ( (B-A)*(Ball-A)*(C-A)*(Ball-B)) - ( (B-A)*(Ball-B)*(C-A)*(Ball-A) )
-        float vectorC = sideBMinusSideATimesBallMinusSideA * sideCMinusSideATimesBallMinusSideB - sideBMinusSideATimesBallMinusSideB * sideCMinusSideATimesBallMinusSideA;
+        float thirdVector = secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusFirst;
 
-        if (vectorC <= 0.0f && sideBMinusSideATimesBallMinusSideA >= 0.0f && sideBMinusSideATimesBallMinusSideB <= 0.0f) {
-            float v = sideBMinusSideATimesBallMinusSideA / (sideBMinusSideATimesBallMinusSideA - sideBMinusSideATimesBallMinusSideB);
+        if (thirdVector <= 0.0f && secondMinusFirstTimesBallMinusFirst >= 0.0f && secondMinusFirstTimesBallMinusSecond <= 0.0f) {
+            float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
-            return Vector3f.add(sideA, Vector3f.multiply(sideBMinusSideA, v));
+            return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideBMinusSideA, v));
         }
 
         //Subtraction of vectors
-        Vector3f ballMinusSideC = Vector3f.subtract(ball, sideC);
+        Vector3f ballMinusThird = ball.sub(face.getThirdVertex());
 
         //Multiplication of vectors
-        float sideBMinusSideATimesBallMinusSideC = Vector3f.Dot(sideBMinusSideA, ballMinusSideC);
-        float sideCMinusSideATimesBallMinusSideC = Vector3f.Dot(sideCMinusSideA, ballMinusSideC);
+        float secondMinusFirstTimesBallMinusThird = secondMinusFirst.Dot(ballMinusThird);
+        float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.Dot(ballMinusThird);
 
-        if (sideCMinusSideATimesBallMinusSideC >= 0.0f && sideBMinusSideATimesBallMinusSideC <= sideCMinusSideATimesBallMinusSideC) {
-            return sideC;
+        if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
+            //return face.getThirdVertex();
+            return true;
         }
 
         //Result of ( (B-A)*(Ball-C)*(C-A)*(Ball-A)) - ( (B-A)*(Ball-A)*(C-A)*(Ball-C) )
-        float vectorB = sideBMinusSideATimesBallMinusSideC * sideCMinusSideATimesBallMinusSideA - sideBMinusSideATimesBallMinusSideA * sideCMinusSideATimesBallMinusSideC;
+        float secondVector = secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusThird;
 
-        if (vectorB <= 0.0f && sideCMinusSideATimesBallMinusSideA >= 0.0f && sideCMinusSideATimesBallMinusSideC <= 0.0f) {
+        if (secondVector <= 0.0f && thirdMinusFirstTimesBallMinusFirst >= 0.0f && thirdMinusFirstTimesBallMinusThird <= 0.0f) {
 
             //Result of ((C-A)*(Ball-A)) /  ((C-A)*(Ball-A)-(C-A)*(Ball-C))
-            float newResult = sideCMinusSideATimesBallMinusSideA / (sideCMinusSideATimesBallMinusSideA - sideCMinusSideATimesBallMinusSideC);
+            float newResult = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
 
             // sideA + (ac * newResult)
-            return Vector3f.add(sideA, Vector3f.multiply(sideCMinusSideA, newResult));
+            return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideCMinusSideA, newResult));
         }
 
         //Result of ( (B-A)*(Ball-B)*(C-A)*(Ball-C)) - ( (B-A)*(Ball-C)*(C-A)*(Ball-B) )
-        float vectorA = sideBMinusSideATimesBallMinusSideB * sideCMinusSideATimesBallMinusSideC - sideBMinusSideATimesBallMinusSideC * sideCMinusSideATimesBallMinusSideB;
+        float firstVector = secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusThird - secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusSecond;
 
-        if (vectorA <= 0.0f && (sideCMinusSideATimesBallMinusSideB - sideBMinusSideATimesBallMinusSideB) >= 0.0f && (sideBMinusSideATimesBallMinusSideC - sideCMinusSideATimesBallMinusSideC) >= 0.0f) {
+        if (firstVector <= 0.0f && (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) >= 0.0f && (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird) >= 0.0f) {
 
             //Result of ((C-A)*(Ball-B)-(B-A)*(Ball-B)) / ( ((C-A)*(Ball-B)-(B-A)*(Ball-B)) + ((B-A)*(Ball-C)-(C-A)*(Ball-C)) )
-            float newResult = (sideCMinusSideATimesBallMinusSideB - sideBMinusSideATimesBallMinusSideB) / ((sideCMinusSideATimesBallMinusSideB - sideBMinusSideATimesBallMinusSideB) + (sideBMinusSideATimesBallMinusSideC - sideCMinusSideATimesBallMinusSideC));
+            float newResult = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
             // sideB + newResult * (sideC - sideB)
-            return Vector3f.add(sideB, Vector3f.multiply(Vector3f.subtract(sideC, sideB), newResult));
+            return Vector3f.add(face.getSecondVertex(), Vector3f.multiply(Vector3f.subtract(face.getThirdVertex(), face.getSecondVertex()), newResult));
         }
 
-        float denominator = 1.0f / (vectorA + vectorB + vectorC);
-        float normalVector = vectorB * denominator; //Normal vector used to be called vn
-        float wn = vectorC * denominator; //Don't know how to rename this one
+        float denominator = 1.0f / (firstVector + secondVector + thirdVector);
+        float normalVector = secondVector * denominator; //Normal vector used to be called vn
+        float wn = thirdVector * denominator; //Don't know how to rename this one
 
-        // sideA + sideAminusSideB * normalVector + ac * wn
-        Vector3 sideBMinusSideATimesNormalVector = Vector3f.multiply(sideBMinusSideA, normalVector);
-        Vector3 sideCMinusSideATimesWN = Vector3f.multiply(sideCMinusSideA, wn);
+        // sideA + sideAMinusSideB * normalVector + ac * wn
+        Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.Dot(normalVector);
+        Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.Dot(wn);
 
         // return result
-        return Vector3f.add(sideA, Vector3f.add(sideBMinusSideATimesNormalVector, sideCMinusSideATimesWN));
+        return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
     }
 }
