@@ -1,6 +1,6 @@
 package Models;
 
-import OBJConverter.Vertex;
+import Collision.Face;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
@@ -9,13 +9,32 @@ public class CollisionModel {
     private final TexturedModel texturedModel;
     private final Vector3f[] vertices;
     private final Vector3f[] normals;
-    private final int[] indices;
+    private final Face[] faces;
 
     public CollisionModel(TexturedModel model, float[] vertexArray, float[] normalArray, int[] indices){
         this.texturedModel = model;
         this.vertices = floatArrayToPoints(vertexArray);
         this.normals = floatArrayToNormals(normalArray);
-        this.indices = indices;
+        this.faces = intArrayToFace(indices);
+    }
+
+    private Face[] intArrayToFace(int[] indices){
+        Face[] faces = new Face[indices.length/3];
+
+        //Faces are stored as 3 values, split these up
+        for(int i=0; i<indices.length; i+=3){
+            int vertIdOne = indices[i];
+            int vertIdTwo = indices[i+1];
+            int vertIdThree = indices[i+2];
+
+            Vector3f vertOne = vertices[vertIdOne];
+            Vector3f vertTwo = vertices[vertIdTwo];
+            Vector3f vertThree = vertices[vertIdThree];
+
+            faces[i/3] = new Face(vertOne, vertTwo, vertThree);
+        }
+
+        return faces;
     }
 
     private Vector3f[] floatArrayToPoints(float[] vertexArray){
@@ -58,6 +77,10 @@ public class CollisionModel {
 
     public Vector3f[] getNormals() {
         return normals;
+    }
+
+    public Face[] getFaces() {
+        return faces;
     }
 
     @Override
