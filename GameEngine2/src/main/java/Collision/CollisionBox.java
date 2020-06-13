@@ -83,12 +83,13 @@ public class CollisionBox {
         this.top = top;
     }
 
-
+    //TODO edit the method so it returns a boolean telling you if the face is overlapping (or really close) and use Face instead of sideA, B, C
     // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
-    public static Vector3f closestPtPointTriangle(Vector3f ball, Vector3f sideA, Vector3f sideB, Vector3f sideC) {
+    public Vector3f closestPtPointTriangle(Vector3f ball, Vector3f sideA, Vector3f sideB, Vector3f sideC) {
 
         //Subtraction of different vectors
-        Vector3f sideBMinusSideA = Vector3f.subtract(sideB, sideA);
+        //TODO change to right syntax
+        Vector3f sideBMinusSideA = sideB.sub(sideA);
         Vector3f sideCMinusSideA = Vector3f.subtract(sideC, sideA);
         Vector3f ballMinusSideA = Vector3f.subtract(ball, sideA);
 
