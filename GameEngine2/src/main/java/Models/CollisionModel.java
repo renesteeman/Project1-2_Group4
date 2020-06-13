@@ -9,11 +9,13 @@ public class CollisionModel {
     private final TexturedModel texturedModel;
     private final Vector3f[] vertices;
     private final Vector3f[] normals;
+    private final int[] indices;
 
-    public CollisionModel(TexturedModel model, float[] vertexArray, float[] normalArray){
+    public CollisionModel(TexturedModel model, float[] vertexArray, float[] normalArray, int[] indices){
         this.texturedModel = model;
         this.vertices = floatArrayToPoints(vertexArray);
         this.normals = floatArrayToNormals(normalArray);
+        this.indices = indices;
     }
 
     private Vector3f[] floatArrayToPoints(float[] vertexArray){

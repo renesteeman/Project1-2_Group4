@@ -1,5 +1,7 @@
 package OBJConverter;
 
+import java.util.Arrays;
+
 public class ModelData {
     private float[] vertices;
     private float[] textureCoords;

@@ -104,12 +104,12 @@ public class FeatureTester {
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
-        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals());
+        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals(), goalModelData.getIndices());
 
         ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
-        collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
+        collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals(), treeModelData.getIndices());
 
         ModelData arrowModelData = OBJFileLoader.loadOBJ("arrow");
         RawModel arrowModel = loader.loadToVAO(arrowModelData.getVertices(), arrowModelData.getTextureCoords(), arrowModelData.getNormals(), arrowModelData.getIndices());
@@ -353,10 +353,6 @@ public class FeatureTester {
             DisplayManager.updateDisplay();
             DisplayManager.swapBuffers();
 
-
-            //Testing
-            System.out.println("POSITION: " + goal.getPosition().toString());
-            System.out.println("CENTER POINT: " + goal.getCenterPoint().toString());
 
         }
 

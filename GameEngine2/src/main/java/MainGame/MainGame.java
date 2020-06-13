@@ -122,7 +122,7 @@ public class MainGame extends CrazyPutting {
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
-        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals());
+        CollisionModel collisionGoal = new CollisionModel(texturedGoal, goalModelData.getVertices(), goalModelData.getNormals(), goalModelData.getIndices());
 
         //Special arrayList just for trees (still declared here since it shouldn't be null)
         trees = new Trees();
@@ -183,7 +183,7 @@ public class MainGame extends CrazyPutting {
         ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
         RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
         TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
-        CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
+        CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals(), treeModelData.getIndices());
 
         Tree tree1 = new Tree(collisionTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
@@ -512,7 +512,7 @@ public class MainGame extends CrazyPutting {
                     ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
                     RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
                     TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
-                    CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals());
+                    CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals(), treeModelData.getIndices());
                     Tree treeToAdd = new Tree(collisionTree, new Vector3f(terrainPoint), 0, 0, 0, 1);
                     trees.add(treeToAdd);
                     entities.add(treeToAdd);
