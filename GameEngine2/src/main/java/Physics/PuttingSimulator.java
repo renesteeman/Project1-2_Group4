@@ -10,8 +10,8 @@ public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
 
-	private static final boolean USE_RANDOM_ERROR = true;
-	private static final double ERROR_WEIGHT = 0.5e-1; //TODO Play with the weight/constant
+	private static final boolean USE_RANDOM_ERROR = false;
+	private static final double ERROR_WEIGHT = 5e-2;//=0.05 TODO Play with the weight/constant
 
 	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;

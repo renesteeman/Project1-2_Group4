@@ -40,24 +40,36 @@ public class EulerSolver implements PhysicsEngine {
 			double vNextX = v.x - step * __G * (gradient.x + course.getFriction() * v.x / v.length());
 			double vNextY = v.y - step * __G * (gradient.y + course.getFriction() * v.y / v.length());
 
-			p = new Vector2d(pNextX, pNextY);
+			p = checkOutOfBounds(new Vector2d(pNextX, pNextY));
 			v = limitVelocity(new Vector2d(vNextX, vNextY));
-
-			//TODO find better place to place this piece of code
-			if (p.x < 0) p.x = 0;
-			if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
-			if (p.y < 0) p.y = 0;
-			if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
 
 			if (course.victoriousPosition3())
 				passedFlag = true;
 
-			//System.out.println(v.length());
-
-			//System.out.println(p + " " + v + " " + gradient);
 		}
 		course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
 		course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+	}
+
+	/**
+	 * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
+	 * @param position the position
+	 * @return the (not-out-of-bounds) position
+	 */
+	private Vector2d checkOutOfBounds(Vector2d position) {
+		//Check for x
+		if (position.x < 0) {
+			position.x = 0;
+		} else if (position.x > course.TERRAIN_SIZE) {
+			position.x = course.TERRAIN_SIZE;
+		}
+		//Check for y
+		if (position.y < 0) {
+			position.y = 0;
+		} else if (position.y > course.TERRAIN_SIZE) {
+			position.y = course.TERRAIN_SIZE;
+		}
+		return position;
 	}
 
 	/**

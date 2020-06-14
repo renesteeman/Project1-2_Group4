@@ -20,10 +20,17 @@ public class VerletSolver implements PhysicsEngine {
     /**
      * Processes the shot using the Verlet Method.
      *
-     * While calculating the current position of the ball, the velocity also has to be updated.
-     * This velocity is always a step behind, because it is calculated using the Centered Difference formula.
+     * The method initially calculates the previous position as follows:
+     *      previousPosition = currentPosition - currentVelocity * step + 1/2 * currentAcceleration * step^2
+     * Then, in a loop, the next position and the currentVelocity are calculated as follows:
+     *      nextPosition = 2 * currentPosition - previousPosition + currentAcceleration * step^2
+     *      currentVelocity = (nextPosition + previousPosition) / (2 * step)
+     * After which, in the same loop, the previousPosition and currentPosition are updated:
+     *      previousPosition = currentPosition
+     *      currentPosition = nextPosition
      *
-     * To get the velocity in the end, one extra step is performed.
+     * The velocity is always one step behind, because it is calculated using the Centered Difference formula.
+     * To get the current velocity in the end, one extra step is performed.
      * In this step only the velocity is updated and not the position.
      *
      * Sources used:    http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
@@ -38,25 +45,16 @@ public class VerletSolver implements PhysicsEngine {
         Vector2d currentPosition = this.course.ball.getPosition2();
         Vector2d currentVelocity = this.course.ball.getVelocity2D();
 
-        // p_n-1 = p_n - v_n * h + 1/2 * a_n * h^2
         Vector2d previousPosition = currentPosition.subtract(currentVelocity.multiply(step)).add(acceleration(currentPosition,currentVelocity).multiply((step*step)/2.0));
         Vector2d nextPosition;
 
         for(double timer = 0; timer < dtime; timer += step) {
-            // p_n+1 = 2 * p_n - p_n-1 + a_n * h^2
             nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step * step));
 
-            // v_n = (p_n+1 - p_n-1) / (2 * h)
             currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0 * step));
 
-            previousPosition = currentPosition;
-            currentPosition = nextPosition;
-
-            //TODO find better place to place this piece of code
-            if (currentPosition.x < 0) currentPosition.x = 0;
-            if (currentPosition.x > course.TERRAIN_SIZE) currentPosition.x = course.TERRAIN_SIZE;
-            if (currentPosition.y < 0) currentPosition.y = 0;
-            if (currentPosition.y > course.TERRAIN_SIZE) currentPosition.y = course.TERRAIN_SIZE;
+            previousPosition = checkOutOfBounds(currentPosition);
+            currentPosition = checkOutOfBounds(nextPosition);
 
             if (course.victoriousPosition3())
                 passedFlag = true;
@@ -67,6 +65,27 @@ public class VerletSolver implements PhysicsEngine {
 
         this.course.ball.setPosition(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
         this.course.ball.setVelocity(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+    }
+
+    /**
+     * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
+     * @param position the position
+     * @return the (not-out-of-bounds) position
+     */
+    private Vector2d checkOutOfBounds(Vector2d position) {
+        //Check for x
+        if (position.x < 0) {
+            position.x = 0;
+        } else if (position.x > course.TERRAIN_SIZE) {
+            position.x = course.TERRAIN_SIZE;
+        }
+        //Check for y
+        if (position.y < 0) {
+            position.y = 0;
+        } else if (position.y > course.TERRAIN_SIZE) {
+            position.y = course.TERRAIN_SIZE;
+        }
+        return position;
     }
 
     /**

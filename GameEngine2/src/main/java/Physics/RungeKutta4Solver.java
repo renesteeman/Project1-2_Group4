@@ -103,15 +103,8 @@ public class RungeKutta4Solver implements PhysicsEngine{
             //       k =(k1  +       2*k2          +       2*k3          +  k4)    *    (step/6.0);
             Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
             Vector2d l = l1.add(l2.multiply(2.0)).add(l3.multiply(2.0)).add(l4).multiply(step/6.0);
-            p = p.add(k);
+            p = checkOutOfBounds(p.add(k));
             v = limitVelocity(v.add(l));
-
-
-            //TODO find better place to place this piece of code
-            if (p.x < 0) p.x = 0;
-            if (p.x > course.TERRAIN_SIZE) p.x = course.TERRAIN_SIZE;
-            if (p.y < 0) p.y = 0;
-            if (p.y > course.TERRAIN_SIZE) p.y = course.TERRAIN_SIZE;
 
             if (course.victoriousPosition3())
                 passedFlag = true;
@@ -120,6 +113,27 @@ public class RungeKutta4Solver implements PhysicsEngine{
         //UPDATE POSITION ON THE COURSE
         course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
         course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+    }
+
+    /**
+     * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
+     * @param position the position
+     * @return the (not-out-of-bounds) position
+     */
+    private Vector2d checkOutOfBounds(Vector2d position) {
+        //Check for x
+        if (position.x < 0) {
+            position.x = 0;
+        } else if (position.x > course.TERRAIN_SIZE) {
+            position.x = course.TERRAIN_SIZE;
+        }
+        //Check for y
+        if (position.y < 0) {
+            position.y = 0;
+        } else if (position.y > course.TERRAIN_SIZE) {
+            position.y = course.TERRAIN_SIZE;
+        }
+        return position;
     }
 
     /**
