@@ -88,40 +88,44 @@ public class CollisionBox {
     //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
 
     // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
-    public boolean closestPtPointTriangle(Vector3f ball, Face face) {
+    public Vector3f closestPointInTriangle(Vector3f ball, Face face) {
+
+        Vector3f result = new Vector3f(0,0,0);
 
         //Subtraction of different vectors
-        //TODO change to right syntax
         Vector3f secondMinusFirst = face.getSecondVertex().sub(face.getFirstVertex());
         Vector3f thirdMinusFirst = face.getThirdVertex().sub(face.getFirstVertex());
         Vector3f ballMinusFirst = ball.sub(face.getFirstVertex());
 
-        //Multiplication of different vectors
+        //Values for the multiplication of different vectors
         float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.dot(ballMinusFirst);
         float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.dot(ballMinusFirst);
 
         if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
             //return face.getFirstVertex();
-            return true;
+            result = face.getFirstVertex();
+            return result;
         }
 
         //Subtraction of vectors
         Vector3f ballMinusSideB = ball.sub(face.getSecondVertex());
 
-        //Multiplication of vectors
+        //Values for the multiplication of vectors
         float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.dot(ballMinusSideB);
         float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.dot(ballMinusSideB);
 
         //TODO what does this if check?
         if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
             //return face.getSecondVertex();
-            return true;
+            result = face.getSecondVertex();
+            return result;
         }
 
         //Result of ( (B-A)*(Ball-A)*(C-A)*(Ball-B)) - ( (B-A)*(Ball-B)*(C-A)*(Ball-A) )
-        float thirdVector = secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusFirst;
+        float vc = secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusFirst;
 
-        if (thirdVector <= 0.0f && secondMinusFirstTimesBallMinusFirst >= 0.0f && secondMinusFirstTimesBallMinusSecond <= 0.0f) {
+        if (vc <= 0.0f && secondMinusFirstTimesBallMinusFirst >= 0.0f && secondMinusFirstTimesBallMinusSecond <= 0.0f) {
+            //(B-A)*(Ball-A) / ((B-A)*(Ball-A)-(B-A)*(Ball-B))
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
             //TODO
@@ -131,7 +135,10 @@ public class CollisionBox {
             vec1.add(vec2);
             */
 
-            return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideBMinusSideA, v));
+            //TODO
+            //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
+            result = face.getFirstVertex().add(sideBMinusSideA.dot(v));
+            return result;
         }
 
         //Subtraction of vectors
@@ -143,44 +150,66 @@ public class CollisionBox {
 
         if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
             //return face.getThirdVertex();
-            return true;
+            result = face.getThirdVertex();
+            return result;
         }
 
         //Result of ( (B-A)*(Ball-C)*(C-A)*(Ball-A)) - ( (B-A)*(Ball-A)*(C-A)*(Ball-C) )
-        float secondVector = secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusThird;
+        float vb = secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusThird;
 
-        if (secondVector <= 0.0f && thirdMinusFirstTimesBallMinusFirst >= 0.0f && thirdMinusFirstTimesBallMinusThird <= 0.0f) {
+        if (vb <= 0.0f && thirdMinusFirstTimesBallMinusFirst >= 0.0f && thirdMinusFirstTimesBallMinusThird <= 0.0f) {
 
             //Result of ((C-A)*(Ball-A)) /  ((C-A)*(Ball-A)-(C-A)*(Ball-C))
-            float newResult = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
+            float v = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
 
-            // sideA + (ac * newResult)
+            // sideA + (ac * v)
             //TODO
-            return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideCMinusSideA, newResult));
+            //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
+            result = face.getFirstVertex().add(sideCMinusSideA.dot(v));
+            return result;
         }
 
         //Result of ( (B-A)*(Ball-B)*(C-A)*(Ball-C)) - ( (B-A)*(Ball-C)*(C-A)*(Ball-B) )
-        float firstVector = secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusThird - secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusSecond;
+        float va = secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusThird - secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusSecond;
 
-        if (firstVector <= 0.0f && (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) >= 0.0f && (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird) >= 0.0f) {
+        if (va <= 0.0f && (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) >= 0.0f && (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird) >= 0.0f) {
 
             //Result of ((C-A)*(Ball-B)-(B-A)*(Ball-B)) / ( ((C-A)*(Ball-B)-(B-A)*(Ball-B)) + ((B-A)*(Ball-C)-(C-A)*(Ball-C)) )
             float newResult = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
             // sideB + newResult * (sideC - sideB)
             //TODO
-            return Vector3f.add(face.getSecondVertex(), Vector3f.multiply(Vector3f.subtract(face.getThirdVertex(), face.getSecondVertex()), newResult));
+            //return Vector3f.add(face.getSecondVertex(), newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
+            result = face.getSecondVertex().add(newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
+            return result;
         }
 
-        float denominator = 1.0f / (firstVector + secondVector + thirdVector);
-        float normalVector = secondVector * denominator; //Normal vector used to be called vn
-        float wn = thirdVector * denominator; //Don't know how to rename this one
+        float denominator = 1.0f / (va + vb + vc);
+        float normalVector = vb * denominator; //Normal vector used to be called vn
+        float wn = vc * denominator; //Don't know how to rename this one
 
         // sideA + sideAMinusSideB * normalVector + ac * wn
         Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.dot(normalVector);
         Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.dot(wn);
 
         // return result
-        return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
+        //TODO
+        //return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
+
+        secondMinusFirstTimesNormalVector.add(thirdMinusFirstTimesWN);
+
+        result = face.getFirstVertex().add(secondMinusFirstTimesNormalVector);
+
+       return result;
+    }
+
+    //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
+    public boolean isOverlapping(Vector3f result, Ball ball){
+
+        if(){
+            return true;
+        }
+
+        return false;
     }
 }
