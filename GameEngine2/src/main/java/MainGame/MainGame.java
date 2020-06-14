@@ -118,6 +118,7 @@ public class MainGame extends CrazyPutting {
         ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
+        CollisionModel collisionBall = new CollisionModel(texturedBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
 
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
@@ -127,7 +128,7 @@ public class MainGame extends CrazyPutting {
         //Special arrayList just for trees (still declared here since it shouldn't be null)
         trees = new Trees();
 
-        course.ball = new Ball(texturedBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
+        course.ball = new Ball(collisionBall, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1);
         course.goal = new Goal(collisionGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
         entities.add(course.ball);

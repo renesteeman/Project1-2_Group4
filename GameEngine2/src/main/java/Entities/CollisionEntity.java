@@ -5,7 +5,7 @@ import Models.CollisionModel;
 import org.joml.Vector3f;
 
 public class CollisionEntity extends Entity{
-    private CollisionModel collisionModel;
+    protected CollisionModel collisionModel;
     //Note that the collisionBox doesn't take the position of the entity into account
     private CollisionBox collisionBox;
 

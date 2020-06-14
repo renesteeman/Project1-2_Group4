@@ -83,8 +83,10 @@ public class CollisionBox {
         this.top = top;
     }
 
-    //TODO edit the method so it returns a boolean telling you if the face is overlapping
+    //TODO create a new method that returns a boolean telling you if the face is overlapping
     // (or really close) and use Face instead of sideA, B, C
+    //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
+
     // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
     public boolean closestPtPointTriangle(Vector3f ball, Face face) {
 
@@ -95,8 +97,8 @@ public class CollisionBox {
         Vector3f ballMinusFirst = ball.sub(face.getFirstVertex());
 
         //Multiplication of different vectors
-        float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.Dot(ballMinusFirst);
-        float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.Dot(ballMinusFirst);
+        float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.dot(ballMinusFirst);
+        float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.dot(ballMinusFirst);
 
         if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
             //return face.getFirstVertex();
@@ -107,9 +109,10 @@ public class CollisionBox {
         Vector3f ballMinusSideB = ball.sub(face.getSecondVertex());
 
         //Multiplication of vectors
-        float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.Dot(ballMinusSideB);
-        float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.Dot(ballMinusSideB);
+        float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.dot(ballMinusSideB);
+        float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.dot(ballMinusSideB);
 
+        //TODO what does this if check?
         if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
             //return face.getSecondVertex();
             return true;
@@ -121,6 +124,7 @@ public class CollisionBox {
         if (thirdVector <= 0.0f && secondMinusFirstTimesBallMinusFirst >= 0.0f && secondMinusFirstTimesBallMinusSecond <= 0.0f) {
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
+            //TODO
             return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideBMinusSideA, v));
         }
 
@@ -128,8 +132,8 @@ public class CollisionBox {
         Vector3f ballMinusThird = ball.sub(face.getThirdVertex());
 
         //Multiplication of vectors
-        float secondMinusFirstTimesBallMinusThird = secondMinusFirst.Dot(ballMinusThird);
-        float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.Dot(ballMinusThird);
+        float secondMinusFirstTimesBallMinusThird = secondMinusFirst.dot(ballMinusThird);
+        float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.dot(ballMinusThird);
 
         if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
             //return face.getThirdVertex();
@@ -145,6 +149,7 @@ public class CollisionBox {
             float newResult = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
 
             // sideA + (ac * newResult)
+            //TODO
             return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideCMinusSideA, newResult));
         }
 
@@ -157,6 +162,7 @@ public class CollisionBox {
             float newResult = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
             // sideB + newResult * (sideC - sideB)
+            //TODO
             return Vector3f.add(face.getSecondVertex(), Vector3f.multiply(Vector3f.subtract(face.getThirdVertex(), face.getSecondVertex()), newResult));
         }
 
@@ -165,8 +171,8 @@ public class CollisionBox {
         float wn = thirdVector * denominator; //Don't know how to rename this one
 
         // sideA + sideAMinusSideB * normalVector + ac * wn
-        Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.Dot(normalVector);
-        Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.Dot(wn);
+        Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.dot(normalVector);
+        Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.dot(wn);
 
         // return result
         return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));

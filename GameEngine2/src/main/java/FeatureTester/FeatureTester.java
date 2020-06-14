@@ -99,6 +99,8 @@ public class FeatureTester {
         ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
+        CollisionModel collisionBall = new CollisionModel(texturedBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
+
         TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
 
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
@@ -117,7 +119,7 @@ public class FeatureTester {
 
         //Special arrayList just for trees
         Entity dragonEntity = new Entity(texturedDragon, new Vector3f(0, 0, -5*SCALE), 0, 0, 0, 1);
-        ball = new Ball(texturedBall, new Vector3f(20*SCALE, 1, 30*SCALE), 0, 0, 0, 1);
+        ball = new Ball(collisionBall, new Vector3f(20*SCALE, 1, 30*SCALE), 0, 0, 0, 1);
         goal = new Goal(collisionGoal, new Vector3f(40*SCALE, 0, 30*SCALE), 0, 0, 0, 1); //good one
         Tree tree1 = new Tree(collisionTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);

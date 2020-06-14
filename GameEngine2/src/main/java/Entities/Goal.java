@@ -37,4 +37,6 @@ public class Goal extends CollisionEntity{
 		g.setColor(Color.BLUE);
 		g.fillOval(400 + (int)position.x - 15, 600 - (int)position.y - 15, 30, 30);
 	}
+
+
 }
