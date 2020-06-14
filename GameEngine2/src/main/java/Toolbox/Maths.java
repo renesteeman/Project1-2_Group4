@@ -51,4 +51,16 @@ public class Maths {
     public static double screenCoordinateToPixelX(double screenCoordinate){
         return ((screenCoordinate+1)/2)*(DisplayManager.getWidth());
     }
+
+    public static Vector3f minus(Vector3f a, Vector3f b){
+        return new Vector3f(a.x - b.x, a.y-b.y, a.z-b.z);
+    }
+
+    public static Vector3f plus(Vector3f a, Vector3f b){
+        return new Vector3f(a.x + b.x, a.y+b.y, a.z+b.z);
+    }
+
+    public static Vector3f multiply(Vector3f a, float b){
+        return new Vector3f(a.x * b, a.y * b, a.z * b);
+    }
 }

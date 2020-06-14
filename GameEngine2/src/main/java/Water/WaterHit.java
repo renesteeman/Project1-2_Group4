@@ -17,10 +17,12 @@ public class WaterHit {
 
     //Reset the ball along a line going from the starting point of the game to the location where the water was hit
     public void ballReset(Ball ball, Terrain terrain, Vector3f startLocation, Vector3f waterHitLocation, float distanceFromWaterHit){
-
-        Vector3f differenceStartAndHit = waterHitLocation.min(startLocation);
-        float differenceStartAndHitLength = differenceStartAndHit.lengthSquared();
+        Vector3f differenceStartAndHit = Maths.minus(waterHitLocation, startLocation);
+        differenceStartAndHit.normalize();
         //hitLoc - distance * (start-hit)/norm2(start-hit)
-        Vector3f newPositionIndependentOfTerrain = waterHitLocation.min(differenceStartAndHit.div(differenceStartAndHitLength).mul(distanceFromWaterHit));
+        Vector3f newPositionIndependentOfTerrain = Maths.minus(waterHitLocation, differenceStartAndHit);
+        Vector3f newPositionOnTerrain = new Vector3f(newPositionIndependentOfTerrain.x, (float) terrain.getHeightFromFunction(newPositionIndependentOfTerrain.x, newPositionIndependentOfTerrain.z), newPositionIndependentOfTerrain.z);
+
+        ball.setPosition(newPositionOnTerrain);
     }
 }
