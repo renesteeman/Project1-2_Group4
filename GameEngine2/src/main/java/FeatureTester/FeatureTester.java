@@ -13,6 +13,7 @@ import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
 import OBJConverter.OBJFileLoader;
+import Physics.PuttingCourse;
 import RenderEngine.*;
 import Models.RawModel;
 import Terrain.Terrain;
@@ -88,7 +89,8 @@ public class FeatureTester {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
+        PuttingCourse course = new PuttingCourse("./res/courses/course1.txt");
+        terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
 
         //Models and entities
         ModelData dragonModelData = OBJFileLoader.loadOBJ("dragon");
@@ -157,7 +159,7 @@ public class FeatureTester {
         for(int i=0; i<10; i++){
             float x = i*5*SCALE;
             float z = 200;
-            float y = terrain.getHeight(x, z);
+            float y = (float) terrain.getHeightFromFunction(x, z);
 
             Entity testDragonEntity = new Entity(XtexturedDragonMEME, new Vector3f(x, y, z), 0, 0, 0, 1);
             //entities.add(testDragonEntity);

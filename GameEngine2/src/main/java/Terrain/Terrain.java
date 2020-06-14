@@ -32,6 +32,10 @@ public class Terrain {
     private int[] indices;
     private int[] terrainTypes;
 
+    private Function2d heightFunction;
+
+    /*
+    //TESTING ONLY
     public Terrain(int gridX, int gridZ, Loader loader, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
         this.SIZE = size;
@@ -39,7 +43,7 @@ public class Terrain {
         this.xStart = gridX * SIZE;
         this.zStart = gridZ * SIZE;
         this.model = generateTerrain(loader);
-    }
+    }*/
 
     public Terrain(int gridX, int gridZ, Loader loader, Function2d function, TerrainTexturePack texturePack, int size){
         this.texturePack = texturePack;
@@ -48,6 +52,7 @@ public class Terrain {
         this.xStart = gridX * SIZE;
         this.zStart = gridZ * SIZE;
         this.model = generateTerrainFunctionBased(loader, function);
+        this.heightFunction = function;
     }
 
     public float getSIZE() {
@@ -74,6 +79,8 @@ public class Terrain {
         return texturePack;
     }
 
+    /*
+    //TODO can this be removed?
     private RawModel generateTerrain(Loader loader){
         heights = getHeightsGeneration();
         Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
@@ -84,7 +91,7 @@ public class Terrain {
         terrainTypes = getTerrainTypesGeneration();
 
         return loader.loadToVAO(vertices, textureCoords, normals, indices, terrainTypes);
-    }
+    }*/
 
     private RawModel generateTerrainFunctionBased(Loader loader, Function2d function) {
         heights = getHeightsGenerationFunctionBased(function);
@@ -130,17 +137,6 @@ public class Terrain {
         return answer;
     }
 
-    //TODO update to actual function
-    public float getHeight(float x, float z){
-
-        float add=0;
-//        if(x>100&&x<150&&z>50&&z<150){
-//            add = (float) (-5);
-//        }
-
-        return (float) (.5*Math.sin(x) + 1*Math.cos(z) + 1 + Math.sin(z/16)*3);
-    }
-
     private float[] normalsToFloatArray(Vector3f[][] normalVectors){
         float[] normals = new float[VERTEX_COUNT * VERTEX_COUNT * 3];
         int vertexPointer = 0;
@@ -158,6 +154,7 @@ public class Terrain {
         return normals;
     }
 
+    /*
     private float[][] getHeightsGeneration() {
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
 
@@ -172,7 +169,7 @@ public class Terrain {
         }
 
         return heights;
-    }
+    }*/
 
     private float[][] getHeightsGenerationFunctionBased(Function2d function) {
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
@@ -263,6 +260,7 @@ public class Terrain {
     }
 
     private int getCreateTerrainType(float x, float z){
+        //Always return grass 0
         return 0;
     }
 
@@ -296,7 +294,7 @@ public class Terrain {
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
             for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
                 //Only update values within given radius (make the brush circular instead of square)
-                float heightAtPosition = getHeight(i, j);
+                float heightAtPosition = (float) getHeightFromFunction(i, j);
                 int xPos = (int) (i*DISTANCE_PER_VERTEX);
                 int yPos = (int) (j*DISTANCE_PER_VERTEX);
 
@@ -350,6 +348,10 @@ public class Terrain {
         if(index>terrainTypes.length) return 0;
 
         return terrainTypes[index];
+    }
+
+    public double getHeightFromFunction(float x, float z){
+        return heightFunction.evaluate(new Vector2d(x, z));
     }
 
 //    public String getTerrainInfoAsString(){
