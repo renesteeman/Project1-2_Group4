@@ -125,6 +125,12 @@ public class CollisionBox {
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
             //TODO
+            /*
+            Vector3f vec1 = new Vector3f();
+            Vector3f vec2 = new Vector3f();
+            vec1.add(vec2);
+            */
+
             return Vector3f.add(face.getFirstVertex(), Vector3f.multiply(sideBMinusSideA, v));
         }
 
