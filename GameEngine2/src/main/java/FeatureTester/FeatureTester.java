@@ -102,6 +102,7 @@ public class FeatureTester {
         CollisionModel collisionBall = new CollisionModel(texturedBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
 
         TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
+        CollisionModel collisionIndicatorBall = new CollisionModel(texturedIndicatorBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
 
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
@@ -123,7 +124,7 @@ public class FeatureTester {
         goal = new Goal(collisionGoal, new Vector3f(40*SCALE, 0, 30*SCALE), 0, 0, 0, 1); //good one
         Tree tree1 = new Tree(collisionTree, new Vector3f(25*SCALE, 2*SCALE, 27*SCALE), 0, 0, 0, 1);
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
-        indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
+        indicationBall = new IndicationBall(collisionIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
         //entities.add(dragonEntity);
         entities.add(ball);
