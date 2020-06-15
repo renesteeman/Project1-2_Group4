@@ -18,7 +18,6 @@ This class keeps track of everything having to do with the course/map
  */
 public class PuttingCourse {
     public Function2d height;
-    //TODO convert 2D to 3D while loading and than ONLY use 3D
     public Vector2d startLocation2, goalLocation2;
     public Vector3d startLocation3, goalLocation3;
     public double frictionCoefficient, goalRadius, maxVelocity;
