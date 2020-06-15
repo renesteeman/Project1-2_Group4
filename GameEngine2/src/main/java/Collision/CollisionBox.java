@@ -104,10 +104,8 @@ public class CollisionBox {
             return closestPoint;
         }
 
-        //Subtraction of vectors
         Vector3f ballMinusSideB = ball.sub(face.getSecondVertex());
 
-        //Values for the multiplication of vectors
         float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.dot(ballMinusSideB);
         float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.dot(ballMinusSideB);
 
@@ -125,23 +123,13 @@ public class CollisionBox {
             //(B-A)*(Ball-A) / ((B-A)*(Ball-A)-(B-A)*(Ball-B))
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
-            //TODO
-            /*
-            Vector3f vec1 = new Vector3f();
-            Vector3f vec2 = new Vector3f();
-            vec1.add(vec2);
-            */
-
-            //TODO
             //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
             closestPoint = face.getFirstVertex().add(secondMinusFirst.dot(v));
             return closestPoint;
         }
 
-        //Subtraction of vectors
         Vector3f ballMinusThird = ball.sub(face.getThirdVertex());
 
-        //Multiplication of vectors
         float secondMinusFirstTimesBallMinusThird = secondMinusFirst.dot(ballMinusThird);
         float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.dot(ballMinusThird);
 
@@ -160,7 +148,6 @@ public class CollisionBox {
             float v = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
 
             // sideA + (ac * v)
-            //TODO
             //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
             closestPoint = face.getFirstVertex().add(thirdMinusFirst.dot(v));
             return closestPoint;
@@ -170,7 +157,6 @@ public class CollisionBox {
         float va = secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusThird - secondMinusFirstTimesBallMinusThird * thirdMinusFirstTimesBallMinusSecond;
 
         if (va <= 0.0f && (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) >= 0.0f && (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird) >= 0.0f) {
-
             //Result of ((C-A)*(Ball-B)-(B-A)*(Ball-B)) / ( ((C-A)*(Ball-B)-(B-A)*(Ball-B)) + ((B-A)*(Ball-C)-(C-A)*(Ball-C)) )
             float v = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
@@ -188,12 +174,8 @@ public class CollisionBox {
         Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.dot(normalVector);
         Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.dot(wn);
 
-        // return closestPoint
-        //TODO
         //return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
-
         secondMinusFirstTimesNormalVector.add(thirdMinusFirstTimesWN);
-
         closestPoint = face.getFirstVertex().add(secondMinusFirstTimesNormalVector);
 
        return closestPoint;
@@ -201,7 +183,7 @@ public class CollisionBox {
 
     //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
     public boolean isOverlapping(Vector3f closestPoint, Ball ball){
-        if(ball.getCollisionRadiusScaled() > closestPoint.distance(ball)){
+        if(ball.getCollisionRadiusScaled() > closestPoint.distance(ball.getPosition())){
             return true;
         }
         return false;
