@@ -154,23 +154,6 @@ public class Terrain {
         return normals;
     }
 
-    /*
-    private float[][] getHeightsGeneration() {
-        float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
-
-        for(int i=0; i<VERTEX_COUNT; i++) {
-            for (int j=0; j<VERTEX_COUNT; j++) {
-                float x = j*DISTANCE_PER_VERTEX;
-                float z = i*DISTANCE_PER_VERTEX;
-                float height = getHeight(x, z);
-
-                heights[j][i] = height;
-            }
-        }
-
-        return heights;
-    }*/
-
     private float[][] getHeightsGenerationFunctionBased(Function2d function) {
         float[][] heights = new float[VERTEX_COUNT][VERTEX_COUNT];
         

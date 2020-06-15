@@ -122,6 +122,7 @@ public class FeatureTester {
         indicationArrow = new IndicationArrow(texturedArrow, new Vector3f(25*SCALE, 2*SCALE, 25*SCALE), 0, 0, 0, 1, ball);
         indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
         trees.add(tree1);
+
         //entities.add(dragonEntity);
         entities.add(ball);
         entities.add(goal);
