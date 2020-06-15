@@ -1,5 +1,6 @@
 package Collision;
 
+import Entities.Ball;
 import org.joml.Vector3f;
 
 public class CollisionBox {
@@ -83,11 +84,7 @@ public class CollisionBox {
         this.top = top;
     }
 
-    //TODO create a new method that returns a boolean telling you if the face is overlapping
-    // (or really close) and use Face instead of sideA, B, C
-    //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
-
-    // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
+    // for triangle sideA-sideB-sideC represented by face.getVertex return a point closestPoint in triangle that is closest to ball
     public Vector3f closestPointInTriangle(Vector3f ball, Face face) {
 
         Vector3f closestPoint = new Vector3f(0,0,0);
@@ -137,7 +134,7 @@ public class CollisionBox {
 
             //TODO
             //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(sideBMinusSideA.dot(v));
+            closestPoint = face.getFirstVertex().add(secondMinusFirst.dot(v));
             return closestPoint;
         }
 
@@ -165,7 +162,7 @@ public class CollisionBox {
             // sideA + (ac * v)
             //TODO
             //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(sideCMinusSideA.dot(v));
+            closestPoint = face.getFirstVertex().add(thirdMinusFirst.dot(v));
             return closestPoint;
         }
 
@@ -175,12 +172,11 @@ public class CollisionBox {
         if (va <= 0.0f && (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) >= 0.0f && (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird) >= 0.0f) {
 
             //Result of ((C-A)*(Ball-B)-(B-A)*(Ball-B)) / ( ((C-A)*(Ball-B)-(B-A)*(Ball-B)) + ((B-A)*(Ball-C)-(C-A)*(Ball-C)) )
-            float newResult = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
+            float v = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
-            // sideB + newResult * (sideC - sideB)
-            //TODO
-            //return Vector3f.add(face.getSecondVertex(), newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
-            closestPoint = face.getSecondVertex().add(newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
+            // sideB + v * (sideC - sideB)
+            //return Vector3f.add(face.getSecondVertex(), v.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
+            closestPoint = face.getSecondVertex().add(face.getThirdVertex().sub(face.getSecondVertex()).dot(v));
             return closestPoint;
         }
 
