@@ -43,14 +43,8 @@ public class VelocityVerletSolver implements PhysicsEngine{
             Vector2d nextAcceleration = acceleration(nextPosition,intermediateVelocity);
             Vector2d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0));
 
-            currentPosition = nextPosition;
+            currentPosition = checkOutOfBounds(nextPosition);
             currentVelocity = limitVelocity(nextVelocity);
-
-            //TODO find better place to place this piece of code
-            if (currentPosition.x < 0) currentPosition.x = 0;
-            if (currentPosition.x > course.TERRAIN_SIZE) currentPosition.x = course.TERRAIN_SIZE;
-            if (currentPosition.y < 0) currentPosition.y = 0;
-            if (currentPosition.y > course.TERRAIN_SIZE) currentPosition.y = course.TERRAIN_SIZE;
 
             if (course.victoriousPosition3())
                 passedFlag = true;
@@ -58,6 +52,27 @@ public class VelocityVerletSolver implements PhysicsEngine{
 
         this.course.ball.setPosition(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
         this.course.ball.setVelocity(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+    }
+
+    /**
+     * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
+     * @param position the position
+     * @return the (not-out-of-bounds) position
+     */
+    private Vector2d checkOutOfBounds(Vector2d position) {
+        //Check for x
+        if (position.x < 0) {
+            position.x = 0;
+        } else if (position.x > course.TERRAIN_SIZE) {
+            position.x = course.TERRAIN_SIZE;
+        }
+        //Check for y
+        if (position.y < 0) {
+            position.y = 0;
+        } else if (position.y > course.TERRAIN_SIZE) {
+            position.y = course.TERRAIN_SIZE;
+        }
+        return position;
     }
 
     /**
