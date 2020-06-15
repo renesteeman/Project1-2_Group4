@@ -2,14 +2,17 @@ package Physics;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
-import java.util.TreeSet;
+import java.util.Random;
 import java.util.LinkedList;
 import com.google.common.collect.TreeMultiset;
 
 public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
-	
+
+	private static final boolean USE_RANDOM_ERROR = false;
+	private static final double ERROR_WEIGHT = 5e-2;//=0.05 TODO Play with the weight/constant
+
 	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;
 
@@ -45,6 +48,10 @@ public class PuttingSimulator extends JPanel {
 		lsx = new LinkedList();
 		lsz = new LinkedList();
 		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
+
+		if (USE_RANDOM_ERROR) {
+			randomErrorUpdate(initialBallVelocity);
+		}
 
 		passedFlag = false;
 		while (!stopCondition()) {
@@ -87,6 +94,74 @@ public class PuttingSimulator extends JPanel {
 		}
 		currentShotInProcess = false;
 	}
+
+	/**
+	 * Updates the initial position and velocity of the ball with a small random error
+	 * @param initialBallVelocity the initial velocity
+	 */
+	private void randomErrorUpdate(Vector2d initialBallVelocity) {
+		Vector2d updatedPosition = positionErrorUpdate();
+		setBallPosition2(updatedPosition);
+
+		Vector2d updatedVelocity = velocityErrorUpdate(initialBallVelocity);
+		course.ball.setVelocity(new Vector3d(updatedVelocity.x, 0, updatedVelocity.y));
+	}
+
+	/**
+	 * @return position with small random error added
+	 */
+	private Vector2d positionErrorUpdate() {
+		Vector2d initialBallPosition = getBallPosition2();
+
+		//Create random offset from initial position
+		double randomAdditionX = initialBallPosition.x * ERROR_WEIGHT * randomMultiplier();
+		double randomAdditionY = initialBallPosition.y * ERROR_WEIGHT * randomMultiplier();
+		Vector2d randomPositionAddition = new Vector2d(randomAdditionX,randomAdditionY);
+
+		//Add offset to initial position
+		Vector2d randomErrorPosition = initialBallPosition.add(randomPositionAddition);
+
+		//Set ball back on edge if it goes out of bounds.
+		if (randomErrorPosition.x < 0) randomErrorPosition.x = 0;
+		if (randomErrorPosition.x > course.TERRAIN_SIZE) randomErrorPosition.x = course.TERRAIN_SIZE;
+		if (randomErrorPosition.y < 0) randomErrorPosition.y = 0;
+		if (randomErrorPosition.y > course.TERRAIN_SIZE) randomErrorPosition.y = course.TERRAIN_SIZE;
+
+		return randomErrorPosition;
+	}
+
+	/**
+	 * The randomAdditionVelocity is absolutely smaller than the initialBallVelocity, which makes sure that the ball
+	 * does not randomly move in the opposite direction.
+	 * @param initialBallVelocity the initial velocity
+	 * @return velocity with small random error added
+	 */
+	private Vector2d velocityErrorUpdate(Vector2d initialBallVelocity) {
+
+		Vector2d randomVelocityAddition = initialBallVelocity.multiply(ERROR_WEIGHT).multiply(randomMultiplier());
+		//Add the velocity with the random error
+		Vector2d randomErrorVelocity = initialBallVelocity.add(randomVelocityAddition);
+
+		//Downscale vector to maxVelocity if it is too long
+		if (randomErrorVelocity.length() > course.maxVelocity) {
+			randomErrorVelocity = randomErrorVelocity.multiply(course.maxVelocity).divide(randomErrorVelocity.length());
+		}
+
+		return randomErrorVelocity;
+	}
+
+	/**
+	 * @return a (pseudo-)random number between -1 and 1
+	 */
+	private double randomMultiplier() {
+		Random numberGenerator = new Random();
+		double randomMultiplier = numberGenerator.nextDouble();
+		if (numberGenerator.nextDouble() < 0.5) {
+			randomMultiplier = -randomMultiplier;
+		}
+		return randomMultiplier;
+	}
+
 
 	@Override
 	public void paintComponent(Graphics g) {

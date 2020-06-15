@@ -169,7 +169,6 @@ public class MainGame extends CrazyPutting {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        //terrain = new Terrain(0, 0, loader, terrainTexturePack, TERRAIN_SIZE);
         terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
     }
 
@@ -485,8 +484,9 @@ public class MainGame extends CrazyPutting {
         
         //only call setupEditMode if edit mode should be available
         //obj.setupEditMode();
-        if (!fileShotsFlag)
+        if (!fileShotsFlag) {
             addUI();
+        }
         requestGraphicsUpdate();
 
         try {
