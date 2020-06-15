@@ -90,7 +90,7 @@ public class CollisionBox {
     // for triangle sideA-sideB-sideC return a point q in triangle that is closest to ball
     public Vector3f closestPointInTriangle(Vector3f ball, Face face) {
 
-        Vector3f result = new Vector3f(0,0,0);
+        Vector3f closestPoint = new Vector3f(0,0,0);
 
         //Subtraction of different vectors
         Vector3f secondMinusFirst = face.getSecondVertex().sub(face.getFirstVertex());
@@ -103,8 +103,8 @@ public class CollisionBox {
 
         if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
             //return face.getFirstVertex();
-            result = face.getFirstVertex();
-            return result;
+            closestPoint = face.getFirstVertex();
+            return closestPoint;
         }
 
         //Subtraction of vectors
@@ -117,8 +117,8 @@ public class CollisionBox {
         //TODO what does this if check?
         if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
             //return face.getSecondVertex();
-            result = face.getSecondVertex();
-            return result;
+            closestPoint = face.getSecondVertex();
+            return closestPoint;
         }
 
         //Result of ( (B-A)*(Ball-A)*(C-A)*(Ball-B)) - ( (B-A)*(Ball-B)*(C-A)*(Ball-A) )
@@ -137,8 +137,8 @@ public class CollisionBox {
 
             //TODO
             //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
-            result = face.getFirstVertex().add(sideBMinusSideA.dot(v));
-            return result;
+            closestPoint = face.getFirstVertex().add(sideBMinusSideA.dot(v));
+            return closestPoint;
         }
 
         //Subtraction of vectors
@@ -150,8 +150,8 @@ public class CollisionBox {
 
         if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
             //return face.getThirdVertex();
-            result = face.getThirdVertex();
-            return result;
+            closestPoint = face.getThirdVertex();
+            return closestPoint;
         }
 
         //Result of ( (B-A)*(Ball-C)*(C-A)*(Ball-A)) - ( (B-A)*(Ball-A)*(C-A)*(Ball-C) )
@@ -165,8 +165,8 @@ public class CollisionBox {
             // sideA + (ac * v)
             //TODO
             //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
-            result = face.getFirstVertex().add(sideCMinusSideA.dot(v));
-            return result;
+            closestPoint = face.getFirstVertex().add(sideCMinusSideA.dot(v));
+            return closestPoint;
         }
 
         //Result of ( (B-A)*(Ball-B)*(C-A)*(Ball-C)) - ( (B-A)*(Ball-C)*(C-A)*(Ball-B) )
@@ -180,8 +180,8 @@ public class CollisionBox {
             // sideB + newResult * (sideC - sideB)
             //TODO
             //return Vector3f.add(face.getSecondVertex(), newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
-            result = face.getSecondVertex().add(newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
-            return result;
+            closestPoint = face.getSecondVertex().add(newResult.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
+            return closestPoint;
         }
 
         float denominator = 1.0f / (va + vb + vc);
@@ -192,24 +192,22 @@ public class CollisionBox {
         Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.dot(normalVector);
         Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.dot(wn);
 
-        // return result
+        // return closestPoint
         //TODO
         //return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
 
         secondMinusFirstTimesNormalVector.add(thirdMinusFirstTimesWN);
 
-        result = face.getFirstVertex().add(secondMinusFirstTimesNormalVector);
+        closestPoint = face.getFirstVertex().add(secondMinusFirstTimesNormalVector);
 
-       return result;
+       return closestPoint;
     }
 
     //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
-    public boolean isOverlapping(Vector3f result, Ball ball){
-
-        if(){
+    public boolean isOverlapping(Vector3f closestPoint, Ball ball){
+        if(ball.getCollisionRadiusScaled() > closestPoint.distance(ball)){
             return true;
         }
-
         return false;
     }
 }
