@@ -321,9 +321,8 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        //TODO RE-ENABLE
-        //shootGroup.addElement(powerSlider);
-        //shootGroup.addElement(shootingButton);
+        shootGroup.addElement(powerSlider);
+        shootGroup.addElement(shootingButton);
 
         GUIgroups.add(shootGroup);
         GUIgroups.add(waterHitUI);
@@ -489,9 +488,6 @@ public class MainGame extends CrazyPutting {
 
         if (!fileShotsFlag) {
             addUI();
-
-            //TODO remove
-            createWaterHitUI(new Vector3f(400, (float) (0.2*400+10), 300));
         }
         requestGraphicsUpdate();
 
