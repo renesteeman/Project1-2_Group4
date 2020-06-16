@@ -92,6 +92,7 @@ public class MainGame extends CrazyPutting {
     private WaterRenderer waterRenderer;
 
     private Trees trees;
+    private IndicationBall indicationBall;
 
     private boolean inputFlag = false;
     private Vector2d neededInput = new Vector2d();
@@ -120,6 +121,9 @@ public class MainGame extends CrazyPutting {
         RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
 
+        TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
+        indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
+
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
@@ -131,6 +135,7 @@ public class MainGame extends CrazyPutting {
         course.goal = new Goal(texturedGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
         entities.add(course.ball);
+        entities.add(indicationBall);
         entities.add(course.goal);
 
         entities.addAll(trees);
@@ -284,7 +289,6 @@ public class MainGame extends CrazyPutting {
                 double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
                 //Make velocity vector by splitting the velocity into its x- and y-components
-                //TODO
                 //System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
                 //Set direction
                 Vector2d shot = new Vector2d(Math.cos(angle),Math.sin(angle));
@@ -317,6 +321,7 @@ public class MainGame extends CrazyPutting {
             }
         };
 
+        //TODO RE-ENABLE
         //shootGroup.addElement(powerSlider);
         //shootGroup.addElement(shootingButton);
 
@@ -485,7 +490,8 @@ public class MainGame extends CrazyPutting {
         if (!fileShotsFlag) {
             addUI();
 
-            createWaterHitUI(new Vector3f(0, 0, 0));
+            //TODO remove
+            createWaterHitUI(new Vector3f(400, (float) (0.2*400+10), 300));
         }
         requestGraphicsUpdate();
 
@@ -594,11 +600,6 @@ public class MainGame extends CrazyPutting {
                 double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1);
                 setValue(value);
 
-                ModelData ballModelData = OBJFileLoader.loadOBJ("ball");
-                RawModel ballModel = loader.loadToVAO(ballModelData.getVertices(), ballModelData.getTextureCoords(), ballModelData.getNormals(), ballModelData.getIndices());
-                TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
-                IndicationBall indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
-
                 WaterHit.updateIndicationBall(indicationBall, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) value);
             }
 
@@ -620,6 +621,7 @@ public class MainGame extends CrazyPutting {
         AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
+                indicationBall.hide();
                 WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
             }
 
@@ -644,6 +646,7 @@ public class MainGame extends CrazyPutting {
         waterHitUI.addElement(waterSlide);
         waterHitUI.addElement(resetButton);
 
+        //Update the information that is used to render the UI
         GUIgroups.set(1, waterHitUI);
     }
 }
