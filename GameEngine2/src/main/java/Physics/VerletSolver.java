@@ -39,11 +39,11 @@ public class VerletSolver implements PhysicsEngine {
      * @param dtime the interval over which we process the shot
      */
     @Override
-    public void process(double dtime) {
+    public ShotInfo process(double dtime, ShotInfo shotInfo) {
         passedFlag = false;
 
-        Vector2d currentPosition = this.course.ball.getPosition2();
-        Vector2d currentVelocity = this.course.ball.getVelocity2D();
+        Vector2d currentPosition = shotInfo.getPosition2D();
+        Vector2d currentVelocity = shotInfo.getVelocity2D();
 
         Vector2d previousPosition = currentPosition.subtract(currentVelocity.multiply(step)).add(acceleration(currentPosition,currentVelocity).multiply((step*step)/2.0));
         Vector2d nextPosition;
@@ -63,8 +63,9 @@ public class VerletSolver implements PhysicsEngine {
         nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step*step));
         currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0));
 
-        this.course.ball.setPosition(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
-        this.course.ball.setVelocity(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+        shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
+        shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+        return new ShotInfo(shotInfo);
     }
 
     /**

@@ -35,11 +35,11 @@ public class RungeKutta4Solver implements PhysicsEngine{
      * @param dtime
      */
     @Override
-    public void process(double dtime) {
+    public ShotInfo process(double dtime, ShotInfo shotInfo) {
         passedFlag = false;
 
-        Vector2d p = course.ball.getPosition2();
-        Vector2d v = course.ball.getVelocity2D();
+        Vector2d p = shotInfo.getPosition2D();
+        Vector2d v = shotInfo.getVelocity2D();
 
 
         //Formulas: lx = x" = -g * h,x(x,y) - mu * g * x'/sqrt(x'^2 + y'^2) = -g * (h,x(x,y) + mu * x'/sqrt(x'^2 + y'^2)
@@ -114,12 +114,14 @@ public class RungeKutta4Solver implements PhysicsEngine{
         }
 
         //UPDATE POSITION ON THE COURSE
-        course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
-        course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+        shotInfo.setPosition3D(new Vector3d(p.x, course.height.evaluate(p), p.y));
+        shotInfo.setVelocity3D(new Vector3d(v.x, 0, v.y));
 
         //TODO ask Matthijs
         //MainGame game = new MainGame();
         //CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
+
+        return new ShotInfo(shotInfo);
     }
 
     /**
