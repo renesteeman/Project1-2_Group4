@@ -600,7 +600,7 @@ public class MainGame extends CrazyPutting {
                 TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
                 IndicationBall indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
 
-                WaterHit.updateIndicationBall(indicationBall, terrain, course.startLocation3.toVector3f(), waterHitLocation, (float) value);
+                WaterHit.updateIndicationBall(indicationBall, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) value);
             }
 
             @Override
@@ -621,7 +621,7 @@ public class MainGame extends CrazyPutting {
         AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0,0), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
-                WaterHit.ballReset(ball, terrain, course.startLocation3.toVector3f(), waterHitLocation, (float) waterSlide.getValue());
+                WaterHit.ballReset(ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
             }
 
             @Override
