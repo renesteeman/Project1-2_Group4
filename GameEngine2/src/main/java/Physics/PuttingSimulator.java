@@ -58,6 +58,10 @@ public class PuttingSimulator extends JPanel {
 		while (!stopCondition()) {
 			//System.out.println("hasnt stopped");
 			shotInfo = engine.process(DTIME,shotInfo);
+			//Update (visual) position and velocity
+			this.course.ball.setPosition(shotInfo.getPosition3D());
+			this.course.ball.setVelocity(shotInfo.getVelocity3D());
+
 			passedFlag |= engine.passedFlag();
 
 			//System.out.println("processed");
