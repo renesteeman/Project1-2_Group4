@@ -68,6 +68,17 @@ public class Maths {
         return new Vector3f(a.x * b, a.y * b, a.z * b);
     }
 
+    public static float dotMultiplication(Vector3f a, Vector3f b){
+
+        float result = 0;
+
+        //Calculate the dot ¨multiplication
+        for(int i = 0; i < a.length(); i++){
+            result = result+ (a.get(i)*b.get(i));
+        }
+
+        return result;
+    }
     
 
 

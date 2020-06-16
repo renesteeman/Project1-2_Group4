@@ -96,9 +96,8 @@ public class CollisionBox {
         Vector3f ballMinusFirst = Maths.minus(ball, face.getFirstVertex());
 
         //Values for the multiplication of different vectors
-        //TODO take care of the dot method
-        float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.dot(ballMinusFirst);
-        float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.dot(ballMinusFirst);
+        float secondMinusFirstTimesBallMinusFirst = Maths.dotMultiplication(secondMinusFirst, ballMinusFirst);
+        float thirdMinusFirstTimesBallMinusFirst = Maths.dotMultiplication(thirdMinusFirst, ballMinusFirst);
 
         if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
             //return face.getFirstVertex();
@@ -106,11 +105,10 @@ public class CollisionBox {
             return closestPoint;
         }
 
-        Vector3f ballMinusSideB = Maths.minus(ball, face.getSecondVertex());
+        Vector3f ballMinusSecond = Maths.minus(ball, face.getSecondVertex());
 
-        //TODO take care of the dot method
-        float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.dot(ballMinusSideB);
-        float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.dot(ballMinusSideB);
+        float secondMinusFirstTimesBallMinusSecond = Maths.dotMultiplication(secondMinusFirst, ballMinusSecond);
+        float thirdMinusFirstTimesBallMinusSecond = Maths.dotMultiplication(thirdMinusFirst, ballMinusSecond);
 
         //TODO what does this if check?
         if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
@@ -133,9 +131,8 @@ public class CollisionBox {
 
         Vector3f ballMinusThird = Maths.minus(ball, face.getThirdVertex());
 
-        //TODO take care of the dot method
-        float secondMinusFirstTimesBallMinusThird = secondMinusFirst.dot(ballMinusThird);
-        float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.dot(ballMinusThird);
+        float secondMinusFirstTimesBallMinusThird = Maths.dotMultiplication(secondMinusFirst, ballMinusThird);
+        float thirdMinusFirstTimesBallMinusThird = Maths.dotMultiplication(thirdMinusFirst,ballMinusThird);
 
         if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
             //return face.getThirdVertex();
