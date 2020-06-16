@@ -102,4 +102,8 @@ public class Vector3d {
 		Vector3d v = (Vector3d)obj;
 		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE && Math.abs(v.z - z) <= MAX_DIFFERENCE);
 	}
+
+	public Vector3f toVector3f(){
+		return new Vector3f((float) this.x, (float)  this.y, (float)  this.z);
+	}
 }

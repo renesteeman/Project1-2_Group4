@@ -2,8 +2,10 @@ package Water;
 
 import Entities.Ball;
 import Entities.IndicationBall;
+import MainGame.MainGame;
 import Terrain.Terrain;
 import Toolbox.Maths;
+import com.sun.tools.javac.Main;
 import org.joml.Vector3f;
 
 public class WaterHit {
@@ -37,4 +39,14 @@ public class WaterHit {
 
         ball.setPosition(newPositionOnTerrain);
     }
+
+    public static void showWaterHitUI(MainGame mainGame, Vector3f waterHitLocation){
+        mainGame.createWaterHitUI(waterHitLocation);
+        mainGame.getWaterHitUI().show();
+    }
+
+    public static void hideWaterHitUI(MainGame mainGame){
+        mainGame.getWaterHitUI().hide();
+    }
+
 }
