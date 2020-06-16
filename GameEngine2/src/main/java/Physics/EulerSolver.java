@@ -19,11 +19,11 @@ public class EulerSolver implements PhysicsEngine {
 	}
 
 	@Override 
-	public void process(double dtime) {
+	public ShotInfo process(double dtime, ShotInfo shotInfo) {
 		passedFlag = false;
 
-		Vector2d p = course.ball.getPosition2();
-		Vector2d v = course.ball.getVelocity2D();
+		Vector2d p = shotInfo.getPosition2D();
+		Vector2d v = shotInfo.getVelocity2D();
 
 		for (double timer = 0; timer < dtime; timer += step) {
 
@@ -47,8 +47,9 @@ public class EulerSolver implements PhysicsEngine {
 				passedFlag = true;
 
 		}
-		course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
-		course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+		shotInfo.setPosition3D(new Vector3d(p.x, course.height.evaluate(p), p.y));
+		shotInfo.setVelocity3D(new Vector3d(v.x, 0, v.y));
+		return new ShotInfo(shotInfo);
 	}
 
 	/**
