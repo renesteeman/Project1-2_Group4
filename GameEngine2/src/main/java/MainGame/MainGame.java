@@ -317,8 +317,8 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        shootGroup.addElement(powerSlider);
-        shootGroup.addElement(shootingButton);
+        //shootGroup.addElement(powerSlider);
+        //shootGroup.addElement(shootingButton);
 
         GUIgroups.add(shootGroup);
         GUIgroups.add(waterHitUI);
@@ -617,7 +617,7 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0,0), new Vector2f(0.1f, 0.15f)) {
+        AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
                 WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
