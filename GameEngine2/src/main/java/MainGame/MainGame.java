@@ -468,7 +468,7 @@ public class MainGame extends CrazyPutting {
 
         setUpModels();
         resetPositions();
-        addAxes();
+        //addAxes();
         addTerrain();
         initLight();
         addWater();
