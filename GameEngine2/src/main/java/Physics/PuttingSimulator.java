@@ -48,6 +48,7 @@ public class PuttingSimulator extends JPanel {
 		lsx = new LinkedList();
 		lsz = new LinkedList();
 		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
+		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
 
 		if (USE_RANDOM_ERROR) {
 			randomErrorUpdate(initialBallVelocity);
@@ -56,7 +57,7 @@ public class PuttingSimulator extends JPanel {
 		passedFlag = false;
 		while (!stopCondition()) {
 			//System.out.println("hasnt stopped");
-			engine.process(DTIME);
+			shotInfo = engine.process(DTIME,shotInfo);
 			passedFlag |= engine.passedFlag();
 
 			//System.out.println("processed");
