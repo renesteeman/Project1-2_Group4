@@ -96,17 +96,17 @@ public class PuttingCourse {
             curarray = inp.nextLine().split(" ");
             this.goalRadius = Double.parseDouble(curarray[2]);
 
-            //TODO is the use of new Vector2d() for the ball's velocity correct?
             ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
             goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
 
+            this.startLocation3 = new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y);
+            this.goalLocation3 = new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
         }
     }
 
-    
     public void setDefaultPositions() {
         ball.setPosition(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y));
         goal.setPosition(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y)); 
