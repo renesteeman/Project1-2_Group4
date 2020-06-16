@@ -30,6 +30,7 @@ import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import Toolbox.MousePicker;
 import Water.WaterFrameBuffers;
+import Water.WaterHit;
 import Water.WaterTile;
 import com.sun.tools.javac.Main;
 import org.joml.Vector2f;
@@ -52,6 +53,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static FeatureTester.FeatureTester.ball;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGame extends CrazyPutting {
@@ -91,12 +93,13 @@ public class MainGame extends CrazyPutting {
     private WaterRenderer waterRenderer;
 
     private Trees trees;
+    private IndicationBall indicationBall;
 
     private boolean inputFlag = false;
     private Vector2d neededInput = new Vector2d();
 
-    //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
+    UIGroup waterHitUI = new UIGroup();
 
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
@@ -120,6 +123,9 @@ public class MainGame extends CrazyPutting {
         TexturedModel texturedBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallTexture")));
         CollisionModel collisionBall = new CollisionModel(texturedBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
 
+        TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
+        indicationBall = new IndicationBall(texturedIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
+
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
         TexturedModel texturedGoal = new TexturedModel(goalModel, new ModelTexture(loader.loadTexture("models/GoalTexture")));
@@ -132,6 +138,7 @@ public class MainGame extends CrazyPutting {
         course.goal = new Goal(collisionGoal, new Vector3f(25*SCALE, 2*SCALE, 26*SCALE), 0, 0, 0, 1);
 
         entities.add(course.ball);
+        entities.add(indicationBall);
         entities.add(course.goal);
 
         entities.addAll(trees);
@@ -286,7 +293,6 @@ public class MainGame extends CrazyPutting {
                 double angle = (camera.getYaw()-90) * Math.PI / 180.0; //Angle in radians
 
                 //Make velocity vector by splitting the velocity into its x- and y-components
-                //TODO
                 //System.out.println("first: " + Math.cos(angle) + " second: " + Math.sin(angle) + " third: " + velocity);
                 //Set direction
                 Vector2d shot = new Vector2d(Math.cos(angle),Math.sin(angle));
@@ -321,9 +327,9 @@ public class MainGame extends CrazyPutting {
 
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
-        GUIgroups.add(shootGroup);
 
-        //GUIs.add(powerText);
+        GUIgroups.add(shootGroup);
+        GUIgroups.add(waterHitUI);
     }
 
     @Override
@@ -472,7 +478,7 @@ public class MainGame extends CrazyPutting {
 
         setUpModels();
         resetPositions();
-        addAxes();
+        //addAxes();
         addTerrain();
         initLight();
         addWater();
@@ -481,9 +487,9 @@ public class MainGame extends CrazyPutting {
         initControls();
         
         setInteractiveMod(!fileShotsFlag);
-        
-        //only call setupEditMode if edit mode should be available
-        //obj.setupEditMode();
+
+        setupEditMode();
+
         if (!fileShotsFlag) {
             addUI();
         }
@@ -565,9 +571,83 @@ public class MainGame extends CrazyPutting {
     }
 
     @Override
-    //TODO fix
+    //Can this be removed?
     public void showWinText(){
         FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
         GUIText winText = new GUIText("You won!", 1, font, new Vector2f(0, 0), 1f, true);
+    }
+
+    public UIGroup getWaterHitUI() {
+        return waterHitUI;
+    }
+
+    public void createWaterHitUI(Vector3f waterHitLocation){
+        waterHitUI = new UIGroup();
+
+        //"waterSlide" is not a typo lol
+        Slider waterSlide = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0.6f,-0.4f), new Vector2f(0.3f, 0.2f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+                MouseHandler.disable();
+                getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
+
+                //Calculate value of the slider between 0 and 1 (but not including 0)
+                //getBackgroundTexture().getXPosition() returns the middle coordinate of the bar in screen coordinates ([-1, 1]), similarly for the button
+                double barCenterPos = Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition());
+                double knobCenterPos = Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition());
+                //600 is a random number that works, don't question the gods
+                double barWidth = TERRAIN_SIZE*getBackgroundTexture().getScale().x;
+                //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
+                double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1);
+                setValue(value);
+
+                WaterHit.updateIndicationBall(indicationBall, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) value);
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                MouseHandler.disable();
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                MouseHandler.enable();
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+            }
+        };
+
+        AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+                indicationBall.hide();
+                WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                MouseHandler.disable();
+                button.playHoverAnimation(0.05f);
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                MouseHandler.enable();
+                button.resetScale();
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+
+            }
+        };
+
+        waterHitUI.addElement(waterSlide);
+        waterHitUI.addElement(resetButton);
+
+        //Update the information that is used to render the UI
+        GUIgroups.set(1, waterHitUI);
     }
 }

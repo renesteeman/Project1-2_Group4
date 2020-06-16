@@ -18,9 +18,8 @@ This class keeps track of everything having to do with the course/map
  */
 public class PuttingCourse {
     public Function2d height;
-    //TODO convert 2D to 3D while loading and than ONLY use 3D
     public Vector2d startLocation2, goalLocation2;
-    public Vector3d startLocation3, goalLocation3;
+    private Vector3d startLocation3, goalLocation3;
     public double frictionCoefficient, goalRadius, maxVelocity;
 
     public Ball ball;
@@ -48,6 +47,9 @@ public class PuttingCourse {
 
         ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
         goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
+
+        this.startLocation3 = new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y);
+        this.goalLocation3 = new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y);
     }
 
     //Loads course from file
@@ -94,17 +96,17 @@ public class PuttingCourse {
             curarray = inp.nextLine().split(" ");
             this.goalRadius = Double.parseDouble(curarray[2]);
 
-            //TODO is the use of new Vector2d() for the ball's velocity correct?
             ball = new Ball(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y), new Vector3d());
             goal = new Goal(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y));
 
+            this.startLocation3 = new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y);
+            this.goalLocation3 = new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             System.exit(0);
         }
     }
 
-    
     public void setDefaultPositions() {
         ball.setPosition(new Vector3d(startLocation2.x, height.evaluate(startLocation2), startLocation2.y));
         goal.setPosition(new Vector3d(goalLocation2.x, height.evaluate(goalLocation2), goalLocation2.y)); 
@@ -198,7 +200,15 @@ public class PuttingCourse {
         return goalRadius;
     }
 
-    @Override 
+    public Vector3d getStartLocation3() {
+        return startLocation3;
+    }
+
+    public Vector3d getGoalLocation3() {
+        return goalLocation3;
+    }
+
+    @Override
     public String toString() {
         return String.format("(%s %f %s %s %f %f)", height, frictionCoefficient, startLocation2, goalLocation2, goalRadius, maxVelocity); 
     }
