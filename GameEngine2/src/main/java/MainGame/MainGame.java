@@ -96,7 +96,6 @@ public class MainGame extends CrazyPutting {
     private boolean inputFlag = false;
     private Vector2d neededInput = new Vector2d();
 
-    //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
     UIGroup waterHitUI = new UIGroup();
 
@@ -621,7 +620,7 @@ public class MainGame extends CrazyPutting {
         AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0,0), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
-                WaterHit.ballReset(ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
+                WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
             }
 
             @Override
