@@ -116,7 +116,11 @@ public class Trees implements Collection<Entity> {
         return info.toString();
     }
 
-//    public void loadFromString(String treeInfo){
+    public ArrayList<Tree> getTrees() {
+        return trees;
+    }
+
+    //    public void loadFromString(String treeInfo){
 //        //Remove existing trees
 //        trees.clear();
 //

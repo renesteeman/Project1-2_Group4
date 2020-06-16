@@ -651,4 +651,8 @@ public class MainGame extends CrazyPutting {
         //Update the information that is used to render the UI
         GUIgroups.set(1, waterHitUI);
     }
+
+    public Trees getTrees() {
+        return trees;
+    }
 }

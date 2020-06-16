@@ -1,5 +1,8 @@
 package Physics;
 
+import Collision.CheckCollision;
+import MainGame.MainGame;
+
 /**
  * The RungeKutta4Solver class updates position and velocity of a ball after every time-step.
  *
@@ -113,6 +116,10 @@ public class RungeKutta4Solver implements PhysicsEngine{
         //UPDATE POSITION ON THE COURSE
         course.ball.setPosition(new Vector3d(p.x, course.height.evaluate(p), p.y));
         course.ball.setVelocity(new Vector3d(v.x, 0, v.y));
+
+        //TODO ask Matthijs
+        //MainGame game = new MainGame();
+        //CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
     }
 
     /**
