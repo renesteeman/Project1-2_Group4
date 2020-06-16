@@ -29,6 +29,7 @@ import Textures.TerrainTexturePack;
 import Toolbox.Maths;
 import Toolbox.MousePicker;
 import Water.WaterFrameBuffers;
+import Water.WaterHit;
 import Water.WaterTile;
 import com.sun.tools.javac.Main;
 import org.joml.Vector2f;
@@ -51,6 +52,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static FeatureTester.FeatureTester.ball;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGame extends CrazyPutting {
@@ -96,6 +98,7 @@ public class MainGame extends CrazyPutting {
 
     //TODO try to put it in a better place with better structure
     UIGroup shootGroup = new UIGroup();
+    UIGroup waterHitUI = new UIGroup();
 
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
@@ -267,6 +270,64 @@ public class MainGame extends CrazyPutting {
             }
         };
 
+        //"waterSlide" is not a typo lol
+        Slider waterSlide = new Slider(loader, "textures/sliderBar","textures/sliderKnob", new Vector2f(0.6f,-0.4f), new Vector2f(0.3f, 0.2f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+                MouseHandler.disable();
+                getSliderTexture().setPosition(DisplayManager.getNormalizedMouseCoordinates());
+
+                //Calculate value of the slider between 0 and 1 (but not including 0)
+                //getBackgroundTexture().getXPosition() returns the middle coordinate of the bar in screen coordinates ([-1, 1]), similarly for the button
+                double barCenterPos = Maths.screenCoordinateToPixelX(getBackgroundTexture().getXPosition());
+                double knobCenterPos = Maths.screenCoordinateToPixelX(getSliderTexture().getXPosition());
+                //600 is a random number that works, don't question the gods
+                double barWidth = TERRAIN_SIZE*getBackgroundTexture().getScale().x;
+                //Math.min and Math.max ensure the value is always between 0 and 1 (including the edges)
+                Double value = Math.min(Math.max((1+((knobCenterPos-barCenterPos)/barWidth))/2, 0.0000001), 1);
+                setValue(value);
+                WaterHit.updateIndicationBall(ball, terrain, startLocation, waterHitLocation, value);
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                MouseHandler.disable();
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                MouseHandler.enable();
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+            }
+        };
+
+        AbstractButton resetButton = new AbstractButton(loader, "textures/resetButton", new Vector2f(0,0), new Vector2f(0.1f, 0.15f)) {
+            @Override
+            public void onClick(InterfaceButton button) {
+                WaterHit.ballReset(ball, terrain, startLocation, waterHitLocation, waterSlide.getValue());
+            }
+
+            @Override
+            public void onStartHover(InterfaceButton button) {
+                MouseHandler.disable();
+                button.playHoverAnimation(0.05f);
+            }
+
+            @Override
+            public void onStopHover(InterfaceButton button) {
+                MouseHandler.enable();
+                button.resetScale();
+            }
+
+            @Override
+            public void whileHovering(InterfaceButton button) {
+
+            }
+        };
+
         AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
@@ -314,6 +375,9 @@ public class MainGame extends CrazyPutting {
 
             }
         };
+
+        waterHitUI.addElement(waterSlide);
+        waterHitUI.addElement(resetButton);
 
         shootGroup.addElement(powerSlider);
         shootGroup.addElement(shootingButton);
