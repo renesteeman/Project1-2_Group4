@@ -21,9 +21,7 @@ public class WaterHit {
     //Reset the ball along a line going from the starting point of the game to the location where the water was hit
     public static void ballReset(Ball ball, Terrain terrain, Vector3f startLocation, Vector3f waterHitLocation, float distanceFromWaterHit){
         Vector3f differenceStartAndHit = Maths.minus(waterHitLocation, startLocation);
-        differenceStartAndHit.normalize();
-        //hitLoc - distance * (start-hit)/norm2(start-hit)
-        Vector3f newPositionIndependentOfTerrain = Maths.minus(waterHitLocation, differenceStartAndHit);
+        Vector3f newPositionIndependentOfTerrain = Maths.minus(waterHitLocation, Maths.multiply(differenceStartAndHit, distanceFromWaterHit));
         Vector3f newPositionOnTerrain = new Vector3f(newPositionIndependentOfTerrain.x, (float) terrain.getHeightFromFunction(newPositionIndependentOfTerrain.x, newPositionIndependentOfTerrain.z), newPositionIndependentOfTerrain.z);
 
         ball.setPosition(newPositionOnTerrain);
@@ -32,9 +30,7 @@ public class WaterHit {
     //Put a phantom ball along a line going from the starting point of the game to the location where the water was hit
     public static void updateIndicationBall(IndicationBall ball, Terrain terrain, Vector3f startLocation, Vector3f waterHitLocation, float distanceFromWaterHit){
         Vector3f differenceStartAndHit = Maths.minus(waterHitLocation, startLocation);
-        differenceStartAndHit.normalize();
-        //hitLoc - distance * (start-hit)/norm2(start-hit)
-        Vector3f newPositionIndependentOfTerrain = Maths.minus(waterHitLocation, differenceStartAndHit);
+        Vector3f newPositionIndependentOfTerrain = Maths.minus(waterHitLocation, Maths.multiply(differenceStartAndHit, distanceFromWaterHit));
         Vector3f newPositionOnTerrain = new Vector3f(newPositionIndependentOfTerrain.x, (float) terrain.getHeightFromFunction(newPositionIndependentOfTerrain.x, newPositionIndependentOfTerrain.z), newPositionIndependentOfTerrain.z);
 
         ball.setPosition(newPositionOnTerrain);
