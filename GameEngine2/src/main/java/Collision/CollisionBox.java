@@ -1,6 +1,7 @@
 package Collision;
 
 import Entities.Ball;
+import Toolbox.Maths;
 import org.joml.Vector3f;
 
 public class CollisionBox {
@@ -90,11 +91,12 @@ public class CollisionBox {
         Vector3f closestPoint = new Vector3f(0,0,0);
 
         //Subtraction of different vectors
-        Vector3f secondMinusFirst = face.getSecondVertex().sub(face.getFirstVertex());
-        Vector3f thirdMinusFirst = face.getThirdVertex().sub(face.getFirstVertex());
-        Vector3f ballMinusFirst = ball.sub(face.getFirstVertex());
+        Vector3f secondMinusFirst = Maths.minus(face.getSecondVertex(), face.getFirstVertex());
+        Vector3f thirdMinusFirst = Maths.minus(face.getThirdVertex(), face.getFirstVertex());
+        Vector3f ballMinusFirst = Maths.minus(ball, face.getFirstVertex());
 
         //Values for the multiplication of different vectors
+        //TODO take care of the dot method
         float secondMinusFirstTimesBallMinusFirst = secondMinusFirst.dot(ballMinusFirst);
         float thirdMinusFirstTimesBallMinusFirst = thirdMinusFirst.dot(ballMinusFirst);
 
@@ -104,8 +106,9 @@ public class CollisionBox {
             return closestPoint;
         }
 
-        Vector3f ballMinusSideB = ball.sub(face.getSecondVertex());
+        Vector3f ballMinusSideB = Maths.minus(ball, face.getSecondVertex());
 
+        //TODO take care of the dot method
         float secondMinusFirstTimesBallMinusSecond = secondMinusFirst.dot(ballMinusSideB);
         float thirdMinusFirstTimesBallMinusSecond = thirdMinusFirst.dot(ballMinusSideB);
 
@@ -124,12 +127,13 @@ public class CollisionBox {
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
             //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(secondMinusFirst.dot(v));
+            closestPoint = face.getFirstVertex().add(Maths.multiply(secondMinusFirst, v));
             return closestPoint;
         }
 
-        Vector3f ballMinusThird = ball.sub(face.getThirdVertex());
+        Vector3f ballMinusThird = Maths.minus(ball, face.getThirdVertex());
 
+        //TODO take care of the dot method
         float secondMinusFirstTimesBallMinusThird = secondMinusFirst.dot(ballMinusThird);
         float thirdMinusFirstTimesBallMinusThird = thirdMinusFirst.dot(ballMinusThird);
 
@@ -149,7 +153,7 @@ public class CollisionBox {
 
             // sideA + (ac * v)
             //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(thirdMinusFirst.dot(v));
+            closestPoint = face.getFirstVertex().add(Maths.multiply(thirdMinusFirst, v));
             return closestPoint;
         }
 
@@ -162,7 +166,7 @@ public class CollisionBox {
 
             // sideB + v * (sideC - sideB)
             //return Vector3f.add(face.getSecondVertex(), v.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
-            closestPoint = face.getSecondVertex().add(face.getThirdVertex().sub(face.getSecondVertex()).dot(v));
+            closestPoint = face.getSecondVertex().add(Maths.minus(face.getThirdVertex(), Maths.multiply(face.getSecondVertex(), v)));
             return closestPoint;
         }
 
@@ -171,8 +175,8 @@ public class CollisionBox {
         float wn = vc * denominator; //Don't know how to rename this one
 
         // sideA + sideAMinusSideB * normalVector + ac * wn
-        Vector3f secondMinusFirstTimesNormalVector = secondMinusFirst.dot(normalVector);
-        Vector3f thirdMinusFirstTimesWN = thirdMinusFirst.dot(wn);
+        Vector3f secondMinusFirstTimesNormalVector = Maths.multiply(secondMinusFirst, normalVector);
+        Vector3f thirdMinusFirstTimesWN = Maths.multiply(thirdMinusFirst, wn);
 
         //return Vector3f.add(face.getFirstVertex(), Vector3f.add(secondMinusFirstTimesNormalVector, thirdMinusFirstTimesWN));
         secondMinusFirstTimesNormalVector.add(thirdMinusFirstTimesWN);
