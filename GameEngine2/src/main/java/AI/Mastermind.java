@@ -14,7 +14,6 @@ public class Mastermind {
 			MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
 			obj.setUpModels();
 			obj.resetPositions();
-	        obj.addAxes();
 	        obj.addTerrain();
 	        obj.initLight();
 	        obj.addWater();

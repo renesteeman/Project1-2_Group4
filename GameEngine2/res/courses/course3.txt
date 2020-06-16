@@ -1,0 +1,6 @@
+height = (0.2*x)
+flag = (400, 300)
+start = (370, 300)
+friction = 0.5
+vmax = 20.0
+tol = 10.0
