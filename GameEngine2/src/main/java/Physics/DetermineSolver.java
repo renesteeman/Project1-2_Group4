@@ -13,6 +13,9 @@ public class DetermineSolver {
 	public static PhysicsEngine getVelocityVerletSolver(PuttingCourse course, double step) {
 		return new VelocityVerletSolver(course, step);
 	}
+	public static PhysicsEngine getVelocityVerletFlying(PuttingCourse course, double step) {
+		return new VelocityVerletFlying(course, step);
+	}
 	public static PhysicsEngine getRungeKutta4Solver(PuttingCourse course, double step, MainGame game) {
 		return new RungeKutta4Solver(course, step, game);
 	}
