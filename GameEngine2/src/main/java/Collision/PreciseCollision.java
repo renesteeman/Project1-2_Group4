@@ -133,30 +133,26 @@ public class PreciseCollision {
 
 
         // P is outside (or on) AB if the triples scalar product [N PA PB] <= 0
-        //TODO cross product method
         Vector3f n = Maths.crossProduct(Maths.minus(face.getSecondVertex(), face.getFirstVertex()), Maths.minus(face.getThirdVertex(), face.getFirstVertex()));
         float vc = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getFirstVertex(), p.getPosition()), Maths.minus(face.getSecondVertex(), p.getPosition())));
 
         //If P is outside AB and within feature region of AB return projection of P onto AB
         if(vc <= 0.0f && snom >= 0.0f && sdenom >= 0.0f) {
-            //TODO fix this return value
-            // return face.getFirstVertex() + snom / (snom + sdenom) * ab;
+            return Maths.plus(face.getFirstVertex(), Maths.multiply( ab,snom / (snom + sdenom)));
         }
 
         //P is outside (or on) BC if the triple scalar product [N PB PC <=0
         float va = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getSecondVertex(), p.getPosition()), Maths.minus(face.getThirdVertex(), p.getPosition())));
         //If P is outside BC and within feature region of BC return projection of P onto BC
         if(va<=0.0f && unom >= 0.0f && undenom >= 0.0f){
-            //TODO fix this return value
-            return face.getSecondVertex() + unom/(unom + undenom) * bc;
+            return Maths.plus(face.getSecondVertex() ,Maths.multiply( bc,unom/(unom + undenom)));
         }
 
         //P is outside (or on) CA if the triple scalar product [N PC PA <=0
         float vb = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getThirdVertex(), p.getPosition()), Maths.minus(face.getFirstVertex(), p.getPosition())));
         //If P is outside CA and within feature region of CA return projection of P onto CA
         if(vb <=0.0f && tnom >= 0.0f && tdenom >= 0.0f){
-            //TODO fix this return value
-            return face.getFirstVertex() + tnom/(tnom + tdenom) * ac;
+            return Maths.plus(face.getFirstVertex() , Maths.multiply(ac, tnom/(tnom + tdenom)));
         }
 
         //P must project inside face region. Compute Q using barycentric coordinates
