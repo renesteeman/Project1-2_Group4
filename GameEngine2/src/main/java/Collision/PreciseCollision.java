@@ -8,6 +8,9 @@ public class PreciseCollision {
 
     static Vector3f closestPoint;
 
+    /**
+     * Old Method
+     *
     // for triangle sideA-sideB-sideC represented by face.getVertex return a point closestPoint in triangle that is closest to ball
     public static Vector3f closestPointInTriangle(Vector3f ball, Face face) {
         System.out.println("Face first: " + face.getFirstVertex().toString());
@@ -93,6 +96,76 @@ public class PreciseCollision {
         closestPoint = face.getFirstVertex().add(secondMinusFirstTimesNormalVector);
 
         return closestPoint;
+    }
+     */
+
+    public Vector3f closestPointTriangle(Face face, Ball p){
+
+        Vector3f ab = Maths.minus(face.getSecondVertex(), face.getFirstVertex());
+        Vector3f ac = Maths.minus(face.getThirdVertex(), face.getFirstVertex());
+        Vector3f bc = Maths.minus(face.getThirdVertex(), face.getSecondVertex());
+
+        //Compute parametric position s for projection P' of P on AB (P is the ball)
+        // P' = A + s*AB, s = snom/(snom/sdenom)
+        float snom = Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getFirstVertex()), ab);
+        float sdenom = Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getFirstVertex()), Maths.minus(face.getFirstVertex(), face.getSecondVertex()));
+
+        //Compute parametric position t for projection P' of p on AC
+        //P' = A + t*AC, s = tnom / (tnom+tdenom)
+        float tnom = Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getFirstVertex()), ac);
+        float tdenom =  Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getThirdVertex()), Maths.minus(face.getFirstVertex(), face.getThirdVertex()));
+
+        if(snom <= 0.0f && tnom <= 0.0f){
+            return face.getFirstVertex();
+            //Vertex region early out
+        }
+
+        //Compute parametric position u for projection p' of p on BC
+        //P' = B + u*BC, u = unom/(unom+udenom)
+        float unom = Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getSecondVertex()), bc);
+        float undenom = Maths.dotMultiplication(Maths.minus(p.getPosition(), face.getThirdVertex()), Maths.minus(face.getSecondVertex(), face.getThirdVertex()));
+
+
+        if(sdenom <= 0.0f && unom <= 0.0f)
+            return face.getSecondVertex();
+        if(tdenom <= 0.0f && undenom <= 0.0f)
+            return face.getThirdVertex();
+
+
+        // P is outside (or on) AB if the triples scalar product [N PA PB] <= 0
+        Vector3f n = Maths.crossProduct(Maths.minus(face.getSecondVertex(), face.getFirstVertex()), Maths.minus(face.getThirdVertex(), face.getFirstVertex()));
+        float vc = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getFirstVertex(), p.getPosition()), Maths.minus(face.getSecondVertex(), p.getPosition())));
+
+        //If P is outside AB and within feature region of AB return projection of P onto AB
+        if(vc <= 0.0f && snom >= 0.0f && sdenom >= 0.0f) {
+            return Maths.plus(face.getFirstVertex(), Maths.multiply( ab,snom / (snom + sdenom)));
+        }
+
+        //P is outside (or on) BC if the triple scalar product [N PB PC <=0
+        float va = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getSecondVertex(), p.getPosition()), Maths.minus(face.getThirdVertex(), p.getPosition())));
+        //If P is outside BC and within feature region of BC return projection of P onto BC
+        if(va<=0.0f && unom >= 0.0f && undenom >= 0.0f){
+            return Maths.plus(face.getSecondVertex() ,Maths.multiply( bc,unom/(unom + undenom)));
+        }
+
+        //P is outside (or on) CA if the triple scalar product [N PC PA <=0
+        float vb = Maths.dotMultiplication(n, Maths.crossProduct(Maths.minus(face.getThirdVertex(), p.getPosition()), Maths.minus(face.getFirstVertex(), p.getPosition())));
+        //If P is outside CA and within feature region of CA return projection of P onto CA
+        if(vb <=0.0f && tnom >= 0.0f && tdenom >= 0.0f){
+            return Maths.plus(face.getFirstVertex() , Maths.multiply(ac, tnom/(tnom + tdenom)));
+        }
+
+        //P must project inside face region. Compute Q using barycentric coordinates
+        float u = va / (va + vb + vc);
+        float v = vb / (va + vb + vc);
+        float w = 1.0f - u - v; // = vc / (va + vb + vc)
+
+        // had to add 3 multiplication of vectors so used a temp variable since we can only do two by two
+
+        Vector3f temp = Maths.plus(Maths.multiply(face.getFirstVertex(), u), Maths.multiply(face.getSecondVertex(), v));
+        return Maths.plus(temp, Maths.multiply(face.getThirdVertex(), w));
+
+
     }
 
     //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
