@@ -247,19 +247,20 @@ public class Terrain {
         return 0;
     }
 
-    public void setTerrainTypeWithinRadius(float x, float z, int type, float radius){
-        System.out.println("X: " + x + " Z: " + z);
-
+    public void setTerrainTypeWithinDiameter(float x, float z, int type, float diameter){
         //Take the terrain starting points into account before determining any indexes
         Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
+        float terrainCoordinateZ = terrainCoordinates.y;
 
-        //Get the edges of the square within the terrain has to be updated (optimization)
-        int leftX = (int) (terrainCoordinates.x-radius/2);
-        int rightX = (int) (terrainCoordinates.x+radius/2);
-        int topZ = (int) (terrainCoordinates.y-radius/2);
-        int bottomZ = (int) (terrainCoordinates.y+radius/2);
+        //Get the center of the circle
         int centerX = (int) terrainCoordinates.x;
         int centerZ = (int) terrainCoordinates.y;
+
+        //Get the edges of the square within the terrain has to be updated (optimization)
+        int leftX = (int) (terrainCoordinates.x-diameter/2);
+        int rightX = (int) (terrainCoordinates.x+diameter/2);
+        int topZ = (int) (terrainCoordinateZ+diameter/2);
+        int bottomZ = (int) (terrainCoordinateZ-diameter/2);
 
         //Prevent going over the edge (and crashing)
         if(leftX<0) leftX=0;
@@ -277,12 +278,12 @@ public class Terrain {
 
         //Go trough the square and update
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
-            for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
-                //Only update values within given radius (make the brush circular instead of square)
+            for(int j=bottomZTerrainCoordinate; j<topZTerrainCoordinate; j++){
+                //Only update values within given diameter (make the brush circular instead of square)
                 int xPos = (int) (i*DISTANCE_PER_VERTEX);
                 int zPos = (int) (j*DISTANCE_PER_VERTEX);
 
-                if(distance(xPos, zPos, centerX, centerZ) < radius){
+                if(distance(xPos, zPos, centerX, centerZ) < diameter/2){
                     //Should be updated
                     updateTerrainType2D(i, j, type);
                 }
