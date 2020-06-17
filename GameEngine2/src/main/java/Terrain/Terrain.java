@@ -248,6 +248,8 @@ public class Terrain {
     }
 
     public void setTerrainTypeWithinRadius(float x, float z, int type, float radius){
+        System.out.println("X: " + x + " Z: " + z);
+
         //Take the terrain starting points into account before determining any indexes
         Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
 

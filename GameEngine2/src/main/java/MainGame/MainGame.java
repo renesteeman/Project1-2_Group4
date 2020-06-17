@@ -125,7 +125,7 @@ public class MainGame extends CrazyPutting {
 
         TexturedModel texturedIndicatorBall = new TexturedModel(ballModel, new ModelTexture(loader.loadTexture("models/BallIndicatorTexture")));
         CollisionModel collisionIndicatorBall = new CollisionModel(texturedIndicatorBall, ballModelData.getVertices(), ballModelData.getNormals(), ballModelData.getIndices());
-        indicationBall = new IndicationBall(collisionIndicatorBall, new Vector3f(25*SCALE, 3*SCALE, 25*SCALE), 0, 0, 0, 1);
+        indicationBall = new IndicationBall(collisionIndicatorBall, new Vector3f(0, -1000, 0), 0, 0, 0, 1);
 
         ModelData goalModelData = OBJFileLoader.loadOBJ("goal");
         RawModel goalModel = loader.loadToVAO(goalModelData.getVertices(), goalModelData.getTextureCoords(), goalModelData.getNormals(), goalModelData.getIndices());
