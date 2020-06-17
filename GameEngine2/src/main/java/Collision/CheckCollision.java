@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 
-import static Collision.PreciseCollision.closestPointInTriangle;
+import static Collision.PreciseCollision.closestPointTriangle;
 import static Collision.PreciseCollision.isOverlapping;
 
 public class CheckCollision {
@@ -23,7 +23,8 @@ public class CheckCollision {
 
             if(item.getCollisionBox().overlapsWithPointGivenMargin(item.getPosition(), ball.getPosition(), margin)){
                 for(Face face : item.getCollisionModel().getFaces()){
-                    Vector3f result = closestPointInTriangle(ball.getPosition(), face);
+                    Vector3f result = closestPointTriangle(face, ball.getPosition());
+                    System.out.println("Result coordinates"+result.toString());
                     if(isOverlapping(result, ball)){
                         System.out.println("The collision is happening");
                     }
