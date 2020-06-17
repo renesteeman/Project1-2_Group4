@@ -4,15 +4,11 @@ import FontMeshCreator.FontType;
 import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
 import GUI.GUIRenderer;
-import GUI.GUITexture;
-import GUI.Menu.MainMenu;
 import GUIElements.Buttons.AbstractButton;
 import GUIElements.Buttons.InterfaceButton;
 import GUIElements.Slider;
 import GUIElements.UIElement;
 import GUIElements.UIGroup;
-import InputOutputModule.GameLoader;
-import InputOutputModule.GameSaver;
 import Models.CollisionModel;
 import Physics.*;
 import Entities.*;
@@ -32,28 +28,19 @@ import Toolbox.MousePicker;
 import Water.WaterFrameBuffers;
 import Water.WaterHit;
 import Water.WaterTile;
-import com.sun.tools.javac.Main;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
-import org.liquidengine.legui.input.Mouse;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
 
-import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
-import java.awt.*;
 import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.nio.DoubleBuffer;
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static FeatureTester.FeatureTester.ball;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MainGame extends CrazyPutting {
@@ -106,12 +93,14 @@ public class MainGame extends CrazyPutting {
 
         DTIME = graphicsRate;
 
-        if (solverFlag == 0)
+        if (solverFlag == 0) {
             this.engine = DetermineSolver.getEulerSolver(course, physicsStep);
-        else if (solverFlag == 1) 
+        } else if (solverFlag == 1) {
             this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
-        else 
+            //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
+        } else {
             this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
+        }
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
@@ -540,12 +529,12 @@ public class MainGame extends CrazyPutting {
             } else if(objectType == 2){
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
 
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
             } else if(objectType == 66){
                 //DEBUG MODE IS ON (order 66)
@@ -560,11 +549,11 @@ public class MainGame extends CrazyPutting {
                 //Sand
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 }
             }

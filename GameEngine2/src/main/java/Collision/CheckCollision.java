@@ -6,13 +6,13 @@ import org.joml.Vector3f;
 
 import java.util.ArrayList;
 
-import static Collision.PreciseCollision.closestPointInTriangle;
 import static Collision.PreciseCollision.isOverlapping;
 
 public class CheckCollision {
 
     private static final float margin = 0.2f;
 
+    /*
     public static void checkForCollision(ArrayList<Tree> trees, Goal goal, Ball ball){
 
         ArrayList<CollisionEntity> items = new ArrayList<>(trees);
@@ -30,6 +30,6 @@ public class CheckCollision {
                 }
             }
         }
-    }
+    }*/
 
 }
