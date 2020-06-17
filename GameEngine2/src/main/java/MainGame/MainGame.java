@@ -9,6 +9,7 @@ import GUIElements.Buttons.InterfaceButton;
 import GUIElements.Slider;
 import GUIElements.UIElement;
 import GUIElements.UIGroup;
+import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Models.CollisionModel;
 import Physics.*;
@@ -221,7 +222,7 @@ public class MainGame extends CrazyPutting {
                 objectType = -1;
                 MouseHandler.enable();
             } else if (key == GLFW_KEY_F5){
-                //GameLoader.loadGameFile("");
+                GameLoader.loadGameFile("./res/courses/terrainSaveFile.txt", terrain);
                 entities.addAll(trees);
                 terrain.updateTerrain(loader);
             } else if (key == GLFW_KEY_F10){
@@ -642,5 +643,13 @@ public class MainGame extends CrazyPutting {
 
     public Trees getTrees() {
         return trees;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
     }
 }

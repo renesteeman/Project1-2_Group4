@@ -1,6 +1,12 @@
 package InputOutputModule;
 
 import FeatureTester.FeatureTester;
+import MainGame.GameStaticData;
+import Physics.PuttingCourse;
+import RenderEngine.Loader;
+import Terrain.Terrain;
+import Textures.TerrainTexture;
+import Textures.TerrainTexturePack;
 import org.joml.Vector3f;
 
 import java.io.File;
@@ -17,13 +23,26 @@ import java.util.Scanner;
 
 public class GameLoader {
     public static void main(String[] args){
-        loadGameFile("./res/courses/readTest2.txt");
+        //10 units in-engine = 1 meter
+        int SCALE = GameStaticData.SCALE;
+        int TERRAIN_SIZE = 80*SCALE;
+        Loader loader = new Loader();
+        PuttingCourse course = new PuttingCourse("./res/courses/course1.txt");
+        //Terrain
+        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
+        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
+
+        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
+
+        Terrain terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
+
+        loadGameFile("./res/courses/readTest2.txt", terrain);
     }
 
     static ArrayList<Vector3f> treeLocations;
 
     //TODO load the game info when this function is called (goal location, ball location, terrain, etc)
-    public static void loadGameFile(String fullPath){
+    public static void loadGameFile(String fullPath, Terrain terrain){
 
         String gravitationalConstant = "";
         String massOfBall = "";
@@ -80,7 +99,7 @@ public class GameLoader {
 
             //Process additional details that are optional
             if(remaining.length()>0){
-                processRemaining(remaining);
+                processRemaining(remaining, terrain);
             }
 
             //TODO link to physics and game objects
@@ -110,11 +129,12 @@ public class GameLoader {
         }
     }
 
-    private static void processRemaining(String remaining){
+    private static void processRemaining(String remaining, Terrain terrain){
         String[] parts = remaining.split(";");
         String treesInfo = parts[0].split("=")[1];
         String terrainInfo = parts[1];
 
+        terrain.loadFromString(terrainInfo);
         processTrees(treesInfo);
     }
 
