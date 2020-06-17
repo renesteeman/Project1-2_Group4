@@ -1,22 +1,25 @@
 package Entities;
 
 import MainGame.MainGame;
+import Models.CollisionModel;
 import Models.TexturedModel;
+import Toolbox.Maths;
 import org.joml.Vector3f;
 import Physics.Vector2d;
 import Physics.Vector3d;
 
 import java.awt.*;
 
-public class Ball extends Entity {
-
+public class Ball extends CollisionEntity {
 	Vector3f velocity;
 	float massOfBall;
+	float collisionRadiusFullScale;
 
-    public Ball(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Ball(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
     }
 
+    //BOT/TESTING ONLY
     public Ball(Vector3d position, Vector3d velocity) {
         this.position = Vector3d.convertF(position);
         this.velocity = Vector3d.convertF(velocity);
@@ -55,5 +58,28 @@ public class Ball extends Entity {
 
     public void setMassOfBall(float massOfBall) {
         this.massOfBall = massOfBall;
+    }
+
+    private void calculateCollisionRadius(){
+        Vector3f[] vertices = collisionModel.getVertices();
+        float maxVertexDistance = 0;
+        for(Vector3f vertexOne : vertices){
+            for(Vector3f vertexTwo : vertices){
+                double distance = Maths.getDistance(vertexOne, vertexTwo);
+                if(distance>maxVertexDistance){
+                    maxVertexDistance = (float) distance;
+                }
+            }
+        }
+
+        this.collisionRadiusFullScale = maxVertexDistance;
+    }
+
+    public float getCollisionRadiusFullScale() {
+        return collisionRadiusFullScale;
+    }
+
+    public double getCollisionRadiusScaled() {
+        return collisionRadiusFullScale*scale;
     }
 }

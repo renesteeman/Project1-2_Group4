@@ -52,7 +52,7 @@ public class CrazyPutting extends PuttingSimulator {
 			System.out.println("shot ended");
 			
 			if (course.victoriousPosition3()) {
-				System.out.println("You won gg wp");
+				System.out.println("You won");
 				showWinText();
 				break;
 			}

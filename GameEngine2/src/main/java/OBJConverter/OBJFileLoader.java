@@ -83,11 +83,9 @@ public class OBJFileLoader {
         float[] verticesArray = new float[vertices.size() * 3];
         float[] texturesArray = new float[vertices.size() * 2];
         float[] normalsArray = new float[vertices.size() * 3];
-        float furthest = convertDataToArrays(vertices, textures, normals, verticesArray,
-                texturesArray, normalsArray);
+        float furthest = convertDataToArrays(vertices, textures, normals, verticesArray, texturesArray, normalsArray);
         int[] indicesArray = convertIndicesListToArray(indices);
-        ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray,
-                furthest);
+        ModelData data = new ModelData(verticesArray, texturesArray, normalsArray, indicesArray, furthest);
 
         return data;
     }

@@ -1,5 +1,7 @@
 package OBJConverter;
 
+import java.util.Arrays;
+
 public class ModelData {
     private float[] vertices;
     private float[] textureCoords;
@@ -7,8 +9,7 @@ public class ModelData {
     private int[] indices;
     private float furthestPoint;
 
-    public ModelData(float[] vertices, float[] textureCoords, float[] normals, int[] indices,
-                     float furthestPoint) {
+    public ModelData(float[] vertices, float[] textureCoords, float[] normals, int[] indices, float furthestPoint) {
         this.vertices = vertices;
         this.textureCoords = textureCoords;
         this.normals = normals;

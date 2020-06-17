@@ -52,6 +52,10 @@ public class Maths {
         return ((screenCoordinate+1)/2)*(DisplayManager.getWidth());
     }
 
+    public static double getDistance(Vector3f pointOne, Vector3f pointTwo){
+        return pointOne.distance(pointTwo);
+    }
+
     public static Vector3f minus(Vector3f a, Vector3f b){
         return new Vector3f(a.x - b.x, a.y-b.y, a.z-b.z);
     }
@@ -63,4 +67,19 @@ public class Maths {
     public static Vector3f multiply(Vector3f a, float b){
         return new Vector3f(a.x * b, a.y * b, a.z * b);
     }
+
+    public static float dotMultiplication(Vector3f a, Vector3f b){
+
+        float result = 0;
+
+        //Calculate the dot ¨multiplication
+        for(int i = 0; i < a.length(); i++){
+            result = result+ (a.get(i)*b.get(i));
+        }
+
+        return result;
+    }
+    
+
+
 }

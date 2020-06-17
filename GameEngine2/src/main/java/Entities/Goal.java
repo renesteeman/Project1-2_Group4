@@ -1,5 +1,6 @@
 package Entities;
 
+import Models.CollisionModel;
 import Physics.Vector2d;
 import Physics.Vector3d;
 import java.awt.Graphics;
@@ -7,10 +8,10 @@ import java.awt.Color;
 import Models.TexturedModel;
 import org.joml.Vector3f;
 
-public class Goal extends Entity{
+public class Goal extends CollisionEntity{
     float radius;
 
-    public Goal(TexturedModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
+    public Goal(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
     }
 
@@ -30,10 +31,12 @@ public class Goal extends Entity{
         this.radius = radius;
     }
 
-    //TODO remove after testing
+    //Testing only
     @Override
 	public void render(Graphics g) {
 		g.setColor(Color.BLUE);
 		g.fillOval(400 + (int)position.x - 15, 600 - (int)position.y - 15, 30, 30);
 	}
+
+
 }

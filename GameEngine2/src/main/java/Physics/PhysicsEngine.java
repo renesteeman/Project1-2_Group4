@@ -1,7 +1,7 @@
 package Physics;
 
 public interface PhysicsEngine {
-	void process(double dtime);
+	ShotInfo process(double dtime, ShotInfo shotInfo);
 	void setStepSize(double h);
 	double getStepSize();
 	boolean passedFlag();
