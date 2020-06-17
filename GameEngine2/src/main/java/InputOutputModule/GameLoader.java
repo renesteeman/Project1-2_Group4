@@ -77,7 +77,11 @@ public class GameLoader {
                 i++;
             }
             myReader.close();
-            processRemaining(remaining);
+
+            //Process additional details that are optional
+            if(remaining.length()>0){
+                processRemaining(remaining);
+            }
 
             //TODO link to physics and game objects
 //            System.out.println(gravitationalConstant);
@@ -89,12 +93,8 @@ public class GameLoader {
 //            System.out.println(goalCoordinates2D);
 //            System.out.println(heightFunction);
 
-
-
             System.out.println();
 
-
-//
 //            MainGameLoop.terrain.loadFromString(terrainInfo);
 //            MainGameLoop.trees.loadFromString(treeInfo);
 //            MainGameLoop.ball.loadFromString(ballInfo);
@@ -113,6 +113,7 @@ public class GameLoader {
     private static void processRemaining(String remaining){
         String[] parts = remaining.split(";");
         String treesInfo = parts[0].split("=")[1];
+        String terrainInfo = parts[1];
 
         processTrees(treesInfo);
     }
@@ -130,8 +131,6 @@ public class GameLoader {
 
             treeLocations.add(new Vector3f(Float.parseFloat(treeInfo[0]), Float.parseFloat(treeInfo[1]), Float.parseFloat(treeInfo[2])));
         }
-
-        System.out.println("");
     }
 
     private static String extractValue(String inputString){
