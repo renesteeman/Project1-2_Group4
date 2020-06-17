@@ -120,24 +120,14 @@ public class Trees implements Collection<Entity> {
         return trees;
     }
 
-    //    public void loadFromString(String treeInfo){
-//        //Remove existing trees
-//        trees.clear();
-//
-//        //Separate the string into a separate string for each tree
-//        treeInfo = treeInfo.replace(")", "");
-//        String[] treeStrings = treeInfo.split("\\(");
-//
-//        //Convert each treeString into an actual tree (ignore i=0 since that's empty
-//        for(int i=1; i<treeStrings.length; i++){
-//            String treeString = treeStrings[i];
-//            String[] treeCoordinates = treeString.split(" ");
-//            float xPos = Float.parseFloat(treeCoordinates[0]);
-//            float yPos = Float.parseFloat(treeCoordinates[1]);
-//            float zPos = Float.parseFloat(treeCoordinates[2]);
-//
-//            Tree loadedTree = new Tree(MainGameLoop.texturedTree, new Vector3f(xPos, yPos, zPos), 0, 0, 0, 1);
-//            trees.add(loadedTree);
-//        }
-//    }
+        public void loadFromString(ArrayList<Vector3f> treeLocations){
+        //Remove existing trees
+        trees.clear();
+
+        //Add trees from file
+        for(Vector3f treeLocation : treeLocations){
+            //Tree loadedTree = new Tree(MainGameLoop.texturedTree, treeLocation, 0, 0, 0, 1);
+            //trees.add(loadedTree);
+        }
+    }
 }

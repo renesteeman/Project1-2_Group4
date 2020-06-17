@@ -1,8 +1,11 @@
 package InputOutputModule;
 
 import FeatureTester.FeatureTester;
+import org.joml.Vector3f;
+
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // QUESTION is this file supposed to just extract the basic course data? Like, read the file that was sampled in the manual? If yes, than it is already
@@ -13,6 +16,12 @@ import java.util.Scanner;
 // (or whatever GameLoader is logically supposed to interact with) with methods that are gonna send data to the puttingcourse's object.
 
 public class GameLoader {
+    public static void main(String[] args){
+        loadGameFile("./res/courses/readTest2.txt");
+    }
+
+    static ArrayList<Vector3f> treeLocations;
+
     //TODO load the game info when this function is called (goal location, ball location, terrain, etc)
     public static void loadGameFile(String fullPath){
 
@@ -26,8 +35,10 @@ public class GameLoader {
         String heightFunction = "";
 
         try {
-            File myObj = new File("terrainSaveFile.txt");
+            File myObj = new File(fullPath);
             Scanner myReader = new Scanner(myObj);
+            String remaining = "";
+
             int i=0;
             while (myReader.hasNextLine()) {
                 String line = myReader.nextLine();
@@ -57,29 +68,32 @@ public class GameLoader {
                     case 10:
                         heightFunction = extractValue(line);
                         break;
+                    default:
+                        if(i!=3 && i!=6 && i!=9){
+                            remaining += line;
+                        }
                 }
 
                 i++;
             }
             myReader.close();
+            processRemaining(remaining);
 
             //TODO link to physics and game objects
-            System.out.println(gravitationalConstant);
-            System.out.println(massOfBall);
-            FeatureTester.ball.setMassOfBall(Float.parseFloat(massOfBall));
-            System.out.println(frictionCoefficient);
-            System.out.println(vMax);
-            System.out.println(goalRadius);
-            FeatureTester.goal.setRadius(Float.parseFloat(goalRadius));
-            System.out.println(startCoordinates2D);
-            System.out.println(goalCoordinates2D);
-            System.out.println(heightFunction);
+//            System.out.println(gravitationalConstant);
+//            System.out.println(massOfBall);
+//            System.out.println(frictionCoefficient);
+//            System.out.println(vMax);
+//            System.out.println(goalRadius);
+//            System.out.println(startCoordinates2D);
+//            System.out.println(goalCoordinates2D);
+//            System.out.println(heightFunction);
 
-//            String ballInfo = infoCategories[0];
-//            String goalInfo = infoCategories[1];
-//            String terrainInfo = infoCategories[0];
-//            String treeInfo = infoCategories[1];
-//            //Same for the two others 1(goal location), 2(radius), 4(treeInfo), 3(terrainInfo)
+
+
+            System.out.println();
+
+
 //
 //            MainGameLoop.terrain.loadFromString(terrainInfo);
 //            MainGameLoop.trees.loadFromString(treeInfo);
@@ -87,13 +101,37 @@ public class GameLoader {
 //            MainGameLoop.goal.loadFromString(goalInfo);
 
         } catch (FileNotFoundException e) {
-            System.out.println("Something went wrong with reading the file");
+            System.out.println("File not found");
             e.printStackTrace();
 
         } catch (Exception e){
             System.out.println("Something went wrong with loading the file");
             e.printStackTrace();
         }
+    }
+
+    private static void processRemaining(String remaining){
+        String[] parts = remaining.split(";");
+        String treesInfo = parts[0].split("=")[1];
+
+        processTrees(treesInfo);
+    }
+
+    private static void processTrees(String treesInfo){
+        treeLocations = new ArrayList<Vector3f>();
+
+        String[] trees = treesInfo.split("\\)");
+        System.out.println(trees[0]);
+
+        for(String tree : trees){
+            tree = tree.replace(", (", "");
+            tree = tree.replace("(", "");
+            String[] treeInfo = tree.split(",");
+
+            treeLocations.add(new Vector3f(Float.parseFloat(treeInfo[0]), Float.parseFloat(treeInfo[1]), Float.parseFloat(treeInfo[2])));
+        }
+
+        System.out.println("");
     }
 
     private static String extractValue(String inputString){
