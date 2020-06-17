@@ -72,9 +72,9 @@ public class Maths {
 
         float result = 0;
 
-        //Calculate the dot ¨multiplication
-        for(int i = 0; i < a.length(); i++){
-            result = result+ (a.get(i)*b.get(i));
+        //Calculate the dot multiplication
+        for(int i = 0; i < 3; i++){
+            result += (a.get(i)*b.get(i));
         }
 
         return result;

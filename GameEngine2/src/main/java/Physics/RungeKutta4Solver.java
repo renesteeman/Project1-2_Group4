@@ -12,13 +12,15 @@ import MainGame.MainGame;
 public class RungeKutta4Solver implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
+    private MainGame game;
     private boolean passedFlag = false;
 
     public final double __G = 9.81; //TODO allow people to enter their preferred G value
 
-    public RungeKutta4Solver(PuttingCourse course, double step){
+    public RungeKutta4Solver(PuttingCourse course, double step, MainGame game){
         this.course = course;
         this.step = step;
+        this.game = game;
     }
 
     @Override
@@ -117,9 +119,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
         shotInfo.setPosition3D(new Vector3d(p.x, course.height.evaluate(p), p.y));
         shotInfo.setVelocity3D(new Vector3d(v.x, 0, v.y));
 
-        //TODO ask Matthijs
-        //MainGame game = new MainGame();
-        //CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
+        CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
 
         return new ShotInfo(shotInfo);
     }

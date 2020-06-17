@@ -10,8 +10,9 @@ public class PreciseCollision {
 
     // for triangle sideA-sideB-sideC represented by face.getVertex return a point closestPoint in triangle that is closest to ball
     public static Vector3f closestPointInTriangle(Vector3f ball, Face face) {
-
-        closestPoint = new Vector3f(0,0,0);
+        System.out.println("Face first: " + face.getFirstVertex().toString());
+        System.out.println("Face second: " + face.getSecondVertex().toString());
+        System.out.println("Face third: " + face.getThirdVertex().toString());
 
         //Subtraction of different vectors
         Vector3f secondMinusFirst = Maths.minus(face.getSecondVertex(), face.getFirstVertex());
@@ -23,9 +24,7 @@ public class PreciseCollision {
         float thirdMinusFirstTimesBallMinusFirst = Maths.dotMultiplication(thirdMinusFirst, ballMinusFirst);
 
         if (secondMinusFirstTimesBallMinusFirst <= 0.0f && thirdMinusFirstTimesBallMinusFirst <= 0.0f) {
-            //return face.getFirstVertex();
-            closestPoint = face.getFirstVertex();
-            return closestPoint;
+            return face.getFirstVertex();
         }
 
         Vector3f ballMinusSecond = Maths.minus(ball, face.getSecondVertex());
@@ -33,34 +32,29 @@ public class PreciseCollision {
         float secondMinusFirstTimesBallMinusSecond = Maths.dotMultiplication(secondMinusFirst, ballMinusSecond);
         float thirdMinusFirstTimesBallMinusSecond = Maths.dotMultiplication(thirdMinusFirst, ballMinusSecond);
 
-        //TODO what does this if check?
         if (secondMinusFirstTimesBallMinusSecond >= 0.0f && thirdMinusFirstTimesBallMinusSecond <= secondMinusFirstTimesBallMinusSecond) {
-            //return face.getSecondVertex();
-            closestPoint = face.getSecondVertex();
-            return closestPoint;
+            return face.getSecondVertex();
         }
 
         //Result of ( (B-A)*(Ball-A)*(C-A)*(Ball-B)) - ( (B-A)*(Ball-B)*(C-A)*(Ball-A) )
         float vc = secondMinusFirstTimesBallMinusFirst * thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond * thirdMinusFirstTimesBallMinusFirst;
 
+        //TODO improve explanation
         if (vc <= 0.0f && secondMinusFirstTimesBallMinusFirst >= 0.0f && secondMinusFirstTimesBallMinusSecond <= 0.0f) {
             //(B-A)*(Ball-A) / ((B-A)*(Ball-A)-(B-A)*(Ball-B))
             float v = secondMinusFirstTimesBallMinusFirst / (secondMinusFirstTimesBallMinusFirst - secondMinusFirstTimesBallMinusSecond);
 
-            //return Vector3f.add(face.getFirstVertex(), sideBMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(Maths.multiply(secondMinusFirst, v));
-            return closestPoint;
+            return face.getFirstVertex().add(Maths.multiply(secondMinusFirst, v));
         }
 
         Vector3f ballMinusThird = Maths.minus(ball, face.getThirdVertex());
 
+        //TODO check from here
         float secondMinusFirstTimesBallMinusThird = Maths.dotMultiplication(secondMinusFirst, ballMinusThird);
         float thirdMinusFirstTimesBallMinusThird = Maths.dotMultiplication(thirdMinusFirst,ballMinusThird);
 
         if (thirdMinusFirstTimesBallMinusThird >= 0.0f && secondMinusFirstTimesBallMinusThird <= thirdMinusFirstTimesBallMinusThird) {
-            //return face.getThirdVertex();
-            closestPoint = face.getThirdVertex();
-            return closestPoint;
+            return face.getThirdVertex();
         }
 
         //Result of ( (B-A)*(Ball-C)*(C-A)*(Ball-A)) - ( (B-A)*(Ball-A)*(C-A)*(Ball-C) )
@@ -72,9 +66,7 @@ public class PreciseCollision {
             float v = thirdMinusFirstTimesBallMinusFirst / (thirdMinusFirstTimesBallMinusFirst - thirdMinusFirstTimesBallMinusThird);
 
             // sideA + (ac * v)
-            //return Vector3f.add(face.getFirstVertex(), sideCMinusSideA.dot(v));
-            closestPoint = face.getFirstVertex().add(Maths.multiply(thirdMinusFirst, v));
-            return closestPoint;
+            return face.getFirstVertex().add(Maths.multiply(thirdMinusFirst, v));
         }
 
         //Result of ( (B-A)*(Ball-B)*(C-A)*(Ball-C)) - ( (B-A)*(Ball-C)*(C-A)*(Ball-B) )
@@ -85,9 +77,7 @@ public class PreciseCollision {
             float v = (thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) / ((thirdMinusFirstTimesBallMinusSecond - secondMinusFirstTimesBallMinusSecond) + (secondMinusFirstTimesBallMinusThird - thirdMinusFirstTimesBallMinusThird));
 
             // sideB + v * (sideC - sideB)
-            //return Vector3f.add(face.getSecondVertex(), v.dot((face.getThirdVertex().sub(face.getSecondVertex()))));
-            closestPoint = face.getSecondVertex().add(Maths.minus(face.getThirdVertex(), Maths.multiply(face.getSecondVertex(), v)));
-            return closestPoint;
+            return face.getSecondVertex().add(Maths.minus(face.getThirdVertex(), Maths.multiply(face.getSecondVertex(), v)));
         }
 
         float denominator = 1.0f / (va + vb + vc);
@@ -107,9 +97,7 @@ public class PreciseCollision {
 
     //Return if distance(closestPoint, ballLocation) < ballCollisionRadius
     public static boolean isOverlapping(Vector3f closestPoint, Ball ball){
-        if(ball.getCollisionRadiusScaled() > closestPoint.distance(ball.getPosition())){
-            return true;
-        }
-        return false;
+        System.out.println("Distance: " + closestPoint.distance(ball.getPosition()));
+        return closestPoint.distance(ball.getPosition()) < ball.getCollisionRadiusScaled();
     }
 }

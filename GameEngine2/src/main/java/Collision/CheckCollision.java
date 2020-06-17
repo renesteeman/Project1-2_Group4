@@ -19,6 +19,8 @@ public class CheckCollision {
         items.add(goal);
 
         for(CollisionEntity item : items){
+            System.out.println("Item position: " + item.getPosition().toString() + " Ball position: " + ball.getPosition().toString());
+
             if(item.getCollisionBox().overlapsWithPointGivenMargin(item.getPosition(), ball.getPosition(), margin)){
                 for(Face face : item.getCollisionModel().getFaces()){
                     Vector3f result = closestPointInTriangle(ball.getPosition(), face);

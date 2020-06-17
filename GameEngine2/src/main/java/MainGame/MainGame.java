@@ -111,7 +111,7 @@ public class MainGame extends CrazyPutting {
         else if (solverFlag == 1) 
             this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
         else 
-            this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep);
+            this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
 
         DisplayManager.createDisplay();
         GL.createCapabilities();
@@ -540,12 +540,12 @@ public class MainGame extends CrazyPutting {
             } else if(objectType == 2){
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
 
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
             } else if(objectType == 66){
                 //DEBUG MODE IS ON (order 66)
@@ -560,11 +560,11 @@ public class MainGame extends CrazyPutting {
                 //Sand
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 }
             }

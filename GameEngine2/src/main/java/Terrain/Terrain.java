@@ -247,7 +247,7 @@ public class Terrain {
         return 0;
     }
 
-    public void setTerrainTypeWithinRadius(float x, float y, float z, int type, float radius){
+    public void setTerrainTypeWithinRadius(float x, float z, int type, float radius){
         //Take the terrain starting points into account before determining any indexes
         Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
 
@@ -277,11 +277,10 @@ public class Terrain {
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
             for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
                 //Only update values within given radius (make the brush circular instead of square)
-                float heightAtPosition = (float) getHeightFromFunction(i, j);
                 int xPos = (int) (i*DISTANCE_PER_VERTEX);
-                int yPos = (int) (j*DISTANCE_PER_VERTEX);
+                int zPos = (int) (j*DISTANCE_PER_VERTEX);
 
-                if(distance(xPos, yPos, heightAtPosition, centerX, centerZ, y) < radius){
+                if(distance(xPos, zPos, centerX, centerZ) < radius){
                     //Should be updated
                     updateTerrainType2D(i, j, type);
                 }
@@ -303,6 +302,13 @@ public class Terrain {
         float dY = y-heightAtPosition;
 
         return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2) + Math.pow(dY, 2));
+    }
+
+    private float distance(int i, int j, float x, float z){
+        float dX = x-i;
+        float dZ = z-j;
+
+        return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2));
     }
 
     private void updateTerrainType2D(int x, int z, int type){
