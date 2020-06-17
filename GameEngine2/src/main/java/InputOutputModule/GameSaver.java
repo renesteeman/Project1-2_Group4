@@ -24,11 +24,11 @@ public class GameSaver {
         String startCoordinates2D = "start = (0.0, 0.0); ";
         String goalCoordinates2D = "goal = (0.0, 10.0); ";
         String heightFunction = "height = -0.01*x + 0.003*x^2 + 0.04 * y; ";
-        String trees = "trees = (0, 35.04, 234), (42, 26.49, 0.234), (32.23, 432, 42.64)";
+        String trees = "trees = (0, 35.04, 234), (42, 26.49, 0.234), (32.23, 432, 42.64);";
         String terrain = terrainInfo.getTerrainInfoAsString();
 
         try {
-            FileWriter writer = new FileWriter("terrainSaveFile.txt");
+            FileWriter writer = new FileWriter("./res/courses/terrainSaveFile.txt");
 
             writer.write(gravitationalConstant);
             writer.write("\n");

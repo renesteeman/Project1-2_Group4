@@ -222,7 +222,7 @@ public class FeatureTester {
                     terrain.updateTerrain(loader);
                 } else if (key == GLFW_KEY_F10){
                     //TODO use this action after editing a map to save it
-                    GameSaver.saveGameFile("");
+                    //GameSaver.saveGameFile("");
                 }
             });
         }

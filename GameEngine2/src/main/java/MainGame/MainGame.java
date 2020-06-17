@@ -9,6 +9,7 @@ import GUIElements.Buttons.InterfaceButton;
 import GUIElements.Slider;
 import GUIElements.UIElement;
 import GUIElements.UIGroup;
+import InputOutputModule.GameSaver;
 import Models.CollisionModel;
 import Physics.*;
 import Entities.*;
@@ -220,13 +221,11 @@ public class MainGame extends CrazyPutting {
                 objectType = -1;
                 MouseHandler.enable();
             } else if (key == GLFW_KEY_F5){
-                //Optional TODO use this action before the game starts to load a map (requires API change)
                 //GameLoader.loadGameFile("");
                 entities.addAll(trees);
                 terrain.updateTerrain(loader);
             } else if (key == GLFW_KEY_F10){
-                //Optional TODO use this action after editing a map to save it (requires API change)
-                //GameSaver.saveGameFile("");
+                GameSaver.saveGameFile("saveGame", terrain);
             }
         });
     }
@@ -496,7 +495,7 @@ public class MainGame extends CrazyPutting {
     }
 
     public static void main(String[] args) {
-        MainGame obj = new MainGame("./res/courses/course0.txt", 2, 1e-1, 1e-2);    
+        MainGame obj = new MainGame("./res/courses/course3.txt", 2, 1e-1, 1e-2);
         obj.playGame(true, "./res/shots/shots.txt");
     }
 
