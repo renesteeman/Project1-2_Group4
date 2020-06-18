@@ -17,6 +17,7 @@ public class Ball extends CollisionEntity {
 
     public Ball(CollisionModel model, Vector3f position, float rotX, float rotY, float rotZ, float scale) {
         super(model, position, rotX, rotY, rotZ, scale);
+        calculateCollisionRadius();
     }
 
     //BOT/TESTING ONLY
@@ -25,7 +26,6 @@ public class Ball extends CollisionEntity {
         this.velocity = Vector3d.convertF(velocity);
     }
 
-    //TODO remove after testing
     @Override
     public void render(Graphics g) {
         g.setColor(Color.RED);
