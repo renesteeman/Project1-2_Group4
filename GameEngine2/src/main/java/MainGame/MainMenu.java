@@ -102,7 +102,7 @@ public class MainMenu extends javax.swing.JFrame {
                 Double physicsStep = Double.parseDouble(jTextField12.getText());
 
                 MainGame obj = new MainGame(currentCourse, solverFlag, graphicsRate, physicsStep);
-                obj.playGame(interactiveInput, currentShots);  
+                obj.playGame(interactiveInput, currentShots, obj);
             }
         });
 
