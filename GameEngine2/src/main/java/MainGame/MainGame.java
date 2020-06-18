@@ -98,8 +98,8 @@ public class MainGame extends CrazyPutting {
         if (solverFlag == 0) {
             this.engine = DetermineSolver.getEulerSolver(course, physicsStep);
         } else if (solverFlag == 1) {
-            this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
-            //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
+            //this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
+            this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
         } else {
             this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
         }

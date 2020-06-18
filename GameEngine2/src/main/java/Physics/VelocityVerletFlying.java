@@ -5,7 +5,17 @@ public class VelocityVerletFlying implements PhysicsEngine{
     private PuttingCourse course;
     private boolean passedFlag = false;
 
-    public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
+    //Air friction coefficients for golf ball
+    private final double DRAG_COEFFICIENT = 0.47; //BiNaS HAVO/VWO zesde editie
+    private final double AIR_DENSITY = 1.2041; //at 20 degrees celsius
+    private final double DIAMETER_GOLFBALL = 4.5/100.0; //in meters, diameter >= 4.267cm
+    private final double CROSS_SECTIONAL_AREA = Math.PI * Math.pow(DIAMETER_GOLFBALL/2.0, 2);
+
+    private final double DRAG_CONSTANT = 1.0/2.0 * DRAG_COEFFICIENT * AIR_DENSITY * CROSS_SECTIONAL_AREA; //0.001800136
+
+    public final double GRAVITY_EARTH = 9.81;   //TODO allow people to enter their preferred G value
+    public final double GRAVITY_MOON = 1.62;    //Change GRAVITY_EARTH to GRAVITY_MOON in the acceleration method if you
+                                                // want the ball to fly higher and longer
 
     public VelocityVerletFlying(PuttingCourse course, double step){
         this.course = course;
@@ -46,16 +56,15 @@ public class VelocityVerletFlying implements PhysicsEngine{
                 //Break up velocity into components
                 double totalVelocity = currentVelocity.length();
                 double slopeAngle = Math.atan(directionalSlope);
-                //TODO check if vertical and horizontal velocity are both completely correct
-                //  because I suspect horizontal velocity is only correct when y = 0...
                 double verticalVelocity = totalVelocity * Math.sin(slopeAngle);
-                double horizontalScalar = totalVelocity * Math.cos(slopeAngle);
-                Vector2d horizontalVelocity = currentVelocity.getVector2D().getNormalized().multiply(horizontalScalar);
+                double horizontalVelocityScalar = totalVelocity * Math.cos(slopeAngle);
+                Vector2d horizontalVelocity = currentVelocity.getVector2D().getNormalized().multiply(horizontalVelocityScalar);
 
                 //Update 3D velocity vector
-                currentVelocity = new Vector3d(horizontalVelocity.x, verticalVelocity, horizontalVelocity.y);
+                currentVelocity = limitVelocity(new Vector3d(horizontalVelocity.x, verticalVelocity, horizontalVelocity.y));
+            } else {
+                System.out.println("I BELIEVE I CAN FLY!!!!!\n");
             }
-
 
             //STEP 1 - Calculate currentAcceleration
             Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity);
@@ -78,6 +87,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
             currentPosition = checkOutOfBounds(nextPosition);
             currentVelocity = limitVelocity(nextVelocity);
 
+            //TODO find other position for this because this does completely nothing at this place...
             if (course.victoriousPosition3()) {
                 passedFlag = true;
             }
@@ -105,12 +115,16 @@ public class VelocityVerletFlying implements PhysicsEngine{
     private Vector3d acceleration(Vector3d position, Vector3d velocity) {
         if (!isFlying(position)) {
             Vector2d gradients = course.height.gradient(position.getVector2D());
-            double accelerationX = -GRAVITY * (gradients.x + course.getFriction() * velocity.x / velocity.length());
-            double accelerationZ = -GRAVITY * (gradients.y + course.getFriction() * velocity.z / velocity.length());
-            //TODO play around with y-acceleration, but keep in mind it should actually be 0.0?
+            double accelerationX = -GRAVITY_EARTH * (gradients.x + course.getFriction() * velocity.x / velocity.length());
+            double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
+
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
-            return new Vector3d(0.0, -GRAVITY, 0.0);
+            double accelerationX = -DRAG_CONSTANT * (velocity.x * velocity.length());
+            double accelerationY = -GRAVITY_EARTH - DRAG_CONSTANT * (velocity.y * velocity.length());
+            double accelerationZ = -DRAG_CONSTANT * (velocity.z * velocity.length());
+
+            return (new Vector3d(accelerationX, accelerationY, accelerationZ));
         }
     }
 
@@ -158,69 +172,4 @@ public class VelocityVerletFlying implements PhysicsEngine{
     public double getStepSize() {
         return this.step;
     }
-
-
-
-
-
-    //TODO probably remove, was taken from VelocitVerletSolver class since it is unused
-    //the nextPosition() and isFlying() methods are for flying balls.
-    //TODO check these ^ when flying is implemented in process method...
-    /**
-     * Calculates the position of the ball when it is not flying yet.
-     * @param currentPosition requires: ball is not flying
-     * @param horizontalVelocity requires: ball is not flying
-     * @return next position of flying or non-flying ball
-     */
-//    private Vector3d nextPosition(Vector2d currentPosition, Vector2d horizontalVelocity) {
-//        // Step 1 - Calculate vertical velocity
-//        Vector2d gradient = this.course.height.gradient(currentPosition);
-//        double magnitudeOfSlope = Math.hypot(gradient.x,gradient.y);
-//        double angleOfSlope = Math.atan(magnitudeOfSlope);
-//
-//        //Because velocity is given in x- and y-direction, use Math.tan() to get velocity in z-direction
-//        double heightVelocity = Math.tan(angleOfSlope) * horizontalVelocity.length();
-//
-//        // Step 2 - Calculate next height
-//        double currentHeight = this.course.height.evaluate(currentPosition);
-//        double nextHeight = currentHeight + (heightVelocity * step) + (1.0/2.0 * -__G * Math.pow(step,2));
-//
-//        // Step 3 - Calculate the nextPosition
-//        Vector2d currentAcceleration = acceleration(currentPosition, horizontalVelocity);
-//        Vector2d nextPosition = currentPosition.add(horizontalVelocity.multiply(step)).add(currentAcceleration.multiply(Math.pow(step,2) / 2.0));
-//
-//
-//        // Step 4 - Calculate nextHeight and check if ball is in air
-//        //If nextHeight is beneath the surface of the course, then nextHeight = surface
-//        if (nextHeight < course.height.evaluate(nextPosition)) {
-//            nextHeight = course.height.evaluate(nextPosition);
-//        }
-//
-//        return new Vector3d(nextPosition.x, nextHeight, nextPosition.y);
-//    }
-
-    /**
-     * Scale the vertical velocity down to the maximum possible velocity in the height direction, such that
-     *      verticalVelocity = sqrt(hypotenuse^2 - adjacent^2) = sqrt(maxVelocity^2 - horizontalVelocity.length()^2)
-     * Only the vertical velocity is scaled down since the acceleration in the x- and y-direction is 0, meaning that
-     * the speed in the horizontal direction is constant. (In case of gravitational force only)
-     * @param verticalVelocity
-     * @param horizontalVelocity
-     * @return the (scaled) vertical velocity
-     */
-//    private double limitVelocity(double verticalVelocity, Vector2d horizontalVelocity) {
-//        if (Math.hypot(verticalVelocity,horizontalVelocity.length()) > course.maxVelocity) {
-//            return Math.sqrt(Math.pow(course.maxVelocity,2) - Math.pow(horizontalVelocity.length(),2));
-//        }
-//        return verticalVelocity;
-//    }
-
-    /**
-     * Checks whether the ball is flying
-     * @return true if ball is in the air, false if ball is on the ground
-     */
-//    private boolean isFlying(Vector3d position) {
-//        Vector2d position2D = new Vector2d(position.x,position.z);
-//        return position.y > course.height.evaluate(position2D);
-//    }
 }
