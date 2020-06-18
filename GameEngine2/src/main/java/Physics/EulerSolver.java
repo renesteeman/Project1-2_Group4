@@ -27,7 +27,9 @@ public class EulerSolver implements PhysicsEngine {
 		Vector2d currentVelocity = shotInfo.getVelocity2D();
 
 		for (double timer = 0; timer < dtime; timer += step) {
-			if (currentVelocity.length() == 0) currentVelocity = currentVelocity.add(new Vector2d(1e-20,1e-20));
+			if (currentVelocity.length() == 0) {
+				currentVelocity = currentVelocity.add(new Vector2d(1e-20,1e-20));
+			}
 			Vector2d currentAcceleration = acceleration(currentPosition,currentVelocity);
 
 			//Calculate next position and next velocity
@@ -41,7 +43,6 @@ public class EulerSolver implements PhysicsEngine {
 
 		shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
 		shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
-
 		return new ShotInfo(shotInfo);
 	}
 

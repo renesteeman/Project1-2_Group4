@@ -55,7 +55,6 @@ public class VerletSolver implements PhysicsEngine {
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
-
         return new ShotInfo(shotInfo);
     }
 

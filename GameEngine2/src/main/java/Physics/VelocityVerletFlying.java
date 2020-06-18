@@ -42,7 +42,6 @@ public class VelocityVerletFlying implements PhysicsEngine{
         Vector3d currentVelocity = shotInfo.getVelocity3D();
 
         for (double timer = 0; timer < dtime; timer += step) {
-
             if (!isFlying(currentPosition)) {
                 //Calculate the directional slope
                 Vector2d normalizedVelocity = currentVelocity.getVector2D().getNormalized();
@@ -62,31 +61,23 @@ public class VelocityVerletFlying implements PhysicsEngine{
                 System.out.println("I BELIEVE I CAN FLY!!!!!\n");
             }
 
-            //STEP 1 - Calculate currentAcceleration
-            Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity);
+            Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity); //STEP 1
 
-            //STEP 2 - Calculate nextPosition
-            Vector3d nextPosition = currentPosition.add(currentVelocity.multiply(step)).add(currentAcceleration.multiply(Math.pow(step, 2) / 2.0));
+            Vector3d nextPosition = currentPosition.add(currentVelocity.multiply(step)).add(currentAcceleration.multiply(Math.pow(step, 2) / 2.0)); //STEP 2
             nextPosition = checkOutOfBounds(nextPosition);
 
-            //STEP 3 - Calculate intermediateVelocity
-            Vector3d intermediateVelocity = currentVelocity.add(currentAcceleration.multiply(step / 2.0));
+            Vector3d intermediateVelocity = currentVelocity.add(currentAcceleration.multiply(step / 2.0)); //STEP 3
             intermediateVelocity = limitVelocity(intermediateVelocity);
 
-            //STEP 4 - Calculate nextAcceleration
-            Vector3d nextAcceleration = acceleration(nextPosition, intermediateVelocity);
+            Vector3d nextAcceleration = acceleration(nextPosition, intermediateVelocity); //STEP 4
+            Vector3d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0)); //STEP 5
 
-            //STEP 5 - Calculate nextVelocity
-            Vector3d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0));
-
-            //STEP 6 - update variables
             currentPosition = checkOutOfBounds(nextPosition);
             currentVelocity = limitVelocity(nextVelocity);
         }
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, currentPosition.y, currentPosition.z));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, currentVelocity.y, currentVelocity.z));
-
         return new ShotInfo(shotInfo);
     }
 
@@ -109,14 +100,12 @@ public class VelocityVerletFlying implements PhysicsEngine{
             Vector2d gradients = course.height.gradient(position.getVector2D());
             double accelerationX = -GRAVITY_EARTH * (gradients.x + course.getFriction() * velocity.x / velocity.length());
             double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
-
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
             double accelerationX = -DRAG_CONSTANT * (velocity.x * velocity.length());
             double accelerationY = -GRAVITY_EARTH - DRAG_CONSTANT * (velocity.y * velocity.length());
             double accelerationZ = -DRAG_CONSTANT * (velocity.z * velocity.length());
-
-            return (new Vector3d(accelerationX, accelerationY, accelerationZ));
+            return new Vector3d(accelerationX, accelerationY, accelerationZ);
         }
     }
 
