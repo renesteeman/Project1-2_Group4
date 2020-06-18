@@ -2,6 +2,7 @@ package InputOutputModule;
 
 import FeatureTester.FeatureTester;
 import MainGame.GameStaticData;
+import MainGame.MainGame;
 import Physics.PuttingCourse;
 import RenderEngine.Loader;
 import Terrain.Terrain;
@@ -22,27 +23,10 @@ import java.util.Scanner;
 // (or whatever GameLoader is logically supposed to interact with) with methods that are gonna send data to the puttingcourse's object.
 
 public class GameLoader {
-    public static void main(String[] args){
-        //10 units in-engine = 1 meter
-        int SCALE = GameStaticData.SCALE;
-        int TERRAIN_SIZE = 80*SCALE;
-        Loader loader = new Loader();
-        PuttingCourse course = new PuttingCourse("./res/courses/course1.txt");
-        //Terrain
-        TerrainTexture grassTexture = new TerrainTexture(loader.loadTexture("textures/nice_grass"));
-        TerrainTexture sandTexture = new TerrainTexture(loader.loadTexture("textures/nice_sand"));
-
-        TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
-
-        Terrain terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
-
-        loadGameFile("./res/courses/readTest2.txt", terrain);
-    }
-
     static ArrayList<Vector3f> treeLocations;
 
     //TODO load the game info when this function is called (goal location, ball location, terrain, etc)
-    public static void loadGameFile(String fullPath, Terrain terrain){
+    public static void loadGameFile(String fullPath, MainGame game){
 
         String gravitationalConstant = "";
         String massOfBall = "";
@@ -99,7 +83,7 @@ public class GameLoader {
 
             //Process additional details that are optional
             if(remaining.length()>0){
-                processRemaining(remaining, terrain);
+                processRemaining(remaining, game);
             }
 
             //TODO link to physics and game objects
@@ -111,8 +95,6 @@ public class GameLoader {
 //            System.out.println(startCoordinates2D);
 //            System.out.println(goalCoordinates2D);
 //            System.out.println(heightFunction);
-
-            System.out.println();
 
 //            MainGameLoop.terrain.loadFromString(terrainInfo);
 //            MainGameLoop.trees.loadFromString(treeInfo);
@@ -129,20 +111,19 @@ public class GameLoader {
         }
     }
 
-    private static void processRemaining(String remaining, Terrain terrain){
+    private static void processRemaining(String remaining, MainGame game){
         String[] parts = remaining.split(";");
         String treesInfo = parts[0].split("=")[1];
         String terrainInfo = parts[1];
 
-        terrain.loadFromString(terrainInfo);
-        processTrees(treesInfo);
+        processTrees(treesInfo, game);
+        game.getTerrain().loadFromString(terrainInfo);
     }
 
-    private static void processTrees(String treesInfo){
+    private static void processTrees(String treesInfo, MainGame game){
         treeLocations = new ArrayList<Vector3f>();
 
         String[] trees = treesInfo.split("\\)");
-        System.out.println(trees[0]);
 
         for(String tree : trees){
             tree = tree.replace(", (", "");
@@ -151,6 +132,8 @@ public class GameLoader {
 
             treeLocations.add(new Vector3f(Float.parseFloat(treeInfo[0]), Float.parseFloat(treeInfo[1]), Float.parseFloat(treeInfo[2])));
         }
+
+        game.getTrees().loadFromString(treeLocations, game.getLoader());
     }
 
     private static String extractValue(String inputString){

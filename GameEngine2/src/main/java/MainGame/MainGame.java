@@ -41,6 +41,7 @@ import org.lwjgl.opengl.GL30;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -132,7 +133,6 @@ public class MainGame extends CrazyPutting {
         entities.add(course.ball);
         entities.add(indicationBall);
         entities.add(course.goal);
-
         entities.addAll(trees);
     }
 
@@ -209,7 +209,7 @@ public class MainGame extends CrazyPutting {
         mousePicker = new MousePicker(camera, masterRenderer.getProjectionMatrix(), terrain);
     }
 
-    public void setupEditMode(){
+    public void setupEditMode(MainGame game){
         //Handle events related to editing
         GLFW.glfwSetKeyCallback(DisplayManager.getWindow(), (handle, key, scancode, action, mods) -> {
             if (key == GLFW_KEY_1) {
@@ -222,11 +222,11 @@ public class MainGame extends CrazyPutting {
                 objectType = -1;
                 MouseHandler.enable();
             } else if (key == GLFW_KEY_F5){
-                GameLoader.loadGameFile("./res/courses/terrainSaveFile.txt", terrain);
+                GameLoader.loadGameFile("./res/courses/terrainSaveFile.txt", game);
                 entities.addAll(trees);
                 terrain.updateTerrain(loader);
             } else if (key == GLFW_KEY_F10){
-                GameSaver.saveGameFile("saveGame", terrain);
+                GameSaver.saveGameFile("saveGame", game);
             }
         });
     }
@@ -463,7 +463,7 @@ public class MainGame extends CrazyPutting {
         //return collectShotData();
     }
 
-    public void playGame(boolean fileShotsFlag, String shotsFileName) {
+    public void playGame(boolean fileShotsFlag, String shotsFileName, MainGame game) {
         System.out.println(fileShotsFlag);
 
         setUpModels();
@@ -478,7 +478,7 @@ public class MainGame extends CrazyPutting {
         
         setInteractiveMod(!fileShotsFlag);
 
-        setupEditMode();
+        setupEditMode(game);
 
         if (!fileShotsFlag) {
             addUI();
@@ -496,8 +496,8 @@ public class MainGame extends CrazyPutting {
     }
 
     public static void main(String[] args) {
-        MainGame obj = new MainGame("./res/courses/course3.txt", 2, 1e-1, 1e-2);
-        obj.playGame(true, "./res/shots/shots.txt");
+        MainGame game = new MainGame("./res/courses/course3.txt", 2, 1e-1, 1e-2);
+        //game.playGame(true, "./res/shots/shots.txt");
     }
 
     private void handleEditClickAction(){
@@ -515,7 +515,6 @@ public class MainGame extends CrazyPutting {
                     entities.add(treeToAdd);
                 } else if(deleteEditMode){
                     //Remove trees within remove distance
-                    System.out.println("BEFORE" + trees.size());
                     for(int i=0; i<trees.size(); i++){
                         Entity currentTree = trees.get(i);
 
@@ -524,7 +523,6 @@ public class MainGame extends CrazyPutting {
                             entities.remove(currentTree);
                         }
                     }
-                    System.out.println("AFTER" + trees.size());
                 }
             } else if(objectType == 2){
                 if(!deleteEditMode){
@@ -651,5 +649,9 @@ public class MainGame extends CrazyPutting {
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
+    }
+
+    public Loader getLoader() {
+        return loader;
     }
 }
