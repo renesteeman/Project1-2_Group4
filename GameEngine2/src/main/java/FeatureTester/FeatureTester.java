@@ -217,12 +217,12 @@ public class FeatureTester {
                     MouseHandler.enable();
                 } else if (key == GLFW_KEY_F5){
                     //TODO use this action before the game starts to load a map
-                    GameLoader.loadGameFile("");
-                    entities.addAll(trees);
-                    terrain.updateTerrain(loader);
+//                    GameLoader.loadGameFile("");
+//                    entities.addAll(trees);
+//                    terrain.updateTerrain(loader);
                 } else if (key == GLFW_KEY_F10){
                     //TODO use this action after editing a map to save it
-                    GameSaver.saveGameFile("");
+                    //GameSaver.saveGameFile("");
                 }
             });
         }
@@ -395,12 +395,12 @@ public class FeatureTester {
             } else if(objectType == 2){
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
 
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                 }
             } else if(objectType == 66){
                 //DEBUG MODE IS ON (order 66)
@@ -415,11 +415,11 @@ public class FeatureTester {
                 //Sand
                 if(!deleteEditMode){
                     //Add sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 1, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 } else if(deleteEditMode){
                     //Remove sand
-                    terrain.setTerrainTypeWithinRadius(terrainPoint.x, terrainPoint.y, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
+                    terrain.setTerrainTypeWithinDiameter(terrainPoint.x, terrainPoint.z, 0, EDIT_SAND_DISTANCE);
                     terrain.updateTerrain(loader);
                 }
             }

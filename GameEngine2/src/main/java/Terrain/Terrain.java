@@ -247,17 +247,20 @@ public class Terrain {
         return 0;
     }
 
-    public void setTerrainTypeWithinRadius(float x, float y, float z, int type, float radius){
+    public void setTerrainTypeWithinDiameter(float x, float z, int type, float diameter){
         //Take the terrain starting points into account before determining any indexes
         Vector2f terrainCoordinates = coordinateToTerrainCoordinates(x, z);
+        float terrainCoordinateZ = terrainCoordinates.y;
 
-        //Get the edges of the square within the terrain has to be updated (optimization)
-        int leftX = (int) (terrainCoordinates.x-radius/2);
-        int rightX = (int) (terrainCoordinates.x+radius/2);
-        int topZ = (int) (terrainCoordinates.y-radius/2);
-        int bottomZ = (int) (terrainCoordinates.y+radius/2);
+        //Get the center of the circle
         int centerX = (int) terrainCoordinates.x;
         int centerZ = (int) terrainCoordinates.y;
+
+        //Get the edges of the square within the terrain has to be updated (optimization)
+        int leftX = (int) (terrainCoordinates.x-diameter/2);
+        int rightX = (int) (terrainCoordinates.x+diameter/2);
+        int topZ = (int) (terrainCoordinateZ+diameter/2);
+        int bottomZ = (int) (terrainCoordinateZ-diameter/2);
 
         //Prevent going over the edge (and crashing)
         if(leftX<0) leftX=0;
@@ -275,13 +278,12 @@ public class Terrain {
 
         //Go trough the square and update
         for(int i=leftXTerrainCoordinate; i<rightXTerrainCoordinate; i++){
-            for(int j=topZTerrainCoordinate; j<bottomZTerrainCoordinate; j++){
-                //Only update values within given radius (make the brush circular instead of square)
-                float heightAtPosition = (float) getHeightFromFunction(i, j);
+            for(int j=bottomZTerrainCoordinate; j<topZTerrainCoordinate; j++){
+                //Only update values within given diameter (make the brush circular instead of square)
                 int xPos = (int) (i*DISTANCE_PER_VERTEX);
-                int yPos = (int) (j*DISTANCE_PER_VERTEX);
+                int zPos = (int) (j*DISTANCE_PER_VERTEX);
 
-                if(distance(xPos, yPos, heightAtPosition, centerX, centerZ, y) < radius){
+                if(distance(xPos, zPos, centerX, centerZ) < diameter/2){
                     //Should be updated
                     updateTerrainType2D(i, j, type);
                 }
@@ -303,6 +305,13 @@ public class Terrain {
         float dY = y-heightAtPosition;
 
         return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2) + Math.pow(dY, 2));
+    }
+
+    private float distance(int i, int j, float x, float z){
+        float dX = x-i;
+        float dZ = z-j;
+
+        return (float) Math.sqrt(Math.pow(dX, 2) + Math.pow(dZ, 2));
     }
 
     private void updateTerrainType2D(int x, int z, int type){
@@ -337,136 +346,134 @@ public class Terrain {
         return heightFunction.evaluate(new Vector2d(x, z));
     }
 
-//    public String getTerrainInfoAsString(){
-//        StringBuilder stringBuilder = new StringBuilder();
-//        stringBuilder.append(":HEIGHTS:");
-//        stringBuilder.append(Arrays.deepToString(heights));
-//        stringBuilder.append(":NORMALS:");
-//        stringBuilder.append(Arrays.toString(normals));
-//        stringBuilder.append(":VERTICES:");
-//        stringBuilder.append(Arrays.toString(vertices));
-//        stringBuilder.append(":TEXTURE_COORDS:");
-//        stringBuilder.append(Arrays.toString(textureCoords));
-//        stringBuilder.append(":INDICES:");
-//        stringBuilder.append(Arrays.toString(indices));
-//        stringBuilder.append(":TERRAIN_TYPES:");
-//        stringBuilder.append(Arrays.toString(terrainTypes));
-//
-//        return stringBuilder.toString();
-//    }
-//
-//    public void loadFromString(String terrainInfo){
-//        String[] parts = terrainInfo.split(":");
-//        String heightsString = parts[2];
-//        String normalsString = parts[4];
-//        String verticesString = parts[6];
-//        String textureCoordsString = parts[8];
-//        String indicesString = parts[10];
-//        String terrainTypesString = parts[12];
-//
-//        //Load in the actual values
-//        this.heights = getHeightsArrayFromFileData(heightsString);
-//        this.normals = getFloatArrayFromFileData(normalsString);
-//        this.vertices = getFloatArrayFromFileData(verticesString);
-//        this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
-//        this.indices = getIntArrayFromFileData(indicesString);
-//        this.terrainTypes = getIntArrayFromFileData(terrainTypesString);
-//    }
+    public String getTerrainInfoAsString(){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(":HEIGHTS:");
+        stringBuilder.append(Arrays.deepToString(heights));
+        stringBuilder.append(":VERTICES:");
+        stringBuilder.append(Arrays.toString(vertices));
+        stringBuilder.append(":TEXTURE_COORDS:");
+        stringBuilder.append(Arrays.toString(textureCoords));
+        stringBuilder.append(":INDICES:");
+        stringBuilder.append(Arrays.toString(indices));
+        stringBuilder.append(":TERRAIN_TYPES:");
+        stringBuilder.append(Arrays.toString(terrainTypes));
 
-//    private int[] getIntArrayFromFileData(String inputString){
-//        ArrayList<Integer> valuesArrayList = new ArrayList<Integer>();
-//
-//        //Remove whitespace
-//        inputString = inputString.replaceAll("\\s+","");
-//
-//        String[] valueArray = inputString.split(",");
-//        //Remove [ sign for the first value
-//        valueArray[0] = valueArray[0].substring(1);
-//        //Remove ] sign for the last value
-//        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
-//
-//        //Convert from string to int
-//        for(String value : valueArray){
-//            valuesArrayList.add(Integer.parseInt(value));
-//        }
-//
-//        int[] intArray = new int[valuesArrayList.size()];
-//
-//        //Go from ArrayList to array
-//        for(int i=0; i<valuesArrayList.size(); i++){
-//            intArray[i] = valuesArrayList.get(i);
-//        }
-//
-//        return intArray;
-//    }
-//
-//    private float[] getFloatArrayFromFileData(String inputString){
-//        ArrayList<Float> valuesArrayList = new ArrayList<Float>();
-//
-//        //Remove whitespace
-//        inputString = inputString.replaceAll("\\s+","");
-//
-//        String[] valueArray = inputString.split(",");
-//        //Remove [ sign for the first value
-//        valueArray[0] = valueArray[0].substring(1);
-//        //Remove ] sign for the last value
-//        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
-//
-//        //Convert from string to int
-//        for(String value : valueArray){
-//            valuesArrayList.add(Float.parseFloat(value));
-//        }
-//
-//        float[] floatArray = new float[valuesArrayList.size()];
-//
-//        //Go from ArrayList to array
-//        for(int i=0; i<valuesArrayList.size(); i++){
-//            floatArray[i] = valuesArrayList.get(i);
-//        }
-//
-//        return floatArray;
-//    }
-//
-//    private float[][] getHeightsArrayFromFileData(String heights){
-//        ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();
-//
-//        //Remove whitespace
-//        heights = heights.replaceAll("\\s+","");
-//
-//        String[] heightsArray = heights.split("\\[");
-//
-//        for(String heightArray : heightsArray){
-//            //Skip the first two values which are empty
-//            if(heightArray.length()==0) continue;
-//
-//            //Remove the last two signs, for non-end values this means ], and for the last one it means ]] gets removed
-//            heightArray = heightArray.substring(0, heightArray.length()-2);
-//            String[] heightValues = heightArray.split(",");
-//
-//            //Go from one big string to ArrayList<Float>
-//            ArrayList<Float> heightValuesFloatList = new ArrayList<Float>();
-//            for(String heightValue : heightValues){
-//                heightValuesFloatList.add(Float.parseFloat(heightValue));
-//            }
-//            heightValuesFloatListList.add(heightValuesFloatList);
-//        }
-//
-//        float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
-//
-//        //Go from ArrayList to array
-//        for(int i=0; i<floatHeights.length; i++){
-//            ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
-//
-//            Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
-//            float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
-//
-//            for(int j=0; j<heightValuesObjectArray.length-1; j++){
-//                heightValuesFloatArray[j] = (float) heightValuesObjectArray[j];
-//            }
-//
-//            floatHeights[i] = heightValuesFloatArray;
-//        }
-//
-//        return floatHeights;
-//    }
+        return stringBuilder.toString();
+    }
+
+    public void loadFromString(String terrainInfo){
+        String[] parts = terrainInfo.split(":");
+        String heightsString = parts[2];
+        String verticesString = parts[4];
+        String textureCoordsString = parts[6];
+        String indicesString = parts[8];
+        String terrainTypesString = parts[10];
+
+        //Load in the actual values
+        this.heights = getHeightsArrayFromFileData(heightsString);
+        Vector3f[][] normalVectors = NormalsGenerator.generateNormals(heights);
+        this.normals = normalsToFloatArray(normalVectors);
+        this.vertices = getFloatArrayFromFileData(verticesString);
+        this.textureCoords = getFloatArrayFromFileData(textureCoordsString);
+        this.indices = getIntArrayFromFileData(indicesString);
+        this.terrainTypes = getIntArrayFromFileData(terrainTypesString);
+    }
+
+    private int[] getIntArrayFromFileData(String inputString){
+        ArrayList<Integer> valuesArrayList = new ArrayList<Integer>();
+
+        //Remove whitespace
+        inputString = inputString.replaceAll("\\s+","");
+
+        String[] valueArray = inputString.split(",");
+        //Remove [ sign for the first value
+        valueArray[0] = valueArray[0].substring(1);
+        //Remove ] sign for the last value
+        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
+
+        //Convert from string to int
+        for(String value : valueArray){
+            valuesArrayList.add(Integer.parseInt(value));
+        }
+
+        int[] intArray = new int[valuesArrayList.size()];
+
+        //Go from ArrayList to array
+        for(int i=0; i<valuesArrayList.size(); i++){
+            intArray[i] = valuesArrayList.get(i);
+        }
+
+        return intArray;
+    }
+
+    private float[] getFloatArrayFromFileData(String inputString){
+        ArrayList<Float> valuesArrayList = new ArrayList<Float>();
+
+        //Remove whitespace
+        inputString = inputString.replaceAll("\\s+","");
+
+        String[] valueArray = inputString.split(",");
+        //Remove [ sign for the first value
+        valueArray[0] = valueArray[0].substring(1);
+        //Remove ] sign for the last value
+        valueArray[valueArray.length-1] = valueArray[valueArray.length-1].substring(0, valueArray[valueArray.length-1].length()-1);
+
+        //Convert from string to int
+        for(String value : valueArray){
+            valuesArrayList.add(Float.parseFloat(value));
+        }
+
+        float[] floatArray = new float[valuesArrayList.size()];
+
+        //Go from ArrayList to array
+        for(int i=0; i<valuesArrayList.size(); i++){
+            floatArray[i] = valuesArrayList.get(i);
+        }
+
+        return floatArray;
+    }
+
+    private float[][] getHeightsArrayFromFileData(String heights){
+        ArrayList<ArrayList<Float>> heightValuesFloatListList = new ArrayList<>();
+
+        //Remove whitespace
+        heights = heights.replaceAll("\\s+","");
+
+        String[] heightsArray = heights.split("\\[");
+
+        for(String heightArray : heightsArray){
+            //Skip the first two values which are empty
+            if(heightArray.length()==0) continue;
+
+            //Remove the last two signs, for non-end values this means ], and for the last one it means ]] gets removed
+            heightArray = heightArray.substring(0, heightArray.length()-2);
+            String[] heightValues = heightArray.split(",");
+
+            //Go from one big string to ArrayList<Float>
+            ArrayList<Float> heightValuesFloatList = new ArrayList<Float>();
+            for(String heightValue : heightValues){
+                heightValuesFloatList.add(Float.parseFloat(heightValue));
+            }
+            heightValuesFloatListList.add(heightValuesFloatList);
+        }
+
+        float[][] floatHeights = new float[heightValuesFloatListList.size()][heightValuesFloatListList.get(0).size()];
+
+        //Go from ArrayList to array
+        for(int i=0; i<floatHeights.length; i++){
+            ArrayList<Float> heightValuesFloatList = heightValuesFloatListList.get(i);
+
+            Object[] heightValuesObjectArray = heightValuesFloatList.toArray();
+            float[] heightValuesFloatArray = new float[heightValuesObjectArray.length];
+
+            for(int j=0; j<heightValuesObjectArray.length-1; j++){
+                heightValuesFloatArray[j] = (float) heightValuesObjectArray[j];
+            }
+
+            floatHeights[i] = heightValuesFloatArray;
+        }
+
+        return floatHeights;
+    }
 }

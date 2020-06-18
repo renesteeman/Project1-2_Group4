@@ -1,5 +1,8 @@
 package InputOutputModule;
 
+import MainGame.MainGame;
+import Terrain.Terrain;
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -9,7 +12,7 @@ public class GameSaver {
    TODO make the file path relative, load the goal location, starting location, 'score radius', terrain width, terrain height (check project manual) and
    set these values for the objects themselves (ie set location of items)
     */
-    public static void saveGameFile(String fullPath){
+    public static void saveGameFile(String fullPath, MainGame game){
 //        String terrainInfo = MainGameLoop.terrain.getTerrainInfoAsString();
 //        String treeInfo = MainGameLoop.trees.getTreeInfoAsString();
 
@@ -22,9 +25,11 @@ public class GameSaver {
         String startCoordinates2D = "start = (0.0, 0.0); ";
         String goalCoordinates2D = "goal = (0.0, 10.0); ";
         String heightFunction = "height = -0.01*x + 0.003*x^2 + 0.04 * y; ";
+        String trees = game.getTrees().getTreeInfoAsString();
+        String terrain = game.getTerrain().getTerrainInfoAsString();
 
         try {
-            FileWriter writer = new FileWriter("terrainSaveFile.txt");
+            FileWriter writer = new FileWriter("./res/courses/terrainSaveFile.txt");
 
             writer.write(gravitationalConstant);
             writer.write("\n");
@@ -43,6 +48,10 @@ public class GameSaver {
             writer.write("\n");
             writer.write("\n");
             writer.write(heightFunction);
+            writer.write("\n");
+            writer.write(trees);
+            writer.write("\n");
+            writer.write(terrain);
 
             writer.close();
             System.out.println("Saved");

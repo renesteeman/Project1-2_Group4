@@ -1,6 +1,13 @@
 package Entities;
 
 import MainGame.GameStaticData;
+import Models.CollisionModel;
+import Models.RawModel;
+import Models.TexturedModel;
+import OBJConverter.ModelData;
+import OBJConverter.OBJFileLoader;
+import RenderEngine.Loader;
+import Textures.ModelTexture;
 import org.joml.Vector3f;
 
 import java.util.*;
@@ -107,11 +114,19 @@ public class Trees implements Collection<Entity> {
 
     public String getTreeInfoAsString(){
         StringBuilder info = new StringBuilder();
+        info.append("trees = ");
 
-        for(Tree tree : trees){
+        for(int i=0; i<trees.size()-1; i++){
+            Tree tree = trees.get(i);
             Vector3f pos = tree.getPosition();
-            info.append("("+pos.x+" "+pos.y+" "+pos.z+")");
+            info.append("("+pos.x+", "+pos.y+", "+pos.z+"), ");
         }
+
+        Tree lastTree = trees.get(trees.size()-1);
+        Vector3f lastPos = lastTree.getPosition();
+        info.append("("+lastPos.x+", "+lastPos.y+", "+lastPos.z+")");
+
+        info.append(";");
 
         return info.toString();
     }
@@ -120,24 +135,22 @@ public class Trees implements Collection<Entity> {
         return trees;
     }
 
-    //    public void loadFromString(String treeInfo){
-//        //Remove existing trees
-//        trees.clear();
-//
-//        //Separate the string into a separate string for each tree
-//        treeInfo = treeInfo.replace(")", "");
-//        String[] treeStrings = treeInfo.split("\\(");
-//
-//        //Convert each treeString into an actual tree (ignore i=0 since that's empty
-//        for(int i=1; i<treeStrings.length; i++){
-//            String treeString = treeStrings[i];
-//            String[] treeCoordinates = treeString.split(" ");
-//            float xPos = Float.parseFloat(treeCoordinates[0]);
-//            float yPos = Float.parseFloat(treeCoordinates[1]);
-//            float zPos = Float.parseFloat(treeCoordinates[2]);
-//
-//            Tree loadedTree = new Tree(MainGameLoop.texturedTree, new Vector3f(xPos, yPos, zPos), 0, 0, 0, 1);
-//            trees.add(loadedTree);
-//        }
-//    }
+    public void loadFromString(ArrayList<Vector3f> treeLocations, Loader loader){
+        //Remove existing trees
+        trees.clear();
+
+        //Add trees from file
+        for(Vector3f treeLocation : treeLocations){
+            Tree loadedTree = new Tree(getTreeCollisionModel(loader), treeLocation, 0, 0, 0, 1);
+            trees.add(loadedTree);
+        }
+    }
+
+    private CollisionModel getTreeCollisionModel(Loader loader){
+        ModelData treeModelData = OBJFileLoader.loadOBJ("tree");
+        RawModel treeModel = loader.loadToVAO(treeModelData.getVertices(), treeModelData.getTextureCoords(), treeModelData.getNormals(), treeModelData.getIndices());
+        TexturedModel texturedTree = new TexturedModel(treeModel, new ModelTexture(loader.loadTexture("models/TreeTexture")));
+        CollisionModel collisionTree = new CollisionModel(texturedTree, treeModelData.getVertices(), treeModelData.getNormals(), treeModelData.getIndices());
+        return collisionTree;
+    }
 }

@@ -52,6 +52,10 @@ public class Vector2d {
 		return new Vector2d(x / l, y / l);
 	}
 
+	public double dotProduct(Vector2d other) {
+		return (this.x * other.x + this.y * other.y);
+	}
+
 	public static Vector2d add(Vector2d l, Vector2d r) {
 		return new Vector2d(l.x + r.x, l.y + r.y);
 	}

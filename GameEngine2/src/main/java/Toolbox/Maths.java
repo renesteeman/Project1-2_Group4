@@ -6,6 +6,8 @@ import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import java.util.Vector;
+
 public class Maths {
 
     //3D transformationMatrix
@@ -72,14 +74,17 @@ public class Maths {
 
         float result = 0;
 
-        //Calculate the dot ¨multiplication
-        for(int i = 0; i < a.length(); i++){
-            result = result+ (a.get(i)*b.get(i));
+        //Calculate the dot multiplication
+        for(int i = 0; i < 3; i++){
+            result += (a.get(i)*b.get(i));
         }
 
         return result;
     }
-    
+
+    public static Vector3f crossProduct(Vector3f a, Vector3f b){
+       return new Vector3f((a.y * b.z) - (a.z * b.y), (a.z * b.x)-(a.x * b.z), (a.x * b.y)-(a.y * b.x));
+    }
 
 
 }
