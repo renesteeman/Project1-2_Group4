@@ -92,53 +92,48 @@ public class RungeKutta4Solver implements PhysicsEngine{
      * @return the current acceleration
      */
     private Vector2d acceleration(Vector2d position, Vector2d velocity) {
-        Vector2d gradient = this.course.height.gradient(position);
-        double accelerationX =  -GRAVITY * (gradient.x + this.course.getFriction() * velocity.x / velocity.length());
-        double accelerationY =  -GRAVITY * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
+        Vector2d gradient = course.height.gradient(position);
+        double accelerationX =  -GRAVITY * (gradient.x + course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY * (gradient.y + course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
     }
 
     /**
      * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
-     * @param position the position
+     * @param position
      * @return the (not-out-of-bounds) position
      */
     private Vector2d checkOutOfBounds(Vector2d position) {
         //Check for x
-        if (position.x < 0) {
-            position.x = 0;
-        } else if (position.x > course.TERRAIN_SIZE) {
-            position.x = course.TERRAIN_SIZE;
-        }
+        if (position.x < 0) position.x = 0;
+        if (position.x > course.TERRAIN_SIZE) position.x = course.TERRAIN_SIZE;
         //Check for y
-        if (position.y < 0) {
-            position.y = 0;
-        } else if (position.y > course.TERRAIN_SIZE) {
-            position.y = course.TERRAIN_SIZE;
-        }
-        return position;
+        if (position.y < 0) position.y = 0;
+        if (position.y > course.TERRAIN_SIZE) position.y = course.TERRAIN_SIZE;
+
+        return new Vector2d(position.x,position.y);
     }
 
     /**
      * Scale the velocity down to the maximum velocity if it is bigger than the maximum
-     * @param velocity the velocity vector
-     * @return the (scaled) velocity vector
+     * @param velocity
+     * @return the (scaled) velocity
      */
     private Vector2d limitVelocity(Vector2d velocity) {
-        if (velocity.length() > course.maxVelocity) {
-            double scalingFactor = course.maxVelocity / velocity.length();
-            velocity = velocity.multiply(scalingFactor);
+        double currentVelocity = velocity.length();
+        if (course.maxVelocity < currentVelocity) {
+            return velocity.divide(currentVelocity).multiply(course.maxVelocity);
         }
         return velocity;
     }
 
     @Override
     public void setStepSize(double h) {
-        step = h;
+        this.step = h;
     }
 
     @Override
     public double getStepSize() {
-        return step;
+        return this.step;
     }
 }

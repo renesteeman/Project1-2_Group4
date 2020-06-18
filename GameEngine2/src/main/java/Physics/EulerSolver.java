@@ -74,8 +74,8 @@ public class EulerSolver implements PhysicsEngine {
 
 	/**
 	 * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
-	 * @param position the current position of the ball
-	 * @return the current (not-out-of-bounds) position of the ball
+	 * @param position
+	 * @return the (not-out-of-bounds) position
 	 */
 	private Vector2d checkOutOfBounds(Vector2d position) {
 		//Check for x
@@ -85,7 +85,7 @@ public class EulerSolver implements PhysicsEngine {
 		if (position.y < 0) position.y = 0;
 		if (position.y > course.TERRAIN_SIZE) position.y = course.TERRAIN_SIZE;
 
-		return new Vector2d(position.x, position.y);
+		return new Vector2d(position.x,position.y);
 	}
 
 	/**

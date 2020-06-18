@@ -22,6 +22,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
         this.step = step;
     }
 
+    //TODO ask Ivan why this returns false
     public boolean passedFlag() {
         return false;
     }
@@ -36,7 +37,10 @@ public class VelocityVerletFlying implements PhysicsEngine{
      * 5. The next velocity is calculated using the intermediate velocity and the next acceleration.
      * (Sources used:   http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
      *                  https://www2.icp.uni-stuttgart.de/~icp/mediawiki/images/5/54/Skript_sim_methods_I.pdf )
-     * @param dtime the interval over which we process the shot
+     *                  
+     * @param dtime the interval over which the shot is processed
+     * @param shotInfo contains info about current position and current velocity
+     * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {

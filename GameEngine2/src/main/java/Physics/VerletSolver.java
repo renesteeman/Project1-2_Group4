@@ -5,7 +5,7 @@ public class VerletSolver implements PhysicsEngine {
     private PuttingCourse course;
     private boolean passedFlag = false;
 
-    public final double __G = 9.81; //TODO allow people to enter their preferred G value
+    public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
 
     public VerletSolver(PuttingCourse course, double step) {
         this.course = course;
@@ -36,7 +36,9 @@ public class VerletSolver implements PhysicsEngine {
      * Sources used:    http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
      *                  https://www2.icp.uni-stuttgart.de/~icp/mediawiki/images/5/54/Skript_sim_methods_I.pdf .
      *
-     * @param dtime the interval over which we process the shot
+     * @param dtime the interval over which the shot is processed
+     * @param shotInfo contains info about current position and current velocity
+     * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
@@ -56,8 +58,9 @@ public class VerletSolver implements PhysicsEngine {
             previousPosition = checkOutOfBounds(currentPosition);
             currentPosition = checkOutOfBounds(nextPosition);
 
-            if (course.victoriousPosition3())
+            if (course.victoriousPosition3()) {
                 passedFlag = true;
+            }
         }
 
         nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step*step));
@@ -69,50 +72,45 @@ public class VerletSolver implements PhysicsEngine {
     }
 
     /**
-     * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
-     * @param position the position
-     * @return the (not-out-of-bounds) position
-     */
-    private Vector2d checkOutOfBounds(Vector2d position) {
-        //Check for x
-        if (position.x < 0) {
-            position.x = 0;
-        } else if (position.x > course.TERRAIN_SIZE) {
-            position.x = course.TERRAIN_SIZE;
-        }
-        //Check for y
-        if (position.y < 0) {
-            position.y = 0;
-        } else if (position.y > course.TERRAIN_SIZE) {
-            position.y = course.TERRAIN_SIZE;
-        }
-        return position;
-    }
-
-    /**
-     * Scale the velocity down to the maximum velocity if it is bigger than the maximum
-     * @param velocity the velocity vector
-     * @return the (scaled) velocity vector
-     */
-    private Vector2d limitVelocity(Vector2d velocity) {
-        if (velocity.length() > course.maxVelocity) {
-            double scalingFactor = course.maxVelocity / velocity.length();
-            velocity = velocity.multiply(scalingFactor);
-        }
-        return velocity;
-    }
-
-    /**
      * Calculates the current acceleration given the position and velocity
      * @param position the current position of the ball
      * @param velocity the current velocity of the ball
      * @return the current acceleration
      */
     private Vector2d acceleration(Vector2d position, Vector2d velocity) {
-        Vector2d gradient = this.course.height.gradient(position);
-        double accelerationX =  -__G * (gradient.x + this.course.getFriction() * velocity.x / velocity.length());
-        double accelerationY =  -__G * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
+        Vector2d gradient = course.height.gradient(position);
+        double accelerationX =  -GRAVITY * (gradient.x + course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY * (gradient.y + course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
+    }
+
+    /**
+     * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
+     * @param position
+     * @return the (not-out-of-bounds) position
+     */
+    private Vector2d checkOutOfBounds(Vector2d position) {
+        //Check for x
+        if (position.x < 0) position.x = 0;
+        if (position.x > course.TERRAIN_SIZE) position.x = course.TERRAIN_SIZE;
+        //Check for y
+        if (position.y < 0) position.y = 0;
+        if (position.y > course.TERRAIN_SIZE) position.y = course.TERRAIN_SIZE;
+
+        return new Vector2d(position.x,position.y);
+    }
+
+    /**
+     * Scale the velocity down to the maximum velocity if it is bigger than the maximum
+     * @param velocity
+     * @return the (scaled) velocity
+     */
+    private Vector2d limitVelocity(Vector2d velocity) {
+        double currentVelocity = velocity.length();
+        if (course.maxVelocity < currentVelocity) {
+            return velocity.divide(currentVelocity).multiply(course.maxVelocity);
+        }
+        return velocity;
     }
 
     @Override

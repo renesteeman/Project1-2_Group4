@@ -1,13 +1,11 @@
 package Physics;
 
-import org.joml.Vector3f;
-
 public class VelocityVerletSolver implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
     private boolean passedFlag = false;
 
-    public final double __G = 9.81; //TODO allow people to enter their preferred G value
+    public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
 
     public VelocityVerletSolver(PuttingCourse course, double step){
         this.course = course;
@@ -28,7 +26,10 @@ public class VelocityVerletSolver implements PhysicsEngine{
      * 5. The next velocity is calculated using the intermediate velocity and the next acceleration.
      * (Sources used:   http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
      *                  https://www2.icp.uni-stuttgart.de/~icp/mediawiki/images/5/54/Skript_sim_methods_I.pdf )
-     * @param dtime the interval over which we process the shot
+     *
+     * @param dtime the interval over which the shot is processed
+     * @param shotInfo contains info about current position and current velocity
+     * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
@@ -66,22 +67,21 @@ public class VelocityVerletSolver implements PhysicsEngine{
      * @return the current acceleration
      */
     private Vector2d acceleration(Vector2d position, Vector2d velocity) {
-        Vector2d gradient = this.course.height.gradient(position);
-        double accelerationX =  -__G * (gradient.x + this.course.getFriction() * velocity.x / velocity.length());
-        double accelerationY =  -__G * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
+        Vector2d gradient = course.height.gradient(position);
+        double accelerationX =  -GRAVITY * (gradient.x + course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY * (gradient.y + course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
     }
 
     /**
      * Checks if the position is out of bounds, if so, then the ball is set at the particular bound
-     * @param position the position
+     * @param position
      * @return the (not-out-of-bounds) position
      */
     private Vector2d checkOutOfBounds(Vector2d position) {
         //Check for x
         if (position.x < 0) position.x = 0;
         if (position.x > course.TERRAIN_SIZE) position.x = course.TERRAIN_SIZE;
-
         //Check for y
         if (position.y < 0) position.y = 0;
         if (position.y > course.TERRAIN_SIZE) position.y = course.TERRAIN_SIZE;
@@ -92,7 +92,7 @@ public class VelocityVerletSolver implements PhysicsEngine{
     /**
      * Scale the velocity down to the maximum velocity if it is bigger than the maximum
      * @param velocity
-     * @return (scaled) velocity
+     * @return the (scaled) velocity
      */
     private Vector2d limitVelocity(Vector2d velocity) {
         double currentVelocity = velocity.length();
@@ -101,7 +101,6 @@ public class VelocityVerletSolver implements PhysicsEngine{
         }
         return velocity;
     }
-
 
     @Override
     public void setStepSize(double h) {
