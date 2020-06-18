@@ -3,7 +3,6 @@ package Physics;
 public class VelocityVerletFlying implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
-    private boolean passedFlag = false;
 
     //Air friction coefficients for golf ball
     private final double DRAG_COEFFICIENT = 0.47; //BiNaS HAVO/VWO zesde editie
@@ -22,11 +21,6 @@ public class VelocityVerletFlying implements PhysicsEngine{
         this.step = step;
     }
 
-    //TODO ask Ivan why this returns false
-    public boolean passedFlag() {
-        return false;
-    }
-
     /**
      * Processes the shot using the Velocity Verlet Method.
      * This method updates the position and velocity in five steps:
@@ -37,15 +31,13 @@ public class VelocityVerletFlying implements PhysicsEngine{
      * 5. The next velocity is calculated using the intermediate velocity and the next acceleration.
      * (Sources used:   http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
      *                  https://www2.icp.uni-stuttgart.de/~icp/mediawiki/images/5/54/Skript_sim_methods_I.pdf )
-     *                  
+     *
      * @param dtime the interval over which the shot is processed
      * @param shotInfo contains info about current position and current velocity
      * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
-        passedFlag = false;
-
         Vector3d currentPosition = shotInfo.getPosition3D();
         Vector3d currentVelocity = shotInfo.getVelocity3D();
 
@@ -90,15 +82,11 @@ public class VelocityVerletFlying implements PhysicsEngine{
             //STEP 6 - update variables
             currentPosition = checkOutOfBounds(nextPosition);
             currentVelocity = limitVelocity(nextVelocity);
-
-            //TODO find other position for this because this does completely nothing at this place...
-            if (course.victoriousPosition3()) {
-                passedFlag = true;
-            }
         }
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, currentPosition.y, currentPosition.z));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, currentVelocity.y, currentVelocity.z));
+
         return new ShotInfo(shotInfo);
     }
 
@@ -107,7 +95,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
      * @return true if ball is in the air, false if ball is on the ground
      */
     private boolean isFlying(Vector3d position) {
-        return (course.height.evaluate(position.getVector2D()) < position.y);
+        return course.height.evaluate(position.getVector2D()) < position.y;
     }
 
     /**

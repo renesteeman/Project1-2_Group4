@@ -62,7 +62,9 @@ public class PuttingSimulator extends JPanel {
 			this.course.ball.setPosition(shotInfo.getPosition3D());
 			this.course.ball.setVelocity(shotInfo.getVelocity3D());
 
-			passedFlag |= engine.passedFlag();
+			if (course.victoriousPosition3()) {
+				passedFlag = true;
+			}
 
 			//System.out.println("processed");
 

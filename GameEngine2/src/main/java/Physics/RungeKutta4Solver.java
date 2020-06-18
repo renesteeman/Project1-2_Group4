@@ -13,7 +13,6 @@ public class RungeKutta4Solver implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
     private MainGame game;
-    private boolean passedFlag = false;
 
     public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
 
@@ -21,12 +20,6 @@ public class RungeKutta4Solver implements PhysicsEngine{
         this.course = course;
         this.step = step;
         this.game = game;
-    }
-
-    //TODO ask Ivan why this always returns false.
-    @Override
-    public boolean passedFlag() {
-        return false;
     }
 
     /**
@@ -40,8 +33,6 @@ public class RungeKutta4Solver implements PhysicsEngine{
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
-        passedFlag = false;
-
         Vector2d currentPosition = shotInfo.getPosition2D(); //p1
         Vector2d currentVelocity = shotInfo.getVelocity2D(); //v1
 
@@ -64,17 +55,15 @@ public class RungeKutta4Solver implements PhysicsEngine{
             Vector2d endVelocity = currentVelocity.add(intermediateAcceleration2.multiply(step)); //v4 = v1 + a3 * step
             Vector2d endAcceleration = acceleration(endPosition, endVelocity); //a4 = acceleration(p4,v4)
 
-            //Calculate next position and velocity | avgV = 1/6 * (v1 + 2*v2 + 2*v3 + v4); avgA = 1/6 * (a1 + 2*a2 + 2*a3 + a4)
+
+            //positionStep = 1/6 * step * (v1 + 2*v2 + 2*v3 + v4);
             Vector2d positionStep = currentVelocity.add(intermediateVelocity1.multiply(2.0)).add(intermediateVelocity2.multiply(2.0)).add(endVelocity).multiply(step / 6.0);
+            //velocityStep = 1/6 * step (a1 + 2*a2 + 2*a3 + a4)
             Vector2d velocityStep = currentAcceleration.add(intermediateAcceleration1.multiply(2.0)).add(intermediateAcceleration2.multiply(2.0)).add(endAcceleration).multiply(step / 6.0);
 
-            //Update position and velocity
+            //Calculate next position and velocity and update current position and velocity
             currentPosition = checkOutOfBounds(currentPosition.add(positionStep));
             currentVelocity = limitVelocity(currentVelocity.add(velocityStep));
-
-            if (course.victoriousPosition3()) {
-                passedFlag = true;
-            }
         }
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
