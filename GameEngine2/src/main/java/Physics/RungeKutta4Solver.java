@@ -15,7 +15,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
     private MainGame game;
     private boolean passedFlag = false;
 
-    public final double __G = 9.81; //TODO allow people to enter their preferred G value
+    public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
 
     public RungeKutta4Solver(PuttingCourse course, double step, MainGame game){
         this.course = course;
@@ -23,105 +23,79 @@ public class RungeKutta4Solver implements PhysicsEngine{
         this.game = game;
     }
 
+    //TODO ask Ivan why this always returns false.
     @Override
     public boolean passedFlag() {
         return false;
     }
 
     /**
-     * Processes the shot of a ball over time using the Classical 4th-order Runge-Kutta method
-     *      p = position;   k is the derivative of p
-     *      v = velocity;   l is the derivative of v
-     *
+     * Processes the shot  using the Classical 4th-order Runge-Kutta Method.
+     * TODO add better description here
      * Source used: https://cg.informatik.uni-freiburg.de/course_notes/sim_02_particles.pdf (page/slide 29)
-     * @param dtime
+     *
+     * @param dtime the interval over which the shot is processed
+     * @param shotInfo contains info about current position and current velocity
+     * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
         passedFlag = false;
 
-        Vector2d p = shotInfo.getPosition2D();
-        Vector2d v = shotInfo.getVelocity2D();
+        Vector2d currentPosition = shotInfo.getPosition2D(); //p1
+        Vector2d currentVelocity = shotInfo.getVelocity2D(); //v1
 
-
-        //Formulas: lx = x" = -g * h,x(x,y) - mu * g * x'/sqrt(x'^2 + y'^2) = -g * (h,x(x,y) + mu * x'/sqrt(x'^2 + y'^2)
-        //          ly = y" = -g * h,y(x,y) - mu * g * y'/sqrt(x'^2 + y'^2) = -g * (h,y(x,y) + mu * y'/sqrt(x'^2 + y'^2)
         for(double timer = 0; timer < dtime; timer += step){
-            //FIRST STEP
-            Vector2d gradient1 = course.height.gradient(p); //Gradient at step 1
+            //STEP 1
+            Vector2d currentAcceleration = acceleration(currentPosition, currentVelocity); //a1
 
-            double k1x = v.x; //p' = f(t,x); velocity in x-direction
-            double k1y = v.y; //p' = f(t,y); velocity in y-direction
-            Vector2d k1 = new Vector2d(k1x, k1y); //p' = velocity vector
+            //STEP 2
+            Vector2d intermediatePosition1 = currentPosition.add(currentVelocity.multiply(step / 2.0)); //p2 = p1 + v1 * 1/2 * step
+            Vector2d intermediateVelocity1 = currentVelocity.add(currentAcceleration.multiply(step / 2.0)); //v2 = v1 + a1 * 1/2 * step
+            Vector2d intermediateAcceleration1 = acceleration(intermediatePosition1, intermediateVelocity1); //a2 = acceleration(p2,v2)
 
-            double l1x = -__G * (gradient1.x + course.getFriction() * k1.x / k1.length()); //v' = g(t,x); acceleration in x-direction
-            double l1y = -__G * (gradient1.y + course.getFriction() * k1.y / k1.length()); //v' = g(t,y); acceleration in y-direction
-            Vector2d l1 = new Vector2d(l1x, l1y); //v' = acceleration vector
+            //STEP 3
+            Vector2d intermediatePosition2 = currentPosition.add(intermediateVelocity1.multiply(step / 2.0)); //p3 = p1 + v2 * 1/2 * step
+            Vector2d intermediateVelocity2 = currentVelocity.add(intermediateAcceleration1.multiply(step / 2.0)); //v3 = v1 + a2 * 1/2 * step
+            Vector2d intermediateAcceleration2 = acceleration(intermediatePosition2, intermediateVelocity2); //a3 = acceleration(p3,v3)
 
+            //STEP 4
+            Vector2d endPosition = currentPosition.add(intermediateVelocity2.multiply(step)); //p4 = p1 + v3 * step
+            Vector2d endVelocity = currentVelocity.add(intermediateAcceleration2.multiply(step)); //v4 = v1 + a3 * step
+            Vector2d endAcceleration = acceleration(endPosition, endVelocity); //a4 = acceleration(p4,v4)
 
-            //SECOND STEP
-            double p2x = p.x + k1.x / 2.0 * step;
-            double p2y = p.y + k1.y / 2.0 * step;
-            Vector2d p2 = new Vector2d(p2x, p2y); //Intermediate position vector after step 1 to calculate gradient
-            Vector2d gradient2 = course.height.gradient(p2);
+            //Calculate next position and velocity | avgV = 1/6 * (v1 + 2*v2 + 2*v3 + v4); avgA = 1/6 * (a1 + 2*a2 + 2*a3 + a4)
+            Vector2d positionStep = currentVelocity.add(intermediateVelocity1.multiply(2.0)).add(intermediateVelocity2.multiply(2.0)).add(endVelocity).multiply(step / 6.0);
+            Vector2d velocityStep = currentAcceleration.add(intermediateAcceleration1.multiply(2.0)).add(intermediateAcceleration2.multiply(2.0)).add(endAcceleration).multiply(step / 6.0);
 
-            double k2x = v.x + l1.x / 2.0 * step;
-            double k2y = v.y + l1.y / 2.0 * step;
-            Vector2d k2 = new Vector2d(k2x, k2y);
+            //Update position and velocity
+            currentPosition = checkOutOfBounds(currentPosition.add(positionStep));
+            currentVelocity = limitVelocity(currentVelocity.add(velocityStep));
 
-            double l2x = -__G * (gradient2.x + course.getFriction() * k2.x / k2.length());
-            double l2y = -__G * (gradient2.y + course.getFriction() * k2.y / k2.length());
-            Vector2d l2 = new Vector2d(l2x, l2y);
-
-
-            //THIRD STEP
-            double p3x = p.x + k2.x / 2.0 * step;
-            double p3y = p.y + k2.y / 2.0 * step;
-            Vector2d p3 = new Vector2d(p3x, p3y); //Intermediate position vector after step 2 to calculate gradient
-            Vector2d gradient3 = course.height.gradient(p3);
-
-            double k3x = v.x + l2.x / 2.0 * step;
-            double k3y = v.y + l2.y / 2.0 * step;
-            Vector2d k3 = new Vector2d(k3x, k3y);
-
-            double l3x = -__G * (gradient3.x + course.getFriction() * k3.x / k3.length());
-            double l3y = -__G * (gradient3.y + course.getFriction() * k3.y / k3.length());
-            Vector2d l3 = new Vector2d(l3x, l3y);
-
-
-            //FOURTH STEP
-            double p4x = p.x + k3.x * step;
-            double p4y = p.y + k3.y * step;
-            Vector2d p4 = new Vector2d(p4x, p4y); //Intermediate position vector after step 3 to calculate gradient
-            Vector2d gradient4 = course.height.gradient(p4);
-
-            double k4x = v.x + l3.x * step;
-            double k4y = v.y + l3.y * step;
-            Vector2d k4 = new Vector2d(k4x, k4y);
-
-            double l4x = -__G * (gradient4.x + course.getFriction() * k4.x / k4.length());
-            double l4y = -__G * (gradient4.y + course.getFriction() * k4.y / k4.length());
-            Vector2d l4 = new Vector2d(l4x, l4y); //velocity vector l2
-
-
-            //CALCULATING THE NEXT POSITION AND VELOCITY
-            //       k =(k1  +       2*k2          +       2*k3          +  k4)    *    (step/6.0);
-            Vector2d k = k1.add(k2.multiply(2.0)).add(k3.multiply(2.0)).add(k4).multiply(step/6.0);
-            Vector2d l = l1.add(l2.multiply(2.0)).add(l3.multiply(2.0)).add(l4).multiply(step/6.0);
-            p = checkOutOfBounds(p.add(k));
-            v = limitVelocity(v.add(l));
-
-            if (course.victoriousPosition3())
+            if (course.victoriousPosition3()) {
                 passedFlag = true;
+            }
         }
 
-        //UPDATE POSITION ON THE COURSE
-        shotInfo.setPosition3D(new Vector3d(p.x, course.height.evaluate(p), p.y));
-        shotInfo.setVelocity3D(new Vector3d(v.x, 0, v.y));
+        shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
+        shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
 
-        //CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
+        CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
 
         return new ShotInfo(shotInfo);
+    }
+
+    /**
+     * Calculates the current acceleration given the position and velocity
+     * @param position the current position of the ball
+     * @param velocity the current velocity of the ball
+     * @return the current acceleration
+     */
+    private Vector2d acceleration(Vector2d position, Vector2d velocity) {
+        Vector2d gradient = this.course.height.gradient(position);
+        double accelerationX =  -GRAVITY * (gradient.x + this.course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY * (gradient.y + this.course.getFriction() * velocity.y / velocity.length());
+        return new Vector2d(accelerationX,accelerationY);
     }
 
     /**
