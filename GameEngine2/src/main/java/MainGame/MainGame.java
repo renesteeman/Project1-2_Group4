@@ -222,6 +222,8 @@ public class MainGame extends CrazyPutting {
                 objectType = -1;
                 MouseHandler.enable();
             } else if (key == GLFW_KEY_F5){
+                entities.removeAll(trees);
+                trees.clear();
                 GameLoader.loadGameFile("./res/courses/terrainSaveFile.txt", game);
                 entities.addAll(trees);
                 terrain.updateTerrain(loader);
@@ -483,6 +485,7 @@ public class MainGame extends CrazyPutting {
         if (!fileShotsFlag) {
             addUI();
         }
+
         requestGraphicsUpdate();
 
         try {
@@ -519,8 +522,8 @@ public class MainGame extends CrazyPutting {
                         Entity currentTree = trees.get(i);
 
                         if(currentTree.getPosition().distance(terrainPoint)<REMOVE_DISTANCE){
-                            trees.remove(currentTree);
                             entities.remove(currentTree);
+                            trees.remove(currentTree);
                         }
                     }
                 }
