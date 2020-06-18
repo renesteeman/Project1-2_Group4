@@ -119,7 +119,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
         shotInfo.setPosition3D(new Vector3d(p.x, course.height.evaluate(p), p.y));
         shotInfo.setVelocity3D(new Vector3d(v.x, 0, v.y));
 
-        //CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
+        CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
 
         return new ShotInfo(shotInfo);
     }
