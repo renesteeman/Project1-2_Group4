@@ -3,18 +3,12 @@ package Physics;
 public class VerletSolver implements PhysicsEngine {
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
-    private boolean passedFlag = false;
 
     public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
 
     public VerletSolver(PuttingCourse course, double step) {
         this.course = course;
         this.step = step;
-    }
-
-    @Override
-    public boolean passedFlag() {
-        return passedFlag;
     }
 
     /**
@@ -42,8 +36,6 @@ public class VerletSolver implements PhysicsEngine {
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
-        passedFlag = false;
-
         Vector2d currentPosition = shotInfo.getPosition2D();
         Vector2d currentVelocity = shotInfo.getVelocity2D();
 
@@ -57,12 +49,7 @@ public class VerletSolver implements PhysicsEngine {
 
             previousPosition = checkOutOfBounds(currentPosition);
             currentPosition = checkOutOfBounds(nextPosition);
-
-            if (course.victoriousPosition3()) {
-                passedFlag = true;
-            }
         }
-
         nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step*step));
         currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0));
 

@@ -40,6 +40,55 @@ public class PuttingSimulator extends JPanel {
 		return Math.abs(rx - lx) <= Vector2d.MAX_DIFFERENCE && Math.abs(rz - lz) <= Vector2d.MAX_DIFFERENCE;
 	}
 
+	/**
+	 * Processes the ball being shot given the initial velocity,
+	 * without a random permutation to the starting position and initial velocity.
+	 * @param initialBallVelocity the initial velocity of the ball
+	 */
+	public void takeShotWithoutError(Vector2d initialBallVelocity) {
+		currentShotInProcess = true;
+		sx = TreeMultiset.create();
+		sz = TreeMultiset.create();
+		lsx = new LinkedList();
+		lsz = new LinkedList();
+
+		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
+		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
+
+		passedFlag = false;
+		while (!stopCondition()) {
+			shotInfo = engine.process(DTIME,shotInfo);
+
+			//Update (visual) position and velocity
+			this.course.ball.setPosition(shotInfo.getPosition3D());
+			this.course.ball.setVelocity(shotInfo.getVelocity3D());
+
+			if (course.victoriousPosition3()) {
+				passedFlag = true;
+			}
+
+			if (sx.size() == 20) {
+				sx.remove(lsx.remove());
+				sz.remove(lsz.remove());
+			}
+
+			Vector3d curCoords = course.ball.getPosition3();
+			lsx.add(curCoords.x);
+			lsz.add(curCoords.z);
+			sx.add(curCoords.x);
+			sz.add(curCoords.z);
+
+			requestGraphicsUpdate();
+		}
+		currentShotInProcess = false;
+	}
+
+	/**
+	 * Processes the ball being shot given the initial velocity.
+	 * IN THIS METHOD THERE IS ALWAYS A SMALL ERROR IN STARTING POSITION AND INITIAL VELOCITY!
+	 * TODO set USE_RANDOM_ERROR to true in final version! AND only use takeShotWithoutError() for bot!
+	 * @param initialBallVelocity the initial velocity
+	 */
 	public void takeShot(Vector2d initialBallVelocity) {
 		System.out.println("shot taken");
 		currentShotInProcess = true;
@@ -47,12 +96,12 @@ public class PuttingSimulator extends JPanel {
 		sz = TreeMultiset.create();
 		lsx = new LinkedList();
 		lsz = new LinkedList();
-		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
-		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
 
+		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
 		if (USE_RANDOM_ERROR) {
 			randomErrorUpdate(initialBallVelocity);
 		}
+		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
 
 		passedFlag = false;
 		while (!stopCondition()) {
@@ -62,7 +111,9 @@ public class PuttingSimulator extends JPanel {
 			this.course.ball.setPosition(shotInfo.getPosition3D());
 			this.course.ball.setVelocity(shotInfo.getVelocity3D());
 
-			passedFlag |= engine.passedFlag();
+			if (course.victoriousPosition3()) {
+				passedFlag = true;
+			}
 
 			//System.out.println("processed");
 

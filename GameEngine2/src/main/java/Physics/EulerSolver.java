@@ -3,19 +3,12 @@ package Physics;
 public class EulerSolver implements PhysicsEngine {
 	private double step = 1e-2; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
 	private PuttingCourse course;
-	private boolean passedFlag = false;
 
-	//TODO allow people to enter their prefered G value
-	public final double GRAVITY = 9.81;
+	public final double GRAVITY = 9.81; //TODO allow people to enter their prefered G value
 
 	public EulerSolver(PuttingCourse course, double step) {
 		this.course = course;
 		this.step = step;
-	}
-
-	@Override
-	public boolean passedFlag() {
-		return this.passedFlag;
 	}
 
 	/**
@@ -30,28 +23,22 @@ public class EulerSolver implements PhysicsEngine {
 	 */
 	@Override 
 	public ShotInfo process(double dtime, ShotInfo shotInfo) {
-		passedFlag = false;
-
 		Vector2d currentPosition = shotInfo.getPosition2D();
 		Vector2d currentVelocity = shotInfo.getVelocity2D();
 
 		for (double timer = 0; timer < dtime; timer += step) {
-			//TODO ask Ivan where this is used for
 			if (currentVelocity.length() == 0) {
 				currentVelocity = currentVelocity.add(new Vector2d(1e-20,1e-20));
 			}
-
-			Vector2d nextPosition = currentPosition.add(currentVelocity.multiply(step));
-
 			Vector2d currentAcceleration = acceleration(currentPosition,currentVelocity);
+
+			//Calculate next position and next velocity
+			Vector2d nextPosition = currentPosition.add(currentVelocity.multiply(step));
 			Vector2d nextVelocity = currentVelocity.add(currentAcceleration.multiply(step));
 
+			//update position and velocity
 			currentPosition = checkOutOfBounds(nextPosition);
 			currentVelocity = limitVelocity(nextVelocity);
-
-			if (course.victoriousPosition3()) {
-				passedFlag = true;
-			}
 		}
 
 		shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));

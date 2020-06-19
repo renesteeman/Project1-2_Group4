@@ -3,7 +3,6 @@ package Physics;
 public class VelocityVerletFlying implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
-    private boolean passedFlag = false;
 
     //Air friction coefficients for golf ball
     private final double DRAG_COEFFICIENT = 0.47; //BiNaS HAVO/VWO zesde editie
@@ -22,11 +21,6 @@ public class VelocityVerletFlying implements PhysicsEngine{
         this.step = step;
     }
 
-    //TODO ask Ivan why this returns false
-    public boolean passedFlag() {
-        return false;
-    }
-
     /**
      * Processes the shot using the Velocity Verlet Method.
      * This method updates the position and velocity in five steps:
@@ -37,20 +31,17 @@ public class VelocityVerletFlying implements PhysicsEngine{
      * 5. The next velocity is calculated using the intermediate velocity and the next acceleration.
      * (Sources used:   http://www.physics.udel.edu/~bnikolic/teaching/phys660/numerical_ode/node5.html ;
      *                  https://www2.icp.uni-stuttgart.de/~icp/mediawiki/images/5/54/Skript_sim_methods_I.pdf )
-     *                  
+     *
      * @param dtime the interval over which the shot is processed
      * @param shotInfo contains info about current position and current velocity
      * @return info about the latest calculated position and velocity
      */
     @Override
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
-        passedFlag = false;
-
         Vector3d currentPosition = shotInfo.getPosition3D();
         Vector3d currentVelocity = shotInfo.getVelocity3D();
 
         for (double timer = 0; timer < dtime; timer += step) {
-
             if (!isFlying(currentPosition)) {
                 //Calculate the directional slope
                 Vector2d normalizedVelocity = currentVelocity.getVector2D().getNormalized();
@@ -70,31 +61,19 @@ public class VelocityVerletFlying implements PhysicsEngine{
                 System.out.println("I BELIEVE I CAN FLY!!!!!\n");
             }
 
-            //STEP 1 - Calculate currentAcceleration
-            Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity);
+            Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity); //STEP 1
 
-            //STEP 2 - Calculate nextPosition
-            Vector3d nextPosition = currentPosition.add(currentVelocity.multiply(step)).add(currentAcceleration.multiply(Math.pow(step, 2) / 2.0));
+            Vector3d nextPosition = currentPosition.add(currentVelocity.multiply(step)).add(currentAcceleration.multiply(Math.pow(step, 2) / 2.0)); //STEP 2
             nextPosition = checkOutOfBounds(nextPosition);
 
-            //STEP 3 - Calculate intermediateVelocity
-            Vector3d intermediateVelocity = currentVelocity.add(currentAcceleration.multiply(step / 2.0));
+            Vector3d intermediateVelocity = currentVelocity.add(currentAcceleration.multiply(step / 2.0)); //STEP 3
             intermediateVelocity = limitVelocity(intermediateVelocity);
 
-            //STEP 4 - Calculate nextAcceleration
-            Vector3d nextAcceleration = acceleration(nextPosition, intermediateVelocity);
+            Vector3d nextAcceleration = acceleration(nextPosition, intermediateVelocity); //STEP 4
+            Vector3d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0)); //STEP 5
 
-            //STEP 5 - Calculate nextVelocity
-            Vector3d nextVelocity = intermediateVelocity.add(nextAcceleration.multiply(step / 2.0));
-
-            //STEP 6 - update variables
             currentPosition = checkOutOfBounds(nextPosition);
             currentVelocity = limitVelocity(nextVelocity);
-
-            //TODO find other position for this because this does completely nothing at this place...
-            if (course.victoriousPosition3()) {
-                passedFlag = true;
-            }
         }
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, currentPosition.y, currentPosition.z));
@@ -107,7 +86,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
      * @return true if ball is in the air, false if ball is on the ground
      */
     private boolean isFlying(Vector3d position) {
-        return (course.height.evaluate(position.getVector2D()) < position.y);
+        return course.height.evaluate(position.getVector2D()) < position.y;
     }
 
     /**
@@ -121,14 +100,12 @@ public class VelocityVerletFlying implements PhysicsEngine{
             Vector2d gradients = course.height.gradient(position.getVector2D());
             double accelerationX = -GRAVITY_EARTH * (gradients.x + course.getFriction() * velocity.x / velocity.length());
             double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
-
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
             double accelerationX = -DRAG_CONSTANT * (velocity.x * velocity.length());
             double accelerationY = -GRAVITY_EARTH - DRAG_CONSTANT * (velocity.y * velocity.length());
             double accelerationZ = -DRAG_CONSTANT * (velocity.z * velocity.length());
-
-            return (new Vector3d(accelerationX, accelerationY, accelerationZ));
+            return new Vector3d(accelerationX, accelerationY, accelerationZ);
         }
     }
 
