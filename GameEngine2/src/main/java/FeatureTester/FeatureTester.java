@@ -90,7 +90,7 @@ public class FeatureTester {
 
         TerrainTexturePack terrainTexturePack = new TerrainTexturePack(grassTexture, sandTexture);
 
-        PuttingCourse course = new PuttingCourse("./res/courses/course1.txt");
+        PuttingCourse course = new PuttingCourse("./res/courses/course3.txt");
         terrain = new Terrain(0, 0, loader, course.height, terrainTexturePack, TERRAIN_SIZE);
 
         //Models and entities
