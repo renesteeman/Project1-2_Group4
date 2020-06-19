@@ -76,4 +76,17 @@ public class PreciseCollision {
     public static boolean isOverlapping(Vector3f closestPoint, Ball ball){
         return closestPoint.distance(ball.getPosition()) < ball.getCollisionRadiusScaled();
     }
+
+    //Based on https://www.khronos.org/opengl/wiki/Calculating_a_Surface_Normal
+    public static Vector3f getNormalFromFace(Face face){
+        Vector3f U = Maths.minus(face.getSecondVertex(), face.getFirstVertex());
+        Vector3f V = Maths.minus(face.getThirdVertex(), face.getFirstVertex());
+
+        Vector3f normal = new Vector3f();
+        normal.x = U.y * V.z - U.z * V.y;
+        normal.y = U.z * V.x - U.x * V.z;
+        normal.z = U.x * V.y - U.y * V.x;
+
+        return normal;
+    }
 }

@@ -2,6 +2,8 @@ package Collision;
 
 import Entities.*;
 import Collision.CollisionBox;
+import Physics.Vector3d;
+import Toolbox.Maths;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -23,10 +25,11 @@ public class CheckCollision {
 
             if(item.getCollisionBox().overlapsWithPointGivenMargin(item.getPosition(), ball.getPosition(), margin)){
                 for(Face face : item.getCollisionModel().getFaces()){
-                    Vector3f result = closestPointTriangle(face, ball.getPosition(), item.getPosition());
-                    System.out.println("result: " + result.toString());
-                    if(isOverlapping(result, ball)){
+                    Vector3f result = PreciseCollision.closestPointTriangle(face, ball.getPosition(), item.getPosition());
+                    if(PreciseCollision.isOverlapping(result, ball)){
                         System.out.println("The collision is happening");
+                        Vector3f normal = PreciseCollision.getNormalFromFace(face);
+                        System.out.println("Normal: " + normal.toString());
                     }
                 }
             }
