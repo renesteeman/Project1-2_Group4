@@ -104,6 +104,7 @@ public class PuttingSimulator extends JPanel {
 		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
 
 		passedFlag = false;
+		long startT = System.currentTimeMillis();
 		while (!stopCondition()) {
 			//System.out.println("hasnt stopped");
 			shotInfo = engine.process(DTIME,shotInfo);
@@ -149,6 +150,10 @@ public class PuttingSimulator extends JPanel {
 			//}
 		}
 		currentShotInProcess = false;
+
+		long endT = System.currentTimeMillis();
+		System.out.print("Algorithm ran for " + ((endT - startT) / 1000.) + " seconds ");
+
 	}
 
 	/**
