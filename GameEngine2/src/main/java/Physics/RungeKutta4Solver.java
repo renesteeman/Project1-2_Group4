@@ -85,7 +85,6 @@ public class RungeKutta4Solver implements PhysicsEngine{
                 course.ball.setVelocity(new Vector3d(0, 0, 0));
                 currentVelocity = new Vector2d(0, 0);
                 timer = dtime;
-                System.out.println("I hit water");
             }
         }
 

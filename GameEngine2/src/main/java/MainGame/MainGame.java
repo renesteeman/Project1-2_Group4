@@ -279,6 +279,9 @@ public class MainGame extends CrazyPutting {
         AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
+                System.out.println("SHOOT");
+                System.out.println("SIZE: " + this.guiTexture.getScale());
+
                 if (currentShotInProcess)
                     return;
                 currentShotInProcess = true;
@@ -406,7 +409,6 @@ public class MainGame extends CrazyPutting {
             List<UIElement> groupElements = group.getElements();
             guiRenderer.render(groupElements);
             for(UIElement element : groupElements){
-                System.out.println(element.getGUITextures().get(0).getScale());
                 element.update();
             }
         }
@@ -627,6 +629,11 @@ public class MainGame extends CrazyPutting {
                 indicationBall.hide();
                 WaterHit.hideWaterHitUI(MainGame.this);
                 WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override

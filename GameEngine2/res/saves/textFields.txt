@@ -8,7 +8,7 @@
 10
 0
 0
-physicsCourse.txt
+course2.txt
 1e-2
 1e-1
 
