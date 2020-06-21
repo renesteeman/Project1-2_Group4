@@ -1,5 +1,7 @@
 package Physics;
 
+import org.joml.Vector3f;
+
 import java.lang.String;
 
 
@@ -72,7 +74,6 @@ public class Vector2d {
 		return new Vector2d(v.x * constant, v.y * constant);
 	}
 
-
 	@Override
 	public String toString() {
 		return String.format("(%f, %f)", x, y);
@@ -85,4 +86,12 @@ public class Vector2d {
 		Vector2d v = (Vector2d)obj;
 		return (Math.abs(v.x - x) <= MAX_DIFFERENCE && Math.abs(v.y - y) <= MAX_DIFFERENCE);
 	}
+
+	public Vector2d rotate(double angle) {
+		double rx = (this.x * Math.cos(angle)) - (this.y * Math.sin(angle));
+		double ry = (this.x * Math.sin(angle)) + (this.y * Math.cos(angle));
+
+		return new Vector2d(rx, ry);
+	}
+
 }

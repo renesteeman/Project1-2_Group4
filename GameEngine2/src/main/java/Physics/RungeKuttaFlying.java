@@ -2,6 +2,7 @@ package Physics;
 
 import Collision.CheckCollision;
 import MainGame.MainGame;
+import Toolbox.Maths;
 
 public class RungeKuttaFlying implements PhysicsEngine{
     private double step = 1e-2;
@@ -84,8 +85,6 @@ public class RungeKuttaFlying implements PhysicsEngine{
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, currentPosition.y, currentPosition.z));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, currentVelocity.y, currentVelocity.z));
 
-        CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
-
         return new ShotInfo(shotInfo);
     }
 
@@ -120,7 +119,6 @@ public class RungeKuttaFlying implements PhysicsEngine{
 //                angle = 1; //TODO change........
 //            }
 
-
             //TODO check if directionalSlope3D is correct
             Vector3d directionalSlope3D = new Vector3d(normalizedVelocity.x,directionalSlope,normalizedVelocity.y);
             double dotProduct = directionalSlope3D.dotProduct(currentVelocity);
@@ -131,6 +129,8 @@ public class RungeKuttaFlying implements PhysicsEngine{
             double redirectionAngle = Math.atan(perpendicularSlope) + (90 - angle);
 
             Vector3d redirectedVelocity = limitVelocity(currentVelocity.multiply(Math.tan(redirectionAngle)));
+            redirectedVelocity = redirectedVelocity.multiply(0.8f);
+            redirectedVelocity = limitVelocity(redirectedVelocity);
 
 
 

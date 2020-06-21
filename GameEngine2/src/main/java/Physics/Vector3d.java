@@ -100,7 +100,6 @@ public class Vector3d {
 		return l.x * r.x + l.y * r.y + l.z * r.z;
 	}
 
-
 	@Override
 	public String toString() {
 		return String.format("(%f, %f, %f)", x, y, z);

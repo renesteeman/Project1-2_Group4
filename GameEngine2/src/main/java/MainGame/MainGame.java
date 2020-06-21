@@ -103,7 +103,7 @@ public class MainGame extends CrazyPutting {
             //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
         } else {
             this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
-            //this.engine = DetermineSolver.getRungeKuttaFlying(course, physicsStep, this);
+//            this.engine = DetermineSolver.getRungeKuttaFlying(course, physicsStep, this);
         }
 
         DisplayManager.createDisplay();
