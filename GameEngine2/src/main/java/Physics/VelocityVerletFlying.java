@@ -5,8 +5,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
     private PuttingCourse course;
 
     public final double GRAVITY_EARTH = 9.81;   //TODO allow people to enter their preferred G value
-    public final double GRAVITY_MOON = 1.62;    //Change GRAVITY_EARTH to GRAVITY_MOON in the acceleration method if you
-                                                // want the ball to fly higher and longer
+    private final double MASS_OF_BALL = course.ball.getMassOfBall();
 
     //Air friction coefficients for golf ball
     private final double DRAG_COEFFICIENT = 0.47; //BiNaS HAVO/VWO zesde editie
@@ -103,9 +102,9 @@ public class VelocityVerletFlying implements PhysicsEngine{
             double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
-            double accelerationX = -DRAG_CONSTANT * (velocity.x * velocity.length());
-            double accelerationY = -GRAVITY_EARTH - DRAG_CONSTANT * (velocity.y * velocity.length());
-            double accelerationZ = -DRAG_CONSTANT * (velocity.z * velocity.length());
+            double accelerationX = -(DRAG_CONSTANT * velocity.x * velocity.length()) / MASS_OF_BALL;
+            double accelerationY = -GRAVITY_EARTH - (DRAG_CONSTANT * velocity.y * velocity.length()) / MASS_OF_BALL;
+            double accelerationZ = -(DRAG_CONSTANT * velocity.z * velocity.length()) / MASS_OF_BALL;
             return new Vector3d(accelerationX, accelerationY, accelerationZ);
         }
     }
