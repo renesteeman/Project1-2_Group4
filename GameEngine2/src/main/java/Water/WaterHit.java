@@ -40,11 +40,13 @@ public class WaterHit {
         mainGame.createWaterHitUI(waterHitLocation);
         mainGame.getPlayerUiGroup().hide();
         mainGame.getWaterHitUI().show();
+        mainGame.setHitWater(true);
     }
 
     public static void hideWaterHitUI(MainGame mainGame){
         mainGame.getWaterHitUI().hide();
         mainGame.getPlayerUiGroup().show();
+        mainGame.setHitWater(false);
     }
 
 }

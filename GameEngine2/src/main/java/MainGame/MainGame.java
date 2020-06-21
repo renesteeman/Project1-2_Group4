@@ -90,6 +90,12 @@ public class MainGame extends CrazyPutting {
     UIGroup playerUiGroup = new UIGroup();
     UIGroup waterHitUI = new UIGroup();
 
+    boolean hitWater = false;
+
+    public void setHitWater(boolean hitWater) {
+        this.hitWater = hitWater;
+    }
+
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
 
@@ -320,6 +326,7 @@ public class MainGame extends CrazyPutting {
         playerUiGroup.addElement(powerSlider);
         playerUiGroup.addElement(shootingButton);
 
+        playerUiGroup.hide();
         GUIgroups.add(playerUiGroup);
         GUIgroups.add(waterHitUI);
     }
@@ -399,6 +406,7 @@ public class MainGame extends CrazyPutting {
             List<UIElement> groupElements = group.getElements();
             guiRenderer.render(groupElements);
             for(UIElement element : groupElements){
+                System.out.println(element.getGUITextures().get(0).getScale());
                 element.update();
             }
         }
@@ -432,7 +440,10 @@ public class MainGame extends CrazyPutting {
         //String[] arguments = shotScanner.nextLine().split(" ");
         //System.out.println("your shot is read");
 
-        playerUiGroup.show();
+        if(!hitWater){
+            playerUiGroup.show();
+        }
+
         currentShotInProcess = false;
         inputFlag = false;
 
