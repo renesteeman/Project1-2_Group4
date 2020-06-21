@@ -41,7 +41,6 @@ import org.lwjgl.opengl.GL30;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -88,7 +87,7 @@ public class MainGame extends CrazyPutting {
     private boolean inputFlag = false;
     private Vector2d neededInput = new Vector2d();
 
-    UIGroup shootGroup = new UIGroup();
+    UIGroup playerUiGroup = new UIGroup();
     UIGroup waterHitUI = new UIGroup();
 
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
@@ -318,10 +317,10 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        shootGroup.addElement(powerSlider);
-        shootGroup.addElement(shootingButton);
+        playerUiGroup.addElement(powerSlider);
+        playerUiGroup.addElement(shootingButton);
 
-        GUIgroups.add(shootGroup);
+        GUIgroups.add(playerUiGroup);
         GUIgroups.add(waterHitUI);
     }
 
@@ -433,7 +432,7 @@ public class MainGame extends CrazyPutting {
         //String[] arguments = shotScanner.nextLine().split(" ");
         //System.out.println("your shot is read");
 
-        shootGroup.show();
+        playerUiGroup.show();
         currentShotInProcess = false;
         inputFlag = false;
 
@@ -448,7 +447,7 @@ public class MainGame extends CrazyPutting {
 
         System.out.println("current shot input: " + shotInput);
 
-        shootGroup.hide();
+        playerUiGroup.hide();
         return true;
         /*if (arguments.length == 1 && arguments[0].equals("stop")) {
             System.out.println("stop condition is recognized");
@@ -615,6 +614,7 @@ public class MainGame extends CrazyPutting {
             @Override
             public void onClick(InterfaceButton button) {
                 indicationBall.hide();
+                WaterHit.hideWaterHitUI(MainGame.this);
                 WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
             }
 
@@ -657,5 +657,9 @@ public class MainGame extends CrazyPutting {
 
     public Loader getLoader() {
         return loader;
+    }
+
+    public UIGroup getPlayerUiGroup() {
+        return playerUiGroup;
     }
 }

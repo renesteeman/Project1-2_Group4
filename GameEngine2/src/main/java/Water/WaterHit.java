@@ -10,8 +10,8 @@ import org.joml.Vector3f;
 
 public class WaterHit {
 
-    public static boolean hitWater(Ball ball){
-        if(ball.getPosition().y<0){
+    public static boolean hitWater(Vector3f position){
+        if(position.y<0){
             return true;
         } else {
             return false;
@@ -38,11 +38,13 @@ public class WaterHit {
 
     public static void showWaterHitUI(MainGame mainGame, Vector3f waterHitLocation){
         mainGame.createWaterHitUI(waterHitLocation);
+        mainGame.getPlayerUiGroup().hide();
         mainGame.getWaterHitUI().show();
     }
 
     public static void hideWaterHitUI(MainGame mainGame){
         mainGame.getWaterHitUI().hide();
+        mainGame.getPlayerUiGroup().show();
     }
 
 }
