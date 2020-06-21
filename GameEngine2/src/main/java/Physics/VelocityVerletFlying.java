@@ -4,17 +4,18 @@ public class VelocityVerletFlying implements PhysicsEngine{
     private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
     private PuttingCourse course;
 
+    public final double GRAVITY_EARTH = 9.81;   //TODO allow people to enter their preferred G value
+    public final double GRAVITY_MOON = 1.62;    //Change GRAVITY_EARTH to GRAVITY_MOON in the acceleration method if you
+                                                // want the ball to fly higher and longer
+
     //Air friction coefficients for golf ball
     private final double DRAG_COEFFICIENT = 0.47; //BiNaS HAVO/VWO zesde editie
     private final double AIR_DENSITY = 1.2041; //at 20 degrees celsius
     private final double DIAMETER_GOLFBALL = 4.5/100.0; //in meters, diameter >= 4.267cm
     private final double CROSS_SECTIONAL_AREA = Math.PI * Math.pow(DIAMETER_GOLFBALL/2.0, 2);
-
+    //A constant term in the air friction formula can be calculated as follows:
     private final double DRAG_CONSTANT = 1.0/2.0 * DRAG_COEFFICIENT * AIR_DENSITY * CROSS_SECTIONAL_AREA; //0.001800136
 
-    public final double GRAVITY_EARTH = 9.81;   //TODO allow people to enter their preferred G value
-    public final double GRAVITY_MOON = 1.62;    //Change GRAVITY_EARTH to GRAVITY_MOON in the acceleration method if you
-                                                // want the ball to fly higher and longer
 
     public VelocityVerletFlying(PuttingCourse course, double step){
         this.course = course;

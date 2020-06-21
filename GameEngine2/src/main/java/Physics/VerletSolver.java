@@ -39,19 +39,19 @@ public class VerletSolver implements PhysicsEngine {
         Vector2d currentPosition = shotInfo.getPosition2D();
         Vector2d currentVelocity = shotInfo.getVelocity2D();
 
-        Vector2d previousPosition = currentPosition.subtract(currentVelocity.multiply(step)).add(acceleration(currentPosition,currentVelocity).multiply((step*step)/2.0));
+        Vector2d previousPosition = currentPosition.subtract(currentVelocity.multiply(step)).add(acceleration(currentPosition,currentVelocity).multiply(Math.pow(step,2)/2.0));
         Vector2d nextPosition;
 
         for(double timer = 0; timer < dtime; timer += step) {
-            nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step * step));
+            nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(Math.pow(step,2)));
 
             currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0 * step));
 
             previousPosition = checkOutOfBounds(currentPosition);
             currentPosition = checkOutOfBounds(nextPosition);
         }
-        nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(step*step));
-        currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0));
+        nextPosition = currentPosition.multiply(2.0).subtract(previousPosition).add(acceleration(currentPosition,currentVelocity).multiply(Math.pow(step,2)));
+        currentVelocity = limitVelocity(nextPosition.subtract(previousPosition).divide(2.0 * step));
 
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));

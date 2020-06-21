@@ -75,6 +75,10 @@ public class Vector3d {
 		return new Vector3d(x / l, y / l, z / l);
 	}
 
+	public double dotProduct(Vector3d other) {
+		return (this.x * other.x + this.y * other.y + this.z * other.z);
+	}
+
 
 	public static Vector3d add(Vector3d l, Vector3d r) {
 		return new Vector3d(l.x + r.x, l.y + r.y, l.z + r.z);

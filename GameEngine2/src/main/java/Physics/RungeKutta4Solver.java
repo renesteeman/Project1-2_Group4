@@ -14,7 +14,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
     private PuttingCourse course;
     private MainGame game;
 
-    public final double GRAVITY = 9.81; //TODO allow people to enter their preferred G value
+    public final double GRAVITY_EARTH = 9.81; //TODO allow people to enter their preferred G value
 
     public RungeKutta4Solver(PuttingCourse course, double step, MainGame game){
         this.course = course;
@@ -82,8 +82,8 @@ public class RungeKutta4Solver implements PhysicsEngine{
      */
     private Vector2d acceleration(Vector2d position, Vector2d velocity) {
         Vector2d gradient = course.height.gradient(position);
-        double accelerationX =  -GRAVITY * (gradient.x + course.getFriction() * velocity.x / velocity.length());
-        double accelerationY =  -GRAVITY * (gradient.y + course.getFriction() * velocity.y / velocity.length());
+        double accelerationX =  -GRAVITY_EARTH * (gradient.x + course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY_EARTH * (gradient.y + course.getFriction() * velocity.y / velocity.length());
         return new Vector2d(accelerationX,accelerationY);
     }
 
