@@ -1,4 +1,4 @@
-height = -0.01*x + 0.003*x^2 + 0.04 * y
+height = 1
 flag = (0, 10)
 start = (0, 0)
 friction = 0.131

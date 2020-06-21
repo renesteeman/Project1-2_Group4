@@ -2,6 +2,8 @@ package Physics;
 
 import Collision.CheckCollision;
 import MainGame.MainGame;
+import Water.WaterHit;
+import org.joml.Vector3f;
 
 /**
  * The RungeKutta4Solver class updates position and velocity of a ball after every time-step.
@@ -35,6 +37,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
     public ShotInfo process(double dtime, ShotInfo shotInfo) {
         Vector2d currentPosition = shotInfo.getPosition2D(); //p1
         Vector2d currentVelocity = shotInfo.getVelocity2D(); //v1
+        boolean hitWater = false;
 
         for(double timer = 0; timer < dtime; timer += step){
             //STEP 1
@@ -55,7 +58,6 @@ public class RungeKutta4Solver implements PhysicsEngine{
             Vector2d endVelocity = currentVelocity.add(intermediateAcceleration2.multiply(step)); //v4 = v1 + a3 * step
             Vector2d endAcceleration = acceleration(endPosition, endVelocity); //a4 = acceleration(p4,v4)
 
-
             //positionStep = 1/6 * step * (v1 + 2*v2 + 2*v3 + v4);
             Vector2d positionStep = currentVelocity.add(intermediateVelocity1.multiply(2.0)).add(intermediateVelocity2.multiply(2.0)).add(endVelocity).multiply(step / 6.0);
             //velocityStep = 1/6 * step (a1 + 2*a2 + 2*a3 + a4)
@@ -64,12 +66,33 @@ public class RungeKutta4Solver implements PhysicsEngine{
             //Calculate next position and velocity and update current position and velocity
             currentPosition = checkOutOfBounds(currentPosition.add(positionStep));
             currentVelocity = limitVelocity(currentVelocity.add(velocityStep));
+
+            //Check for collisions and react accordingly
+            Vector3f ballPosition = new Vector3f((float) currentPosition.x, (float) course.height.evaluate(currentPosition), (float) currentPosition.y);
+            Vector3d collisionNormal = CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball, ballPosition);
+            if(collisionNormal!=null){
+                System.out.println("YEE");
+
+                double A = (currentVelocity.dotProduct(collisionNormal.getVector2D()))/(currentVelocity.length()*collisionNormal.getVector2D().length());
+                double angle = Math.acos(A);
+                currentVelocity = currentVelocity.rotate(angle);
+            }
+
+            //Check for water 'collision'
+            hitWater = WaterHit.hitWater(ballPosition);
+            if(hitWater){
+                WaterHit.showWaterHitUI(game, ballPosition);
+                course.ball.setVelocity(new Vector3d(0, 0, 0));
+                currentVelocity = new Vector2d(0, 0);
+                timer = dtime;
+                System.out.println("I hit water");
+            }
         }
 
-        shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
-        shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
-
-        CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball);
+        if(!hitWater){
+            shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
+            shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+        }
 
         return new ShotInfo(shotInfo);
     }
@@ -84,7 +107,7 @@ public class RungeKutta4Solver implements PhysicsEngine{
         Vector2d gradient = course.height.gradient(position);
         double accelerationX =  -GRAVITY_EARTH * (gradient.x + course.getFriction() * velocity.x / velocity.length());
         double accelerationY =  -GRAVITY_EARTH * (gradient.y + course.getFriction() * velocity.y / velocity.length());
-        return new Vector2d(accelerationX,accelerationY);
+        return (new Vector2d(accelerationX,accelerationY)).multiply(1./3.);
     }
 
     /**

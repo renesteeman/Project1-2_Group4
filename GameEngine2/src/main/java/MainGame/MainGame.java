@@ -41,7 +41,6 @@ import org.lwjgl.opengl.GL30;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -88,8 +87,14 @@ public class MainGame extends CrazyPutting {
     private boolean inputFlag = false;
     private Vector2d neededInput = new Vector2d();
 
-    UIGroup shootGroup = new UIGroup();
+    UIGroup playerUiGroup = new UIGroup();
     UIGroup waterHitUI = new UIGroup();
+
+    boolean hitWater = false;
+
+    public void setHitWater(boolean hitWater) {
+        this.hitWater = hitWater;
+    }
 
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
@@ -103,7 +108,7 @@ public class MainGame extends CrazyPutting {
             //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
         } else {
             this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
-            //this.engine = DetermineSolver.getRungeKuttaFlying(course, physicsStep, this);
+//            this.engine = DetermineSolver.getRungeKuttaFlying(course, physicsStep, this);
         }
 
         DisplayManager.createDisplay();
@@ -318,10 +323,11 @@ public class MainGame extends CrazyPutting {
             }
         };
 
-        shootGroup.addElement(powerSlider);
-        shootGroup.addElement(shootingButton);
+        playerUiGroup.addElement(powerSlider);
+        playerUiGroup.addElement(shootingButton);
 
-        GUIgroups.add(shootGroup);
+        playerUiGroup.hide();
+        GUIgroups.add(playerUiGroup);
         GUIgroups.add(waterHitUI);
     }
 
@@ -400,6 +406,7 @@ public class MainGame extends CrazyPutting {
             List<UIElement> groupElements = group.getElements();
             guiRenderer.render(groupElements);
             for(UIElement element : groupElements){
+                System.out.println(element.getGUITextures().get(0).getScale());
                 element.update();
             }
         }
@@ -433,7 +440,10 @@ public class MainGame extends CrazyPutting {
         //String[] arguments = shotScanner.nextLine().split(" ");
         //System.out.println("your shot is read");
 
-        shootGroup.show();
+        if(!hitWater){
+            playerUiGroup.show();
+        }
+
         currentShotInProcess = false;
         inputFlag = false;
 
@@ -448,7 +458,7 @@ public class MainGame extends CrazyPutting {
 
         System.out.println("current shot input: " + shotInput);
 
-        shootGroup.hide();
+        playerUiGroup.hide();
         return true;
         /*if (arguments.length == 1 && arguments[0].equals("stop")) {
             System.out.println("stop condition is recognized");
@@ -615,6 +625,7 @@ public class MainGame extends CrazyPutting {
             @Override
             public void onClick(InterfaceButton button) {
                 indicationBall.hide();
+                WaterHit.hideWaterHitUI(MainGame.this);
                 WaterHit.ballReset(course.ball, terrain, course.getStartLocation3().toVector3f(), waterHitLocation, (float) waterSlide.getValue());
             }
 
@@ -657,5 +668,9 @@ public class MainGame extends CrazyPutting {
 
     public Loader getLoader() {
         return loader;
+    }
+
+    public UIGroup getPlayerUiGroup() {
+        return playerUiGroup;
     }
 }
