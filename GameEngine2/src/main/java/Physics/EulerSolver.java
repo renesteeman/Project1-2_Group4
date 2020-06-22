@@ -1,14 +1,21 @@
 package Physics;
 
+import Collision.CheckCollision;
+import MainGame.MainGame;
+import Water.WaterHit;
+import org.joml.Vector3f;
+
 public class EulerSolver implements PhysicsEngine {
 	private double step = 1e-2; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
 	private PuttingCourse course;
+	private MainGame game;
 
 	public final double GRAVITY = 9.81; //TODO allow people to enter their prefered G value
 
-	public EulerSolver(PuttingCourse course, double step) {
+	public EulerSolver(PuttingCourse course, double step, MainGame game) {
 		this.course = course;
 		this.step = step;
+		this.game = game;
 	}
 
 	/**
@@ -25,6 +32,7 @@ public class EulerSolver implements PhysicsEngine {
 	public ShotInfo process(double dtime, ShotInfo shotInfo) {
 		Vector2d currentPosition = shotInfo.getPosition2D();
 		Vector2d currentVelocity = shotInfo.getVelocity2D();
+		boolean hitWater = false;
 
 		for (double timer = 0; timer < dtime; timer += step) {
 			if (currentVelocity.length() == 0) {
@@ -39,10 +47,33 @@ public class EulerSolver implements PhysicsEngine {
 			//update position and velocity
 			currentPosition = checkOutOfBounds(nextPosition);
 			currentVelocity = limitVelocity(nextVelocity);
+
+			//Check for collisions and react accordingly
+			Vector3f ballPosition = new Vector3f((float) currentPosition.x, (float) course.height.evaluate(currentPosition), (float) currentPosition.y);
+			Vector3d collisionNormal = CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball, ballPosition);
+			if(collisionNormal!=null){
+				System.out.println("YEE");
+
+				double A = (currentVelocity.dotProduct(collisionNormal.getVector2D()))/(currentVelocity.length()*collisionNormal.getVector2D().length());
+				double angle = Math.acos(A);
+				currentVelocity = currentVelocity.rotate(angle);
+			}
+
+			//Check for water 'collision'
+			hitWater = WaterHit.hitWater(ballPosition);
+			if(hitWater){
+				WaterHit.showWaterHitUI(game, ballPosition);
+				course.ball.setVelocity(new Vector3d(0, 0, 0));
+				currentVelocity = new Vector2d(0, 0);
+				timer = dtime;
+			}
 		}
 
-		shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
-		shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+		if(!hitWater) {
+			shotInfo.setPosition3D(new Vector3d(currentPosition.x, course.height.evaluate(currentPosition), currentPosition.y));
+			shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, 0, currentVelocity.y));
+		}
+
 		return new ShotInfo(shotInfo);
 	}
 

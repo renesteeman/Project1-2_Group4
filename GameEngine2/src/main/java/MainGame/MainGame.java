@@ -102,7 +102,7 @@ public class MainGame extends CrazyPutting {
         DTIME = graphicsRate;
 
         if (solverFlag == 0) {
-            this.engine = DetermineSolver.getEulerSolver(course, physicsStep);
+            this.engine = DetermineSolver.getEulerSolver(course, physicsStep, this);
         } else if (solverFlag == 1) {
             this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep);
             //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
