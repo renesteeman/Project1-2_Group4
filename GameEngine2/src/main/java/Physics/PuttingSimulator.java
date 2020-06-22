@@ -12,15 +12,10 @@ public class PuttingSimulator extends JPanel {
 	public PhysicsEngine engine;
 
 	private static final boolean USE_RANDOM_ERROR = false;
-	private static final double ERROR_WEIGHT = 5e-2;//=0.05 TODO Play with the weight/constant
+	private static final double ERROR_WEIGHT = 5e-2;// 0.05 = 5%
 
 	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;
-
-	public PuttingSimulator() {
-		course = new PuttingCourse("./res/courses/course0.txt");
-		engine = DetermineSolver.getEulerSolver(course, 1e-2);
-	}
 
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
 		this.course = course;
@@ -64,6 +59,7 @@ public class PuttingSimulator extends JPanel {
 			this.course.ball.setPosition(shotInfo.getPosition3D());
 			this.course.ball.setVelocity(shotInfo.getVelocity3D());
 
+			//Check if ball passed the flag at its current position
 			if (course.victoriousPosition3()) {
 				passedFlag = true;
 			}
@@ -98,6 +94,7 @@ public class PuttingSimulator extends JPanel {
 		lsx = new LinkedList();
 		lsz = new LinkedList();
 
+		//Add random error to the initial position and initial velocity of the ball
 		course.ball.setVelocity(new Vector3d(initialBallVelocity.x, 0, initialBallVelocity.y));
 		if (USE_RANDOM_ERROR) {
 			randomErrorUpdate(initialBallVelocity);
@@ -105,7 +102,6 @@ public class PuttingSimulator extends JPanel {
 		ShotInfo shotInfo = new ShotInfo(course.ball.getPosition3(),course.ball.getVelocity3D());
 
 		passedFlag = false;
-		long startT = System.currentTimeMillis();
 		while (!stopCondition()) {
 			//System.out.println("hasnt stopped");
 			shotInfo = engine.process(DTIME,shotInfo);
@@ -113,6 +109,7 @@ public class PuttingSimulator extends JPanel {
 			this.course.ball.setPosition(shotInfo.getPosition3D());
 			this.course.ball.setVelocity(shotInfo.getVelocity3D());
 
+			//Check if the ball passed the flag at its current position
 			if (course.victoriousPosition3()) {
 				passedFlag = true;
 			}
@@ -151,10 +148,6 @@ public class PuttingSimulator extends JPanel {
 			//}
 		}
 		currentShotInProcess = false;
-
-		long endT = System.currentTimeMillis();
-		System.out.print("Algorithm ran for " + ((endT - startT) / 1000.) + " seconds ");
-
 	}
 
 	/**

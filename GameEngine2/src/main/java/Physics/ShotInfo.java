@@ -44,10 +44,16 @@ public class ShotInfo {
         this.velocity = new Vector3d(velocity.x,velocity.y,velocity.z);
     }
 
-    //TODO These two methods are probably temporary
+    /**
+     * @return new Vector2d with x- and z-coordinates, i.e. the horizontal coordinates, of the position
+     */
     public Vector2d getPosition2D() {
         return new Vector2d(position.x,position.z);
     }
+
+    /**
+     * @return new Vector2d with x- and z-coordinates, i.e. the horizontal coordinates, of the velocity
+     */
     public Vector2d getVelocity2D() {
         return new Vector2d(velocity.x,velocity.z);
     }

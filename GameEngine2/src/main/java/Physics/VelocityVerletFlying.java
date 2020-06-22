@@ -1,10 +1,10 @@
 package Physics;
 
 public class VelocityVerletFlying implements PhysicsEngine{
-    private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+    private double step = 1e-2;
     private PuttingCourse course;
 
-    public final double GRAVITY_EARTH = 9.81;   //TODO allow people to enter their preferred G value
+    public final double GRAVITY = 9.81;
     private final double MASS_OF_BALL = course.ball.getMassOfBall();
 
     //Air friction coefficients for golf ball
@@ -58,7 +58,7 @@ public class VelocityVerletFlying implements PhysicsEngine{
                 //Update 3D velocity vector
                 currentVelocity = limitVelocity(new Vector3d(horizontalVelocity.x, verticalVelocity, horizontalVelocity.y));
             } else {
-                System.out.println("I BELIEVE I CAN FLY!!!!!\n");
+
             }
 
             Vector3d currentAcceleration = acceleration(currentPosition, currentVelocity); //STEP 1
@@ -98,12 +98,12 @@ public class VelocityVerletFlying implements PhysicsEngine{
     private Vector3d acceleration(Vector3d position, Vector3d velocity) {
         if (!isFlying(position)) {
             Vector2d gradients = course.height.gradient(position.getVector2D());
-            double accelerationX = -GRAVITY_EARTH * (gradients.x + course.getFriction() * velocity.x / velocity.length());
-            double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
+            double accelerationX = -GRAVITY * (gradients.x + course.getFriction() * velocity.x / velocity.length());
+            double accelerationZ = -GRAVITY * (gradients.y + course.getFriction() * velocity.z / velocity.length());
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
             double accelerationX = -(DRAG_CONSTANT * velocity.x * velocity.length()) / MASS_OF_BALL;
-            double accelerationY = -GRAVITY_EARTH - (DRAG_CONSTANT * velocity.y * velocity.length()) / MASS_OF_BALL;
+            double accelerationY = -GRAVITY - (DRAG_CONSTANT * velocity.y * velocity.length()) / MASS_OF_BALL;
             double accelerationZ = -(DRAG_CONSTANT * velocity.z * velocity.length()) / MASS_OF_BALL;
             return new Vector3d(accelerationX, accelerationY, accelerationZ);
         }

@@ -42,7 +42,7 @@ public class Vector3d {
 	public double get_z() { return z; }
 
 	/**
-	 * @return new Vector with x- and z-coordinate, i.e., the horizontal coordinates
+	 * @return new Vector2d with x- and z-coordinate, i.e. the horizontal coordinates
 	 */
 	public Vector2d getVector2D() {
 		return new Vector2d(this.x,this.z);
