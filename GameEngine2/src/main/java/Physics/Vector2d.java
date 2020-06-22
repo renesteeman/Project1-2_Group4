@@ -1,10 +1,5 @@
 package Physics;
 
-import org.joml.Vector3f;
-
-import java.lang.String;
-
-
 public class Vector2d {
 	public double x = 0.0, y = 0.0;
 	public static double MAX_DIFFERENCE = 1e-1; // NEED TO PLAY WITH THIS ONE

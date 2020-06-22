@@ -1,10 +1,11 @@
 package Physics;
 
-import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.util.Random;
-import java.util.LinkedList;
 import com.google.common.collect.TreeMultiset;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.LinkedList;
+import java.util.Random;
 
 public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;

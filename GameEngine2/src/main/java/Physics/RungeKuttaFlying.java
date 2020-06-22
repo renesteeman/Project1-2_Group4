@@ -1,8 +1,6 @@
 package Physics;
 
-import Collision.CheckCollision;
 import MainGame.MainGame;
-import Toolbox.Maths;
 
 public class RungeKuttaFlying implements PhysicsEngine{
     private double step = 1e-2;

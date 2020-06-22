@@ -1,9 +1,9 @@
 package FontRendering;
 
-import RenderEngine.Loader;
 import FontMeshCreator.FontType;
 import FontMeshCreator.GUIText;
 import FontMeshCreator.TextMeshData;
+import RenderEngine.Loader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

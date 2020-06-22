@@ -1,7 +1,5 @@
 package Collision;
 
-import Entities.Ball;
-import Toolbox.Maths;
 import org.joml.Vector3f;
 
 //A collision box is the smallest possible box that still contains the entire model

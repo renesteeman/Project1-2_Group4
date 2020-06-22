@@ -1,7 +1,8 @@
 package AI;
 
-import Physics.*;
-import MainGame.*;
+import MainGame.MainGame;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
 
 import java.util.ArrayList;
 

@@ -1,9 +1,11 @@
 package AI;
 
-import Physics.*;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Collections;
+import java.util.LinkedList;
 
 public class PuttingBotGraphDFS {
 	public PuttingSimulator simulator; 

@@ -1,13 +1,6 @@
 package InputOutputModule;
 
-import FeatureTester.FeatureTester;
-import MainGame.GameStaticData;
 import MainGame.MainGame;
-import Physics.PuttingCourse;
-import RenderEngine.Loader;
-import Terrain.Terrain;
-import Textures.TerrainTexture;
-import Textures.TerrainTexturePack;
 import org.joml.Vector3f;
 
 import java.io.File;

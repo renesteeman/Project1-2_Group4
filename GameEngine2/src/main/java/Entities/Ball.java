@@ -1,12 +1,10 @@
 package Entities;
 
-import MainGame.MainGame;
 import Models.CollisionModel;
-import Models.TexturedModel;
-import Toolbox.Maths;
-import org.joml.Vector3f;
 import Physics.Vector2d;
 import Physics.Vector3d;
+import Toolbox.Maths;
+import org.joml.Vector3f;
 
 import java.awt.*;
 

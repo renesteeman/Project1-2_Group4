@@ -5,7 +5,6 @@ import Entities.IndicationBall;
 import MainGame.MainGame;
 import Terrain.Terrain;
 import Toolbox.Maths;
-import com.sun.tools.javac.Main;
 import org.joml.Vector3f;
 
 //Everything to do with the ball landing/hitting the water

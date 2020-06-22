@@ -1,12 +1,10 @@
 package Entities;
 
 import Models.CollisionModel;
-import Physics.Vector2d;
 import Physics.Vector3d;
-import java.awt.Graphics;
-import java.awt.Color;
-import Models.TexturedModel;
 import org.joml.Vector3f;
+
+import java.awt.*;
 
 public class Goal extends CollisionEntity{
     float radius;

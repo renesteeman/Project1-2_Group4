@@ -1,7 +1,6 @@
 package Entities;
 
 import Models.CollisionModel;
-import Models.TexturedModel;
 import org.joml.Vector3f;
 
 //A ball that can be used for previews off ball movement

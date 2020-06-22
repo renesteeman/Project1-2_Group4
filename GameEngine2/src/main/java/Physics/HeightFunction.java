@@ -1,9 +1,8 @@
 package Physics;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Stack;
-import java.awt.Graphics;
-import java.awt.Color;
 
 //TODO Add class documentation
 public class HeightFunction extends Function2d {

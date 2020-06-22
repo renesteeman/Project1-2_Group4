@@ -6,7 +6,6 @@ import RenderEngine.Loader;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Image implements InterfaceButton, UIElement {
     private GUITexture guiTexture;

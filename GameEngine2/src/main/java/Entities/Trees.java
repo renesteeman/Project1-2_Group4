@@ -1,6 +1,5 @@
 package Entities;
 
-import MainGame.GameStaticData;
 import Models.CollisionModel;
 import Models.RawModel;
 import Models.TexturedModel;
@@ -10,7 +9,10 @@ import RenderEngine.Loader;
 import Textures.ModelTexture;
 import org.joml.Vector3f;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 
 //Collection of trees
 public class Trees implements Collection<Entity> {

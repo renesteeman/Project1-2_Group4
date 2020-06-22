@@ -1,6 +1,9 @@
 package AI;
 
-import Physics.*;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
+import Physics.Vector3d;
+
 import java.util.ArrayList;
 import java.util.List;
 

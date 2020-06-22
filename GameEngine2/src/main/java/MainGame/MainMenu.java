@@ -5,12 +5,13 @@
  */
 package MainGame;
 
-import Physics.*;
-import AI.*;
-import javax.swing.*;
-import java.awt.event.*;
-import org.netbeans.lib.awtextra.*;
-import java.io.*;
+import AI.Mastermind;
+import Physics.Vector2d;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 /**

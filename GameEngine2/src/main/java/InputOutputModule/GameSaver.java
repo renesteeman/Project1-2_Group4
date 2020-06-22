@@ -1,7 +1,6 @@
 package InputOutputModule;
 
 import MainGame.MainGame;
-import Terrain.Terrain;
 
 import java.io.FileWriter;
 import java.io.IOException;

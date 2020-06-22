@@ -1,15 +1,13 @@
 package Collision;
 
-import Entities.*;
-import Collision.CollisionBox;
+import Entities.Ball;
+import Entities.CollisionEntity;
+import Entities.Goal;
+import Entities.Tree;
 import Physics.Vector3d;
-import Toolbox.Maths;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
-
-import static Collision.PreciseCollision.isOverlapping;
-import static Collision.PreciseCollision.closestPointTriangle;
 
 public class CheckCollision {
 

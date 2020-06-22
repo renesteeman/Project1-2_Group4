@@ -1,11 +1,11 @@
 package Entities;
 
-import Models.RawModel;
+import Models.TexturedModel;
 import Physics.Vector2d;
 import Physics.Vector3d;
-import java.awt.Graphics;
-import Models.TexturedModel;
 import org.joml.Vector3f;
+
+import java.awt.*;
 
 public class Entity {
     protected TexturedModel model;

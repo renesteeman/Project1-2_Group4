@@ -1,6 +1,8 @@
 package Physics;
 
-import Entities.*;
+import Entities.Ball;
+import Entities.Goal;
+import Entities.Tree;
 
 import java.io.File;
 import java.io.FileNotFoundException;

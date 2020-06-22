@@ -5,7 +5,7 @@ import org.lwjgl.BufferUtils;
 
 import java.nio.DoubleBuffer;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwGetCursorPos;
 
 public class MouseHandler {
     private static boolean enabled = true;

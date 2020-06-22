@@ -1,7 +1,6 @@
 package Entities;
 
 import Models.CollisionModel;
-import Models.TexturedModel;
 import org.joml.Vector3f;
 
 public class Tree extends CollisionEntity {

@@ -1,6 +1,5 @@
 package GUIElements.Buttons;
 
-import FontMeshCreator.GUIText;
 import GUI.GUITexture;
 import GUIElements.UIElement;
 import RenderEngine.DisplayManager;
@@ -8,7 +7,6 @@ import RenderEngine.Loader;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 

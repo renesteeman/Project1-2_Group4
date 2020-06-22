@@ -1,16 +1,16 @@
 package MainGame;
 
-import FontMeshCreator.GUIText;
-import Physics.*;
-import org.joml.Vector2f;
+import Physics.DetermineSolver;
+import Physics.PuttingCourse;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
 
-import java.util.*;
-import java.lang.*;
-import java.io.*;
-
-import java.awt.Graphics;
-
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
 public class CrazyPutting extends PuttingSimulator {
 	protected boolean interactiveMod = true;

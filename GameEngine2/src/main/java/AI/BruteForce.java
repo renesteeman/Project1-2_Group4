@@ -1,9 +1,12 @@
 package AI;
 
-import Physics.*;
-///import java.Math.*;
+import Physics.PuttingSimulator;
+import Physics.Vector2d;
+import Physics.Vector3d;
 
 import java.util.ArrayList;
+
+///import java.Math.*;
 
 // Complexity O(((360 / angleStep) * (maxVelocity / speedStep)) ^ maxMovesForSolution)
 // So be careful, this is pretty demanding 

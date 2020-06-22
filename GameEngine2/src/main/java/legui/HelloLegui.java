@@ -1,15 +1,9 @@
 package legui;
 
 import org.joml.Vector2i;
-import org.joml.Vector4f;
 import org.liquidengine.legui.animation.AnimatorProvider;
 import org.liquidengine.legui.component.*;
-import org.liquidengine.legui.event.CursorEnterEvent;
-import org.liquidengine.legui.event.MouseClickEvent;
-import org.liquidengine.legui.listener.CursorEnterEventListener;
-import org.liquidengine.legui.listener.MouseClickEventListener;
 import org.liquidengine.legui.listener.processor.EventProcessorProvider;
-import org.liquidengine.legui.style.border.SimpleLineBorder;
 import org.liquidengine.legui.style.color.ColorConstants;
 import org.liquidengine.legui.style.color.ColorUtil;
 import org.liquidengine.legui.system.context.CallbackKeeper;

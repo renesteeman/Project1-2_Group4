@@ -1,6 +1,6 @@
 package Physics;
 
-import java.awt.Graphics;
+import java.awt.*;
 
 //TODO add explanation
 public class Function2d {

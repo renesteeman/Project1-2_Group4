@@ -1,16 +1,13 @@
 package GUIElements;
 
-import FontMeshCreator.GUIText;
 import GUI.GUITexture;
 import GUIElements.Buttons.InterfaceButton;
-import Physics.Vector3d;
 import RenderEngine.DisplayManager;
 import RenderEngine.Loader;
 import Toolbox.Maths;
 import org.joml.Vector2f;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 

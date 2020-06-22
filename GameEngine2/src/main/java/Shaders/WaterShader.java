@@ -2,7 +2,6 @@ package Shaders;
 
 import Entities.Camera;
 import Entities.Light;
-import Shaders.ShaderProgram;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
 

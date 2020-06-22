@@ -1,5 +1,6 @@
 package MainGame;
 
+import Entities.*;
 import FontMeshCreator.FontType;
 import FontMeshCreator.GUIText;
 import FontRendering.TextMaster;
@@ -12,14 +13,18 @@ import GUIElements.UIGroup;
 import InputOutputModule.GameLoader;
 import InputOutputModule.GameSaver;
 import Models.CollisionModel;
-import Physics.*;
-import Entities.*;
+import Models.RawModel;
 import Models.TexturedModel;
 import MouseHandler.MouseHandler;
 import OBJConverter.ModelData;
 import OBJConverter.OBJFileLoader;
-import RenderEngine.*;
-import Models.RawModel;
+import Physics.DetermineSolver;
+import Physics.PuttingCourse;
+import Physics.Vector2d;
+import RenderEngine.DisplayManager;
+import RenderEngine.Loader;
+import RenderEngine.MasterRenderer;
+import RenderEngine.WaterRenderer;
 import Shaders.WaterShader;
 import Terrain.Terrain;
 import Textures.ModelTexture;
@@ -35,7 +40,6 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
 
