@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL32;
 import java.nio.ByteBuffer;
 
 public class WaterFrameBuffers {
-
 	protected static final int REFLECTION_WIDTH = 320;
 	private static final int REFLECTION_HEIGHT = 180;
 	

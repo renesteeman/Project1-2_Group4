@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.system.CallbackI;
 
+//Used for converting a mouse click to a location on the terrain
 public class MousePicker {
 
     //RECURSION_COUNT determines the precision

@@ -2,6 +2,7 @@ package OBJConverter;
 
 import java.util.Arrays;
 
+//Store data from model
 public class ModelData {
     private float[] vertices;
     private float[] textureCoords;

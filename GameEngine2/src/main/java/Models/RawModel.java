@@ -1,7 +1,7 @@
 package Models;
 
+//Model to be used only by the graphics engine
 public class RawModel {
-
     private int vaoID;
     private int vertexCount;
 

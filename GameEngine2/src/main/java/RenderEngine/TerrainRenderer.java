@@ -14,8 +14,8 @@ import org.lwjgl.opengl.GL30;
 
 import java.util.List;
 
+//Terrain specific render
 public class TerrainRenderer {
-
     private TerrainShader shader;
 
     public TerrainRenderer(TerrainShader shader, Matrix4f projectionMatrix){

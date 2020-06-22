@@ -5,6 +5,7 @@ import org.joml.Vector3f;
 
 import java.util.Arrays;
 
+//A model with extra information for the collision system
 public class CollisionModel {
     private final TexturedModel texturedModel;
     private final Vector3f[] vertices;

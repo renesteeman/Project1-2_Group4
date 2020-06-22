@@ -6,6 +6,7 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 
+//Manages the window and openGL setup
 public class DisplayManager {
     private static final int WIDTH = 1280;
     private static final int HEIGHT = 720;

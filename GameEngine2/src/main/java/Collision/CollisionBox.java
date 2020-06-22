@@ -4,6 +4,7 @@ import Entities.Ball;
 import Toolbox.Maths;
 import org.joml.Vector3f;
 
+//A collision box is the smallest possible box that still contains the entire model
 public class CollisionBox {
     private float left;
     private float front;
@@ -21,7 +22,6 @@ public class CollisionBox {
         this.top = top;
     }
 
-    //TODO make sure this works
     public boolean overlapsWithPointGivenMargin(Vector3f collisionBoxTranslation, Vector3f point, float margin){
         float leftTranslated = left + collisionBoxTranslation.x - margin;
         float rightTranslated = right + collisionBoxTranslation.x + margin;

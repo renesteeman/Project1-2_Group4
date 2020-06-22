@@ -15,19 +15,13 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// QUESTION is this file supposed to just extract the basic course data? Like, read the file that was sampled in the manual? If yes, than it is already
-// implemented inside the puttingcourse and this file can be deleted.
-
-// TODO rewrite for the MainGame 
-// The easiest way to do so is not drag the Ball from PuttingCourse cause it'll likely break a lot of stuff but to provide MainGame class
-// (or whatever GameLoader is logically supposed to interact with) with methods that are gonna send data to the puttingcourse's object.
-
+//Load map in-game
 public class GameLoader {
     static ArrayList<Vector3f> treeLocations;
 
-    //TODO load the game info when this function is called (goal location, ball location, terrain, etc)
     public static void loadGameFile(String fullPath, MainGame game){
 
+        /*
         String gravitationalConstant = "";
         String massOfBall = "";
         String frictionCoefficient = "";
@@ -36,6 +30,7 @@ public class GameLoader {
         String startCoordinates2D = "";
         String goalCoordinates2D = "";
         String heightFunction = "";
+        */
 
         try {
             File myObj = new File(fullPath);
@@ -48,28 +43,28 @@ public class GameLoader {
 
                 switch(i){
                     case 0:
-                        gravitationalConstant = extractValue(line);
+//                        gravitationalConstant = extractValue(line);
                         break;
                     case 1:
-                        massOfBall = extractValue(line);
+//                        massOfBall = extractValue(line);
                         break;
                     case 2:
-                        frictionCoefficient = extractValue(line);
+//                        frictionCoefficient = extractValue(line);
                         break;
                     case 4:
-                        vMax = extractValue(line);
+//                        vMax = extractValue(line);
                         break;
                     case 5:
-                        goalRadius = extractValue(line);
+//                        goalRadius = extractValue(line);
                         break;
                     case 7:
-                        startCoordinates2D = extractValue(line);
+//                        startCoordinates2D = extractValue(line);
                         break;
                     case 8:
-                        goalCoordinates2D = extractValue(line);
+//                        goalCoordinates2D = extractValue(line);
                         break;
                     case 10:
-                        heightFunction = extractValue(line);
+//                        heightFunction = extractValue(line);
                         break;
                     default:
                         if(i!=3 && i!=6 && i!=9){
@@ -85,16 +80,6 @@ public class GameLoader {
             if(remaining.length()>0){
                 processRemaining(remaining, game);
             }
-
-            //TODO link to physics and game objects
-//            System.out.println(gravitationalConstant);
-//            System.out.println(massOfBall);
-//            System.out.println(frictionCoefficient);
-//            System.out.println(vMax);
-//            System.out.println(goalRadius);
-//            System.out.println(startCoordinates2D);
-//            System.out.println(goalCoordinates2D);
-//            System.out.println(heightFunction);
 
 //            MainGameLoop.terrain.loadFromString(terrainInfo);
 //            MainGameLoop.trees.loadFromString(treeInfo);

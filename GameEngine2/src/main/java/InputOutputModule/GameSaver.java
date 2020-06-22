@@ -6,17 +6,11 @@ import Terrain.Terrain;
 import java.io.FileWriter;
 import java.io.IOException;
 
+//Save map during run-time
 public class GameSaver {
-    //TODO save the game info when this function is called (goal location, ball location, terrain, etc)
-    /*
-   TODO make the file path relative, load the goal location, starting location, 'score radius', terrain width, terrain height (check project manual) and
-   set these values for the objects themselves (ie set location of items)
-    */
-    public static void saveGameFile(String fullPath, MainGame game){
-//        String terrainInfo = MainGameLoop.terrain.getTerrainInfoAsString();
-//        String treeInfo = MainGameLoop.trees.getTreeInfoAsString();
 
-        //TODO link to input
+    public static void saveGameFile(String fullPath, MainGame game){
+        //Link to input if this should reset more than just the map.
         String gravitationalConstant = "g = 9.81;   // Gravitational acceleration [m/s^2]";
         String massOfBall = "m = 45.93;  // Mass of ball [g]";
         String frictionCoefficient = "mu = 0.131; // Coefficient of friction (rolling ball)\n             // Typical 0.065<=mu<=0.196 ";

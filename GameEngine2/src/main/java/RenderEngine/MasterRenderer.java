@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Main render
 public class MasterRenderer {
     private static final float FOV = 75;
     private static final float NEAR_PLANE = 0.1f;

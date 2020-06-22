@@ -1,7 +1,7 @@
 package Water;
 
+//A water tile is an area with water
 public class WaterTile {
-
 	private float height;
 	private float x;
 	private float z;

@@ -3,7 +3,6 @@ package Entities;
 import org.joml.Vector3f;
 
 public class Light {
-
     private Vector3f position;
     private Vector3f color;
 

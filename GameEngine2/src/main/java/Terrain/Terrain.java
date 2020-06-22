@@ -12,8 +12,8 @@ import org.joml.Vector3f;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+//Dynamically create terrain
 public class Terrain {
-
     //Every terrain uses the same SIZE and VERTEX_COUNT (SIZE is final in MainGameLoop)
     private final int SIZE;
     private final int VERTEX_COUNT = 512;

@@ -2,6 +2,7 @@ package OBJConverter;
 
 import org.joml.Vector3f;
 
+//Vertex data
 public class Vertex {
     private static final int NO_INDEX = -1;
 

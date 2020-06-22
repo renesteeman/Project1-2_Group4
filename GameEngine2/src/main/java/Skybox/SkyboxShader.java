@@ -5,8 +5,8 @@ import Shaders.ShaderProgram;
 import Toolbox.Maths;
 import org.joml.Matrix4f;
 
+//Shader for skybox
 public class SkyboxShader extends ShaderProgram {
-
     private static final String VERTEX_FILE = "src/main/java/Shaders/skyboxVertexShader.txt";
     private static final String FRAGMENT_FILE = "src/main/java/Shaders/skyboxFragmentShader.txt";
 

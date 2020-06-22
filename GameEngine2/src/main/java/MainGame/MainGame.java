@@ -92,10 +92,6 @@ public class MainGame extends CrazyPutting {
 
     boolean hitWater = false;
 
-    public void setHitWater(boolean hitWater) {
-        this.hitWater = hitWater;
-    }
-
     public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
 
@@ -572,7 +568,6 @@ public class MainGame extends CrazyPutting {
     }
 
     @Override
-    //Can this be removed?
     public void showWinText(){
         FontType font = new FontType(loader.loadTexture("/font/tahoma"), new File("res/font/tahoma.fnt"));
         GUIText winText = new GUIText("You won!", 1, font, new Vector2f(0, 0), 1f, true);
@@ -676,5 +671,9 @@ public class MainGame extends CrazyPutting {
 
     public UIGroup getPlayerUiGroup() {
         return playerUiGroup;
+    }
+
+    public void setHitWater(boolean hitWater) {
+        this.hitWater = hitWater;
     }
 }

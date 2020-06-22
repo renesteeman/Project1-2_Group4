@@ -7,7 +7,6 @@ import Toolbox.Maths;
 import org.joml.Matrix4f;
 
 public class WaterShader extends ShaderProgram {
-
 	private final static String VERTEX_FILE = "src/main/java/Shaders/waterVertex.txt";
 	private final static String FRAGMENT_FILE = "src/main/java/Shaders/waterFragment.txt";
 

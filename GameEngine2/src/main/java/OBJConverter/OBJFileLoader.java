@@ -16,6 +16,8 @@ Lightmap Pack, you can mostly select the setting you'd like, I went with Image S
 you created with the UV. Than give the material some transmission (otherwise it'll be black-and-white. Go to Render Properties->Bake and click bake while in edit mode and having the entire object selected.
 Than save the image from the UV editor and use this as your texture.
  */
+
+//Load in .obj files
 public class OBJFileLoader {
 
     public static ModelData loadOBJ(String objFileName) {

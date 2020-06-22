@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 
+//Water specific renderer
 public class WaterRenderer {
 
 	private static final String DUDV_MAP = "textures/waterDuDv";

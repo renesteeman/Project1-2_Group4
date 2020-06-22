@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.opengles.GLES20;
 
+//Renderer for skybox
 public class SkyboxRenderer {
     private static final float SIZE = 500f;
 

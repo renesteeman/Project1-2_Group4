@@ -2,8 +2,8 @@ package Models;
 
 import Textures.ModelTexture;
 
+//Model with texture
 public class TexturedModel {
-
     private RawModel rawModel;
     private ModelTexture texture;
 

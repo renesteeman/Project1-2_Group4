@@ -12,8 +12,8 @@ import org.joml.Vector3f;
 
 import java.util.*;
 
+//Collection of trees
 public class Trees implements Collection<Entity> {
-
     ArrayList<Tree> trees;
 
     public Trees() {

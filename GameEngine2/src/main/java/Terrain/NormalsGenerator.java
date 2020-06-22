@@ -2,6 +2,7 @@ package Terrain;
 
 import org.joml.Vector3f;
 
+//Generates normal vectors
 public class NormalsGenerator {
     public static Vector3f[][] generateNormals(float[][] heights){
         Vector3f[][] normals = new Vector3f[heights.length][heights.length];

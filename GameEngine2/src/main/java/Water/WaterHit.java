@@ -8,6 +8,7 @@ import Toolbox.Maths;
 import com.sun.tools.javac.Main;
 import org.joml.Vector3f;
 
+//Everything to do with the ball landing/hitting the water
 public class WaterHit {
 
     public static boolean hitWater(Vector3f position){

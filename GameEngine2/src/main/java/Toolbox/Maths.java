@@ -8,6 +8,7 @@ import org.joml.Vector3f;
 
 import java.util.Vector;
 
+//Collection of math functions
 public class Maths {
 
     //3D transformationMatrix

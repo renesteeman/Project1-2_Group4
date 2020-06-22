@@ -4,6 +4,7 @@ import Collision.CollisionBox;
 import Models.CollisionModel;
 import org.joml.Vector3f;
 
+//An entity with collision
 public class CollisionEntity extends Entity{
     protected CollisionModel collisionModel;
     //Note that the collisionBox doesn't take the position of the entity into account

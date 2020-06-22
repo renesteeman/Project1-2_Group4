@@ -43,6 +43,7 @@ import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+//Only used for testing
 public class FeatureTester {
 
     //10 units in-engine = 1 meter

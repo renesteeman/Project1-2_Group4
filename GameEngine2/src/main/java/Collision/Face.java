@@ -2,6 +2,7 @@ package Collision;
 
 import org.joml.Vector3f;
 
+//A face is a group of three connected vertices
 public class Face {
     final private Vector3f firstVertex;
     final private Vector3f secondVertex;

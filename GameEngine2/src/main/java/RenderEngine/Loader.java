@@ -16,6 +16,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+//Used to load in data for the graphics engine
 public class Loader {
     //Keep track of used data
     private List<Integer> vaos = new ArrayList<Integer>();

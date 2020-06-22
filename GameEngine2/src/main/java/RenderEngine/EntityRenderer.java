@@ -15,8 +15,8 @@ import org.lwjgl.opengl.GL30;
 import java.util.List;
 import java.util.Map;
 
+//Used to render entities
 public class EntityRenderer {
-
     private StaticShader shader;
 
     public EntityRenderer(StaticShader shader, Matrix4f projectionMatrix){
