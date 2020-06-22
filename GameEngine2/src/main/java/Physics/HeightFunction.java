@@ -4,7 +4,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
-//TODO Add class documentation
 public class HeightFunction extends Function2d {
     private String infix;
     private String postfix;
@@ -19,7 +18,6 @@ public class HeightFunction extends Function2d {
         this.postfix = infixToPostfix(this.infix);
     } 
 
-    //TODO add documentation
     @Override
     public void render(Graphics g) {
         g.setColor(Color.GREEN);
@@ -65,7 +63,6 @@ public class HeightFunction extends Function2d {
                 // ... if the stack is not empty, then pop operators under certain conditions and at last push the token onto the stack.
                 // Else token is immediately placed on stack.
                 if(!s.isEmpty()) {
-                    //System.out.println("Stack not empty...\nPrecedence: " + getPrecedence(token));
                     String peeked = s.peek();
 
                     //While( (at the top of the stack is a function (e.g., sin) OR the precedence of the element at the top of the stack is bigger than the token
@@ -76,7 +73,6 @@ public class HeightFunction extends Function2d {
                             || isEqualPrecedence(token, peeked) )
                             && !peeked.equals("(")
                             && !s.isEmpty()) {
-                        //System.out.println("pop element ...");
                         sb.append(s.pop()).append(' ');
 
                         //If stack is not empty, then update the value of peeked
@@ -84,17 +80,14 @@ public class HeightFunction extends Function2d {
                             peeked = s.peek();
                         }
                     }
-                    //System.out.println("Popped element(s) and stack size is: " + s.size() + "\n");
                 }
                 s.push(token);
 
             }
             else if(token.equals("(")) { //Else if token is left parenthesis, we push it onto the stack.
-                //System.out.println("Pushing left parenthesis ...");
                 s.push(token);
             }
             else if(token.equals(")")){ //Else if token is right parenthesis, then pop elements from stack until left parenthesis is on top.
-                //System.out.println("Discarding left parenthesis ...");
                 while (!s.peek().equals("(")) {
                     sb.append(s.pop()).append(' ');
                 }
@@ -111,7 +104,6 @@ public class HeightFunction extends Function2d {
                 sb.append(' ');
             }
         }
-        //System.out.println("\n" + sb.toString());
         return sb.toString();
     }
 
@@ -313,7 +305,6 @@ public class HeightFunction extends Function2d {
     public double evaluate(Vector2d p) {
         double xValue = p.x, yValue = p.y;
         String equation = this.postfix.replaceAll("x", Double.toString(xValue)).replaceAll("y", Double.toString(yValue));
-        //System.out.println(equation);
 
         String[] split = equation.split("\\s");
         Stack<Double> s = new Stack<>();
@@ -406,22 +397,5 @@ public class HeightFunction extends Function2d {
     @Override
     public String toString() {
         return infix;
-    }
-
-    //TODO Remove main
-    public static void main(String[] args) {
-        //String function = "-1*pi + 3pi + x * 2 / (y - 5)^2 ^ 3";
-        String function = "cos(pi) + 2";
-        HeightFunction example = new HeightFunction(function);
-
-        System.out.printf("function:%s%n", function);
-        System.out.printf("infix:   %s%n", example.getInfix());
-        System.out.printf("postfix: %s%n", example.getPostfix());
-
-        int x = 5; int y = 4;
-        //System.out.println(example.getInfix()+" with x = "+x+" and y = "+y+" is: " +  example.evaluate(new Vector2d(x, y)));
-        System.out.println(example.evaluate(new Vector2d(x, y)));
-        System.out.println(example.gradient(new Vector2d(x, y)).x);
-        System.out.println(example.gradient(new Vector2d(x, y)).y); 
     }
 }

@@ -5,18 +5,12 @@ import MainGame.MainGame;
 import Water.WaterHit;
 import org.joml.Vector3f;
 
-/**
- * The RungeKutta4Solver class updates position and velocity of a ball after every time-step.
- *
- * The position and velocity can be updated by the process()-method.
- * This is done by the Classical Fourth-Order Runge-Kutta method in a second-order system.
- */
 public class RungeKutta4Solver implements PhysicsEngine{
-    private double step = 1e-2; //TODO RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+    private double step = 1e-2;
     private PuttingCourse course;
     private MainGame game;
 
-    public final double GRAVITY_EARTH = 9.81; //TODO allow people to enter their preferred G value
+    public final double GRAVITY = 9.81;
 
     public RungeKutta4Solver(PuttingCourse course, double step, MainGame game){
         this.course = course;
@@ -25,9 +19,27 @@ public class RungeKutta4Solver implements PhysicsEngine{
     }
 
     /**
-     * Processes the shot  using the Classical 4th-order Runge-Kutta Method.
-     * TODO add better description here
+     * Processes the shot using the Classical 4th-order Runge-Kutta Method. This method takes four samples of the
+     * velocity and acceleration at different time-points in a time-step. To get the next position and velocity, a
+     * weighted average of these four samples is calculated and multiplied with a time-step, which is added to the
+     * current position.
+     *
+     * The formulas to calculate these samples are:
+     *      k1 = v(t)                               k3 = v(t) + l2 * 1/2 * Δt
+     *      l1 = a(p(t), v(t))                      l3 = a(p(t) + k2 * 1/2 * Δt, k3)
+     *      k2 = v(t) + l1 * 1/2 * Δt               k4 = v(t) + l3 * Δt
+     *      l2 = a(p(t) + k1 * 1/2 * Δt, k2)        l4 = a(p(t) + k2 * Δt, k4)
+     * (where p = position, v = velocity, a = acceleration, t = time,
+     *      and Δt = step size = change in time from current position)
+     *
+     * And to calculate the next position and next velocity with these samples, the formulas are:
+     *      p(t+Δt) = p(t) + 1/6 * Δt * (k1 + 2*k2 + 2*k3 + k4)
+     *      v(t+Δt) = v(t) + 1/6 * Δt * (l1 + 2*l2 + 2*l3 + l4)
+     *
      * Source used: https://cg.informatik.uni-freiburg.de/course_notes/sim_02_particles.pdf (page/slide 29)
+     *
+     * After the position and velocity are updated, there is checked if there is any collision with an object, or that
+     * the ball hit with the water. If there is any collision detected, then these events will be handled accordingly.
      *
      * @param dtime the interval over which the shot is processed
      * @param shotInfo contains info about current position and current velocity
@@ -104,8 +116,8 @@ public class RungeKutta4Solver implements PhysicsEngine{
      */
     private Vector2d acceleration(Vector2d position, Vector2d velocity) {
         Vector2d gradient = course.height.gradient(position);
-        double accelerationX =  -GRAVITY_EARTH * (gradient.x + course.getFriction() * velocity.x / velocity.length());
-        double accelerationY =  -GRAVITY_EARTH * (gradient.y + course.getFriction() * velocity.y / velocity.length());
+        double accelerationX =  -GRAVITY * (gradient.x + course.getFriction() * velocity.x / velocity.length());
+        double accelerationY =  -GRAVITY * (gradient.y + course.getFriction() * velocity.y / velocity.length());
         return (new Vector2d(accelerationX,accelerationY)).multiply(1./3.);
     }
 

@@ -9,7 +9,7 @@ public class RungeKuttaFlying implements PhysicsEngine{
 
     private boolean wasFlying = false;
 
-    public final double GRAVITY_EARTH = 9.81;
+    public final double GRAVITY = 9.81;
     private final double MASS_OF_BALL = course.ball.getMassOfBall();
 
     //Air friction coefficients for golf ball
@@ -28,9 +28,30 @@ public class RungeKuttaFlying implements PhysicsEngine{
     }
 
     /**
-     * Processes the shot  using the Classical 4th-order Runge-Kutta Method.
-     * TODO add better description here
+     * Processes the shot using the Classical 4th-order Runge-Kutta Method. This method takes four samples of the
+     * velocity and acceleration at different time-points in a time-step. To get the next position and velocity, a
+     * weighted average of these four samples is calculated and multiplied with a time-step, which is added to the
+     * current position.
+     *
+     * First there is checked whether the ball is flying or not. If the ball is not flying, then the velocity is
+     * redirected past the slope.
+     *
+     * The formulas to calculate these samples are:
+     *      k1 = v(t)                               k3 = v(t) + l2 * 1/2 * Δt
+     *      l1 = a(p(t), v(t))                      l3 = a(p(t) + k2 * 1/2 * Δt, k3)
+     *      k2 = v(t) + l1 * 1/2 * Δt               k4 = v(t) + l3 * Δt
+     *      l2 = a(p(t) + k1 * 1/2 * Δt, k2)        l4 = a(p(t) + k2 * Δt, k4)
+     * (where p = position, v = velocity, a = acceleration, t = time,
+     *      and Δt = step size = change in time from current position)
+     *
+     * And to calculate the next position and next velocity with these samples, the formulas are:
+     *      p(t+Δt) = p(t) + 1/6 * Δt * (k1 + 2*k2 + 2*k3 + k4)
+     *      v(t+Δt) = v(t) + 1/6 * Δt * (l1 + 2*l2 + 2*l3 + l4)
+     *
      * Source used: https://cg.informatik.uni-freiburg.de/course_notes/sim_02_particles.pdf (page/slide 29)
+     *
+     * After the position and velocity are updated, there is checked if there is any collision with an object, or that
+     * the ball hit with the water. If there is any collision detected, then these events will be handled accordingly.
      *
      * @param dtime the interval over which the shot is processed
      * @param shotInfo contains info about current position and current velocity
@@ -43,11 +64,9 @@ public class RungeKuttaFlying implements PhysicsEngine{
 
         for(double timer = 0; timer < dtime; timer += step){
             if (!isFlying(currentPosition)) {
-                System.out.println("I'm not flying :(");
                 currentVelocity = redirectVelocity(currentPosition,currentVelocity);
                 wasFlying = false;
             } else {
-                System.out.println("I BELIEVE I CAN FLY!");
                 wasFlying = true;
             }
 
@@ -69,7 +88,6 @@ public class RungeKuttaFlying implements PhysicsEngine{
             Vector3d endVelocity = limitVelocity(currentVelocity.add(intermediateAcceleration2.multiply(step))); //v4 = v1 + a3 * step
             Vector3d endAcceleration = acceleration(endPosition, endVelocity); //a4 = acceleration(p4,v4)
 
-
             //positionStep = 1/6 * step * (v1 + 2*v2 + 2*v3 + v4);
             Vector3d positionStep = currentVelocity.add(intermediateVelocity1.multiply(2.0)).add(intermediateVelocity2.multiply(2.0)).add(endVelocity).multiply(step / 6.0);
             //velocityStep = 1/6 * step (a1 + 2*a2 + 2*a3 + a4)
@@ -80,7 +98,6 @@ public class RungeKuttaFlying implements PhysicsEngine{
             currentVelocity = limitVelocity(currentVelocity.add(velocityStep));
         }
 
-
         shotInfo.setPosition3D(new Vector3d(currentPosition.x, currentPosition.y, currentPosition.z));
         shotInfo.setVelocity3D(new Vector3d(currentVelocity.x, currentVelocity.y, currentVelocity.z));
 
@@ -88,7 +105,7 @@ public class RungeKuttaFlying implements PhysicsEngine{
     }
 
     /**
-     * Checks whether the ball is flying
+     * Checks whether the ball is flying. Assume that ball is flying if it is more then 1 cm above the ground.
      * @return true if ball is in the air, false if ball is on the ground
      */
     private boolean isFlying(Vector3d position) {
@@ -110,67 +127,21 @@ public class RungeKuttaFlying implements PhysicsEngine{
 
         //If ball was flying, then the ball bounces. Else velocity is redirected along the slope.
         if (wasFlying) {
-            double ballGradient = currentVelocity.y / currentVelocity.getVector2D().length();
-//            double angle;
-//            if (Double.isInfinite((slopeAngle - ballGradient) / (1 - slopeAngle * ballGradient))) {
-//                angle = Math.PI / 2.0;
-//            } else {
-//                angle = 1; //TODO change........
-//            }
-
-            //TODO check if directionalSlope3D is correct
+            //calculate angle between ball and slope
             Vector3d directionalSlope3D = new Vector3d(normalizedVelocity.x,directionalSlope,normalizedVelocity.y);
             double dotProduct = directionalSlope3D.dotProduct(currentVelocity);
             double cos = dotProduct / (directionalSlope3D.length() * currentVelocity.length());
             double angle = Math.acos(cos); //value between 0.0 and PI
 
+            //Calculate what the angle is to where the ball has to be redirected.
             double perpendicularSlope = -1/directionalSlope;
             double redirectionAngle = Math.atan(perpendicularSlope) + (90 - angle);
 
+            //Calculate the redirected velocity vector
             Vector3d redirectedVelocity = limitVelocity(currentVelocity.multiply(Math.tan(redirectionAngle)));
             redirectedVelocity = redirectedVelocity.multiply(0.8f);
             redirectedVelocity = limitVelocity(redirectedVelocity);
 
-
-
-
-//            if (angle > Math.PI) {
-//                angle = 2 * Math.PI - angle;
-//            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-            double redirectAngle;
-            if (slopeAngle < 0) {
-                redirectAngle = slopeAngle + angle;
-            } else if (slopeAngle > 0) {
-                redirectAngle = slopeAngle - angle;
-            }
-//            } else {
-//                redirectAngle = -currentVelocity.y / currentVelocity.getVector2D().length();
-//            }
-
-//            //ballGradient = verticalVelocity / horizontalVelocity
-//            double ballGradient = currentVelocity.y/Math.sqrt(Math.pow(currentVelocity.x,2)+Math.pow(currentVelocity.z,2));
-//            double ballAngle = Math.atan(ballGradient);
-//            double angle = Math.abs(slopeAngle - ballAngle);
-//            if (angle > 90) {
-//                angle = 180 - angle;
-//            }
-//            double redirectAngle = slopeAngle - angle;
-//
-//            return limitVelocity(currentVelocity.multiply(Math.tan(redirectAngle)));
-//            return limitVelocity(currentVelocity.multiply(Math.tan(redirectAngle)).multiply(0.95));
             return redirectedVelocity;
         } else {
             //Break up velocity into components
@@ -184,7 +155,11 @@ public class RungeKuttaFlying implements PhysicsEngine{
     }
 
     /**
-     * Calculates the current acceleration given the position and velocity
+     * Calculates the current acceleration given the position and velocity.
+     * If the ball is not flying, then the acceleration of the ball is the gravity past the slopes.
+     * However, if the ball is flying, then the acceleration is only the air friction, or drag force, in the horizontal
+     *  directions, and the acceleration is gravity and air friction in the vertical direction.
+     *
      * @param position the current position of the ball
      * @param velocity the current velocity of the ball
      * @return the current acceleration
@@ -192,12 +167,12 @@ public class RungeKuttaFlying implements PhysicsEngine{
     private Vector3d acceleration(Vector3d position, Vector3d velocity) {
         if (!isFlying(position)) {
             Vector2d gradients = course.height.gradient(position.getVector2D());
-            double accelerationX = -GRAVITY_EARTH * (gradients.x + course.getFriction() * velocity.x / velocity.length());
-            double accelerationZ = -GRAVITY_EARTH * (gradients.y + course.getFriction() * velocity.z / velocity.length());
+            double accelerationX = -GRAVITY * (gradients.x + course.getFriction() * velocity.x / velocity.length());
+            double accelerationZ = -GRAVITY * (gradients.y + course.getFriction() * velocity.z / velocity.length());
             return new Vector3d(accelerationX, 0.0, accelerationZ);
         } else {
             double accelerationX = -(DRAG_CONSTANT * velocity.x * velocity.length()) / MASS_OF_BALL;
-            double accelerationY = -GRAVITY_EARTH - (DRAG_CONSTANT * velocity.y * velocity.length()) / MASS_OF_BALL;
+            double accelerationY = -GRAVITY - (DRAG_CONSTANT * velocity.y * velocity.length()) / MASS_OF_BALL;
             double accelerationZ = -(DRAG_CONSTANT * velocity.z * velocity.length()) / MASS_OF_BALL;
             return new Vector3d(accelerationX, accelerationY, accelerationZ);
         }

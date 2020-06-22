@@ -6,11 +6,11 @@ import Water.WaterHit;
 import org.joml.Vector3f;
 
 public class EulerSolver implements PhysicsEngine {
-	private double step = 1e-2; // RANDOM VALUE, NEED TO ASSESS IT FURTHER ACCORDING TO THE INPUT
+	private double step = 1e-2;
 	private PuttingCourse course;
 	private MainGame game;
 
-	public final double GRAVITY = 9.81; //TODO allow people to enter their prefered G value
+	public final double GRAVITY = 9.81;
 
 	public EulerSolver(PuttingCourse course, double step, MainGame game) {
 		this.course = course;
@@ -23,6 +23,9 @@ public class EulerSolver implements PhysicsEngine {
 	 * position and current velocity. This happens as follows:
 	 * 		nextPosition = currentPosition + currentVelocity * step;
 	 * 		nextVelocity = currentVelocity + currentAcceleration * step;
+	 *
+	 * After the position and velocity are updated, there is checked if there is any collision with an object, or that
+	 * the ball hit with the water. If there is any collision detected, then these events will be handled accordingly.
 	 *
 	 * @param dtime the interval over which the shot is processed
 	 * @param shotInfo contains info about current position and current velocity
