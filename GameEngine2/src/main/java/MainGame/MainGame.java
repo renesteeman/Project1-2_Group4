@@ -279,9 +279,6 @@ public class MainGame extends CrazyPutting {
         AbstractButton shootingButton = new AbstractButton(loader, "textures/shootButton", new Vector2f(0.6f,-0.7f), new Vector2f(0.1f, 0.15f)) {
             @Override
             public void onClick(InterfaceButton button) {
-                System.out.println("SHOOT");
-                System.out.println("SIZE: " + this.guiTexture.getScale());
-
                 if (currentShotInProcess)
                     return;
                 currentShotInProcess = true;
