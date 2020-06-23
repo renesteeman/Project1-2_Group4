@@ -17,6 +17,10 @@ public class PuttingSimulator extends JPanel {
 	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;
 
+	public PuttingSimulator() {
+
+	}
+
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
 		this.course = course;
 		this.engine = engine;

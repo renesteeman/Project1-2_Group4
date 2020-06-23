@@ -22,7 +22,6 @@ public class CrazyPutting extends PuttingSimulator {
 
 	public CrazyPutting() {
 		course = new PuttingCourse("./res/courses/course0.txt");
-		engine = DetermineSolver.getEulerSolver(course, 1e-2);
 	}
 
 	public void setInteractiveMod(boolean newMod) {
@@ -92,25 +91,6 @@ public class CrazyPutting extends PuttingSimulator {
 	@Override
 	public void requestGraphicsUpdate() {
 		repaint();
-	}
-
-	public static void main(String[] args) {
-		
-		JFrame frame = new JFrame("golf");
-		frame.setSize(800, 675);
-  		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		CrazyPutting obj = new CrazyPutting();
-
-		frame.getContentPane().add(obj);
-  		frame.setVisible(true);
-
-		try {
-			obj.game();
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-		}
 	}
 
 	//To overwrite
