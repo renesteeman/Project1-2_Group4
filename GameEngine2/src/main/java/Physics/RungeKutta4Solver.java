@@ -22,6 +22,10 @@ public class RungeKutta4Solver implements PhysicsEngine{
         this.game = game;
     }
 
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
+
     /**
      * Processes the shot  using the Classical 4th-order Runge-Kutta Method.
      * TODO add better description here

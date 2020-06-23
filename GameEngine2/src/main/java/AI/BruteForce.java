@@ -16,7 +16,7 @@ public class BruteForce {
     public ArrayList<Vector2d> solution = null,
                                current = new ArrayList<>();
     public boolean solution_found = false;
-
+    
     public BruteForce(PuttingSimulator simulator, int maxMovesForSolution, double angleStep, double speedStep) {
         this.simulator = simulator;
         this.maxMovesForSolution = maxMovesForSolution;

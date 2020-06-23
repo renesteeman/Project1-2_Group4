@@ -4,6 +4,13 @@ plugins {
 
     id "org.sonarqube" version "2.7"
     id 'net.nemerosa.versioning' version '2.6.1'
+
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls' ]
 }
 
 group 'org.example'

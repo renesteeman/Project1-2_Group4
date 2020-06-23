@@ -488,12 +488,16 @@ public class MainGame extends CrazyPutting {
 
         requestGraphicsUpdate();
 
+        System.out.println("right place");
+
         try {
             game();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(0);
         }
+
+        System.out.println("game ended");
 
         cleanUp();
     }

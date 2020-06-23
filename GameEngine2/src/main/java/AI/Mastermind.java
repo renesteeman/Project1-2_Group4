@@ -6,37 +6,36 @@ import MainGame.*;
 import java.util.ArrayList;
 
 public class Mastermind {
+	boolean animated = false;
 	PuttingSimulator simulator;
-	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null;
+	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null, solutionAstar = null;
 
 	public Mastermind(boolean animated, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
-		if (animated) {
-			MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
-			obj.setUpModels();
-			obj.resetPositions();
-	        obj.addTerrain();
-	        obj.initLight();
-	        obj.addWater();
-	        obj.initRenders();
-	        obj.initCamera();
-	        obj.initControls();
-	        obj.setInteractiveMod(false);
+		this.animated = animated;
+		MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
+		obj.setUpModels();
+		obj.resetPositions();
+        obj.addTerrain();
+        obj.initLight();
+        obj.addWater();
+        obj.initRenders();
+        obj.initCamera();
+        obj.initControls();
+        obj.setInteractiveMod(false);
 
-	        obj.requestGraphicsUpdate();
+        obj.requestGraphicsUpdate();
+    
+        /*try {
+            obj.game();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(0);
+        }*/
 
-	        /*try {
-	            obj.game();
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            System.exit(0);
-	        }*/
+        //obj.runApp();
 
-	        //obj.runApp();
-
-	        simulator = obj;
-	    } else {
-	    	// not supported yet
-	    }
+        simulator = obj;
+        simulator.animated = false;
 	}
 
 	public boolean findSolution(boolean flag1, boolean flag2, boolean flag3) {
@@ -75,7 +74,9 @@ public class Mastermind {
 	}
 
 	public boolean runDFS(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
-		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, new Vector2d(Vector2d.MAX_DIFFERENCE, Vector2d.MAX_DIFFERENCE), stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
+		System.out.print("VECTOR2d. MAX DIFFERENCE    ");
+		System.out.println(Vector2d.MAX_DIFFERENCE);
+		PuttingBotGraphDFS bot = new PuttingBotGraphDFS(simulator, stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
 		System.out.println("DFS bot initialized");
 		System.out.println("starting search");
 
@@ -92,7 +93,38 @@ public class Mastermind {
 			return solutionNaive;
 		if (solutionDFS != null)
 			return solutionDFS;
+		if (solutionAstar != null)
+			return solutionAstar;
 		return null;
+	}
+
+	public boolean runAstar(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
+		Astar bot = new Astar(simulator, stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
+		System.out.println("Astar bot initialized");
+		System.out.println("starting search");
+
+		bot.solve();
+		if (bot.solved)
+			solutionAstar = bot.solution;
+		return (solutionAstar != null);
+	}
+
+	public void buildPath() {
+		ArrayList<Vector2d> shots = getSolution();
+
+		if (shots == null)
+			return;
+
+		simulator.setGraphicsUpdateRate(1e-2);
+		simulator.engine.setPhysicsStep(1e-4);
+
+		simulator.animated = true;
+		simulator.course.setDefaultPositions();
+
+		for (int i = 0; i < shots.size(); i++) {
+			Vector2d current_shot = shots.get(i);
+			simulator.takeShot(current_shot);
+		}
 	}
 
 	public void startNaiveBot(double angleStep, double angleRange, double velocityStep) {
@@ -117,6 +149,22 @@ public class Mastermind {
 		System.out.println("starting search...");
 
 		boolean result = runDFS(stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
+		
+		System.out.println("search ended");
+
+		if (!result) {
+			System.out.println("no solution found");
+		} else {
+			System.out.println(getSolution());
+		}	
+	}	
+
+	public void startAstarBot(double stepDegree, double stepVelocityLength, double numberOfVelocitySteps) {
+		System.out.println("object of mastermind created");
+
+		System.out.println("starting search...");
+
+		boolean result = runAstar(stepDegree, stepVelocityLength, (int)numberOfVelocitySteps);
 		
 		System.out.println("search ended");
 

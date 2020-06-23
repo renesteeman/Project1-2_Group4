@@ -21,6 +21,10 @@ public class VelocityVerletFlying implements PhysicsEngine{
         this.step = step;
     }
 
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
+
     /**
      * Processes the shot using the Velocity Verlet Method.
      * This method updates the position and velocity in five steps:

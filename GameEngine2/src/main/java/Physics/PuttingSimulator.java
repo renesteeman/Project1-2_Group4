@@ -9,6 +9,7 @@ import com.google.common.collect.TreeMultiset;
 public class PuttingSimulator extends JPanel {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
+	public boolean animated = true;
 
 	private static final boolean USE_RANDOM_ERROR = false;
 	private static final double ERROR_WEIGHT = 5e-2;//=0.05 TODO Play with the weight/constant
@@ -24,6 +25,10 @@ public class PuttingSimulator extends JPanel {
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
 		this.course = course;
 		this.engine = engine;
+	}
+
+	public void setGraphicsUpdateRate(double rate) {
+		DTIME = rate;
 	}
 
 	//TODO rename
@@ -78,7 +83,8 @@ public class PuttingSimulator extends JPanel {
 			sx.add(curCoords.x);
 			sz.add(curCoords.z);
 
-			requestGraphicsUpdate();
+			if (animated)
+				requestGraphicsUpdate();
 		}
 		currentShotInProcess = false;
 	}
@@ -90,7 +96,7 @@ public class PuttingSimulator extends JPanel {
 	 * @param initialBallVelocity the initial velocity
 	 */
 	public void takeShot(Vector2d initialBallVelocity) {
-		System.out.println("shot taken");
+		//System.out.println("shot taken");
 		currentShotInProcess = true;
 		sx = TreeMultiset.create();
 		sz = TreeMultiset.create();
@@ -135,7 +141,9 @@ public class PuttingSimulator extends JPanel {
 			//System.out.println(course.ball.getVelocity3());
 
 			//System.out.println("requesting graphics update");
-			requestGraphicsUpdate();
+			
+			if (animated)
+				requestGraphicsUpdate();
 			//System.out.println("graphics updated");
 
 //			try {
@@ -152,7 +160,7 @@ public class PuttingSimulator extends JPanel {
 		currentShotInProcess = false;
 
 		long endT = System.currentTimeMillis();
-		System.out.print("Algorithm ran for " + ((endT - startT) / 1000.) + " seconds ");
+		//System.out.print("Algorithm ran for " + ((endT - startT) / 1000.) + " seconds ");
 
 	}
 
