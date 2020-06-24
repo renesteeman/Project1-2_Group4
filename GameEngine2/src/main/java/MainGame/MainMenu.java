@@ -14,10 +14,6 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-/**
- *
- * @author ivanp
- */
 public class MainMenu extends javax.swing.JFrame {
 
     /**
@@ -104,6 +100,14 @@ public class MainMenu extends javax.swing.JFrame {
 
                 MainGame obj = new MainGame(currentCourse, solverFlag, graphicsRate, physicsStep);
                 obj.playGame(interactiveInput, currentShots, obj);
+
+                try {
+                    Thread.sleep(4000);
+                }
+                catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                System.exit(0);
             }
         });
 
@@ -150,7 +154,7 @@ public class MainMenu extends javax.swing.JFrame {
 
                 Vector2d.MAX_DIFFERENCE = Double.parseDouble(jTextField13.getText());
 
-                Mastermind obj = new Mastermind(true, currentCourse, solverFlag, graphicsRate, physicsStep);
+                Mastermind obj = new Mastermind(currentCourse, solverFlag, graphicsRate, physicsStep);
                 
                 if (botFlag) {
                     Double param1 = Double.parseDouble(angleStepField1.getText());
@@ -163,8 +167,20 @@ public class MainMenu extends javax.swing.JFrame {
                     Double param2 = Double.parseDouble(velocityStepField2.getText());
                     Double param3 = Double.parseDouble(numberOfStepsField.getText());
                     System.out.println("bfs bot: " + param1 + " " + param2 + " " + param3);
-                    obj.startBFSBot(param1, param2, param3);
+                    //obj.startBFSBot(param1, param2, param3);
+                    obj.startAstarBot(param1, param2, param3);
                 }
+
+                System.out.println("building path");
+                obj.buildPath();
+
+                try {
+                    Thread.sleep(4000);
+                }
+                catch(InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                obj.destroyDisplay();
             }
         });
 

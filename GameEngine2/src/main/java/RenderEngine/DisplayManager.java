@@ -43,6 +43,10 @@ public class DisplayManager {
         lastFrameTime = getCurrentTimeMilis();
     }
 
+    public static void destroyDisplay() {
+        GLFW.glfwDestroyWindow(window);
+    }
+
     public static void updateDisplay(){
         GLFW.glfwPollEvents();
         long currentFrameTime = getCurrentTimeMilis();

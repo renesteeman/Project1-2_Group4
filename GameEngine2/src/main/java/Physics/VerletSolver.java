@@ -11,6 +11,10 @@ public class VerletSolver implements PhysicsEngine {
         this.step = step;
     }
 
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
+
     /**
      * Processes the shot using the Verlet Method.
      *

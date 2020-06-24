@@ -4,6 +4,13 @@ plugins {
 
     id "org.sonarqube" version "2.7"
     id 'net.nemerosa.versioning' version '2.6.1'
+
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
+
+javafx {
+    version = "14"
+    modules = [ 'javafx.controls' ]
 }
 
 group 'org.example'
@@ -39,6 +46,8 @@ dependencies {
 	compile group: 'slick-util', name: 'slick-util', version: '1.0.0'
 
 	compile group: 'org.netbeans.external', name: 'AbsoluteLayout', version: 'RELEASE113'
+
+	compile group: 'org.openjfx', name: 'javafx', version: '11-ea+25', ext: 'pom'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.0.3'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.0.3'

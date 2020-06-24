@@ -18,6 +18,10 @@ public class EulerSolver implements PhysicsEngine {
 		this.game = game;
 	}
 
+	public void setPhysicsStep(double step) {
+		this.step = step;
+	}
+
 	/**
 	 * Processes the shot using Euler's Method. The position and velocity are simultaneously updated using the current
 	 * position and current velocity. This happens as follows:
@@ -63,13 +67,13 @@ public class EulerSolver implements PhysicsEngine {
 			}
 
 			//Check for water 'collision'
-			hitWater = WaterHit.hitWater(ballPosition);
+			/*hitWater = WaterHit.hitWater(ballPosition);
 			if(hitWater){
 				WaterHit.showWaterHitUI(game, ballPosition);
 				course.ball.setVelocity(new Vector3d(0, 0, 0));
 				currentVelocity = new Vector2d(0, 0);
 				timer = dtime;
-			}
+			}*/
 		}
 
 		if(!hitWater) {
