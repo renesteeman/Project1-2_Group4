@@ -9,7 +9,7 @@ public class Astar {
 
 	public Vector2d error;
 
-	public boolean[][] used;
+	public boolean[][] used, forbidden;
 	public Vector2d[][] parent, step;
 
 	public double stepDegree;
@@ -29,21 +29,26 @@ public class Astar {
 	private VisualizeGrid grid = new VisualizeGrid();
 
 	public Astar(PuttingSimulator simulator, double stepDegree, double stepVelocityLength, int numberOfVelocitySteps) {
+
 		this.simulator = simulator;
 		this.stepDegree = stepDegree;
 		this.stepVelocityLength = stepVelocityLength;
 		this.numberOfVelocitySteps = numberOfVelocitySteps;
 
-		oneDimError = 40;//(int)simulator.course.getHoleRadius();
-		used = new boolean[(int)(simulator.course.DOMAIN_X / oneDimError) + 1][(int)(simulator.course.DOMAIN_Y / oneDimError) + 1];
+		oneDimError = (int)simulator.course.getHoleRadius();
+		used = new boolean[(int)(simulator.course.DOMAIN_X / oneDimError)][(int)(simulator.course.DOMAIN_Y / oneDimError)];
 		parent = new Vector2d[used.length][used[0].length];
 		step = new Vector2d[used.length][used[0].length];
+		forbidden = new boolean[used.length][used[0].length];
+
+		grid.build(used.length, used[0].length, oneDimError);
 
 		for (int i = 0; i < used.length; i++) {
 			for (int j = 0; j < used[i].length; j++) {
 				used[i][j] = false;
 				parent[i][j] = new Vector2d(-1, -1);
 				step[i][j] = new Vector2d(-1, -1);
+				forbidden[i][j] = false;
 			}
 		}
 
@@ -61,7 +66,6 @@ public class Astar {
 			}
 		}
 
-		grid.build(used.length, used[0].length, oneDimError);
 		Vector2d ballPosition = getNode(simulator.getBallPosition2());
 		grid.setBall((int)ballPosition.x, (int)ballPosition.y);
 		Vector2d goalPosition = getNode(simulator.course.getFlag());
@@ -187,6 +191,9 @@ public class Astar {
 							System.out.print(used[p1][p2] + " ");
 						System.out.println();
 					}*/
+
+					if (forbidden[(int)nxtPos.x][(int)nxtPos.y])
+						continue;
 
 					if (used[(int)nxtPos.x][(int)nxtPos.y] && tentativeScore >= g[(int)nxtPos.x][(int)nxtPos.y])
 						continue;	

@@ -18,7 +18,7 @@ public class VisualizeGrid extends JFrame {
 			for (int i = 0; i < colors.length; i++) {
 				for (int j = 0; j < colors[i].length; j++) {
 					switch(colors[i][j]) {
-						case 0: g2.setColor(Color.gray);
+						case 0: g2.setColor(Color.white);
 						        break;
 						case 1: g2.setColor(Color.red);
 							    break;
@@ -28,6 +28,7 @@ public class VisualizeGrid extends JFrame {
 						        break;
 						case 4: g2.setColor(Color.yellow);
 						        break;
+						case 5: g2.setColor(Color.black);
 					}
 					g2.fillRect(i * oneDimError, j * oneDimError, oneDimError, oneDimError);
 				}
@@ -70,12 +71,19 @@ public class VisualizeGrid extends JFrame {
 	}
 
 	public void setUsed(int x, int y) {
-		colors[x][y] = 3;
+		if (colors[x][y] != 1 && colors[x][y] != 2)
+			colors[x][y] = 3;
 		panel.repaint();
 	}
 
 	public void setPushed(int x, int y) {
-		colors[x][y] = 4;
+		if (colors[x][y] != 1 && colors[x][y] != 2)
+			colors[x][y] = 4;
+		panel.repaint();
+	}
+
+	public void setForbidden(int x, int y) {
+		colors[x][y] = 5;
 		panel.repaint();
 	}	
 }

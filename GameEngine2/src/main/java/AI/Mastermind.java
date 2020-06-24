@@ -10,7 +10,7 @@ public class Mastermind {
 	ArrayList<Vector2d> solutionBruteForce = null, solutionNaive = null, solutionDFS = null, solutionAstar = null;
 
 	public Mastermind(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
-		MainGame obj = new MainGame(courseFileName, solverFlag, graphicsRate, physicsStep);
+		MainGame obj = new MainGame(true, courseFileName, solverFlag, graphicsRate, physicsStep);
 		obj.setUpModels();
 		obj.resetPositions();
         obj.addTerrain();
@@ -117,8 +117,8 @@ public class Mastermind {
 		if (shots == null)
 			return;
 
-		simulator.setGraphicsUpdateRate(1e-2);
-		simulator.engine.setPhysicsStep(1e-4);
+		simulator.setGraphicsUpdateRate(1);
+		simulator.engine.setPhysicsStep(1e-1);
 
 		simulator.animated = true;
 		simulator.course.setDefaultPositions();

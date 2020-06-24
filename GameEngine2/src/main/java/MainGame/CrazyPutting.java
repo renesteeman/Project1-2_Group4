@@ -5,8 +5,6 @@ import Physics.PuttingCourse;
 import Physics.PuttingSimulator;
 import Physics.Vector2d;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.InputMismatchException;
@@ -26,14 +24,6 @@ public class CrazyPutting extends PuttingSimulator {
 
 	public void setInteractiveMod(boolean newMod) {
 		interactiveMod = newMod;
-	}
-
-	@Override 
-	public void paintComponent(Graphics g) {
-		g.fillRect(0, 0, 800, 675);
-		course.goal.render(g);
-		course.ball.render(g);
-		course.height.render(g);
 	}
 
 	public void game() throws FileNotFoundException, InputMismatchException {
@@ -90,7 +80,7 @@ public class CrazyPutting extends PuttingSimulator {
 
 	@Override
 	public void requestGraphicsUpdate() {
-		repaint();
+		
 	}
 
 	//To overwrite
