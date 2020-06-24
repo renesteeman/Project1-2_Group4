@@ -27,6 +27,10 @@ public class RungeKuttaFlying implements PhysicsEngine{
         this.game = game;
     }
 
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
+
     /**
      * Processes the shot using the Classical 4th-order Runge-Kutta Method. This method takes four samples of the
      * velocity and acceleration at different time-points in a time-step. To get the next position and velocity, a

@@ -18,6 +18,10 @@ public class RungeKutta4Solver implements PhysicsEngine{
         this.game = game;
     }
 
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
+
     /**
      * Processes the shot using the Classical 4th-order Runge-Kutta Method. This method takes four samples of the
      * velocity and acceleration at different time-points in a time-step. To get the next position and velocity, a
@@ -91,13 +95,13 @@ public class RungeKutta4Solver implements PhysicsEngine{
             }
 
             //Check for water 'collision'
-            hitWater = WaterHit.hitWater(ballPosition);
-            if(hitWater){
+            //hitWater = WaterHit.hitWater(ballPosition);
+            /*if(hitWater){
                 WaterHit.showWaterHitUI(game, ballPosition);
                 course.ball.setVelocity(new Vector3d(0, 0, 0));
                 currentVelocity = new Vector2d(0, 0);
                 timer = dtime;
-            }
+            }*/
         }
 
         if(!hitWater){

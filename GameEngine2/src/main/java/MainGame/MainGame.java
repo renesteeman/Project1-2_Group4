@@ -206,7 +206,7 @@ public class MainGame extends CrazyPutting {
     public void initRenders() {
         masterRenderer = new MasterRenderer(loader);
         guiRenderer = new GUIRenderer(loader);
-        waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
+        //waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
         TextMaster.init(loader);
     }
 
@@ -328,7 +328,12 @@ public class MainGame extends CrazyPutting {
 
         playerUiGroup.hide();
         GUIgroups.add(playerUiGroup);
-        GUIgroups.add(waterHitUI);
+        //GUIgroups.add(waterHitUI);
+    }
+
+    @Override
+    public void destroyDisplay() {
+        DisplayManager.destroyDisplay();
     }
 
     @Override
@@ -373,7 +378,7 @@ public class MainGame extends CrazyPutting {
         Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
         //Render water part 1
-        GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+        /*GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
         //water reflection
         waterFrameBuffers.bindReflectionFrameBuffer();
@@ -393,16 +398,16 @@ public class MainGame extends CrazyPutting {
         waterFrameBuffers.bindRefractionFrameBuffer();
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()+0.2f));
         waterFrameBuffers.unbindCurrentFrameBuffer();
-
+        */
         //Render 3D elements
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
 
         //Render water part 2
-        waterRenderer.render(waters, camera, light);
+        //waterRenderer.render(waters, camera, light);
 
         //Render 2D elements
         //Render groups
-        for(UIGroup group : GUIgroups){
+        /*for(UIGroup group : GUIgroups){
             List<UIElement> groupElements = group.getElements();
             guiRenderer.render(groupElements);
             for(UIElement element : groupElements){
@@ -418,7 +423,7 @@ public class MainGame extends CrazyPutting {
 
         //Render text
         TextMaster.render();
-
+        */
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
     }

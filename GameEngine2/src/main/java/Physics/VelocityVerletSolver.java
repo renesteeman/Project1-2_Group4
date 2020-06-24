@@ -17,6 +17,10 @@ public class VelocityVerletSolver implements PhysicsEngine{
         this.step = step;
         this.game = game;
     }
+    
+    public void setPhysicsStep(double step) {
+        this.step = step;
+    }
 
     /**
      * Processes the shot using the Velocity Verlet Method.

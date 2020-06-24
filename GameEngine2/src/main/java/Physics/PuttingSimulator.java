@@ -16,6 +16,7 @@ public class PuttingSimulator extends JPanel {
 
 	protected double DTIME = 1e-1;
 	public boolean passedFlag = false;
+	public boolean animated = true;
 
 	public PuttingSimulator() {
 
@@ -24,6 +25,10 @@ public class PuttingSimulator extends JPanel {
 	public PuttingSimulator(PuttingCourse course, PhysicsEngine engine) {
 		this.course = course;
 		this.engine = engine;
+	}
+
+	public void setGraphicsUpdateRate(double rate) {
+		DTIME = rate;
 	}
 
 	//TODO rename
@@ -79,7 +84,8 @@ public class PuttingSimulator extends JPanel {
 			sx.add(curCoords.x);
 			sz.add(curCoords.z);
 
-			requestGraphicsUpdate();
+			if (animated)
+				requestGraphicsUpdate();
 		}
 		currentShotInProcess = false;
 	}
@@ -152,6 +158,11 @@ public class PuttingSimulator extends JPanel {
 			//}
 		}
 		currentShotInProcess = false;
+	}
+
+	// TO BE OVERRIDDEN
+	public void destroyDisplay() {
+
 	}
 
 	/**
