@@ -96,19 +96,23 @@ public class MainGame extends CrazyPutting {
 
     boolean hitWater = false;
 
-    public MainGame(String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
+    public MainGame(boolean botMod, String courseFileName, int solverFlag, double graphicsRate, double physicsStep) {
         this.course = new PuttingCourse(courseFileName);
 
         DTIME = graphicsRate;
 
+        this.botMod = botMod;
+
         if (solverFlag == 0) {
-            this.engine = DetermineSolver.getEulerSolver(course, physicsStep, this);
+            this.engine = DetermineSolver.getEulerSolver(botMod, course, physicsStep, this);
+            System.out.println("euler");
         } else if (solverFlag == 1) {
-            this.engine = DetermineSolver.getVelocityVerletSolver(course, physicsStep, this);
+            this.engine = DetermineSolver.getVelocityVerletSolver(botMod, course, physicsStep, this);
             //this.engine = DetermineSolver.getVelocityVerletFlying(course, physicsStep);
         } else {
-            this.engine = DetermineSolver.getRungeKutta4Solver(course, physicsStep, this);
+            this.engine = DetermineSolver.getRungeKutta4Solver(botMod, course, physicsStep, this);
 //            this.engine = DetermineSolver.getRungeKuttaFlying(course, physicsStep, this);
+            System.out.println("runge-kutta");
         }
 
         DisplayManager.createDisplay();
@@ -206,7 +210,8 @@ public class MainGame extends CrazyPutting {
     public void initRenders() {
         masterRenderer = new MasterRenderer(loader);
         guiRenderer = new GUIRenderer(loader);
-        //waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
+        if (!botMod)
+            waterRenderer = new WaterRenderer(loader, waterShader, masterRenderer.getProjectionMatrix(), waterFrameBuffers);
         TextMaster.init(loader);
     }
 
@@ -328,7 +333,8 @@ public class MainGame extends CrazyPutting {
 
         playerUiGroup.hide();
         GUIgroups.add(playerUiGroup);
-        //GUIgroups.add(waterHitUI);
+        if (!botMod)
+            GUIgroups.add(waterHitUI);
     }
 
     @Override
@@ -378,52 +384,58 @@ public class MainGame extends CrazyPutting {
         Vector3f terrainPoint = mousePicker.getCurrentTerrainPoint();
 
         //Render water part 1
-        /*GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
+        if (!botMod) {
+            GL11.glEnable(GL30.GL_CLIP_DISTANCE0);
 
-        //water reflection
-        waterFrameBuffers.bindReflectionFrameBuffer();
-        float distance = 2*(camera.getPosition().y - mainWaterTile.getHeight());
-        camera.setPreventTerrainClipping(false);
-        camera.getPosition().y -= distance;
-        camera.invertPitch();
+            //water reflection
+            waterFrameBuffers.bindReflectionFrameBuffer();
+            float distance = 2*(camera.getPosition().y - mainWaterTile.getHeight());
+            camera.setPreventTerrainClipping(false);
+            camera.getPosition().y -= distance;
+            camera.invertPitch();
 
-        masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()+0.2f));
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 1, 0, -mainWaterTile.getHeight()+0.2f));
 
-        camera.getPosition().y += distance;
-        camera.invertPitch();
-        camera.setPreventTerrainClipping(true);
-        waterFrameBuffers.unbindCurrentFrameBuffer();
+            camera.getPosition().y += distance;
+            camera.invertPitch();
+            camera.setPreventTerrainClipping(true);
+            waterFrameBuffers.unbindCurrentFrameBuffer();
 
-        //water refraction
-        waterFrameBuffers.bindRefractionFrameBuffer();
-        masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()+0.2f));
-        waterFrameBuffers.unbindCurrentFrameBuffer();
-        */
+            //water refraction
+            waterFrameBuffers.bindRefractionFrameBuffer();
+            masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, -1, 0, mainWaterTile.getHeight()+0.2f));
+            waterFrameBuffers.unbindCurrentFrameBuffer();
+        }
         //Render 3D elements
         masterRenderer.renderScene(entities, terrain, light, camera, new Vector4f(0, 0, 0, 0));
 
-        //Render water part 2
-        //waterRenderer.render(waters, camera, light);
+        if (!botMod) {
 
-        //Render 2D elements
-        //Render groups
-        /*for(UIGroup group : GUIgroups){
-            List<UIElement> groupElements = group.getElements();
-            guiRenderer.render(groupElements);
-            for(UIElement element : groupElements){
+            //Render water part 2
+            waterRenderer.render(waters, camera, light);
+
+            //Render 2D elements
+            //Render groups
+            
+            for(UIGroup group : GUIgroups){
+                List<UIElement> groupElements = group.getElements();
+                guiRenderer.render(groupElements);
+                for(UIElement element : groupElements){
+                    element.update();
+                }
+            }
+
+            //Render lonely elements :(
+            guiRenderer.render(GUIelements);
+            for(UIElement element : GUIelements){
                 element.update();
             }
+
+            //Render text
+            TextMaster.render();
+            
         }
 
-        //Render lonely elements :(
-        guiRenderer.render(GUIelements);
-        for(UIElement element : GUIelements){
-            element.update();
-        }
-
-        //Render text
-        TextMaster.render();
-        */
         DisplayManager.updateDisplay();
         DisplayManager.swapBuffers();
     }
@@ -514,7 +526,7 @@ public class MainGame extends CrazyPutting {
     }
 
     public static void main(String[] args) {
-        MainGame game = new MainGame("./res/courses/course3.txt", 2, 1e-1, 1e-2);
+        MainGame game = new MainGame(false, "./res/courses/course3.txt", 2, 1e-1, 1e-2);
         //game.playGame(true, "./res/shots/shots.txt");
     }
 

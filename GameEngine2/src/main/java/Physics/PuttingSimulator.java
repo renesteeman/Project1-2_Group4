@@ -2,12 +2,10 @@ package Physics;
 
 import com.google.common.collect.TreeMultiset;
 
-import javax.swing.*;
-import java.awt.*;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class PuttingSimulator extends JPanel {
+public class PuttingSimulator {
 	public PuttingCourse course;
 	public PhysicsEngine engine;
 
@@ -89,6 +87,11 @@ public class PuttingSimulator extends JPanel {
 		}
 		currentShotInProcess = false;
 	}
+
+	protected boolean botMod = false;
+	public void setBotMod(boolean botMod) {
+        this.botMod = botMod;
+    }
 
 	/**
 	 * Processes the ball being shot given the initial velocity.
@@ -230,12 +233,6 @@ public class PuttingSimulator extends JPanel {
 			randomMultiplier = -randomMultiplier;
 		}
 		return randomMultiplier;
-	}
-
-
-	@Override
-	public void paintComponent(Graphics g) {
-
 	}
 
 	public boolean passedFlag() {

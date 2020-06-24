@@ -12,7 +12,10 @@ public class EulerSolver implements PhysicsEngine {
 
 	public final double GRAVITY = 9.81;
 
-	public EulerSolver(PuttingCourse course, double step, MainGame game) {
+	private boolean botMod = false;
+
+	public EulerSolver(boolean botMod, PuttingCourse course, double step, MainGame game) {
+		this.botMod = botMod;
 		this.course = course;
 		this.step = step;
 		this.game = game;
@@ -57,23 +60,26 @@ public class EulerSolver implements PhysicsEngine {
 
 			//Check for collisions and react accordingly
 			Vector3f ballPosition = new Vector3f((float) currentPosition.x, (float) course.height.evaluate(currentPosition), (float) currentPosition.y);
-			Vector3d collisionNormal = CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball, ballPosition);
-			if(collisionNormal!=null){
-				System.out.println("YEE");
-
-				double A = (currentVelocity.dotProduct(collisionNormal.getVector2D()))/(currentVelocity.length()*collisionNormal.getVector2D().length());
-				double angle = Math.acos(A);
-				currentVelocity = currentVelocity.rotate(angle);
-			}
 
 			//Check for water 'collision'
-			/*hitWater = WaterHit.hitWater(ballPosition);
-			if(hitWater){
-				WaterHit.showWaterHitUI(game, ballPosition);
-				course.ball.setVelocity(new Vector3d(0, 0, 0));
-				currentVelocity = new Vector2d(0, 0);
-				timer = dtime;
-			}*/
+			if (!botMod) {
+				Vector3d collisionNormal = CheckCollision.checkForCollision(game.getTrees().getTrees(), course.goal, course.ball, ballPosition);
+				if(collisionNormal!=null){
+					System.out.println("YEE");
+
+					double A = (currentVelocity.dotProduct(collisionNormal.getVector2D()))/(currentVelocity.length()*collisionNormal.getVector2D().length());
+					double angle = Math.acos(A);
+					currentVelocity = currentVelocity.rotate(angle);
+				}
+
+				hitWater = WaterHit.hitWater(ballPosition);
+				if(hitWater){
+					WaterHit.showWaterHitUI(game, ballPosition);
+					course.ball.setVelocity(new Vector3d(0, 0, 0));
+					currentVelocity = new Vector2d(0, 0);
+					timer = dtime;
+				}
+			}
 		}
 
 		if(!hitWater) {
